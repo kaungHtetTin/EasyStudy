@@ -1,0 +1,64 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('courses', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('instructor_id');
+            $table->string('title');
+            $table->text('description');
+            $table->integer('fee')->default(0)->nullable();
+            $table->string('cover_url')->nullable();
+            $table->float('rating')->default(0)->nullable();
+            $table->integer('total_rating')->detault(0)->nullable();
+            $table->integer('enroll')->detault(0)->nullable();
+            $table->string('language')->nullable();
+            $table->integer('total_lecture')->detault(0)->nullable();
+            $table->integer('duration')->detault(0)->nullable();
+            $table->string('community_link')->nullable();
+            $table->json('payment_method_id')->nullable();
+            $table->integer('visit')->default(0)->nullable();
+            $table->timestamps();
+
+            $table->index('title');
+            $table->index('rating');
+            $table->index('category_id');
+            $table->index('instructor_id');
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');
+        
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('courses', function (Blueprint $table) {
+            $table->dropIndex(['title']);
+            $table->dropIndex(['rating']);
+            $table->dropIndex(['category_id']);
+            $table->dropIndex(['instructor_id']);
+
+            $table->dropForeign(['category_id']);
+            $table->dropForeign(['instructor_id']);
+        });
+        Schema::dropIfExists('courses');
+    }
+};

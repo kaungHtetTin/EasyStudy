@@ -1,0 +1,25 @@
+.kht_header_link{
+    color:#333;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-family: 'Roboto', sans-serif;
+
+}
+.kht_header_link:hover{
+    color:#475692;
+}
+
+.kht_login_btn{
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    padding: 9px 15px;
+    border-radius: 3px;
+    margin-right: 10px;
+    border:1px solid #333;
+}
+
+.kht_login_btn:hover{
+    background-color: #eee;
+}
