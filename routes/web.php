@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // use App\Http\Controllers\
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\LayoutController;
 */
 
 Route::get('/',[LayoutController::class,'index'])->name('index');
+Route::get('/courses/{id}',[CourseController::class,'detail'])->name('course_detail');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,5 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
 
 require __DIR__.'/auth.php';

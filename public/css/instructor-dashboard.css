@@ -370,7 +370,7 @@ input[type=text] {
 }
 
 .left_footer a:hover {
-	color: #ed2a26 !important;
+	color: #475692 !important;
 }
 
 .left_footer_content {
@@ -615,7 +615,7 @@ i.icon1 {
 }
 
 .dp_link_12:hover {
-    color: #ed2a26 !important;
+    color: #475692 !important;
 }
 
 .ui.dropdown .menu>.channel_item {
@@ -627,7 +627,7 @@ i.icon1 {
 
 .ui.dropdown .menu>.channel_item:hover {
     color: #333 !important;
-    background:#ffecec !important;
+    background:#efeeff !important;
 }
 
 .rhte85 {

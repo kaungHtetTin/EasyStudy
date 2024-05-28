@@ -16,4 +16,14 @@ class Course extends Model
     public function instructor(){
         return $this->belongsTo(Instructor::class);
     }
+
+    public function modules(){
+        return $this->hasMany(Module::class);
+    }
+
+    public function lessons(){
+        return $this->hasManyThrough(Lesson::class, Module::class);
+    }
+
+    
 }

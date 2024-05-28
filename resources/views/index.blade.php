@@ -20,6 +20,12 @@
 
 
 @section('content')
+
+	@auth
+	<div class="wrapper">
+	@else
+	<div style="padding-top:60px;">
+	@endauth
 	
 		<div class="sa4d25">
 			<div class="container-fluid">			
@@ -27,14 +33,14 @@
 					<div class="col-xl-9 col-lg-8">
 						<div class="section3125">
 							<h4 class="item_title">Featured Courses</h4>
-							<a href="#" class="see150">See all</a>
+							<a href="" class="see150">See all</a>
 							<div class="la5lo1">
 								<div class="owl-carousel featured_courses owl-theme">
 									@foreach ($featureCourses as $course)
 										<div class="item">
 											<div class="fcrse_1 mb-20">
-												<a href="course_detail_view.html" class="fcrse_img">
-													<img src="images/courses/img-1.jpg" alt="">
+												<a href="{{route('course_detail', ['id' => $course->id])}}" class="fcrse_img">
+													<img src="{{asset('images/courses/img-1.jpg')}}" alt="">
 													<div class="course-overlay">
 														<div class="badge_seller">Bestseller</div>
 														<div class="crse_reviews">

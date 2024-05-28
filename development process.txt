@@ -2,4 +2,32 @@
     လက်ရှိဝင်ထားတဲ့ user ရဲ့ Activity တွေကိုကြည့်ပြီး တွက်မယ်၊ IT လား Photography လား စသဖြင့်
 
 
+=> about course နဲ့ Requirement တွေကို course detail table ထားပြီး json format နဲ့ သိမ်းတာ ပြင်တာလုပ်မယ်
+
+=> course တွေကို keyword နဲ့ ှရာနိုင်အောင် လုပ်မယ်။ keyword ကို သက်ဆိုင်ရာ instructor က သတ်မှတ်လို့ရနိုင်မယ်
+
+=> user ရဲ့ searching words တွေကို store လုပ်မယ်။ recommendation အတွက်သုံးမယ်
+
+=> instructor က သူ့ course ကို အလွယ်တကူ ညွှန်ပြနိုင်အောင် link sharing, instructor profile sharing ပုံစံတွေကို ထားမယ်။
+
+=> instructor dashboard မှာ မိမိ course ကို ဘယ်သူ visit သွားတယ် ဆိုတာကို သတ်မှတ် အချိန်ကာလတစ်ခု အတွင်းမှာ ပြပေးမယ်။
+
+=> sharing link ကို click ရင်  android app ကို ပွင့်အောင်လုပ်မယ်
+
+=> video တွေရဲ့ storage file size ကို record လုပ်ထားမယ်
+
+=> lesson တွေကို instructor က sorting လုပ်လို့ရမယ်
+
+=> course နဲ့ lesson တွေမှာ reported feature ထည့်ရမယ်။ platform owner ရဲ့ dashboard မှာ ပြမယ်။ 
+    action ယူပြီး ဆောင်ရွက်ရမယ်။
+
+=> course အလိုက်က တင်ထားတဲ့ video တွေရဲ့ total storage size ကို instructor dashboard မှာ ပြသပေးမယ်။
+
+=> သတ်မှတ်ကာလ တစ်ခုအတွင်; instructor ပေးဆောင်ရမယ့် fee ကို ပြပေးမယ်။
+
+=> payment history မှာ ဖြည့်မယ့် amount ကို course table က amount အတိုင်းဖြည့်မယ်။ instructor ကို input မလုပ်ခိုင်းဘူး။
+
+=> instructor table က last billing date ကို  ကြည့်ပြီးတော့ bill ဆောင် မဆောင်စစ်ဆေးမယ်။ 
+
+
 

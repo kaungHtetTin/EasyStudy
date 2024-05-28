@@ -11,26 +11,26 @@
 	@endauth
    
    
-	@auth
-	<div class="wrapper">
-	@else
-	<div style="padding-top:60px;">
-	@endauth
+	
 		@guest
-			@include('layouts.cover_area')
+			@if ((request()->route()->getName() == 'index'))
+				@include('layouts.cover_area')
+			@endif
+			
 		@endguest
+
 		@yield('content')
 		
 		@include('layouts.footer')
 	</div>
     
-    <script src="js/vertical-responsive-menu.min.js"></script>
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="vendor/OwlCarousel/owl.carousel.js"></script>
-	<script src="vendor/semantic/semantic.min.js"></script>
-	<script src="js/custom.js"></script>
-	<script src="js/night-mode.js"></script>
+    <script src="{{asset('js/vertical-responsive-menu.min.js')}}"></script>
+	<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+	<script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+	<script src="{{asset('vendor/OwlCarousel/owl.carousel.js')}}"></script>
+	<script src="{{asset('vendor/semantic/semantic.min.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>
+	<script src="{{asset('js/night-mode.js')}}"></script>
     
 </body>
 </html>

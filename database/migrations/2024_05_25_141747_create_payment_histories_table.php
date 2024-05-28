@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('course_id');
             $table->integer('payment_method_id');
             $table->integer('amount')->default(0)->nullable();
+            $table->integer('billing_to');
             $table->timestamps();
 
             $table->index('user_id');

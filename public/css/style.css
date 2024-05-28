@@ -358,7 +358,7 @@ input[type=text] {
 }
 
 .left_footer a:hover {
-	color: #ed2a26 !important;
+	color: #475692 !important;
 }
 
 .left_footer_content {
@@ -604,7 +604,7 @@ i.icon1 {
 }
 
 .dp_link_12:hover {
-    color: #ed2a26 !important;
+    color: #475692 !important;
 }
 
 .ui.dropdown .menu>.channel_item {
@@ -616,7 +616,7 @@ i.icon1 {
 
 .ui.dropdown .menu>.channel_item:hover {
     color: #333 !important;
-    background:#ffecec !important;
+    background:#efeeff !important;
 }
 
 .rhte85 {
@@ -654,7 +654,7 @@ i.icon1 {
     text-align: center;
     float: left;
     padding: 15px 0;
-    background: #ffecec;
+    background: #efeeff;
     font-size: 14px;
     color: #333 !important;
     font-family: 'Roboto', sans-serif;
@@ -2786,14 +2786,14 @@ i.icon2 {
     font-size: 14px;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
-    background: #ed2a26;
-	border: 1px solid #ed2a26;
+    background: #475692;
+	border: 1px solid #475692;
 	margin-right: 6px;
 }
 
 .btn_adcart:hover {
-    background: #c72127;
-	border: 1px solid #c72127;
+    background: #273673;
+	border: 1px solid #273673;
 }
 
 .btn_buy {
@@ -2811,8 +2811,8 @@ i.icon2 {
 
 .btn_buy:hover {
 	color: #fff;
-    background: #c72127;
-	border: 1px solid #c72127;
+    background: #273673;
+	border: 1px solid #273673;
 }
 
 ._215fgt1 {

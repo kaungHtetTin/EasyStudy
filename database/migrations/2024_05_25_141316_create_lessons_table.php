@@ -22,11 +22,12 @@ return new class extends Migration
             $table->string('mini_title')->nullable();
             $table->string('description')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->integer('view')->detault(0)->nullable();
+            $table->integer('view')->default(0)->nullable();
             $table->string('link')->nullable();
             $table->string('download_url')->nullable();
-            $table->integer('duration')->detault(0)->nullable();
-            $table->boolean('downloadable')->detault(false)->nullable();
+            $table->integer('duration')->default(0)->nullable();
+            $table->boolean('downloadable')->default(false)->nullable();
+            $table->integer('size')->default(0)->nullable();
             $table->timestamps();
 
             $table->index('course_id');

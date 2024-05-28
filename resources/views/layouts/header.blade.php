@@ -9,8 +9,8 @@
     </button>
     @endauth
     <div class="main_logo" id="logo">
-        <a href="index.html"><img src="images/logo.svg" alt=""></a>
-        <a href="index.html"><img class="logo-inverse" src="images/ct_logo.svg" alt=""></a>
+        <a href="{{route('index')}}"><img src="{{asset('images/logo.svg')}}" alt=""></a>
+        <a href="{{route('index')}}"><img class="logo-inverse" src="{{asset('images/ct_logo.svg')}}" alt=""></a>
     </div>
      
     <div class="search120">
@@ -36,7 +36,7 @@
                 <div class="menu dropdown_ms">
                     <a href="#" class="channel_my item">
                         <div class="profile_link">
-                            <img src="images/left-imgs/img-6.jpg" alt="">
+                            <img src="{{asset('images/left-imgs/img-6.jpg')}}" alt="">
                             <div class="pd_content">
                                 <h6>Zoena Singh</h6>
                                 <p>Hi! Sir, How are you. I ask you one thing please explain it this video price.</p>
@@ -46,7 +46,7 @@
                     </a>
                     <a href="#" class="channel_my item">
                         <div class="profile_link">
-                            <img src="images/left-imgs/img-5.jpg" alt="">
+                            <img src="{{asset('images/left-imgs/img-5.jpg')}}" alt="">
                             <div class="pd_content">
                                 <h6>Joy Dua</h6>
                                 <p>Hello, I paid you video tutorial but did not play error 404.</p>
@@ -56,7 +56,7 @@
                     </a>
                     <a href="#" class="channel_my item">
                         <div class="profile_link">
-                            <img src="images/left-imgs/img-8.jpg" alt="">
+                            <img src="{{asset('images/left-imgs/img-8.jpg')}}" alt="">
                             <div class="pd_content">
                                 <h6>Jass</h6>
                                 <p>Thanks Sir, Such a nice video.</p>
@@ -72,7 +72,7 @@
                 <div class="menu dropdown_mn">
                     <a href="#" class="channel_my item">
                         <div class="profile_link">
-                            <img src="images/left-imgs/img-1.jpg" alt="">
+                            <img src="{{asset('images/left-imgs/img-1.jpg')}}" alt="">
                             <div class="pd_content">
                                 <h6>Rock William</h6>
                                 <p>Like Your Comment On Video <strong>How to create sidebar menu</strong>.</p>
@@ -82,7 +82,7 @@
                     </a>
                     <a href="#" class="channel_my item">
                         <div class="profile_link">
-                            <img src="images/left-imgs/img-2.jpg" alt="">
+                            <img src="{{asset('images/left-imgs/img-2.jpg')}}" alt="">
                             <div class="pd_content">
                                 <h6>Jassica Smith</h6>
                                 <p>Added New Review In Video <strong>Full Stack PHP Developer</strong>.</p>
@@ -104,27 +104,27 @@
             </li>
             <li class="ui dropdown">
                 <a href="#" class="opts_account" title="Account">
-                    <img src="images/hd_dp.jpg" alt="">
+                    <img src="{{asset('images/hd_dp.jpg')}}" alt="">
                 </a>
                 <div class="menu dropdown_account">
                     <div class="channel_my">
                         <div class="profile_link">
-                            <img src="images/hd_dp.jpg" alt="">
+                            <img src="{{asset('images/hd_dp.jpg')}}" alt="">
                             <div class="pd_content">
                                 <div class="rhte85">
-                                    <h6>Joginder Singh</h6>
+                                    <h6>{{Auth::user()->name}}</h6>
                                     <div class="mef78" title="Verify">
                                         <i class='uil uil-check-circle'></i>
                                     </div>
                                 </div>
-                                <span>gambol943@gmail.com</span>
+                                <span>{{Auth::user()->email}}</span>
                             </div>							
                         </div>
-                        <a href="my_instructor_profile_view.html" class="dp_link_12">View Instructor Profile</a>						
+                        <a href="my_instructor_profile_view.html" class="dp_link_12">View Profile</a>						
                     </div>
                     <div class="night_mode_switch__btn">
                         <a href="#" id="night-mode" class="btn-night-mode">
-                            <i class="uil uil-moon"></i> Night mode
+                            <i style="background:#efeeff" class="uil uil-moon"></i> Night mode
                             <span class="btn-night-mode-switch">
                                 <span class="uk-switch-button"></span>
                             </span>
@@ -149,7 +149,7 @@
             </li>
 
             <li>
-                <a href="create_new_course.html" class="upload_btn" title="Create New Course">Sign up</a>
+                <a href="{{ route('register') }}" class="upload_btn" title="Create New Course">Sign up</a>
             </li>
             <li>
                 <a href="shopping_cart.html" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">2</span></a>

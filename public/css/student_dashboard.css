@@ -370,7 +370,7 @@ input[type=text] {
 }
 
 .left_footer a:hover {
-	color: #ed2a26 !important;
+	color: #475692 !important;
 }
 
 .left_footer_content {
@@ -615,7 +615,7 @@ i.icon1 {
 }
 
 .dp_link_12:hover {
-    color: #ed2a26 !important;
+    color: #475692 !important;
 }
 
 .ui.dropdown .menu>.channel_item {
@@ -627,7 +627,7 @@ i.icon1 {
 
 .ui.dropdown .menu>.channel_item:hover {
     color: #333 !important;
-    background:#ffecec !important;
+    background:#efeeff !important;
 }
 
 .rhte85 {
@@ -665,7 +665,7 @@ i.icon1 {
     text-align: center;
     float: left;
     padding: 15px 0;
-    background: #ffecec;
+    background: #efeeff;
     font-size: 14px;
     color: #333 !important;
     font-family: 'Roboto', sans-serif;
@@ -4004,7 +4004,7 @@ i.icon8 {
     font-size: 120%;
 	height: 30px;
 	Width: 30px;
-	background: #ffecec;
+	background: #273673;
 	border-radius: 100%;
 	margin-right: 10px;
 	padding: 6px 4px 0;

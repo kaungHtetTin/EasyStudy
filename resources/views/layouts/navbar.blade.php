@@ -3,7 +3,7 @@
         <div class="left_section">
             <ul>
                 <li class="menu--item">
-                    <a href="index.html" class="menu--link active" title="Home">
+                    <a href="{{route('index')}}" class="menu--link active" title="Home">
                         <i class='uil uil-home-alt menu--icon'></i>
                         <span class="menu--label">Home</span>
                     </a>
@@ -197,7 +197,7 @@
                 <li><a href="terms_of_use.html">Terms</a></li>
             </ul>
             <div class="left_footer_content">
-                <p>© 2020 <strong>Cursus</strong>. All Rights Reserved.</p>
+                <p>© 2024 <strong>CalamusEducation</strong>. All Rights Reserved.</p>
             </div>
         </div>
     </div>

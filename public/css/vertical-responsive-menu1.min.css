@@ -75,13 +75,13 @@
 }
 
 .menu--link:hover {
-	background: #ffecec;
-	color: #ed2a26 !important;
+	background: #efeeff;
+	color: #475692 !important;
 }
 
 .menu--link.active {
-	background: #ffecec;
-	color: #ed2a26;
+	background: #efeeff;
+	color: #475692;
 }
 
 .menu--item__has_sub_menu .menu--link:after {
@@ -119,7 +119,7 @@
 }
 
 .menu--link:hover,.menu--link:hover .menu--label {
-	background: #ffecec;
+	background: #efeeff;
 }
 
 .menu--icon {
@@ -157,12 +157,12 @@
 }
 
 .sub_menu--link:hover {
-	color: #ed2a26 !important;
-	background: #ffecec;
+	color: #475692 !important;
+	background: #efeeff;
 }
 
 .sub_menu--link.active {
-	color: #da1f27;
+	color: #475692;
 	font-weight: 500;
 }
 
