@@ -15,10 +15,14 @@ return new class extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->integer('student_enroll')->default(0)->nullable();
-
+            $table->boolean('is_active')->default(true);
+            $table->datetime('last_billing_date')->nullable();
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -29,6 +33,12 @@ return new class extends Migration
      */
     public function down()
     {
+         Schema::table('reviews',function(Blueprint $table){
+            $table->dropIndex(['user_id']);
+            
+            $table->dropForeign(['user_id']);
+            
+        });
         Schema::dropIfExists('instructors');
     }
 };

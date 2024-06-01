@@ -26,7 +26,6 @@
 	@else
 	<div style="padding-top:60px;">
 	@endauth
-	
 		<div class="sa4d25">
 			<div class="container-fluid">			
 				<div class="row">
@@ -66,7 +65,7 @@
 														<span class="vdt14">109k views</span>
 														<span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
 													</div>
-													<a href="course_detail_view.html" class="crse14s"> {{$course->title}} </a>
+													<a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s"> {{$course->title}} </a>
 													<a href="#" class="crse-cate">{{$course->category->title}}</a>
 													<div class="auth1lnkprce">
 														<p class="cr1fot">By <a href="#">{{$course->instructor->user->name}}</a></p>
@@ -177,18 +176,18 @@
 						</div>
 						<div class="section3125 mt-50">
 							<h4 class="item_title">Popular Instructors</h4>
-							<a href="all_instructor.html" class="see150">See all</a>
+							<a href="{{route('instructors')}}" class="see150">See all</a>
 							<div class="la5lo1">
 								<div class="owl-carousel top_instrutors owl-theme">
 									@foreach ($popularInstructors as $instructor)
 										<div class="item">
 											<div class="fcrse_1 mb-20">
 												<div class="tutor_img">
-													<a href="instructor_profile_view.html"><img src="images/left-imgs/img-1.jpg" alt=""></a>												
+													<a href="{{route('instructor_detail',['id'=>$instructor->id])}}"><img src="images/left-imgs/img-1.jpg" alt=""></a>												
 												</div>
 												<div class="tutor_content_dt">
 													<div class="tutor150">
-														<a href="instructor_profile_view.html" class="tutor_name">{{$instructor->user->name}}</a>
+														<a href="{{route('instructor_detail',['id'=>$instructor->id])}}" class="tutor_name">{{$instructor->user->name}}</a>
 														<div class="mef78" title="Verify">
 															<i class="uil uil-check-circle"></i>
 														</div>
@@ -235,11 +234,11 @@
 							@auth
 							<div class="fcrse_2 mb-30">
 								<div class="tutor_img">
-									<a href="my_instructor_profile_view.html"><img src="images/left-imgs/img-10.jpg" alt=""></a>												
+									<a href="{{route('instructor_detail',['id'=>1])}}"><img src="images/left-imgs/img-10.jpg" alt=""></a>												
 								</div>
 								<div class="tutor_content_dt">
 									<div class="tutor150">
-										<a href="my_instructor_profile_view.html" class="tutor_name">Joginder Singh</a>
+										<a href="{{route('instructor_detail',['id'=>1])}}" class="tutor_name">Joginder Singh</a>
 										<div class="mef78" title="Verify">
 											<i class="uil uil-check-circle"></i>
 										</div>

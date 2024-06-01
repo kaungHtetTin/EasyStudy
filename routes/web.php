@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\InstructorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,17 @@ use App\Http\Controllers\CourseController;
 |
 */
 
+// main pages
 Route::get('/',[LayoutController::class,'index'])->name('index');
+
+
+// main courses
 Route::get('/courses/{id}',[CourseController::class,'detail'])->name('course_detail');
+
+
+//instructors
+Route::get('/instructors',[InstructorController::class,'index'])->name('instructors');
+Route::get('/instructors/{id}',[InstructorController::class,'detail'])->name('instructor_detail');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

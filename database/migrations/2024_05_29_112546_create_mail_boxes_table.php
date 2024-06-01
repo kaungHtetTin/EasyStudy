@@ -13,21 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reports', function (Blueprint $table) {
+        Schema::create('mail_boxes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('course_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('report_type_id');
-            $table->string('body');
+            $table->unsignedBigInteger('user_id'); // this is sender id
+            $table->unsignedBigInteger('receiver_id');
+            $table->string('title');
+            $table->text('body');
             $table->timestamps();
 
             $table->index('user_id');
-            $table->index('course_id');
+            $table->index('receiver_id');
 
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('report_type_id')->references('id')->on('report_types')->onDelete('cascade');
-
+            $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -39,14 +37,12 @@ return new class extends Migration
     public function down()
     {
         Schema::table('lessons',function(Blueprint $table){
-            $table->dropIndex(['course_id']);
+            $table->dropIndex(['receiver_id']);
             $table->dropIndex(['user_id']);
 
-            $table->dropForeign(['course_id']);
+            $table->dropForeign(['receiver_id']);
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['report_type_id']);
         });
-
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('mail_boxes');
     }
 };

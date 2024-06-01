@@ -18,6 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('keyword_id');
             $table->timestamps();
+
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('keyword_id')->references('id')->on('keywords')->onDelete('cascade');
         });
     }
 
@@ -28,6 +31,11 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('lessons',function(Blueprint $table){
+           
+            $table->dropForeign(['course_id']);
+            $table->dropForeign(['keyword_id']);
+        });
         Schema::dropIfExists('course_keyword');
     }
 };

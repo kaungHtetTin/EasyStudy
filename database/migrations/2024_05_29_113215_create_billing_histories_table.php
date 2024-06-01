@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payment_methods', function (Blueprint $table) {
+        Schema::create('billing_histories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('instructor_id');
-            $table->unsignedBigInteger('payment_method_type_id')->nullable();
-            $table->string('method')->nullable(); // this may be phone no or banck account no
+            $table->integer('amount');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
 
+            $table->index('instructor_id');
+           
             $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');
-            $table->foreign('payment_method_type_id')->references('id')->on('payment_method_types')->onDelete('cascade');
         });
     }
 
@@ -32,10 +33,12 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('learning_histories',function(Blueprint $table){
+        Schema::table('reviews',function(Blueprint $table){
+            $table->dropIndex(['instructor_id']);
+            
             $table->dropForeign(['instructor_id']);
-            $table->dropForeign(['payment_method_type_id']);
+            
         });
-        Schema::dropIfExists('payment_methods');
+        Schema::dropIfExists('billing_histories');
     }
 };
