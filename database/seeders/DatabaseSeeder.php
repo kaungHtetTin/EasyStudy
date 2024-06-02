@@ -11,6 +11,8 @@ use App\Models\Course;
 use App\Models\Module;
 use App\Models\Lesson;
 use App\Models\Instructor;
+use App\Models\SubCategory;
+use App\Models\Topic;
 
 class DatabaseSeeder extends Seeder
 {
@@ -34,7 +36,10 @@ class DatabaseSeeder extends Seeder
         $instructors = Instructor::factory()
             ->count(10)
             ->create();
-        $categories=Category::factory(10)->create();
+        $categories=Category::factory(5)->create();
+        SubCategory::factory(30)->create();
+        Topic::factory(120)->create();
+
         Course::factory(50)->create();
         Module::factory(500)->create();
         Lesson::factory(3000)->create();
@@ -44,6 +49,7 @@ class DatabaseSeeder extends Seeder
                 $categories->random(rand(1, 3))->pluck('id')->toArray()
             );
         });
+       
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

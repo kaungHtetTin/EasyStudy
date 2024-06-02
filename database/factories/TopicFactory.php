@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\SubCategory;
+use App\Models\Topic;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Lesson>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Topic>
  */
-class LessonFactory extends Factory
+class TopicFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,12 +18,9 @@ class LessonFactory extends Factory
     public function definition()
     {
         return [
-            "course_id"=>rand(1,50),
-            "module_id"=>rand(1,500),
-            "lesson_type_id"=>rand(1,3),
+            //
+            "sub_category_id"=>rand(1,30),
             "title"=>ucwords($this->faker->word),
-            "duration"=>rand(180,600),
-            "downloadable"=>rand(0,1),
         ];
     }
 }

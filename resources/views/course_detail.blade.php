@@ -1,3 +1,40 @@
+@php
+	function calculateHour($min){
+		$hr = $min/60;
+		$hr = floor($hr);
+		return $hr;
+	}
+
+	function formatCounting($count){
+		if($count<1000){
+			return $count;
+		}else if($count>=1000 && $count<1000000){
+			return floor($count/1000);
+		}else{
+			return floor($count/1000000);
+		}
+	}
+
+    $downloadable_count = 0;
+    $article_count = 0;
+    $assignment_count = 0;
+    foreach ($course->lessons as $key => $lesson) {
+       
+        # code...
+        if($lesson->downloadable==1){
+            $downloadable_count++;
+        }
+        if($lesson->lesson_type_id==2){
+            $article_count++;
+
+        }
+        if($lesson->lesson_type_id==3){
+            $assignment_count++;
+        }
+    }
+
+@endphp
+
 @extends('layouts.master')
     @section('content')
     
@@ -51,7 +88,7 @@
                             <div class="col-xl-8 col-lg-7 col-md-6">
                                 <div class="_215b03">
                                     <h2>{{$course->title}}</h2>
-                                    <span class="_215b04">{{$course->category->title}}</span>
+                                    <span class="_215b04">{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}</span>
                                 </div>
                                 <div class="_215b05">
                                     <div class="crse_reviews mr-2">
@@ -64,39 +101,47 @@
                                     <div class="col-6 _215b08">
                                         <div class="_215b05">										
                                             <span><i class='uil uil-play-circle'></i></span>
-                                            xxx hours on-demand video
+                                            {{calculateHour($course->duration)}} hours on-demand video
                                         </div>
                                     </div>
                                     <div class="col-6 _215b08">
                                         <div class="_215b05">										
                                             <span><i class='uil uil-file-alt'></i></span>
-                                            xxx Assignments
+                                            {{$assignment_count}} Assignments
                                         </div>
                                     </div>
                                     <div class="col-6 _215b08">
                                         <div class="_215b05">										
                                             <span><i class='uil uil-document'></i></span>
-                                            xxx articles
+                                            {{$article_count}} articles
                                         </div>
                                     </div>
                                     <div class="col-6 _215b08">
                                         <div class="_215b05">										
                                             <span><i class='uil uil-cloud-download'></i></span>
-                                            xxx downloable resourses
+                                            {{$downloadable_count}} downloable resourses
+                                        </div>
+                                    </div>
+                                    <div class="col-6 _215b08">
+                                        <div class="_215b05">										
+                                            <span><i class='uil uil-graduation-hat'></i></span>
+                                            {{$course->users->count()}} students enrolled
                                         </div>
                                     </div>
                                     <div class="col-6 _215b08">
                                         <div class="_215b05">										
                                             <span><i class='uil uil-clock-seven'></i></span>
-                                            xxx full life-time access
+                                            Full life-time access
                                         </div>
                                     </div>
-                                    <div class="col-6 _215b08">
-                                        <div class="_215b05">										
-                                            <span><i class='uil uil-trophy'></i></span>
-                                            Certification of completion
+                                    @if ($course->certificate)
+                                        <div class="col-6 _215b08">
+                                            <div class="_215b05">										
+                                                <span><i class='uil uil-trophy'></i></span>
+                                                Certification of completion
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
                                 
                                
@@ -104,28 +149,6 @@
                                     <div class="_215b07">										
                                         <span><i class='uil uil-comment'></i></span>
                                         English
-                                    </div>
-                                    <div class="_215b08">										
-                                        <span><i class='uil uil-closed-captioning'></i></span>
-                                        <span>English, Dutch
-                                            <span class="caption_tooltip">
-                                                12 more
-                                                <span class="caption-content">
-                                                    <span>French</span>
-                                                    <span>Hindi</span>
-                                                    <span>German [Auto-generated]</span>
-                                                    <span>Indonesian [Auto-generated]</span>
-                                                    <span>Italian [Auto-generated]</span>
-                                                    <span>Japanese [Auto-generated]</span>
-                                                    <span>Korean</span>
-                                                    <span>Polish</span>
-                                                    <span>Portuguese [Auto-generated]</span>
-                                                    <span>Spanish [Auto-generated]</span>
-                                                    <span>Traditional Chinese</span>
-                                                    <span>Turkish [Auto-generated]</span>
-                                                    </span>
-                                            </span>
-                                        </span>
                                     </div>
                                 </div>
                                 <div class="_215b05">										
@@ -156,7 +179,7 @@
                                     <a href="#"><img src="{{asset('images/left-imgs/img-1.jpg')}}" alt=""></a>												
                                 </div>
                                 <div class="user_cntnt">
-                                    <a href="#" class="_df7852">{{$course->instructor->user->name}}</a>
+                                    <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}" class="_df7852">{{$course->instructor->user->name}}</a>
                                     <button class="subscribe-btn">Subscribe</button>
                                 </div>
                             </div>

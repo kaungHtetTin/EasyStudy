@@ -66,9 +66,11 @@
 														<span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
 													</div>
 													<a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s"> {{$course->title}} </a>
-													<a href="#" class="crse-cate">{{$course->category->title}}</a>
+													<a href="#" class="crse-cate">
+														{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}
+													</a>
 													<div class="auth1lnkprce">
-														<p class="cr1fot">By <a href="#">{{$course->instructor->user->name}}</a></p>
+														<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
 														<div class="prce142">{{$course->fee}} MMK</div>
 														<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
 													</div>
@@ -109,13 +111,15 @@
 													</div>
 													<div class="vdtodt">
 														<span class="vdt14">15 views</span>
-														<span class="vdt14">10 min ago</span>
+														<span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
 													</div>
-													<a href="course_detail_view.html" class="crse14s">Build Responsive Real World Websites with HTML5 and CSS3</a>
-													<a href="#" class="crse-cate">Development | CSS</a>
+													<a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s"> {{$course->title}} </a>
+													<a href="#" class="crse-cate">
+														{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}
+													</a>
 													<div class="auth1lnkprce">
-														<p class="cr1fot">By <a href="#">John Doe</a></p>
-														<div class="prce142">$4</div>
+														<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
+														<div class="prce142">{{$course->fee}} MMK</div>
 														<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
 													</div>
 												</div>

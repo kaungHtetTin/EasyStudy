@@ -16,6 +16,14 @@ class User extends Authenticatable
         return $this->hasOne(Instructor::class);
     }
 
+    public function saved_courses(){
+        return $this->hasMany(SavedCourse::class);
+    }
+
+    public function courses(){
+        return $this->hasMany(Course::class,'saved_courses');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

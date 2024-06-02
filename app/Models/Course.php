@@ -13,6 +13,14 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function sub_category(){
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    public function topic(){
+        return $this->belongsTo(Topic::class);
+    }
+
     public function instructor(){
         return $this->belongsTo(Instructor::class);
     }
@@ -25,5 +33,12 @@ class Course extends Model
         return $this->hasManyThrough(Lesson::class, Module::class);
     }
 
+    public function saved_courses(){
+        return $this->hasMany(SavedCourse::class);
+    }
+
+    public function users(){
+        return $this->belongsToMany(User::class,'saved_courses');
+    }
     
 }
