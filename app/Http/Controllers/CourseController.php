@@ -9,6 +9,18 @@ use App\Models\Category;
 class CourseController extends Controller
 {
     public function index(Request $req){
+
+
+        // $categoryIds=$req->category_ids;
+        // $courses = Course::whereIn('category_id', $categoryIds)->get();
+        // return $courses;
+
+        
+        $categories = Category::all();
+        return view('courses',[
+            'page_title'=>'Courses',
+            'categories'=>$categories,
+        ]);
        if(isset($req->category_id)){
             $courses = Course::where('category_id',$req->category_id)->get();
             return $courses;
@@ -29,11 +41,9 @@ class CourseController extends Controller
     }
 
     public function detail($id){
+
         $course = Course::find($id);
-        
         $categories = Category::all();
-        
-     
         return view('course_detail',[
             'page_title'=>'Detail',
             'course'=>$course,
