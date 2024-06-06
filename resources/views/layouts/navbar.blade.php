@@ -28,7 +28,7 @@
                     <ul class="sub_menu">
                         @foreach ($categories as $category)
                             <li class="sub_menu--item">
-                                <a href="#" class="sub_menu--link">{{$category->title}}</a>
+                                <a href="{{route('courses')}}?category_id={{$category->id}}" class="sub_menu--link">{{$category->title}}</a>
                             </li>
                         @endforeach
                     </ul>

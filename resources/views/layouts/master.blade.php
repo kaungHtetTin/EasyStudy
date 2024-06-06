@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     @include('layouts.head')
+	<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 </head>
 <body>
     @include('layouts.header')
@@ -25,7 +26,6 @@
 	</div>
     
     <script src="{{asset('js/vertical-responsive-menu.min.js')}}"></script>
-	<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 	<script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 	<script src="{{asset('vendor/OwlCarousel/owl.carousel.js')}}"></script>
 	<script src="{{asset('vendor/semantic/semantic.min.js')}}"></script>

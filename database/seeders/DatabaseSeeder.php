@@ -13,6 +13,7 @@ use App\Models\Lesson;
 use App\Models\Instructor;
 use App\Models\SubCategory;
 use App\Models\Topic;
+use App\Models\Level;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,6 +33,11 @@ class DatabaseSeeder extends Seeder
         LessonType::create([
             "type"=>"Test"
         ]);
+
+        Level::create(['level'=>'Beginner']);
+        Level::create(['level'=>'Intermediate']);
+        Level::create(['level'=>'Expert']);
+
         User::factory(100)->create();
         $instructors = Instructor::factory()
             ->count(10)

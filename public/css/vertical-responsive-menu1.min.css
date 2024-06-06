@@ -95,7 +95,7 @@
 }
 
 .menu--subitens__opened {
-	background: #ffecec;
+	background: #efeeff;
 }
 
 .menu--subitens__opened .menu--link {
@@ -158,7 +158,6 @@
 
 .sub_menu--link:hover {
 	color: #475692 !important;
-	background: #efeeff;
 }
 
 .sub_menu--link.active {

@@ -158,6 +158,4 @@
         </ul>
     </div>
     @endauth
-    
- 
 </header>
