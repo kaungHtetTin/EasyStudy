@@ -420,6 +420,11 @@ header {
 .search120 {
     float: left;
     margin-left: 80px;
+    margin: 1px solid #333;
+}
+
+.header_category {
+    border: 1px solid black;
 }
 
 .srch10 {

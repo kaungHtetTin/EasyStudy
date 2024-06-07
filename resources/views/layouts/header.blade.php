@@ -12,16 +12,28 @@
         <a href="{{route('index')}}"><img src="{{asset('images/logo.svg')}}" alt=""></a>
         <a href="{{route('index')}}"><img class="logo-inverse" src="{{asset('images/ct_logo.svg')}}" alt=""></a>
     </div>
-     
-    <div class="search120">
+    
+  
+    <div class="ui simple dropdown item">
+        <a href="#" class="option_links p-0" title="categories"> <i class='uil uil-apps'></i></a>
+        <div class="menu dropdown_category5">
+            @foreach ($categories as $category)
+                <a href="{{route('courses')}}?category_id={{$category->id}}" class="item channel_item">
+                    {{$category->title}}	
+                </a>
+            @endforeach
+        </div>
+    </div>
+    
+    <div class="search120" >
         <div class="ui search">
-            <div class="ui left icon input swdh10">
-            <input class="prompt srch10" type="text" placeholder="Search for Tuts Videos, Tutors, Tests and more..">
-            <i class='uil uil-search-alt icon icon1'></i>
+            <div class="ui left icon input swdh10" >
+                <input class="prompt srch10" type="text" placeholder="Search for Tuts Videos, Tutors, Tests and more..">
+                <i class='uil uil-search-alt icon icon1'></i>
             </div>
         </div>
     </div>
-        
+
     @auth
     <div class="header_right">
         <ul>
@@ -29,7 +41,15 @@
                 <a href="create_new_course.html" class="upload_btn" title="Create New Course">My Learning</a>
             </li>
             <li>
-                <a href="shopping_cart.html" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">2</span></a>
+                <a href="{{route('cart')}}" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i>
+                    @php
+                        $cart_item_count = Auth::user()->carts->count();
+                    @endphp
+                    @if ( $cart_item_count>0)
+                        <span class="noti_count">{{$cart_item_count}}</span>
+                    @endif
+                    
+                </a>
             </li>
             <li class="ui dropdown">
                 <a href="#" class="option_links" title="Messages"><i class='uil uil-envelope-alt'></i><span class="noti_count">3</span></a>
@@ -143,18 +163,18 @@
     @else
     <div class="header_right">
         <ul>
+            <li>
+                <a href="{{route('cart',['user_id'=>0000])}}" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i></a>
+            </li>
 
             <li>
                 <a href="{{ route('login') }}" class="kht_login_btn" title="Create New Course">Log In</a>
             </li>
 
             <li>
-                <a href="{{ route('register') }}" class="upload_btn" title="Create New Course">Sign up</a>
+                <a href="{{ route('register') }}" class="option_links upload_btn" title="Create New Course">Sign up</a>
             </li>
-            <li>
-                <a href="shopping_cart.html" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">2</span></a>
-            </li>
-            
+             
         </ul>
     </div>
     @endauth

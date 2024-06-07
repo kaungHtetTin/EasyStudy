@@ -20,6 +20,17 @@
     border:1px solid #333;
 }
 
+.kht_category_btn {
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    padding: 9px 15px;
+    border-radius: 3px;
+    margin-right: 10px;
+ 
+}
+
 .kht_login_btn:hover{
     background-color: #eee;
 }

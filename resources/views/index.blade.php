@@ -14,6 +14,8 @@
 			return floor($count/1000000);
 		}
 	}
+
+
 @endphp
 
 @extends('layouts.master')
@@ -72,7 +74,11 @@
 													<div class="auth1lnkprce">
 														<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
 														<div class="prce142">{{$course->fee}} MMK</div>
-														<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
+														<form action="{{route('cart')}}" method="POST">
+															<input type="hidden" value="{{$course->id}}" name="course_id">
+															@csrf
+															<button type="submit" class="shrt-cart-btn" title="Add to cart"><i class="uil uil-shopping-cart-alt"></i></button>
+														</form>
 													</div>
 												</div>
 											</div>
@@ -120,7 +126,11 @@
 													<div class="auth1lnkprce">
 														<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
 														<div class="prce142">{{$course->fee}} MMK</div>
-														<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
+														<form action="{{route('cart')}}" method="POST">
+															<input type="hidden" value="{{$course->id}}" name="course_id">
+															@csrf
+															<button type="submit" class="shrt-cart-btn" title="Add to cart"><i class="uil uil-shopping-cart-alt"></i></button>
+														</form>
 													</div>
 												</div>
 											</div>
@@ -287,7 +297,10 @@
 									<h4>Top Categories</h4>
 								</div>
 								<ul class="allcate15">
-									<li><a href="#" class="ct_item"><i class='uil uil-arrow'></i>Development</a></li>
+									@foreach ($categories as $category)
+										<li><a href="{{route('courses')}}?category_id={{$category->id}}" class="ct_item"><i class='uil uil-arrow'></i>{{$category->title}}</a></li>
+									@endforeach
+									
 									<li><a href="#" class="ct_item"><i class='uil uil-graph-bar'></i>Business</a></li>
 									<li><a href="#" class="ct_item"><i class='uil uil-monitor'></i>IT and Software</a></li>
 									<li><a href="#" class="ct_item"><i class='uil uil-ruler'></i>Design</a></li>
@@ -383,5 +396,4 @@
 			</div>
 		</div>
 		
-
 @endsection

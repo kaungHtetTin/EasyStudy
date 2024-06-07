@@ -10,6 +10,11 @@
     margin-left: 0 !important;
 }
 
+.header_category{
+    display: none;
+    margin-left: 0 !important;
+}
+
 .upload_btn {
 	display: none;
 }
@@ -151,6 +156,11 @@
 }
 
 .search120 {
+    display: none;
+    margin-left: 0 !important;
+}
+
+.header_category {
     display: none;
     margin-left: 0 !important;
 }

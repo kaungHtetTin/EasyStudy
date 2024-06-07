@@ -5,13 +5,18 @@
 	width: 110px !important;
 }
 
+.upload_btn {
+	display: none;
+}
+
 .search120 {
     display: none;
     margin-left: 0 !important;
 }
 
-.upload_btn {
-	display: none;
+.header_category{
+    display: none;
+    margin-left: 0 !important;
 }
 
 .header_right ul li:nth-child(2) {
@@ -331,6 +336,9 @@
 .search120 {
     display: none;
     margin-left: 0 !important;
+}
+.upload_btn {
+    display: none;
 }
 
 .value_props {
@@ -691,11 +699,6 @@ body {
 
 .wrapper__minify {
 	margin-left: 50px;
-}
-
-.search120 {
-    display: none;
-    margin-left: 0 !important;
 }
 
 .value_props {

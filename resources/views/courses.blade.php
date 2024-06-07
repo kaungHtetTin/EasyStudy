@@ -63,11 +63,14 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="scroll-container">
+							@guest
+								<br>
+							@endguest
 							@foreach ($sub_categories as $key=>$sub_category)
 								<span onclick="sub_category_click({{$sub_category->id}})" class="{{$sub_category_id==$sub_category->id ? 'sub_category_active':'sub_category'}}"> {{$sub_category->title}} </span>
 							@endforeach
 						</div>
-						<br>
+				 
 					</div>
 					<div class="col-md-8">
 						<div class="_14d25">
@@ -180,6 +183,11 @@
 	<script>
 
 		const courses = @json($courses);
+		const categories =@json($categories);
+		const sub_categories=@json($sub_categories);
+
+		console.log(categories,sub_categories);
+
 		let topic_ids = [];
 		let intervals = [
 			{initial:0,final:180},
@@ -325,15 +333,14 @@
 								</div>
 								<div class="vdtodt">
 									<span class="vdt14">5M views</span>
-									<span class="vdt14"> </span>
+									<span class="vdt14">${formatDateTime(new Date(course.created_at))} </span>
 								</div>
 								<a href="course_detail_view.html" class="crse14s">${course.title}</a>
 								<a href="#" class="crse-cate">
-									
+									${searchCategory(categories,course.category_id).title} <i class="uil uil-arrow-right"></i>  ${searchCategory(sub_categories,course.sub_category_id).title}
 								</a>
 								<div class="auth1lnkprce">
-									<p class="cr1fot">By <a href="#">Jassica William</a></p>
-									<div class="prce142">$5</div>
+									<div class="prce142">${course.fee} MMK</div>
 									<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
 								</div>
 							</div>
@@ -370,8 +377,40 @@
 			}
 		}
 
-		function calculateDate(){
+		function formatDateTime(cmtTime){
+			var currentTime = Date.now();
+			var min=60;
+			var h=min*60;
+			var day=h*24;
 
+			var diff =currentTime-cmtTime
+			diff=diff/1000;
+			
+			if(diff<day*3){
+				if(diff<min){
+					return "a few second ago";
+				}else if(diff>=min&&diff<h){
+					return Math.floor(diff/min)+'min ago';
+				}else if(diff>=h&&diff<day){
+					return Math.floor(diff/h)+'h ago';
+				}else{
+					return Math.floor(diff/day)+'d ago';
+				}
+			}else{
+				var date = new Date(Number(cmtTime));
+				return date.toLocaleDateString("en-GB");
+			}
+		}
+
+		function searchCategory(categories,id){
+			let result;
+			categories.map(category=>{
+				if(category.id==id){
+					result = category;
+				}
+			})
+
+			return result;
 		}
 
 	</script>

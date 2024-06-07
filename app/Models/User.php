@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function carts (){
+        return $this->hasMany(Cart::class);
+    }
+
     public function instructor(){
         return $this->hasOne(Instructor::class);
     }
