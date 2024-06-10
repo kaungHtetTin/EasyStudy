@@ -96,7 +96,7 @@
 									@foreach ($newestCourses as $course)
 										<div class="item">
 											<div class="fcrse_1 mb-20">
-												<a href="course_detail_view.html" class="fcrse_img">
+												<a href="{{route('course_detail', ['id' => $course->id])}}" class="fcrse_img">
 													<img src="images/courses/img-14.jpg" alt="">
 													<div class="course-overlay">
 														<span class="play_btn1"><i class="uil uil-play"></i></span>

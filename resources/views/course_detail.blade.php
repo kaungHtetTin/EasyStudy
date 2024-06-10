@@ -54,6 +54,23 @@
 	</div>
 	<!-- Video Model End -->
 
+    {{-- Paynow modal Start --}}
+    <div class="modal vd_mdl fade" id="payModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="modal-body">
+					This is paynow modal
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+    {{-- Paynow modal End --}}
+
 @auth
 <div class="wrapper _bg4586">
 @else
@@ -155,8 +172,19 @@
                                     Last updated {{$course->updated_at->diffForHumans()}}
                                 </div>
                                 <ul class="_215b31">										
-                                    <li><button class="btn_adcart">Add to Cart</button></li>
-                                    <li><button class="btn_buy">Buy Now</button></li>
+                                    <li>
+                                        <form action="{{route('cart')}}" method="POST">
+                                            <input type="hidden" value="{{$course->id}}" name="course_id">
+                                            @csrf
+                                            <button type="submit" class="btn_adcart">Add to Cart</button>
+                                        </form>
+                                       
+                                    </li>
+                                    <li>
+                                        <button class="btn_buy" data-toggle="modal" data-target="#payModal">
+                                            Buy Now
+                                        </button>
+                                    </li>
                                 </ul>
                                 <div class="_215fgt1">										
                                     30-Day Money-Back Guarantee

@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart',[CartController::class,'create'])->name('cart');
     Route::delete('/cart/{id}',[CartController::class,'destroy'])->name('cart.destroy');
 
+    Route::get('/mycourses',[CourseController::class,'myCourse'])->name('mycourses');
+
 });
 
 

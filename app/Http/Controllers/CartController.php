@@ -13,7 +13,7 @@ class CartController extends Controller
 
         $categories = Category::all();
         return view('cart',[
-            'page_title'=>'cart',
+            'page_title'=>'Cart',
             'categories'=>$categories,
         ]);
      
@@ -35,9 +35,7 @@ class CartController extends Controller
             ]
         );
 
-        return view('cart',[
-            'page_title'=>'cart'
-        ]);
+        return redirect()->route('cart');
     }
 
     public function destroy($id){

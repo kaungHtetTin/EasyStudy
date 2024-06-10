@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Topic;
 use App\Models\Level;
+use App\Models\SavedCourse;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -74,5 +76,20 @@ class CourseController extends Controller
             'course'=>$course,
             'categories'=>$categories,
         ]);
+    }
+
+
+    public function myCourse(){
+        $user = Auth::user();
+        $myCourses = SavedCourse::where('user_id',$user->id)->get();
+        $categories = Category::all();
+
+        return view('my_courses',[
+            'page_title'=>'My Courses',
+            'myCourses'=>$myCourses,
+            'categories'=>$categories,
+        ]);
+
+        
     }
 }

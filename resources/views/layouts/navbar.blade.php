@@ -3,15 +3,9 @@
         <div class="left_section">
             <ul>
                 <li class="menu--item">
-                    <a href="{{route('index')}}" class="menu--link active" title="Home">
+                    <a href="{{route('index')}}" class="menu--link {{$page_title=='Home'?'active':''}}" title="Home">
                         <i class='uil uil-home-alt menu--icon'></i>
                         <span class="menu--label">Home</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="live_streams.html" class="menu--link" title="Live Streams">
-                        <i class='uil uil-kayak menu--icon'></i>
-                        <span class="menu--label">Live Streams</span>
                     </a>
                 </li>
                 <li class="menu--item">
@@ -21,7 +15,7 @@
                     </a>
                 </li>
                 <li class="menu--item menu--item__has_sub_menu">
-                    <label class="menu--link" title="Categories">
+                    <label class="menu--link {{$page_title=='Courses'?'active':''}}" title="Categories">
                         <i class='uil uil-layers menu--icon'></i>
                         <span class="menu--label">Categories</span>
                     </label>
@@ -33,6 +27,19 @@
                         @endforeach
                     </ul>
                 </li>
+                <li class="menu--item">
+                    <a href="{{route('cart')}}" class="menu--link {{$page_title=='Cart'?'active':''}}" title="Live Streams">
+                        <i class='uil uil-shopping-cart-alt menu--icon'></i>
+                        <span class="menu--label">Cart</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{route('mycourses')}}" class="menu--link {{$page_title=='My Courses'?'active':''}}" title="Saved Courses">
+                        <i class="uil uil-heart-alt menu--icon"></i>
+                        <span class="menu--label">My Courses</span>
+                    </a>
+                </li>
+
                 <li class="menu--item  menu--item__has_sub_menu">
                     <label class="menu--link" title="Tests">
                         <i class='uil uil-clipboard-alt menu--icon'></i>
@@ -56,12 +63,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="menu--item">
-                    <a href="saved_courses.html" class="menu--link" title="Saved Courses">
-                        <i class="uil uil-heart-alt menu--icon"></i>
-                        <span class="menu--label">Saved Courses</span>
-                    </a>
-                </li>
+                
                 <li class="menu--item  menu--item__has_sub_menu">
                     <label class="menu--link" title="Pages">
                         <i class='uil uil-file menu--icon'></i>
