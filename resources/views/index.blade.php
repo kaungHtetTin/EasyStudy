@@ -333,7 +333,11 @@
 													<img src="images/left-imgs/img-4.jpg" alt="">												
 												</div>
 												<h4>Jassica William</h4>
-											</div>											
+											</div>	
+											<hr>
+											<div>
+												This is about course
+											</div>										
 										</div>
 									</div>
 									<div class="item">

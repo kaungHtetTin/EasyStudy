@@ -14,6 +14,11 @@
     margin-left: 0 !important;
 }
 
+.hide_on_small_screen{
+    display: none;
+    margin-left: 0 !important;
+}
+
 .header_category {
     display: none;
     margin-left: 0 !important;

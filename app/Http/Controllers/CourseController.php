@@ -21,7 +21,6 @@ class CourseController extends Controller
         // return $courses;
 
         $category_id = $req->category_id;
-        $categories = Category::all();
         $sub_categories = SubCategory::where('category_id',$category_id)->get();
 
         $levels = Level::all();
@@ -35,12 +34,9 @@ class CourseController extends Controller
         $topics = Topic::where('sub_category_id',$sub_category_id)->get();
 
         $courses = Course::where('sub_category_id',$sub_category_id)->get();
-        
-        
-      
+
         return view('courses',[
             'page_title'=>'Courses',
-            'categories'=>$categories,
             'sub_categories'=>$sub_categories,
             'sub_category_id'=>$sub_category_id,
             'topics'=>$topics,
@@ -70,11 +66,9 @@ class CourseController extends Controller
     public function detail($id){
 
         $course = Course::find($id);
-        $categories = Category::all();
         return view('course_detail',[
             'page_title'=>'Detail',
             'course'=>$course,
-            'categories'=>$categories,
         ]);
     }
 
@@ -82,14 +76,18 @@ class CourseController extends Controller
     public function myCourse(){
         $user = Auth::user();
         $myCourses = SavedCourse::where('user_id',$user->id)->get();
-        $categories = Category::all();
 
         return view('my_courses',[
             'page_title'=>'My Courses',
             'myCourses'=>$myCourses,
-            'categories'=>$categories,
         ]);
+    }
 
-        
+    public function update(){
+        $course = Course::find(1);
+        $course->description = request()->requirements;
+        $course->save();
+
+        return 'success';
     }
 }

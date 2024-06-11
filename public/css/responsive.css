@@ -5,6 +5,11 @@
 	width: 110px !important;
 }
 
+.hide_on_small_screen {
+    display: none;
+    margin-left: 0 !important;
+}
+
 .upload_btn {
 	display: none;
 }

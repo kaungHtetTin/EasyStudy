@@ -33,7 +33,11 @@ Route::get('/courses/{id}',[CourseController::class,'detail'])->name('course_det
 //instructors
 Route::get('/instructors',[InstructorController::class,'index'])->name('instructors');
 Route::get('/instructors/{id}',[InstructorController::class,'detail'])->name('instructor_detail');
+Route::get('/editor',function(){
+    return view('editor');
+});
 
+Route::post('/editor',[CourseController::class,'update']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

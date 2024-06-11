@@ -10,11 +10,9 @@ use App\Models\Category;
 class CartController extends Controller
 {
     public function detail(){
-
-        $categories = Category::all();
+        
         return view('cart',[
             'page_title'=>'Cart',
-            'categories'=>$categories,
         ]);
      
     }   

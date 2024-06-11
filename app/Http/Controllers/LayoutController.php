@@ -14,14 +14,12 @@ class LayoutController extends Controller
         $newestCourses = Course::limit(10)->orderBy('id','desc')->get();
         $featureCourses = Course::limit(10)->orderBy('id','asc')->get();
         $popularInstructors = Instructor::limit(10)->orderBy('student_enroll','desc')->get();
-        $categories = Category::all();
-
+        
         return view('index',[
             'page_title'=>'Home',
             'newestCourses'=>$newestCourses,
             'featureCourses'=>$featureCourses,
             'popularInstructors'=>$popularInstructors,
-            'categories'=>$categories,
         ]);
     }
 }
