@@ -40,10 +40,9 @@ Route::post('/sanctum/token', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', function(Request $req){return $req->user();});
-
-
     Route::get('/courses',[CourseController::class,'index']);
-    Route::post('/courses/share/{id}',[CourseController::class,'share']);
-    Route::post('/courses/pre-view/{id}',[CourseController::class,'playPreView']);
     
 });
+
+Route::post('/courses/pre-view/{id}',[CourseController::class,'playPreView']);
+Route::post('/courses/share/{id}',[CourseController::class,'share']);

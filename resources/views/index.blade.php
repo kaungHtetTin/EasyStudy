@@ -462,7 +462,6 @@ if (!function_exists('formatCounting')) {
 			});
 
 		}
-
 	  
 	</script>
 

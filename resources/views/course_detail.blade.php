@@ -85,8 +85,6 @@ if (!function_exists('calculatePercent')) {
         }
     }
 
-
-
     $one_star_percent = calculatePercent($total_one_star,$total_star_count);
     $two_star_percent = calculatePercent($total_two_star,$total_star_count);
     $three_star_percent = calculatePercent($total_three_star,$total_star_count);
@@ -94,6 +92,36 @@ if (!function_exists('calculatePercent')) {
     $five_star_percent = calculatePercent($total_five_star,$total_star_count);
 
     $api_token = Cookie::get('api_auth_token');
+
+    $show_check_out_modal = $errors->first('screenshot')!="" || $errors->first('payment')!="";
+
+    $payment_methods =Array(
+        [
+            'id'=>1,
+            'icon'=>'images/payment-wave-pay.jpg',
+            'type'=>'Wave Pay',
+            'method'=>'09682537158',
+        ],
+        [
+            'id'=>2,
+            'icon'=>'images/payment-kbz-pay.jpg',
+            'type'=>'KBZ Pay',
+            'method'=>'09682537158',
+        ],
+        [
+            'id'=>3,
+            'icon'=>'images/payment-aya-pay.png',
+            'type'=>'AYA Pay',
+            'method'=>'09682537158',
+        ],
+        [
+            'id'=>4,
+            'icon'=>'images/payment-cb-pay.png',
+            'type'=>'CB Pay',
+            'method'=>'09682537158',
+        ],
+    )
+
 @endphp
 
 
@@ -103,7 +131,21 @@ if (!function_exists('calculatePercent')) {
         .my_star{
             cursor: pointer;
         }
-        
+
+        .payment_method{
+            padding:5px;
+            border-radius: 7px;
+        }
+
+        .payment_method:hover{
+            border: 1px solid #475692;
+            color :#475692;
+            background:#efeeff;
+            border-radius: 7px;
+            padding:5px;
+            cursor: pointer;
+        }
+
     </style>
     <!-- Video Model Start -->
 	<div class="modal vd_mdl fade" id="videoModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -114,7 +156,7 @@ if (!function_exists('calculatePercent')) {
 				</button>
 				<div class="modal-body">
                      {{-- <iframe src="https://drive.google.com/file/d/1FUI2Z-gXQQVodPan_s3AW2cDEDN3OQk2/preview" width="640" height="480" allow="autoplay"></iframe> --}}
-					<iframe  src="http://localhost/video-server/easy_korean_honest_review%20(720p).mp4" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					<iframe  src="http://localhost/video-server/easy_korean_honest_review%20(720p).mp4" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
                 {{-- <video width="600" controls>
                     <source src="https://drive.google.com/uc?export=download&id=1FUI2Z-gXQQVodPan_s3AW2cDEDN3OQk2" type="video/mp4">
@@ -151,61 +193,59 @@ if (!function_exists('calculatePercent')) {
                     </div>
 
 					<div class="membership_chk_bg rght1528">
+                        <div class="coupon_code">
+                            <h4>How to apply?</4>
+                            <p>
+                                Select the payment methods. <br>
+                                Transfer the required amount ({{$course->fee}} MMK). <br>
+                                Send the payment screenshot with transaction ID. <br>
+                                <br><br>
+                            </p>
+                        </div>
+
                         <div class="checkout_title">
                             <h4>Payment Methods</h4>
                             <img src="{{asset('images/line.svg')}}" alt="">
                         </div>
                         <div class="order_dt_section">
 
-                            <div class="order_title" style="display: flex;">
-                                <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset('images/payment-wave-pay.jpg')}}" alt="">
-                                <h6>Wave pay</h6>
-                                <div class="order_price">09682537158</div>
-                            </div>
-
-                            <div class="order_title" style="display: flex;">
-                                <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset('images/payment-kbz-pay.jpg')}}" alt="">
-                                <h6>kbzPay</h6>
-                                <div class="order_price">09682537158</div>
-                            </div>
-                            <div class="order_title" style="display: flex;">
-                                <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset('images/payment-aya-pay.png')}}" alt="">
-                                <h6>AYA pay</h6>
-                                <div class="order_price">09682537158</div>
-                            </div>
-                            <div class="order_title" style="display: flex;">
-                                <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset('images/payment-cb-pay.png')}}" alt="">
-                                <h6>CB pay</h6>
-                                <div class="order_price">09682537158</div>
-                            </div>
+                            @foreach ($payment_methods as $payment)
+                                <div class="order_title payment_method" style="display: flex;">
+                                    <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset($payment['icon'])}}" alt="">
+                                    <h6>{{$payment['type']}}</h6>
+                                    <div class="order_price">{{$payment['method']}}</div>
+                                </div>
+                            @endforeach
+                            
                             <div class="order_title">
                                 <h2>Amount</h2>
                                 <div class="order_price5">{{$course->fee}} MMK</div>
                             </div>
 
                             <div class="coupon_code">
-                                <h4>How to apply?</4>
+                                <h4> </4>
                                 <p>
-                                    Select the payment methods <br>
-                                    Transfer the required abount <br>
-                                    Send the payment screenshot with transaction ID <br>
-                                    <br><br>
+                                    
+                                    <br>
                                 </p>
                             </div>
-                            
-                            <div style="text-align: center">
+                            <div style="text-align: center;">
                                 <img id="img_screenshot" style="width: 180px;height:320px;display:none" src="" alt="">
                                 <br><br>
-                                <form action="" method="post" enctype="multipart/form-data">
-                                    <input type="file" name="myfile" id="input_screenshot" style="display:none">
-
-                                </form>
+                                
                                 <span id="screenshot_picker" style="border: 1px solid #475692;border-radius:7px;color:#475692;padding:10px;cursor:pointer">
                                     Upload Screenshot
                                 </span><br><br>
                                 Select a payment screenshot
+                                <p style="text-align:left;font-size:12px;color:red;margin-top:10px;"> {{$errors->first('screenshot')}} </p>	
                             </div>
-                            <a href="#" class="chck-btn22">Checkout Now</a>
+                            <form id="checkoutform" action="{{route('course.checkout',['id'=>$course->id])}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="screenshot" id="input_screenshot" style="display:none" accept="image/*">
+                                <input id="payment_method" type="hidden" name="payment" value="" />
+                                <p style="text-align:left;font-size:12px;color:red;margin-top:10px;"> {{$errors->first('payment')}} </p>	
+                            </form>
+                            <a onclick="checkoutNow()" style="cursor: pointer" class="chck-btn22">Checkout Now</a>
                         </div>
                     </div>
 				</div>
@@ -213,7 +253,31 @@ if (!function_exists('calculatePercent')) {
 			</div>
 		</div>
         <script>
+
+            const show_check_out_modal ='{{$show_check_out_modal}}';
+            const payment_methods = @json($payment_methods);
+
             $(document).ready(()=>{
+
+
+                if(show_check_out_modal=="1"){
+                    $('#btn_pay_now').click();
+                }
+
+                $('.payment_method').each((j,method)=>{
+                    $(method).click(()=>{
+                        const payment_method_id = payment_methods[j].id;
+                        $('#payment_method').val(payment_method_id);
+
+                        $('.payment_method').each((i,m)=>{
+                            $(m).css({"background":""});
+                        })
+
+                        $(method).css({"background":"#A5FE82"});
+                        
+                    })
+                })
+
                 $('#screenshot_picker').click(()=>{
                     $('#input_screenshot').click();
                     $('#img_screenshot').attr('src', '');
@@ -229,7 +293,7 @@ if (!function_exists('calculatePercent')) {
 
                     reader.onload = function (e) {
                         imageSrc=e.target.result;
-                        console.log(imageSrc);
+                       
                         $('#img_screenshot').attr('src', imageSrc);
                         $('#img_screenshot').show();
                     };
@@ -240,6 +304,10 @@ if (!function_exists('calculatePercent')) {
 
 
             })
+
+            function checkoutNow(){
+                $('#checkoutform').submit();
+            }
         </script>
 	</div>
 
@@ -250,11 +318,21 @@ if (!function_exists('calculatePercent')) {
 @else
 <div style="padding-top:60px;">
 @endauth
+
+    @if ($access)
+        @if ($access->verified==0)
+            <div style="background: yellow;display:flex;text-align:center;padding:5px;">
+                <div style="width:12px;height:12px;background:red;border-radius:50px;margin-left:15px;"></div>
+                <div style="margin-left:15px;font-family: 'Roboto', sans-serif;font-size:12px;">Your payment is checking by ... </div>
+            </div>
+         @endif
+    @endif
+
     <div class="_215b01">
         <div class="container-fluid">			
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="section3125">							
+                    <div class="section3125">			
                         <div class="row justify-content-center">						
                             <div class="col-xl-4 col-lg-5 col-md-6">						
                                 <div class="preview_video">						
@@ -346,22 +424,26 @@ if (!function_exists('calculatePercent')) {
                                 <div class="_215b05">										
                                     Last updated {{$course->updated_at->diffForHumans()}}
                                 </div>
-                                <ul class="_215b31">										
-                                    <li>
-                                        <form action="{{route('cart')}}" method="POST">
-                                            <input type="hidden" value="{{$course->id}}" name="course_id">
-                                            @csrf
-                                            <button type="submit" class="btn_adcart">Add to Cart</button>
-                                        </form>
-                                       
-                                    </li>
-                                    <li>
-                                        <button class="btn_buy" data-toggle="modal" data-target="#payModal">
-                                            Buy Now
-                                        </button>
-                                    </li>
-                                </ul>
-                                <div class="_215fgt1">										
+                                @if (!$access)
+                                    <ul class="_215b31">										
+                                        <li>
+                                            <form action="{{route('cart')}}" method="POST">
+                                                <input type="hidden" value="{{$course->id}}" name="course_id">
+                                                @csrf
+                                                <button type="submit" class="btn_adcart">Add to Cart</button>
+                                            </form>
+                                        
+                                        </li>
+                                        
+                                        <li>
+                                            <button id="btn_pay_now" class="btn_buy" data-toggle="modal" data-target="#payModal">
+                                                Buy Now
+                                            </button>
+                                        </li>
+                                        
+                                    </ul>
+                                @endif
+                                <div class="_215b05">										
                                     30-Day Money-Back Guarantee
                                 </div>
                             </div>							
@@ -399,7 +481,7 @@ if (!function_exists('calculatePercent')) {
                                     <a href="#" class="lkcm152"><i class="uil uil-thumbs-down"></i><span>20</span></a>
                                 </li>
                                 <li>
-                                    <a href="#" class="lkcm152"><i class="uil uil-share-alt"></i><span>{{$course->share_count}}</span></a>
+                                    <a onclick="copyCourseUrl('{{route('course_detail', ['id' => $course->id])}}','{{$course->id}}')" style="cursor: pointer" class="lkcm152"><i class="uil uil-share-alt"></i><span>{{$course->share_count}}</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -738,6 +820,43 @@ if (!function_exists('calculatePercent')) {
 				}
 			});
         }
+
+        function copyCourseUrl(url,id){
+			
+			// Create a temporary input element to hold the URL
+			const tempInput = document.createElement('input');
+			tempInput.value =url;
+			document.body.appendChild(tempInput);
+
+			// Select the input element's value
+			tempInput.select();
+			tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+			// Copy the text inside the input element
+			document.execCommand('copy');
+
+			// Remove the temporary input element
+			document.body.removeChild(tempInput);
+
+			// Optionally, alert the user that the URL has been copied
+
+			alert('URL copied to clipboard: ' +url);
+
+			$.ajax({
+				url: 'http://localhost:8000/api/courses/share/'+id, // Replace with your API endpoint
+				type: 'POST', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+				success: function(response) {
+					console.log('Success:', response);
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
+
+		}
 
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.my_star');

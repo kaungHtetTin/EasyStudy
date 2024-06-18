@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('course_id');
+            $table->boolean('verified')->default(false)->nullable();
+            $table->boolean('disable')->default(false)->nullable();
             $table->timestamps();
 
             $table->index('user_id');
