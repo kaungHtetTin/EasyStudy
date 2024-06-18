@@ -511,6 +511,13 @@ i.icon1 {
 	margin-right: 10px;
 }
 
+.teach_on_btn:hover {
+    color: #fff !important;
+    background: #333;
+    border: 1px solid white;
+    border-radius: 3px;
+}
+
 .upload_btn i {
     font-size: 16px;
     margin-right:3px;

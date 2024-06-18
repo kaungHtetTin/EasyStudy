@@ -1,7 +1,37 @@
+
 /****************
 Night Mood
 ****************/
 
+
+/* customize style */
+.night-mode .review_course {
+    margin-top: 10px;
+    border: 1px solid #d1d1d1;
+    padding: 10px;
+    cursor: pointer;
+    color: #475692;
+    border-radius: 2px;
+}
+
+.night-mode .review_course:hover {
+    color: white;
+    background-color: #333;
+    border: 1px solid #fff;
+    border-radius: 10px;
+}
+
+.night-mode .btn_payment_cancel{
+    color: #fff !important;
+    background: #475692;
+}
+
+.night-mode .btn_payment_cancel:hover {
+    color: #fff !important;
+    background: #273673;
+}
+
+/* customize style */
 .btn-night-mode .btn-night-mode-switch {
     display: inline-block;
     height: 18px;
@@ -128,6 +158,11 @@ Night Mood
 	margin-right: 10px;
 }
 
+
+.night-mode .teach_on_btn:hover {
+    color: #fff !important;
+    background: #273673 !important;
+}
 .night-mode .upload_btn i {
     font-size: 16px;
     margin-right:3px;
@@ -212,7 +247,7 @@ Night Mood
 }
 
 .night-mode .vbm_btn:hover {
-    background: #cc2622;
+    background: #273673;
     color: #fff !important;
 }
 
@@ -605,7 +640,7 @@ Night Mood
 
 .night-mode .crer_btn_link:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .add_stream_content {
@@ -655,12 +690,12 @@ Night Mood
 }
 
 .night-mode ._6tf7s:hover {
-    background: #cc2622;
+    background: #273673;
     color: #fff;
 }
 
 .night-mode ._145d1:hover {
-    background: #cc2622;
+    background: #273673;
     color: #fff;
 }
 
@@ -777,7 +812,7 @@ Night Mood
 
 .night-mode .career_lnk6:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .vdtodt55 {
@@ -855,7 +890,7 @@ Night Mood
 
 .night-mode .save_btn:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .prevlink {
@@ -927,7 +962,7 @@ Night Mood
 
 .night-mode .career_lnk5:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode ._cate101 {
@@ -939,9 +974,25 @@ Night Mood
     background: #333;
 }
 
+.night-mode .login-btn {
+    font-size: 14px;
+    margin-top: 30px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    background: #475692;
+    border-radius: 25px;
+    text-align: center;
+    border: 0;
+    width: 100%;
+    height: 40px;
+}
+
 .night-mode  .login-btn:hover {
     color: #fff;
-    background: #cc2622;
+    border-radius: 25px;
+    background: #273673;
+    border: 1px solid white;
 }
 
 .night-mode .catey-tabs .nav-pills .nav-link.active, .night-mode .catey-tabs .nav-pills .show>.nav-link {
@@ -967,13 +1018,17 @@ Night Mood
 	top: -10px;
 }
 
+.night-mode .shrt-cart-btn:hover {
+    color: white;
+}
+
 .night-mode ._485td5 {
     background: #333;
 }
 
 .night-mode .knowledge_btn:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .sign_form {
@@ -1002,7 +1057,7 @@ Night Mood
 
 .night-mode .download_btn:hover {
 	color: #fff !important;
-	background: #cc2622;
+	background: #273673;
 }
 
 .night-mode .test_timer_bg {
@@ -1026,7 +1081,7 @@ Night Mood
 
 .night-mode .test_submit_btn:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .test_timer_left li {
@@ -1056,7 +1111,7 @@ Night Mood
 
 .night-mode .save_address_btn:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .checkout-tabs .nav-tabs .nav-item {
@@ -1107,7 +1162,7 @@ Night Mood
 
 .night-mode .chckot_btn:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .joblink {
@@ -1116,7 +1171,7 @@ Night Mood
 
 .night-mode .joblink:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 
@@ -1316,7 +1371,7 @@ Night Mood
 }
 
 .night-mode .rqst152:hover {
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .ht_title {
@@ -1334,7 +1389,7 @@ Night Mood
 
 .night-mode .cmnt-btn:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .wtch125 {
@@ -1346,7 +1401,7 @@ Night Mood
 }
 
 .night-mode a.rmv-btn:hover {
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .live_input {
@@ -1380,7 +1435,7 @@ Night Mood
 }
 
 .night-mode .prmb_btn:hover {
-    background: #cc2622;
+    background: #273673;
     color: #fff;
 }
 
@@ -1399,7 +1454,7 @@ Night Mood
 
 .night-mode .sbbc145:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .purchased_badge {
@@ -1467,7 +1522,7 @@ Night Mood
 
 .night-mode .save_payout_btn:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .nt_apt {
@@ -1546,7 +1601,7 @@ Night Mood
 
 .night-mode .create_btn_dash:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .courses_performance .owl-nav .owl-prev {
@@ -1685,7 +1740,7 @@ Night Mood
 
 .night-mode .discount_btn:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .promotion_tab {
@@ -1695,7 +1750,7 @@ Night Mood
 
 .night-mode .plan_link_btn:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .analysis_card {
@@ -1777,7 +1832,7 @@ Night Mood
 
 .night-mode .steps_btn:hover {
     color: #fff !important;
-    background: #cc2622 !important;
+    background: #273673 !important;
 }
 
 .night-mode .part_input .custom-file-label {
@@ -1834,12 +1889,12 @@ Night Mood
 
 .night-mode .save_content_btn:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .part_btn_save:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .msg_search {
@@ -1896,7 +1951,7 @@ Night Mood
 
 .night-mode .setting_noti:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .total_rating {
@@ -1981,7 +2036,7 @@ Night Mood
 }
 
 .night-mode .payout__btn:hover {
-    background: #cc2622;
+    background: #273673;
     color: #fff !important;
 }
 
@@ -1999,7 +2054,7 @@ Night Mood
 
 .night-mode .apply_instructor_btn:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .alert_verification {
@@ -2030,7 +2085,7 @@ Night Mood
 
 .night-mode .verify_submit_btn:hover {
     color: #fff;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .preview_video {
@@ -2320,7 +2375,7 @@ Night Mood
 
 .night-mode .code-apply-btn:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 .night-mode .chck-btn22 {
@@ -2330,7 +2385,7 @@ Night Mood
 
 .night-mode .chck-btn22:hover {
     color: #fff !important;
-    background: #cc2622;
+    background: #273673;
 }
 
 /* === New Update Css === */
@@ -2342,7 +2397,7 @@ Night Mood
 
 .night-mode .main-btn:hover {
     color: #fff !important;
-    background: #cc2622 !important;
+    background: #273673 !important;
 }
 
 .night-mode .added-section-item {

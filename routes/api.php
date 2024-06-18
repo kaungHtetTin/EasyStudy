@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\Api\CourseController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -39,5 +40,10 @@ Route::post('/sanctum/token', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', function(Request $req){return $req->user();});
+
+
+    Route::get('/courses',[CourseController::class,'index']);
+    Route::post('/courses/share/{id}',[CourseController::class,'share']);
+    Route::post('/courses/pre-view/{id}',[CourseController::class,'playPreView']);
     
 });

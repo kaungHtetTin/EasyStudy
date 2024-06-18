@@ -34,6 +34,11 @@ return new class extends Migration
             $table->json('payment_method_id')->nullable();
             $table->boolean('certificate')->default(false)->nullable();
             $table->integer('visit')->default(0)->nullable();
+            $table->integer('share_count')->default(0)->nullable();
+            $table->integer('preview_count')->default(0)->nullable();
+            $table->integer('like_count')->default(0)->nullable();
+            $table->integer('dislike_count')->default(0)->nullable();
+             $table->string('preview_url')->nullable();
             $table->timestamps();
 
             $table->index('title');

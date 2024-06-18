@@ -181,7 +181,7 @@
 		</div>
 
 	<script>
-
+		
 		const courses = @json($courses);
 		const categories =@json($categories);
 		const sub_categories=@json($sub_categories);
@@ -326,8 +326,7 @@
 									<a href="#"><i class="uil uil-ellipsis-v"></i></a>
 									<div class="dropdown-content">
 										<span><i class='uil uil-share-alt'></i>Share</span>
-										<span><i class="uil uil-heart"></i>Save</span>
-										<span><i class='uil uil-ban'></i>Not Interested</span>
+										<span><i class="uil uil-shopping-cart-alt"></i>Add to cart</span>
 										<span><i class="uil uil-windsock"></i>Report</span>
 									</div>																									
 								</div>

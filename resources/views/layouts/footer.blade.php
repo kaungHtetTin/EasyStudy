@@ -27,7 +27,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6">
                 <div class="item_f3">
-                    <a href="#" class="upload_btn">Teach on Cursus</a>
+                    <a href="{{route('teach-on')}}" class="upload_btn teach_on_btn">Teach on Calamus</a>
                     <div class="lng_btn">
                         <div class="ui language bottom right pointing dropdown floating" id="languages" data-content="Select Language">
                             <a href="#"><i class='uil uil-globe lft'></i>Language<i class='uil uil-angle-down rgt'></i></a>

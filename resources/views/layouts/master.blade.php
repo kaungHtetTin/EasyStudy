@@ -10,8 +10,6 @@
 	@auth
 		 @include('layouts.navbar')
 	@endauth
-   
-   
 	
 		@guest
 			@if ((request()->route()->getName() == 'index'))

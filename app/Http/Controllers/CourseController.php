@@ -9,6 +9,7 @@ use App\Models\SubCategory;
 use App\Models\Topic;
 use App\Models\Level;
 use App\Models\SavedCourse;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
@@ -66,9 +67,23 @@ class CourseController extends Controller
     public function detail($id){
 
         $course = Course::find($id);
+        if (Auth::check()) {
+            $myReview = Review::where('user_id',Auth::user()->id)->where('course_id',$course->id)->first();
+            if($myReview==null){
+                $myReview=false;
+            }
+        }else{
+            $myReview=false;
+        }
+    
+
+        $course->visit = ($course->visit)+1;
+        $course->save();
+
         return view('course_detail',[
             'page_title'=>'Detail',
             'course'=>$course,
+            'myReview'=>$myReview,
         ]);
     }
 

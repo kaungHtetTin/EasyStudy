@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // use App\Http\Controllers\
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{id}',[CartController::class,'destroy'])->name('cart.destroy');
 
     Route::get('/mycourses',[CourseController::class,'myCourse'])->name('mycourses');
+
+    Route::post('/reviews',[ReviewController::class,'create'])->name('reviews.create');
+    Route::delete('/reviews/{id}',[ReviewController::class,'destroy'])->name('reviews.destroy');
+    Route::post('/reviews/update',[ReviewController::class,'update'])->name('reviews.update');
+
+
+    Route::get('/teach-on',[LayoutController::class,'teachOn'])->name('teach-on');
 
 });
 

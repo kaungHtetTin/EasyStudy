@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -25,11 +27,22 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
+
+        $email = $request->email;
+        $password = $request->password;
+        $device_name = "kaunghtettin";
+        
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        $user = User::where('email', $request->email)->first();
+        $api_token = $user->createToken($device_name)->plainTextToken;
+
+        Cookie::queue('api_auth_token', $api_token);
+       
 
         return redirect()->route('index');
     }
