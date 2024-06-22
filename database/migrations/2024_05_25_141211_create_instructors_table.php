@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->integer('student_enroll')->default(0)->nullable();
             $table->integer('subscriber')->default(0);
+            $table->integer('total_course')->default(0);
             $table->boolean('is_active')->default(true);
             $table->datetime('last_billing_date')->nullable();
             $table->timestamps();

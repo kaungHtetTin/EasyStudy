@@ -6,13 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Instructor;
 use App\Models\Category;
 use App\Models\Subscriber;
+use Illuminate\Support\Facades\Auth;
 
 class InstructorController extends Controller
 {
     //
 
     public function index(){
-        $instructors = Instructor::all();
+        
+        $instructors = Instructor::with('user:id,name,email,phone,address')
+        ->with('categories')->get();
+
         return view('instructors',[
             'page_title'=>'Instructors',
             'instructors'=>$instructors,
@@ -21,9 +25,19 @@ class InstructorController extends Controller
 
     public function detail($id){
         $instructor = Instructor::find($id);
+        $subscribed = false;
+
+        if (Auth::check()) {
+            $subscribed = Subscriber::where('user_id',Auth::user()->id)->where('instructor_id',$id)->first();
+            if($subscribed==null){
+                $subscribed=false;
+            }
+        }
+
         return view('instructor_profile',[
             'page_title'=>'Detail',
             'instructor'=>$instructor,
+            'subscribed'=>$subscribed,
         ]);
     }
 

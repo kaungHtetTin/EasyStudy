@@ -9,7 +9,6 @@ if (!function_exists('calculateHour')) {
 if (!function_exists('formatCounting')) {
 	function formatCounting($count,$unit){
 
-
 		if($count<=1){
 			return $count.' '.$unit;
 		}else if($count>1 && $count<1000){
@@ -22,7 +21,33 @@ if (!function_exists('formatCounting')) {
 	}
 }
 
+if (!function_exists('formatCount')) {
+	function formatCount($count){
+
+		if($count<=1){
+			return $count;
+		}else if($count>1 && $count<1000){
+			return $count;
+		}else if($count>=1000 && $count<1000000){
+			return floor($count/1000).'k';
+		}else{
+			return floor($count/1000000).'M';
+		}
+	}
+}
+
     $api_token = Cookie::get('api_auth_token');
+
+
+	$courses = $instructor->courses;
+	$student_enrolled =0;
+	$review_count = 0;
+	foreach ($courses as $key => $course) {
+		# code...
+		$student_enrolled+=$course->enroll_count;
+		$review_count +=$course->rating_count;
+	}
+
 @endphp
 
 
@@ -64,25 +89,25 @@ if (!function_exists('formatCounting')) {
 										<li>
 											<div class="_ttl121">
 												<div class="_ttl122">Enroll Students</div>
-												<div class="_ttl123">612K</div>
+												<div class="_ttl123">{{formatCount($student_enrolled)}}</div>
 											</div>
 										</li>
 										<li>
 											<div class="_ttl121">
 												<div class="_ttl122">Courses</div>
-												<div class="_ttl123">{{$instructor->courses->count()}}</div>
+												<div class="_ttl123">{{$courses->count()}}</div>
 											</div>
 										</li>
 										<li>
 											<div class="_ttl121">
 												<div class="_ttl122">Reviews</div>
-												<div class="_ttl123">115K</div>
+												<div class="_ttl123">{{formatCount($review_count)}}</div>
 											</div>
 										</li>
 										<li>
 											<div class="_ttl121">
 												<div class="_ttl122">Subscribers</div>
-												<div class="_ttl123">452K</div>
+												<div class="_ttl123">{{formatCount($instructor->Subscribers->count())}}</div>
 											</div>
 										</li>
 									</ul>
@@ -100,8 +125,25 @@ if (!function_exists('formatCounting')) {
 										</ul>
 									</div>
 									<ul class="_bty149">
-										<li><button class="subscribe-btn btn500">Subscribe</button></li>								
-										<li><button class="msg125 btn500">Message</button></li>								
+										<li>
+											@if ($subscribed)
+												<button class="subscribe-btn btn500" style="border-radius:15px;background:#efeeff;color:#475692">
+													<span><i class='uil uil-bell'></i> Subscribed</span>
+												</button>
+											 
+											@else
+												<button class="subscribe-btn btn500">Subscribe</button>
+											@endif
+											
+										</li>								
+										<li>
+											@if ($subscribed)
+												<button class="msg125 btn500" style="border-radius:15px;background:#333">Message</button>
+											@else
+												<button class="msg125 btn500">Message</button>
+											@endif
+											
+										</li>								
 									</ul>
 									
 								</div>													

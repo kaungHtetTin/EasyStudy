@@ -342,6 +342,7 @@
 								${searchCategory(categories,course.category_id).title} <i class="uil uil-arrow-right"></i>  ${searchCategory(sub_categories,course.sub_category_id).title}
 								
 								<div class="auth1lnkprce">
+									<p class="cr1fot">By <a href="/instructors/${course.instructor_id}">${course.instructor.user.name}</a></p>
 									<div class="prce142">${course.fee} MMK</div>
 									<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
 								</div>

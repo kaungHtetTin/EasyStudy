@@ -19,4 +19,8 @@ class Instructor extends Model
     public function categories(){
         return $this->belongsToMany(Category::class,'category_instructor');
     }
+
+    public function subscribers(){
+        return $this->hasMany(Subscriber::class);
+    }
 }

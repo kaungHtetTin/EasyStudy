@@ -152,7 +152,7 @@
                     <div class="alrt_dot"></div>
                 </li>
                 <li class="menu--item">
-                    <a href="all_instructor.html" class="menu--link" title="Browse Instructors">
+                    <a href="{{route('instructors')}}" class="menu--link" title="Browse Instructors">
                         <i class='uil uil-plus-circle menu--icon'></i>
                         <span class="menu--label">Browse Instructors</span>
                     </a>

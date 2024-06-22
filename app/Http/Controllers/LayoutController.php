@@ -12,9 +12,10 @@ class LayoutController extends Controller
 {
     public function index(){
 
-        $newestCourses = Course::limit(10)->orderBy('id','desc')->get();
-        $featureCourses = Course::limit(10)->orderBy('id','asc')->get();
-        $popularInstructors = Instructor::limit(10)->orderBy('student_enroll','desc')->get();
+        $newestCourses = Course::with('instructor.user')->with('category')->with('sub_category')->with('topic')->limit(10)->orderBy('id','desc')->get();
+        $featureCourses = Course::with('instructor.user')->with('category')->with('sub_category')->with('topic')->limit(10)->orderBy('id','asc')->get();
+        $popularInstructors = Instructor::with('user:id,name,email,phone,address')->
+        with('categories')->limit(10)->orderBy('student_enroll','desc')->get();
         $reviews = Review::limit(10)->get();
         
         return view('index',[

@@ -24,7 +24,7 @@ class ReviewController extends Controller
         $totalRater = Review::where('course_id',$req->course_id)->count();
 
         $course = Course::findOrFail($req->course_id);
-        $course->total_rating = $totalRater;
+        $course->rating_count = $totalRater;
         $course->rating = $totalStar/$totalRater;
         $course->save();
 

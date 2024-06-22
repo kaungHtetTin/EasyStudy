@@ -25,20 +25,19 @@ return new class extends Migration
             $table->integer('fee')->default(0)->nullable();
             $table->string('cover_url')->nullable();
             $table->float('rating')->default(0)->nullable();
-            $table->integer('total_rating')->detault(0)->nullable();
-            $table->integer('enroll')->detault(0)->nullable();
+            $table->integer('rating_count')->default(0); // review count
             $table->string('language')->nullable();
-            $table->integer('total_lecture')->detault(0)->nullable();
-            $table->integer('duration')->detault(0)->nullable();
+            $table->integer('total_lecture')->default(0);
+            $table->integer('duration')->default(0);
             $table->string('community_link')->nullable();
             $table->json('payment_method_id')->nullable();
-            $table->boolean('certificate')->default(false)->nullable();
-            $table->integer('visit')->default(0)->nullable();
-            $table->integer('share_count')->default(0)->nullable();
-            $table->integer('preview_count')->default(0)->nullable();
-            $table->integer('like_count')->default(0)->nullable();
-            $table->integer('dislike_count')->default(0)->nullable();
-            $table->integer('enroll_count')->default(0)->nullable();
+            $table->boolean('certificate')->default(false);
+            $table->integer('visit')->default(0);
+            $table->integer('share_count')->default(0);
+            $table->integer('preview_count')->default(0);
+            $table->integer('like_count')->default(0);
+            $table->integer('dislike_count')->default(0);
+            $table->integer('enroll_count')->default(0);
             $table->string('preview_url')->nullable();
             $table->timestamps();
 

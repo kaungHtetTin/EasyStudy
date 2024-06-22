@@ -370,7 +370,7 @@ if (!function_exists('calculatePercent')) {
                                     <div class="crse_reviews mr-2">
                                         <i class="uil uil-star"></i>{{$course->rating}}
                                     </div>
-                                    ({{$course->total_rating}} ratings )
+                                    ({{$course->rating_count}} ratings )
                                 </div>
 
                                 <div class="row">
@@ -476,7 +476,12 @@ if (!function_exists('calculatePercent')) {
                                         @auth
                                             <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                         @endauth
-                                        <button type="submit" class="subscribe-btn">Subscribe</button>
+                                        @if ($subscribed)
+                                            <button type="submit" class="subscribe-btn" style="border-radius:15px;background:#efeeff;color:#475692"><i class='uil uil-bell'></i>Subscribed</button>
+                                        @else
+                                            <button type="submit" class="subscribe-btn">Subscribe</button>
+                                        @endif
+                                        
                                     </form>
                                 </div>
                             </div>

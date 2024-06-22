@@ -12,3 +12,8 @@ instrcutor တွေအတွက် အားသာချက်
 =>  Mordern Technology technique ဖြစ်တဲ့အတွက် ကိုယ့်ရဲ့ Branding ကို အဆင့်မြင့်တင်ရာ ရောက်တယ်
 =>  ကုန်ကျစရိတ်သက်သာတယ်
 
+
+=> laravel query fetcher
+composer require barryvdh/laravel-debugbar --dev
+php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+

@@ -1,3 +1,20 @@
+@php
+if (!function_exists('formatCounting')) {
+	function formatCounting($count,$unit){
+
+		if($count<=1){
+			return $count.' '.$unit;
+		}else if($count>1 && $count<1000){
+			return $count.' '.$unit.'s';
+		}else if($count>=1000 && $count<1000000){
+			return floor($count/1000).'k'.' '.$unit.'s';
+		}else{
+			return floor($count/1000000).'M'.' '.$unit.'s';;
+		}
+	}
+}
+@endphp
+
 @extends('layouts.master')
 
 
@@ -54,10 +71,10 @@
                                                     <li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
                                                 </ul>
                                                 <div class="tut1250">
-                                                    <span class="vdt15">100K Students</span>
+                                                    <span class="vdt15">{{formatCounting($instructor->student_enroll,' Student')}}</span>
                                                     <span class="vdt15">
                                                         @php
-                                                            $courseCount = $instructor->courses->count();
+                                                            $courseCount = $instructor->total_course;
                                                             if ($courseCount>1) {
                                                                 echo $courseCount." Courses";
                                                             }else{
@@ -85,4 +102,11 @@
 				</div>
 			</div>
 		</div>
+
+		<script>
+			let instructors = @json($instructors);
+			console.log(instructors);
+
+
+		</script>
 @endsection

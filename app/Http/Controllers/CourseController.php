@@ -38,7 +38,7 @@ class CourseController extends Controller
 
         $topics = Topic::where('sub_category_id',$sub_category_id)->get();
 
-        $courses = Course::where('sub_category_id',$sub_category_id)->get();
+        $courses = Course::with('instructor.user')->where('sub_category_id',$sub_category_id)->get();
 
         return view('courses',[
             'page_title'=>'Courses',
@@ -48,24 +48,6 @@ class CourseController extends Controller
             'courses'=>$courses,
             'levels'=>$levels,
         ]);
-
-        if(isset($req->category_id)){
-            $courses = Course::where('category_id',$req->category_id)->get();
-            return $courses;
-        }
-
-        if(isset($req->sub_category_id)){
-            $courses = Course::where('category_id',$req->sub_category_id)->get();
-            return $courses;
-        }
-
-        if(isset($req->topic_id)){
-            $courses = Course::where('category_id',$req->topic_id)->get();
-            return $courses;
-        }
-
-        $courses = Course::all();
-        return $courses;
     }
 
     public function detail($id){
@@ -75,7 +57,7 @@ class CourseController extends Controller
         $myReview=false;
         $access=false;
         $reaction = false;
-        $subscribed = false;
+        $subscribed = false; // check subscribed to instructor
         if (Auth::check()) {
             $myReview = Review::where('user_id',$user->id)->where('course_id',$course->id)->first();
             
@@ -110,6 +92,7 @@ class CourseController extends Controller
             'myReview'=>$myReview,
             'access'=>$access,
             'reaction'=>$reaction,
+            'subscribed'=>$subscribed,
         ]);
     }
 

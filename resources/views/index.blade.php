@@ -298,10 +298,10 @@ if (!function_exists('formatCounting')) {
 														<li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
 													</ul>
 													<div class="tut1250">
-														<span class="vdt15">100K Students</span>
+														<span class="vdt15">{{formatCounting($instructor->student_enroll,' Student')}}</span>
 														<span class="vdt15">
 															@php
-																$courseCount = $instructor->courses->count();
+																$courseCount = $instructor->total_course;
 																if ($courseCount>1) {
 																	echo $courseCount." Courses";
 																}else{
@@ -345,7 +345,7 @@ if (!function_exists('formatCounting')) {
 										<span class="vdt15">615K Students</span>
 										<span class="vdt15">12 Courses</span>
 									</div>
-									<a href="my_instructor_profile_view.html" class="prfle12link">Go To Profile</a>
+									<a href="{{route('instructor_detail',['id'=>1])}}" class="prfle12link">Go To Profile</a>
 								</div> 
 							</div>
 						
