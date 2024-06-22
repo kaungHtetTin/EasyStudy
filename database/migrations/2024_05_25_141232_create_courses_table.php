@@ -38,7 +38,8 @@ return new class extends Migration
             $table->integer('preview_count')->default(0)->nullable();
             $table->integer('like_count')->default(0)->nullable();
             $table->integer('dislike_count')->default(0)->nullable();
-             $table->string('preview_url')->nullable();
+            $table->integer('enroll_count')->default(0)->nullable();
+            $table->string('preview_url')->nullable();
             $table->timestamps();
 
             $table->index('title');

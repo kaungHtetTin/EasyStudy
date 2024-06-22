@@ -60,8 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reviews/{id}',[ReviewController::class,'destroy'])->name('reviews.destroy');
     Route::post('/reviews/update',[ReviewController::class,'update'])->name('reviews.update');
 
-    Route::get('/teach-on',[LayoutController::class,'teachOn'])->name('teach-on');
+    Route::post('/instructors/subscribe/{id}',[InstructorController::class,'subscribe'])->name('instructor.subscribe');
 
+    Route::get('/teach-on',[LayoutController::class,'teachOn'])->name('teach-on');
 
 
 });

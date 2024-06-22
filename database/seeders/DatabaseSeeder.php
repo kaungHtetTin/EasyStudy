@@ -14,6 +14,7 @@ use App\Models\Instructor;
 use App\Models\SubCategory;
 use App\Models\Topic;
 use App\Models\Level;
+use App\Models\PaymentMethodType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,6 +34,24 @@ class DatabaseSeeder extends Seeder
         LessonType::create([
             "type"=>"Test"
         ]);
+
+        PaymentMethodType::create([
+            "type"=>"Kbz Pay",
+            "icon_url"=>"images/payment-kbz-pay.jpg",
+        ]);
+        PaymentMethodType::create([
+            "type"=>"Wave Pay",
+            "icon_url"=>"images/payment-wave-pay.jpg",
+        ]);
+        PaymentMethodType::create([
+            "type"=>"AYA pay",
+            "icon_url"=>"images/payment-aya-pay.png",
+        ]);
+        PaymentMethodType::create([
+            "type"=>"CB pay",
+            "icon_url"=>"images/payment-cb-pay.png",
+        ]);
+
 
         Level::create(['level'=>'Beginner']);
         Level::create(['level'=>'Intermediate']);

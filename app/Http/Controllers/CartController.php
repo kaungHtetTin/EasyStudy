@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
+use App\Models\PaymentMethodType;
 use App\Models\Category;
+use App\Models\SavedCourse;
 
 class CartController extends Controller
 {
     public function detail(){
         
+        $payment_method_types = PaymentMethodType::all();
         return view('cart',[
             'page_title'=>'Cart',
+            'payment_method_types'=>$payment_method_types,
         ]);
      
     }   
@@ -22,6 +26,12 @@ class CartController extends Controller
         $course_id = $req->course_id;
         $user = Auth::user();
 
+        $myCourse = SavedCourse::where('user_id',$user->id)->where('course_id',$course_id)->first();
+
+        if($myCourse){
+            return redirect()->route('mycourses');
+        }
+        
         Cart::firstOrCreate(
             [                                   // Attributes to check
                 'user_id' => $user->id,

@@ -40,7 +40,9 @@ Route::post('/sanctum/token', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', function(Request $req){return $req->user();});
+    
     Route::get('/courses',[CourseController::class,'index']);
+    Route::post('/courses/react/{id}',[CourseController::class,'react']);
     
 });
 

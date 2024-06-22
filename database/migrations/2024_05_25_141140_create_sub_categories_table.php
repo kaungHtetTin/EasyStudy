@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->string('title');
+            $table->boolean('active')->default(false)->nullable();
             $table->timestamps();
 
             $table->index('category_id');

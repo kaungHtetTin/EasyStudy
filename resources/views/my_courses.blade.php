@@ -59,7 +59,7 @@
                                                     <span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
                                                 </div>
                                                 <a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s title900">{{$course->title}}</a>
-                                                <a href="#" class="crse-cate">
+                                                <a href="{{route('courses')}}?category_id={{$course->category_id}}" class="crse-cate">
                                                     {{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}
                                                 </a>
                                                 <div class="auth1lnkprce">

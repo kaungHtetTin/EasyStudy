@@ -7,13 +7,17 @@ if (!function_exists('calculateHour')) {
 	}
 }
 if (!function_exists('formatCounting')) {
-	function formatCounting($count){
-		if($count<1000){
-			return $count;
+	function formatCounting($count,$unit){
+
+
+		if($count<=1){
+			return $count.' '.$unit;
+		}else if($count>1 && $count<1000){
+			return $count.' '.$unit.'s';
 		}else if($count>=1000 && $count<1000000){
-			return floor($count/1000);
+			return floor($count/1000).'k'.' '.$unit.'s';
 		}else{
-			return floor($count/1000000);
+			return floor($count/1000000).'M'.' '.$unit.'s';;
 		}
 	}
 }
@@ -72,11 +76,11 @@ if (!function_exists('formatCounting')) {
 															</div>																										
 														</div>
 														<div class="vdtodt">
-															<span class="vdt14">109k views</span>
+															<span class="vdt14">{{formatCounting($course->preview_count,'view')}}</span>
 															<span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
 														</div>
 														<a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s"> {{$course->title}} </a>
-														<a href="#" class="crse-cate">
+														<a href="{{route('courses')}}?category_id={{$course->category_id}}" class="crse-cate">
 															{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}
 														</a>
 														<div class="auth1lnkprce">
@@ -131,11 +135,11 @@ if (!function_exists('formatCounting')) {
 														</div>																										
 													</div>
 													<div class="vdtodt">
-														<span class="vdt14">109k views</span>
+														<span class="vdt14">{{formatCounting($course->preview_count,'view')}}</span>
 														<span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
 													</div>
 													<a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s"> {{$course->title}} </a>
-													<a href="#" class="crse-cate">
+													<a href="{{route('courses')}}?category_id={{$course->category_id}}" class="crse-cate">
 														{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}
 													</a>
 													<div class="auth1lnkprce">
@@ -188,11 +192,11 @@ if (!function_exists('formatCounting')) {
 														</div>																											
 													</div>
 													<div class="vdtodt">
-														<span class="vdt14">15 views</span>
+														<span class="vdt14">{{formatCounting($course->preview_count,'view')}}</span>
 														<span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
 													</div>
 													<a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s"> {{$course->title}} </a>
-													<a href="#" class="crse-cate">
+													<a href="{{route('courses')}}?category_id={{$course->category_id}}" class="crse-cate">
 														{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}
 													</a>
 													<div class="auth1lnkprce">

@@ -11,6 +11,8 @@ use App\Models\Level;
 use App\Models\SavedCourse;
 use App\Models\Review;
 use App\Models\PaymentHistory;
+use App\Models\Reaction;
+use App\Models\Subscriber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -69,18 +71,33 @@ class CourseController extends Controller
     public function detail($id){
 
         $course = Course::find($id);
+        $user = Auth::user();
+        $myReview=false;
+        $access=false;
+        $reaction = false;
+        $subscribed = false;
         if (Auth::check()) {
-            $myReview = Review::where('user_id',Auth::user()->id)->where('course_id',$course->id)->first();
-            $access = SavedCourse::where('user_id',Auth::user()->id)->where('course_id',$course->id)->first();
+            $myReview = Review::where('user_id',$user->id)->where('course_id',$course->id)->first();
+            
             if($myReview==null){
                 $myReview=false;
             }
+
+            $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
             if($access==null){
                 $access=false;
             }
-        }else{
-            $myReview=false;
-            $access=false;
+
+            $reaction = Reaction::where('user_id',$user->id)->where('content_id',$id)->first();
+            if($reaction==null){
+                $reaction = false;
+            }
+
+            $subscribed = Subscriber::where('user_id',$user->id)->where('instructor_id',$course->instructor_id)->first();
+            if($subscribed==null){
+                $subscribed=false;
+            }
+
         }
 
         $course->visit = ($course->visit)+1;
@@ -92,6 +109,7 @@ class CourseController extends Controller
             'course'=>$course,
             'myReview'=>$myReview,
             'access'=>$access,
+            'reaction'=>$reaction,
         ]);
     }
 

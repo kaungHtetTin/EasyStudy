@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('likes', function (Blueprint $table) {
+        Schema::create('subscribers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('content_id');
+            $table->unsignedBigInteger('instructor_id');
 
             $table->index('user_id');
-            $table->index('content_id');
+            $table->index('instructor_id');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -36,13 +37,13 @@ return new class extends Migration
     {
         Schema::table('carts',function(Blueprint $table){
             $table->dropIndex(['user_id']);
-            $table->dropIndex(['content_id']);
-            
+            $table->dropIndex(['instructor_id']);
+          
             $table->dropForeign(['user_id']);
-     
+            $table->dropForeign(['instructor_id']);
             
         });
 
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('subscribers');
     }
 };

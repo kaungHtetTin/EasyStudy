@@ -13,17 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('instructors', function (Blueprint $table) {
+        Schema::create('reactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('student_enroll')->default(0)->nullable();
-            $table->integer('subscriber')->default(0);
-            $table->boolean('is_active')->default(true);
-            $table->datetime('last_billing_date')->nullable();
-            $table->timestamps();
+            $table->unsignedBigInteger('content_id');
+            $table->integer('content_type');    // 1 for cost, 2 for post, 3 for comment or review, 
+            $table->integer('react'); // 1 for like, 2 for dislike, 
 
             $table->index('user_id');
+            $table->index('content_id');
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->timestamps();
         });
     }
 
@@ -34,12 +36,15 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('reviews',function(Blueprint $table){
+        Schema::table('carts',function(Blueprint $table){
             $table->dropIndex(['user_id']);
-            
+            $table->dropIndex(['content_id']);
+          
             $table->dropForeign(['user_id']);
+     
             
         });
-        Schema::dropIfExists('instructors');
+
+        Schema::dropIfExists('likes');
     }
 };

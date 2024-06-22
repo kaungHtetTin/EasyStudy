@@ -1,3 +1,31 @@
+@php
+if (!function_exists('calculateHour')) {
+	function calculateHour($min){
+		$hr = $min/60;
+		$hr = floor($hr);
+		return $hr;
+	}
+}
+if (!function_exists('formatCounting')) {
+	function formatCounting($count,$unit){
+
+
+		if($count<=1){
+			return $count.' '.$unit;
+		}else if($count>1 && $count<1000){
+			return $count.' '.$unit.'s';
+		}else if($count>=1000 && $count<1000000){
+			return floor($count/1000).'k'.' '.$unit.'s';
+		}else{
+			return floor($count/1000000).'M'.' '.$unit.'s';;
+		}
+	}
+}
+
+    $api_token = Cookie::get('api_auth_token');
+@endphp
+
+
 @extends('layouts.master')
 @section('content')
 
@@ -120,44 +148,53 @@
 										<div class="_14d25">
 											<div class="row">
 												@foreach ($instructor->courses as $course)
-													<div class="col-lg-3 col-md-4">
-														<div class="fcrse_1 mt-30">
+													<div class="col-lg-4 col-md-4">
+														<div class="fcrse_1 mb-30">
 															<a href="{{route('course_detail', ['id' => $course->id])}}" class="fcrse_img">
 																<img src="{{asset('images/courses/img-1.jpg')}}" alt="">
 																<div class="course-overlay">
 																	<div class="badge_seller">Bestseller</div>
 																	<div class="crse_reviews">
-																		<i class="uil uil-star"></i>4.5
+																		<i class='uil uil-star'></i>{{$course->rating}}
 																	</div>
 																	<span class="play_btn1"><i class="uil uil-play"></i></span>
 																	<div class="crse_timer">
-																		25 hours
+																		{{calculateHour($course->duration)}} hours
 																	</div>
 																</div>
 															</a>
 															<div class="fcrse_content">
 																<div class="eps_dots more_dropdown">
-																	<a href="#"><i class="uil uil-ellipsis-v"></i></a>
+																	<a href="#"><i class='uil uil-ellipsis-v'></i></a>
 																	<div class="dropdown-content">
-																		<span><i class="uil uil-share-alt"></i>Share</span>
-																		<span><i class="uil uil-clock-three"></i>Save</span>
-																		<span><i class="uil uil-ban"></i>Not Interested</span>
+																		<span onclick="copyCourseUrl('{{route('course_detail', ['id' => $course->id])}}','{{$course->id}}')"><i class='uil uil-share-alt'></i>Share</span>
+																		<span onclick="addToCart('{{$course->id}}')"><i class="uil uil-shopping-cart-alt"></i>Add to cart</span>
+																		<form id="cart_form_{{$course->id}}" action="{{route('cart')}}" method="POST">
+																			<input type="hidden" value="{{$course->id}}" name="course_id">
+																			@csrf
+																		</form>
 																		<span><i class="uil uil-windsock"></i>Report</span>
-																	</div>																											
+																	</div>																										
 																</div>
 																<div class="vdtodt">
-																	<span class="vdt14">109k views</span>
+																	<span class="vdt14">{{formatCounting($course->preview_count,'view')}}</span>
 																	<span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
 																</div>
-																<a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s">{{$course->title}}</a>
-																<a href="#" class="crse-cate">{{$course->category->title}}</a>
+																<a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s"> {{$course->title}} </a>
+																<a href="{{route('courses')}}?category_id={{$course->category_id}}" class="crse-cate">
+																	{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}
+																</a>
 																<div class="auth1lnkprce">
-																	<p class="cr1fot">By <a href="#">{{$course->instructor->user->name}}</a></p>
+																	<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
 																	<div class="prce142">{{$course->fee}} MMK</div>
-																	<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
+																	<form action="{{route('cart')}}" method="POST">
+																		<input type="hidden" value="{{$course->id}}" name="course_id">
+																		@csrf
+																		<button type="submit" class="shrt-cart-btn" title="Add to cart"><i class="uil uil-shopping-cart-alt"></i></button>
+																	</form>
 																</div>
 															</div>
-														</div>	
+														</div>
 													</div>
 												@endforeach
 												
@@ -243,5 +280,51 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		const apiToken = "{{$api_token}}";
+
+		function addToCart(courseId){
+			document.getElementById('cart_form_'+courseId).submit();
+		}	
+
+		function copyCourseUrl(url,id){
+			
+			// Create a temporary input element to hold the URL
+			const tempInput = document.createElement('input');
+			tempInput.value =url;
+			document.body.appendChild(tempInput);
+
+			// Select the input element's value
+			tempInput.select();
+			tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+			// Copy the text inside the input element
+			document.execCommand('copy');
+
+			// Remove the temporary input element
+			document.body.removeChild(tempInput);
+
+			// Optionally, alert the user that the URL has been copied
+
+			alert('URL copied to clipboard: ' +url);
+
+			$.ajax({
+				url: 'http://localhost:8000/api/courses/share/'+id, // Replace with your API endpoint
+				type: 'POST', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+				success: function(response) {
+					console.log('Success:', response);
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
+
+		}
+	</script>
+
 @endsection
 		

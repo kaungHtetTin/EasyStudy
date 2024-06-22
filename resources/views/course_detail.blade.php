@@ -120,7 +120,16 @@ if (!function_exists('calculatePercent')) {
             'type'=>'CB Pay',
             'method'=>'09682537158',
         ],
-    )
+    );
+
+
+    $like = false; $dislike = false;
+    if($reaction){
+        if($reaction->react==1) $like = true;
+        if($reaction->react==2) $dislike = true;
+    }
+
+    $user = Auth::user();
 
 @endphp
 
@@ -151,17 +160,18 @@ if (!function_exists('calculatePercent')) {
 	<div class="modal vd_mdl fade" id="videoModal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button onclick="closeVideo()" type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<div class="modal-body">
                      {{-- <iframe src="https://drive.google.com/file/d/1FUI2Z-gXQQVodPan_s3AW2cDEDN3OQk2/preview" width="640" height="480" allow="autoplay"></iframe> --}}
-					<iframe  src="http://localhost/video-server/easy_korean_honest_review%20(720p).mp4" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					{{-- <iframe  src="http://localhost/video-server/easy_korean_honest_review%20(720p).mp4" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> --}}
+                    <video id="myVideo" style="width:100%" controls controlsList="nodownload">
+                        <source id="videoSrc" src="" type="video/mp4">
+                    </video>
+
 				</div>
-                {{-- <video width="600" controls>
-                    <source src="https://drive.google.com/uc?export=download&id=1FUI2Z-gXQQVodPan_s3AW2cDEDN3OQk2" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video> --}}
+                
 				
 			</div>
 		</div>
@@ -345,10 +355,7 @@ if (!function_exists('calculatePercent')) {
                                         </div>
                                     </a>
                                 </div>
-                                <div class="_215b10">										
-                                    <a href="#" class="_215b11">										
-                                        <span><i class="uil uil-heart"></i></span>Save
-                                    </a>
+                                <div class="_215b10">
                                     <a href="#" class="_215b12">										
                                         <span><i class="uil uil-windsock"></i></span>Report abuse
                                     </a>
@@ -396,7 +403,7 @@ if (!function_exists('calculatePercent')) {
                                     <div class="col-6 _215b08">
                                         <div class="_215b05" style="display: flex">										
                                             <span><i class='uil uil-graduation-hat'></i></span>
-                                            <div>{{$course->users->count()}} students enrolled</div>
+                                            <div>{{$course->enroll_count}} students enrolled</div>
                                         </div>
                                     </div>
                                     <div class="col-6 _215b08">
@@ -432,7 +439,6 @@ if (!function_exists('calculatePercent')) {
                                                 @csrf
                                                 <button type="submit" class="btn_adcart">Add to Cart</button>
                                             </form>
-                                        
                                         </li>
                                         
                                         <li>
@@ -465,23 +471,71 @@ if (!function_exists('calculatePercent')) {
                                 </div>
                                 <div class="user_cntnt">
                                     <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}" class="_df7852">{{$course->instructor->user->name}}</a>
-                                    <button class="subscribe-btn">Subscribe</button>
+                                    <form action="{{route('instructor.subscribe',['id'=>$course->instructor->id])}}" method="POST">
+                                        @csrf
+                                        @auth
+                                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                        @endauth
+                                        <button type="submit" class="subscribe-btn">Subscribe</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                         <div class="user_dt_right">
                             <ul>
                                 <li>
-                                    <a href="#" class="lkcm152"><i class="uil uil-eye"></i><span>{{$course->preview_count}}</span></a>
+                                    <a class="lkcm152">
+                                        <span><i class="uil uil-eye"></i></span>
+                                        <span>{{$course->preview_count}}</span>
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="lkcm152"><i class="uil uil-thumbs-up"></i><span>100</span></a>
+                                    @auth
+                                        <a onclick="react({{$user->id}},1)" class="lkcm152"  style="cursor: pointer">
+                                            <span id="like_icon" style="background:#475692;border-radius:50px;display: {{$like?'block':'none'}}">
+                                                <i class="uil uil-thumbs-up" style="color:white"></i>
+                                            </span>
+
+                                            <span id="non_like_icon" style="border-radius:50px;display: {{$like?'none':'block'}}">
+                                                <i class="uil uil-thumbs-up"></i>
+                                            </span>
+                                            <span id="tv_like_count">{{$course->like_count}}</span>
+                                        </a>
+                                    @else
+                                        <a href="{{route('login')}}" class="lkcm152">
+                                            
+                                            <i class="uil uil-thumbs-up"></i>
+                                            <span>{{$course->like_count}}</span>
+                                        </a>
+                                    @endauth
+                                    
                                 </li>
                                 <li>
-                                    <a href="#" class="lkcm152"><i class="uil uil-thumbs-down"></i><span>20</span></a>
+                                    
+                                    @auth
+                                        <a onclick="react({{$user->id}},2)"  class="lkcm152" style="cursor: pointer">
+                                            <span id="dislike_icon" style="background:#ff0909;border-radius:50px;display: {{$dislike?'block':'none'}}">
+                                                <i class="uil uil-thumbs-down" style="color:white"></i>
+                                            </span>
+                                            <span id="non_dislike_icon" style="border-radius:50px;display: {{$dislike?'none':'block'}}">
+                                                <i class="uil uil-thumbs-down"></i>
+                                            </span>
+
+                                            <span id="tv_dislike_count">{{$course->dislike_count}}</span>
+                                        </a>
+                                    @else
+                                        <a href="{{route('login')}}" class="lkcm152">
+                                            <i class="uil uil-thumbs-down"></i>
+                                            <span>{{$course->dislike_count}}</span>
+                                        </a>
+                                    @endauth
+                                    
                                 </li>
                                 <li>
-                                    <a onclick="copyCourseUrl('{{route('course_detail', ['id' => $course->id])}}','{{$course->id}}')" style="cursor: pointer" class="lkcm152"><i class="uil uil-share-alt"></i><span>{{$course->share_count}}</span></a>
+                                    <a onclick="copyCourseUrl('{{route('course_detail', ['id' => $course->id])}}','{{$course->id}}')" style="cursor: pointer" class="lkcm152">
+                                        <span style="border-radius: 50px;"><i class="uil uil-share-alt"></i></span>
+                                        <span>{{$course->share_count}}</span>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -805,6 +859,13 @@ if (!function_exists('calculatePercent')) {
 
     <script>
         const apiToken = "{{$api_token}}";
+        let like = "{{$like}}";
+        let dislike = "{{$dislike}}";
+        let course = @json($course);
+        let like_count = parseInt(course.like_count);
+        let dislike_count = parseInt(course.dislike_count);
+        console.log(course);
+
         function playPreview(id){
             $.ajax({
 				url: 'http://localhost:8000/api/courses/pre-view/'+id, // Replace with your API endpoint
@@ -819,6 +880,90 @@ if (!function_exists('calculatePercent')) {
 					console.error('Error:', status, error);
 				}
 			});
+
+            $('#videoSrc').attr('src','http://localhost/video-server/easy_korean_honest_review%20(720p).mp4');
+            $('#myVideo').get(0).load();
+            $('#myVideo').get(0).play();
+
+
+        }
+
+        function react(user_id, react_type){
+            if(react_type==1){
+                // like the course
+                if(like==1){
+                    //remove like
+                    $('#like_icon').hide();
+                    $('#non_like_icon').show();
+                    like=0;
+                    like_count--;
+
+                }else{
+                    // remove dislike and other react
+                    if(dislike==1){
+                        dislike=0;
+                        $('#dislike_icon').hide();
+                        $('#non_dislike_icon').show();
+                        dislike_count--;
+                    }
+
+                    //like the course
+                    $('#like_icon').show();
+                    $('#non_like_icon').hide();
+                    like=1;
+                    like_count++;
+                }
+
+            }else{
+                // dislike the course
+                if(dislike==1){
+                    // remove dislike react
+                    $('#dislike_icon').hide();
+                    $('#non_dislike_icon').show();
+                    dislike=0;
+                    dislike_count--;
+                }else{
+                    // remove like and other react
+                    if(like==1){
+                        $('#like_icon').hide();
+                        $('#non_like_icon').show();
+                        like=0;
+                        like_count--;
+                    }
+                    
+
+                    //dislike the course
+                    $('#dislike_icon').show();
+                    $('#non_dislike_icon').hide();
+                    dislike = 1;
+                    dislike_count++;
+                }
+            }
+
+            $('#tv_like_count').html(like_count);
+            $('#tv_dislike_count').html(dislike_count);
+
+            $.ajax({
+				url: 'http://localhost:8000/api/courses/react/'+course.id, // Replace with your API endpoint
+				type: 'POST', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+				success: function(response) {
+					console.log('Success:', response);
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				},
+                data:{
+                    'user_id':user_id,
+                    'react':react_type,
+                }
+			});
+        }
+
+        function closeVideo(){
+            $('#myVideo').get(0).pause();
         }
 
         function copyCourseUrl(url,id){
@@ -855,7 +1000,6 @@ if (!function_exists('calculatePercent')) {
 					console.error('Error:', status, error);
 				}
 			});
-
 		}
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -883,9 +1027,8 @@ if (!function_exists('calculatePercent')) {
             $('#btn_review_update').click(()=>{
                 $('#add_review_container').show();
                 
-            })
+            });
 
-            
         });
     </script>
 

@@ -23,7 +23,7 @@
                                 $total_amount+=$course->fee;
                             @endphp
                             <div class="fcrse_1">
-                                <a href="course_detail_view.html" class="hf_img">
+                                <a href="{{route('course_detail', ['id' => $course->id])}}" class="hf_img">
                                     <img class="cart_img" src="images/courses/img-2.jpg" alt="">
                                 </a>
                                 <div class="hs_content">
@@ -36,7 +36,7 @@
                                         <a href="#" onclick="submitForm(event, 'delete-form-{{ $cart->id }}'); return confirm('Are you sure you want to delete this item?');"><i class='uil uil-times'></i></a>																									
                                     </div>
                                     <a href="{{route('course_detail', ['id' => $course->id])}}" class="crse14s title900 pt-2">{{$course->title}}</a>
-                                    <a href="#" class="crse-cate">
+                                    <a href="{{route('courses')}}?category_id={{$course->category_id}}" class="crse-cate">
                                         {{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}
                                     </a>
                                     <div class="auth1lnkprce">
@@ -50,10 +50,6 @@
 					</div>
 					<div class="col-lg-4">
 						<div class="membership_chk_bg rght1528">
-								<div class="checkout_title">
-									<h4>Pay Now</h4>
-									<img src="images/line.svg" alt="">
-								</div>
 								<div class="order_dt_section">
 									<div class="order_title">
 										<h4>Total Amount</h4>
@@ -62,11 +58,16 @@
 								</div>
 
                                 <div class="checkout_title">
-									<h4>Payment Method</h4>
+									<h4>Payment Methods</h4>
 									<img src="images/line.svg" alt="">
 								</div>
 
-                                <a href="#" class="chck-btn22">Checkout Now</a>
+                                @foreach ($payment_method_types as $payment)
+                                    <div class="order_title payment_method" style="display: flex;">
+                                        <img style="width:25px;height:25px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset($payment['icon_url'])}}" alt="">
+                                        <h6>{{$payment['type']}}</h6>
+                                    </div>
+                                @endforeach
 						</div>
 					</div>								
 				</div>	

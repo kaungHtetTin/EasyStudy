@@ -186,7 +186,6 @@
 		const categories =@json($categories);
 		const sub_categories=@json($sub_categories);
 
-		console.log(categories,sub_categories);
 
 		let topic_ids = [];
 		let intervals = [
@@ -325,19 +324,23 @@
 								<div class="eps_dots more_dropdown">
 									<a href="#"><i class="uil uil-ellipsis-v"></i></a>
 									<div class="dropdown-content">
-										<span><i class='uil uil-share-alt'></i>Share</span>
-										<span><i class="uil uil-shopping-cart-alt"></i>Add to cart</span>
+										<span onclick="copyCourseUrl('/courses/${course.id}','${course.id}')" ><i class='uil uil-share-alt'></i>Share</span>
+										<span onclick="addToCart('${course.id}')"> <i class="uil uil-shopping-cart-alt"></i>Add to cart</span>
+										<form id="cart_form_${course.id}" action="/cart" method="POST">
+											<input type="hidden" value="${course.id}" name="course_id">
+											@csrf
+										</form>
 										<span><i class="uil uil-windsock"></i>Report</span>
 									</div>																									
 								</div>
 								<div class="vdtodt">
-									<span class="vdt14">5M views</span>
+									<span class="vdt14">${formatCounting(course.preview_count,'view')}</span>
 									<span class="vdt14">${formatDateTime(new Date(course.created_at))} </span>
 								</div>
 								<a href="course_detail_view.html" class="crse14s">${course.title}</a>
-								<a href="#" class="crse-cate">
-									${searchCategory(categories,course.category_id).title} <i class="uil uil-arrow-right"></i>  ${searchCategory(sub_categories,course.sub_category_id).title}
-								</a>
+								
+								${searchCategory(categories,course.category_id).title} <i class="uil uil-arrow-right"></i>  ${searchCategory(sub_categories,course.sub_category_id).title}
+								
 								<div class="auth1lnkprce">
 									<div class="prce142">${course.fee} MMK</div>
 									<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
@@ -349,6 +352,47 @@
 			})
 
 			return result;
+		}
+
+		function addToCart(courseId){
+			document.getElementById('cart_form_'+courseId).submit();
+		}	
+
+		function copyCourseUrl(url,id){
+			
+			// Create a temporary input element to hold the URL
+			const tempInput = document.createElement('input');
+			tempInput.value =url;
+			document.body.appendChild(tempInput);
+
+			// Select the input element's value
+			tempInput.select();
+			tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+			// Copy the text inside the input element
+			document.execCommand('copy');
+
+			// Remove the temporary input element
+			document.body.removeChild(tempInput);
+
+			// Optionally, alert the user that the URL has been copied
+
+			alert('URL copied to clipboard: ' +url);
+
+			$.ajax({
+				url: 'http://localhost:8000/api/courses/share/'+id, // Replace with your API endpoint
+				type: 'POST', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+				success: function(response) {
+					console.log('Success:', response);
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
+
 		}
 
 		function setLoading(){
@@ -373,6 +417,18 @@
 				return result + " hours";
 			}else{
 				return result + " hour";
+			}
+		}
+
+		function formatCounting(count,unit){
+			if(count<=1){
+				return count+' '+unit;
+			}else if(count>1 && count<1000){
+				return Math.floor(count/1000)+' '+unit+'s';
+			}else if(count>=1000 && count<1000000){
+				return Math.floor(count/1000)+'k '+unit+'s';
+			}else {
+				return Math.floor(count/1000000)+'M '+unit+'s';
 			}
 		}
 
