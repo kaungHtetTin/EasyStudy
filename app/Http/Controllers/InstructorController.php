@@ -13,13 +13,8 @@ class InstructorController extends Controller
     //
 
     public function index(){
-        
-        $instructors = Instructor::with('user:id,name,email,phone,address')
-        ->with('categories')->get();
-
         return view('instructors',[
             'page_title'=>'Instructors',
-            'instructors'=>$instructors,
         ]);
     }
 

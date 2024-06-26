@@ -59,16 +59,20 @@ class CourseController extends Controller
         $reaction = false;
         $subscribed = false; // check subscribed to instructor
         if (Auth::check()) {
+
+            $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
+            if($access==null){
+                $access=false;
+            }else{
+                return redirect()->route('course.learn',['id'=>$id]);
+            }
+
             $myReview = Review::where('user_id',$user->id)->where('course_id',$course->id)->first();
             
             if($myReview==null){
                 $myReview=false;
             }
 
-            $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
-            if($access==null){
-                $access=false;
-            }
 
             $reaction = Reaction::where('user_id',$user->id)->where('content_id',$id)->first();
             if($reaction==null){
@@ -143,6 +147,33 @@ class CourseController extends Controller
         $saved_course->save();
 
         return redirect()->back()->with('check_out_status','Succesfully requested');
+    }
+
+    public function learn($id){
+        $course = Course::find($id);
+        $user = Auth::user();
+        $myReview=false;
+
+        $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
+        if($access==null){
+            return redirect()->route('course_detail',['id'=>$id]);
+        }
+
+        if (Auth::check()) {
+
+            $myReview = Review::where('user_id',$user->id)->where('course_id',$course->id)->first();
+            if($myReview==null){
+                $myReview=false;
+            }
+
+        }
+         
+        return view('course_learn',[
+            'page_title'=>'Learning',
+            'course'=>$course,
+            'myReview'=>$myReview,
+            'access'=>$access,
+        ]);
     }
 
 }

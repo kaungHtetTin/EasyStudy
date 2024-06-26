@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mycourses',[CourseController::class,'myCourse'])->name('mycourses');
     Route::post('/courses/checkout/{id}',[CourseController::class,'checkOut'])->name('course.checkout');
+    Route::get('/courses/{id}/learn',[CourseController::class,'learn'])->name('course.learn');
 
     Route::post('/reviews',[ReviewController::class,'create'])->name('reviews.create');
     Route::delete('/reviews/{id}',[ReviewController::class,'destroy'])->name('reviews.destroy');
@@ -64,8 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/instructors/subscribe/{id}',[InstructorController::class,'subscribe'])->name('instructor.subscribe');
 
     Route::get('/teach-on',[LayoutController::class,'teachOn'])->name('teach-on');
-
-
+   
 });
 
 

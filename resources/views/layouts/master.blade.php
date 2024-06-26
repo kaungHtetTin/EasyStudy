@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     @include('layouts.head')
-	<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 </head>
 <body>
     @include('layouts.header')

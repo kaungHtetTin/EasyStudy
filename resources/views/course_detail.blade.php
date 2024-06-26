@@ -169,10 +169,7 @@ if (!function_exists('calculatePercent')) {
                     <video id="myVideo" style="width:100%" controls controlsList="nodownload">
                         <source id="videoSrc" src="" type="video/mp4">
                     </video>
-
 				</div>
-                
-				
 			</div>
 		</div>
 	</div>
@@ -269,7 +266,6 @@ if (!function_exists('calculatePercent')) {
 
             $(document).ready(()=>{
 
-
                 if(show_check_out_modal=="1"){
                     $('#btn_pay_now').click();
                 }
@@ -296,7 +292,6 @@ if (!function_exists('calculatePercent')) {
 
                 $('#input_screenshot').change(()=>{
 
-                    
                     var files=$('#input_screenshot').prop('files');
                     var file=files[0];
                     var reader = new FileReader();
@@ -311,8 +306,6 @@ if (!function_exists('calculatePercent')) {
                     reader.readAsDataURL(file);
                         
                 });
-
-
             })
 
             function checkoutNow(){
@@ -812,44 +805,27 @@ if (!function_exists('calculatePercent')) {
                                                 </div>
                                             </div>
                                             <div class="review_all120">
-                                                @foreach ($reviews as $review)
-                                                    <div class="review_item">
-                                                        <div class="review_usr_dt">
-                                                            <img src="images/left-imgs/img-1.jpg" alt="">
-                                                            <div class="rv1458">
-                                                                <h4 class="tutor_name1">{{$review->user->name}}</h4>
-                                                                <span class="time_145">{{$review->created_at->diffForHumans()}}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-box mt-20">
-                                                            @for ($i = 0; $i < 5; $i++)
-                                                            @if (($i+1)<=$review->star)
-                                                                <span class="rating-star full-star"></span>
-                                                            @else
-                                                                <span class="rating-star empty-star"></span>
-                                                            @endif
-                                                        @endfor		
-                                                        </div>
-                                                        <p class="rvds10">{{$review->body}}</p>
-                                                        <div class="rpt100">
-                                                            <span>Was this review helpful?</span>
-                                                            <div class="radio--group-inline-container">
-                                                                <div class="radio-item">
-                                                                    <input id="radio-1" name="radio" type="radio">
-                                                                    <label for="radio-1" class="radio-label">Yes</label>
-                                                                </div>
-                                                                <div class="radio-item">
-                                                                    <input id="radio-2" name="radio" type="radio">
-                                                                    <label  for="radio-2" class="radio-label">No</label>
-                                                                </div>
-                                                            </div>
-                                                            <a href="#" class="report145">Report</a>
-                                                        </div>
-                                                    </div> 
-                                                @endforeach
-                                                <div class="review_item">
-                                                    <a href="#" class="more_reviews">See More Reviews</a>
+                                               
+                                                <div id="review_container">
+
                                                 </div>
+
+                                                <div class="row" id="shimmer">				
+                                                    <div class="col-md-12">
+                                                        <br><br><br>
+                                                        <div class="main-loader mt-50">													
+                                                            <div class="spinner">
+                                                                <div class="bounce1"></div>
+                                                                <div class="bounce2"></div>
+                                                                <div class="bounce3"></div>
+                                                            </div>																										
+                                                        </div>
+                                                        <br><br><br>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <br><br><br>
+                                                    </div>
+                                                </div>			
                                             </div>
                                         </div>
                                     </div>
@@ -869,7 +845,158 @@ if (!function_exists('calculatePercent')) {
         let course = @json($course);
         let like_count = parseInt(course.like_count);
         let dislike_count = parseInt(course.dislike_count);
-        console.log(course);
+        
+        let is_review_fetching = false;
+        let is_review_tab = false;
+        let reviewArr = [];
+
+        let fetch_review_url = `/api/courses/${course.id}/reviews`
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('.my_star');
+            const starInput = document.getElementById('input_star_count');
+            
+            starInput.value=0;
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = this.getAttribute('data-value');
+                    starInput.value = rating;
+                    
+                    // Reset all stars
+                    stars.forEach(s => s.classList.remove('full-star'));
+                    stars.forEach(s => s.classList.add('empty-star'));
+                    
+                    // Highlight the selected number of stars
+                    for (let i = 0; i < rating; i++) {
+                        stars[i].classList.remove('empty-star');
+                        stars[i].classList.add('full-star');
+                    }
+                });
+            });
+
+            $('#btn_review_update').click(()=>{
+                $('#add_review_container').show();
+                
+            });
+
+            $('.nav-item').on('click', function() {
+                 
+                var elementId = $(this).attr('id');
+                 
+                if(elementId=="nav-reviews-tab"){
+                    is_review_tab = true;
+                    if(!is_review_fetching && is_review_tab){
+                        fetchReviews();
+                    }
+                }else{
+                    is_review_tab = false;
+                }
+            });
+
+            $(window).scroll(()=>{
+                if($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
+                    if(!is_review_fetching && is_review_tab){
+                        fetchReviews();
+                    }
+                }
+            });
+
+        });
+
+        function fetchReviews(id){
+            is_review_fetching = true;
+            $('#shimmer').show();
+            if(fetch_review_url==null){
+                $('#shimmer').hide();
+                return;
+            }
+
+            $.get(fetch_review_url,function(res,status){
+                is_review_fetching=false;
+                if(res){
+                    fetch_review_url = res.next_page_url;
+                    let reviews = res.data;
+                    setReviews(reviews);
+                    console.log(reviews);
+                }
+                
+            })
+        }
+
+        function setReviews(reviews){
+                $('#shimmer').hide();
+				reviews.map((review,index)=>{
+					reviewArr.push(review);	
+					$('#review_container').append(reviewComponent(review));
+				})
+        }
+
+        function reviewComponent(review){
+
+            let star ="";
+            for(var i =0;i<5;i++){
+                if((i+1)<=review.star){
+                    star +=`<span class="rating-star full-star"></span>`;
+                }else{
+                    star += `<span class="rating-star empty-star"></span>`;
+                }
+            }
+
+            return `
+                <div class="review_item">
+                    <div class="review_usr_dt">
+                        <img src="images/left-imgs/img-1.jpg" alt="">
+                        <div class="rv1458">
+                            <h4 class="tutor_name1">${review.user.name}</h4>
+                            <span class="time_145">${formatDateTime(new Date(review.created_at))}</span>
+                        </div>
+                    </div>
+                    <div class="rating-box mt-20">
+                        ${star}
+                    </div>
+                    <p class="rvds10">${review.body}</p>
+                    <div class="rpt100">
+                        <span>Was this review helpful?</span>
+                        <div class="radio--group-inline-container">
+                            <div class="radio-item">
+                                <input id="radio-1" name="radio" type="radio">
+                                <label for="radio-1" class="radio-label">Yes</label>
+                            </div>
+                            <div class="radio-item">
+                                <input id="radio-2" name="radio" type="radio">
+                                <label  for="radio-2" class="radio-label">No</label>
+                            </div>
+                        </div>
+                        <a href="#" class="report145">Report</a>
+                    </div>
+                </div> 
+            `;
+        }
+
+        function formatDateTime(cmtTime){
+			var currentTime = Date.now();
+			var min=60;
+			var h=min*60;
+			var day=h*24;
+
+			var diff =currentTime-cmtTime
+			diff=diff/1000;
+			
+			if(diff<day*3){
+				if(diff<min){
+					return "a few second ago";
+				}else if(diff>=min&&diff<h){
+					return Math.floor(diff/min)+'min ago';
+				}else if(diff>=h&&diff<day){
+					return Math.floor(diff/h)+'h ago';
+				}else{
+					return Math.floor(diff/day)+'d ago';
+				}
+			}else{
+				var date = new Date(Number(cmtTime));
+				return date.toLocaleDateString("en-GB");
+			}
+		}
 
         function playPreview(id){
             $.ajax({
@@ -1006,37 +1133,7 @@ if (!function_exists('calculatePercent')) {
 				}
 			});
 		}
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.my_star');
-            const starInput = document.getElementById('input_star_count');
-            
-            starInput.value=0;
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const rating = this.getAttribute('data-value');
-                    starInput.value = rating;
-                    
-                    // Reset all stars
-                    stars.forEach(s => s.classList.remove('full-star'));
-                    stars.forEach(s => s.classList.add('empty-star'));
-                    
-                    // Highlight the selected number of stars
-                    for (let i = 0; i < rating; i++) {
-                        stars[i].classList.remove('empty-star');
-                        stars[i].classList.add('full-star');
-                    }
-                });
-            });
-
-            $('#btn_review_update').click(()=>{
-                $('#add_review_container').show();
-                
-            });
-
-        });
+   
     </script>
 
     @endsection
-		
-		

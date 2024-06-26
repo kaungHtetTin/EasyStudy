@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Reaction;
+use App\Models\Review;
+use App\Models\Lesson;
+use App\Models\Module;
 
 class CourseController extends Controller
 {
@@ -150,5 +153,25 @@ class CourseController extends Controller
         $course->save();
 
         return response()->json(['success' => true]);
+    }
+
+
+    public function reviews($id){
+
+        $reviews = Review::with('user:id,name,email,fcm_token')->where('course_id',$id)->paginate(10);
+
+        return $reviews;
+    }
+
+    public function lessons(Request $req, $id){
+        $lessons = Lesson::with('course')->with('module')->where('course_id',$id)->get();
+        $modules = Module::where('course_id',$id)->get();
+        $course = Course::find($id);
+        
+        $res['modules'] = $modules;
+        $res['lessons'] = $lessons;
+        $res['course'] = $course;
+
+        return $res;
     }
 }

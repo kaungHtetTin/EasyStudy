@@ -17,7 +17,10 @@ class ReviewFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id'=>rand(1,100),
+            'course_id'=>1,
+            'body'=>ucwords($this->faker->paragraph),
+            'star'=>rand(1,5)
         ];
     }
 }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('course_id');
-            $table->string('body')->nullable();
-            $table->integer('star')->default(5)->nullable();
+            $table->text('body')->nullable();
+            $table->integer('star')->default(5);
             $table->timestamps();
 
             $table->index('user_id');

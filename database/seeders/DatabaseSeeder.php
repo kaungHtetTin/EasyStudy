@@ -14,6 +14,7 @@ use App\Models\Instructor;
 use App\Models\SubCategory;
 use App\Models\Topic;
 use App\Models\Level;
+use App\Models\Review;
 use App\Models\PaymentMethodType;
 
 class DatabaseSeeder extends Seeder
@@ -68,6 +69,7 @@ class DatabaseSeeder extends Seeder
         Course::factory(50)->create();
         Module::factory(500)->create();
         Lesson::factory(3000)->create();
+        Review::factory(100)->create();
 
         $instructors->each(function ($instructor) use ($categories) {
             $instructor->categories()->attach(

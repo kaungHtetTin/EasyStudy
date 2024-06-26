@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\InstructorController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -44,7 +45,12 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/courses',[CourseController::class,'index']);
     Route::post('/courses/react/{id}',[CourseController::class,'react']);
     
+
 });
 
 Route::post('/courses/pre-view/{id}',[CourseController::class,'playPreView']);
 Route::post('/courses/share/{id}',[CourseController::class,'share']);
+Route::get('/courses/{id}/reviews',[CourseController::class,'reviews']);
+Route::get('/courses/{id}/lessons',[CourseController::class,'lessons']);
+
+Route::get('/instructors',[InstructorController::class,'index']);

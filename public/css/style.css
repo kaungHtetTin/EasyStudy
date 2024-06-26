@@ -3268,9 +3268,9 @@ i.icon2 {
 }
 
 .rating-star {
-	font-size: 1.3rem;
-    width: 1.3rem;
-    height: 1.3rem;
+	font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
     position: relative;
     display: block;
     float: left;
@@ -3334,7 +3334,7 @@ i.icon2 {
 	display: flex;
     cursor: pointer;
     height: auto;
-    margin-top: 20px;
+    margin-top: 5px;
     border-radius: 0px;
 }
 
@@ -3342,7 +3342,7 @@ i.icon2 {
 	display: flex;
     flex-basis: 50%;
 	margin-right: 20px;
-	height: 1.4rem !important;
+	height: 1rem !important;
 }
 
 .progress1 .progress-bar {
