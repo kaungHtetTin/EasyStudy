@@ -36,7 +36,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('carts',function(Blueprint $table){
+        Schema::table('reactions',function(Blueprint $table){
             $table->dropIndex(['user_id']);
             $table->dropIndex(['content_id']);
           
@@ -45,6 +45,6 @@ return new class extends Migration
             
         });
 
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('reactions');
     }
 };

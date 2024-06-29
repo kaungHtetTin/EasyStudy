@@ -13,6 +13,7 @@ use App\Models\Review;
 use App\Models\PaymentHistory;
 use App\Models\Reaction;
 use App\Models\Subscriber;
+use App\Models\QuestionType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -153,7 +154,9 @@ class CourseController extends Controller
         $course = Course::find($id);
         $user = Auth::user();
         $myReview=false;
-
+        
+        
+     
         $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
         if($access==null){
             return redirect()->route('course_detail',['id'=>$id]);
@@ -167,12 +170,18 @@ class CourseController extends Controller
             }
 
         }
-         
+        
+        $question_types = QuestionType::where('course_id',$id)->get();
+        if(count($question_types)==0){
+            $question_types = false;
+        }
+
         return view('course_learn',[
             'page_title'=>'Learning',
             'course'=>$course,
             'myReview'=>$myReview,
             'access'=>$access,
+            'question_types'=>$question_types,
         ]);
     }
 

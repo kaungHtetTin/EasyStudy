@@ -32,7 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
-         Schema::table('reviews',function(Blueprint $table){
+         Schema::table('topics',function(Blueprint $table){
             $table->dropIndex(['sub_category_id']);
             $table->dropForeign(['sub_category_id']);
             

@@ -31,7 +31,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('lessons',function(Blueprint $table){
+        Schema::table('course_keyword',function(Blueprint $table){
            
             $table->dropForeign(['course_id']);
             $table->dropForeign(['keyword_id']);

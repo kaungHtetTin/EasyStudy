@@ -177,10 +177,98 @@ if (!function_exists('calculatePercent')) {
                 display: inline-block;
             }
 
+            .ask_question{
+                cursor: pointer;
+                flex:1;
+            }
+ 
+            .rv_srch1 {
+                height: 30px;
+                font-size: 12px;
+                font-weight: 400;
+                font-family: 'Roboto', sans-serif;
+                color: #333;
+                padding-left: 15px;
+                padding-right: 40px;
+                border: 1px solid #efefef;
+                border-radius: 3px;
+            }
+
+            .rvsrch_btn1 {
+               
+                border-radius: 3px;
+                border: 0;
+                height: 26px;
+                width: 26px;
+                background: #475692;
+                color: #fff;
+                font-size: 14px;
+            }
+
+            .question_related{
+                padding:10px;
+                border: 1px solid #dedfe0;
+                border-radius:3px;
+                margin-top:7px;
+                margin-left:30px;
+                cursor: pointer;
+            }
+
+            .question_related:hover{
+                background: #475692;
+                color:white;
+            }
+
+            #toolbar {
+                margin-bottom: 10px;
+                display: flex;
+                gap: 10px;
+            }
+
+
+            #toolbar button:hover {
+                color: #475692;
+            }
+
+            #toolbar button.active {
+                color: #475692;
+            }
+
+
+            pre code {
+                background-color: #ecffeb;
+                color: #3a3a3a;
+                font-family: 'Courier New', Courier, monospace;
+                padding: 3px;
+                border-radius: 2px;
+                display: block;
+                font-size: 12px;
+                white-space: pre-wrap;
+            }
+
+            .night-mode #question_title{
+                color:white;
+            }
+
+            .night-mode #question_title:focus{
+                color:#333;
+            }
+
+            .radio-item input[type="radio"]:checked + .radio-label:before {
+                background-color: #475692;
+                box-shadow: inset 0 0 0 2px #f4f4f4;
+            }
+            .custom-radio input:checked~.checkmark {
+                background-color: #48f321;
+                border-color: #2196F3;
+            }
+             
+
+        
         </style>
     </head>
 
-<body onresize="adjustLayout()">
+<body onresize="">
     <div class="fixedLessonContainer">
         <div class="row" style="padding-right:0px;">
             <div class="col-lg-8 col-md-6" style="padding-right:0px;" id="player-section">
@@ -314,16 +402,139 @@ if (!function_exists('calculatePercent')) {
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="nav-q-and-a" role="tabpanel">
-                                            <br><br><br>
-                                            <div class="main-loader mt-50 mb-50">													
-                                                <div class="spinner">
-                                                    <div class="bounce1"></div>
-                                                    <div class="bounce2"></div>
-                                                    <div class="bounce3"></div>
-                                                </div>																										
+                                            <br>
+                                            <div class="row" style="margin-right:5px;" id="search_input">
+                                                <div class="col-lg-4 col-md-6 col-4">
+                                                     <h5 id="btn_ask" style="cursor: pointer;margin-bottom:30px;">Ask a question</h5>
+                                                </div>
+                                                <div class="col-lg-8 col-md-6 col-8">
+                                                    <input style="margin-right:0;margin-left:0;" class="rv_srch" type="text" placeholder="Search questions...">
+                                                    <button class="rvsrch_btn"><i class='uil uil-search'></i></button>
+                                                
+                                                </div>
                                             </div>
-                                            <br><br><br>
-                                            <br><br><br>
+
+                                            <div id="ask_input" style="display: none">
+                                                <h5 id="btn_notAsk" style="cursor: pointer;margin-bottom:30px;"><i class='uil uil-arrow-left'></i> Back</h5>
+                                                
+                                                <form action="">
+                                                    <div class="course__form" style="padding:30px;">
+                                                        <div class="general_info10">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12">
+                                                                    @if ($question_types)
+                                                                        <h6>My question related to </h6>
+                                                                        <div class="rpt100">
+                                                                            <div class="radio--group-inline-container">
+                                                                                @foreach ($question_types as $type)
+                                                                                    
+                                                                                    <div class="radio-item">
+                                                                                        <input id="{{$type->id}}" name="question_type" type="radio" value="{{$type->id}}" style="margin-right:20px;">
+                                                                                        <label for="{{$type->id}}" class="radio-label"> <b>{{$type->title}}</b></label>
+                                                                                    </div> <br>
+                                                                                
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-12">															
+                                                                    <div class="ui search focus lbel25 mt-30">	
+                                                                        <label><h4>Title or summary</h4></label>
+                                                                        <div class="ui form swdh30">
+                                                                            <div class="field">
+                                                                                <textarea rows="3" name="question_title" id="question_title" placeholder="Item description here..."></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="help-block">220 words</div>
+                                                                    </div>								
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-12">
+                                                                    <div class="course_des_textarea mt-30 lbel25">
+                                                                        <label for="question_details"><h4>Detail (Optional)</h4></label>
+                                                                        <div class="course_des_bg">
+
+                                                                            <div id="toolbar">
+                                                                                <button data-command="bold" id="boldBtn"><i class="fas fa-bold"></i></button>
+                                                                                <button data-command="italic" id="italicBtn"><i class="fas fa-italic"></i></button>
+                                                                                <button data-command="insertUnorderedList" id="listBtn"><i class="fas fa-list-ul"></i></button>
+                                                                                <button id="codeBtn"><i class="fas fa-code"></i></button>
+                                                                                <button id="imageBtn"><i class="fas fa-image"></i></button>
+                                                                            </div>
+                                                                            <div class="ui form swdh30">
+                                                                                <div class="field">
+                                                                                    <div id="editor" contenteditable="true"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <button style="width:100%;marign-top:20px;" class="steps_btn">Submit for Review</button>
+                                                    </div>
+                                                    
+                                                </form>
+                                                
+                                            </div>
+
+                                            <div id="question_container">
+                                                <div class="review_item">
+                                                    <div class="review_usr_dt">
+                                                        <img src="{{asset('images/left-imgs/img-3.jpg')}}" alt="">
+                                                        <div class="rv1458">
+                                                            <h5 class="">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</h5>
+                                                            <span style="display: inline" class="time_145">By Kaung Htet Tin</span> . <span style="display: inline"  class="time_145">5 days ago</span>
+                                                            <span style="float:right;cursor:pointer"><u>See answers </u><i class='uil uil-comments-alt'></i> 12 </span>
+                                                        </div>
+                                                    </div>   
+                                                </div>
+                                                <div class="review_item">
+                                                    <div class="review_usr_dt">
+                                                        <img src="{{asset('images/left-imgs/img-3.jpg')}}" alt="">
+                                                        <div class="rv1458">
+                                                            <h5 class="">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</h5>
+                                                            <span style="display: inline" class="time_145">By Kaung Htet Tin</span> . <span style="display: inline"  class="time_145">5 days ago</span>
+                                                            <span style="float:right;cursor:pointer"><u>See answers </u><i class='uil uil-comments-alt'></i> 12 </span>
+                                                        </div>
+                                                    </div>   
+                                                </div>
+                                                <div class="review_item">
+                                                    <div class="review_usr_dt">
+                                                        <img src="{{asset('images/left-imgs/img-3.jpg')}}" alt="">
+                                                        <div class="rv1458">
+                                                            <h5 class="">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</h5>
+                                                            <span style="display: inline" class="time_145">By Kaung Htet Tin</span> . <span style="display: inline"  class="time_145">5 days ago</span>
+                                                            <span style="float:right;cursor:pointer"><u>See answers</u><i class='uil uil-comments-alt'></i> 12 </span>
+                                                        </div>
+                                                    </div>   
+                                                </div>
+                                                <div class="review_item">
+                                                    <div class="review_usr_dt">
+                                                        <img src="{{asset('images/left-imgs/img-3.jpg')}}" alt="">
+                                                        <div class="rv1458">
+                                                            <h5 class="">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</h5>
+                                                            <span style="display: inline" class="time_145">By Kaung Htet Tin</span> . <span style="display: inline"  class="time_145">5 days ago</span>
+                                                            <span style="float:right;cursor:pointer"><u>See answers</u><i class='uil uil-comments-alt'></i> 12 </span>
+                                                        </div>
+                                                    </div>   
+                                                </div>
+                                            </div>
+
+                                            <div id="question_loading">
+                                                <br><br><br>
+                                                <div class="main-loader mt-50 mb-50">													
+                                                    <div class="spinner">
+                                                        <div class="bounce1"></div>
+                                                        <div class="bounce2"></div>
+                                                        <div class="bounce3"></div>
+                                                    </div>																										
+                                                </div>
+                                                <br><br><br>
+                                                <br><br><br>
+                                            </div>
                                         </div>
                                         <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
                                             <div class="student_reviews" style="">
@@ -520,7 +731,7 @@ if (!function_exists('calculatePercent')) {
                                                         <div class="review_all120">
                                                         
                                                             <div id="review_container">
-
+                                                                
                                                             </div>
 
                                                             <div class="row" id="shimmer">				
@@ -644,6 +855,7 @@ if (!function_exists('calculatePercent')) {
         const apiToken = "{{$api_token}}";
         const course = @json($course);
         const access = @json($access);
+        const question_types = @json($question_types);
         let lessons, modules;
         let currentLesson = null;
         
@@ -665,7 +877,7 @@ if (!function_exists('calculatePercent')) {
             });
             
             $('#nav-q-and-a-tab').click(()=>{
-                alert('Q&A');
+               
             });
 
             $('#nav-reviews-tab').click(()=>{
@@ -673,7 +885,7 @@ if (!function_exists('calculatePercent')) {
             })
 
             $('#nav-anouncements-tab').click(()=>{
-                alert('Anouncements');
+                
             });
 
 
@@ -739,12 +951,37 @@ if (!function_exists('calculatePercent')) {
                 }
             });
 
+            $('#btn_ask').click(()=>{
+                $('#search_input').hide();
+                $('#ask_input').show();
+                $('#question_container').hide();
+            })
+
+            $('#btn_notAsk').click(()=>{
+                $('#search_input').show();
+                $('#ask_input').hide();
+                $('#question_container').show();
+            })
+
             $(window).scroll(()=>{
                 if($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
                     if(!is_review_fetching && is_review_tab){
                         fetchReviews();
                     }
                 }
+            });
+
+            $('.question_related').each((index,e)=>{
+                $(e).click(()=>{
+                    $('.question_related').each((j,element)=>{
+                        $(element).css({"background":""});
+                        $(element).css({"color":""});
+                    })
+                    
+                    $(e).css({"background":"#475692"});
+                    $(e).css({"color":"#fff"});
+
+                });
             });
 
         });
@@ -927,12 +1164,15 @@ if (!function_exists('calculatePercent')) {
 
     </script>
 
+
+
     <script src="{{asset('js/vertical-responsive-menu.min.js')}}"></script>
 	<script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 	<script src="{{asset('vendor/OwlCarousel/owl.carousel.js')}}"></script>
 	<script src="{{asset('vendor/semantic/semantic.min.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>
 	<script src="{{asset('js/night-mode.js')}}"></script>
-	
+	<script src="{{asset('js/editor.js')}}"></script>
+
 </body>
 </html>

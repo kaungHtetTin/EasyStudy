@@ -32,7 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('learning_histories',function(Blueprint $table){
+        Schema::table('payment_methods',function(Blueprint $table){
             $table->dropForeign(['instructor_id']);
             $table->dropForeign(['payment_method_type_id']);
         });

@@ -36,7 +36,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('lessons',function(Blueprint $table){
+        Schema::table('mail_boxes',function(Blueprint $table){
             $table->dropIndex(['receiver_id']);
             $table->dropIndex(['user_id']);
 

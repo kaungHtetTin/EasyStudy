@@ -35,7 +35,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('reviews',function(Blueprint $table){
+        Schema::table('instructors',function(Blueprint $table){
             $table->dropIndex(['user_id']);
             
             $table->dropForeign(['user_id']);

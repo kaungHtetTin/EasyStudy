@@ -40,6 +40,39 @@ Reset Css
     background: #333;
 }
 
+#editor {
+    border: 1px solid rgba(34, 36, 38, .15);
+    padding: 10px;
+    background: #fff;
+    color:#333;
+    min-height: 200px;
+    border-radius: 3px;
+    white-space: pre-wrap;
+}
+
+#editor:focus {
+    border: 1px solid #333;
+    /* Change border color on focus */
+    background: #fff;
+    color: #333;
+    outline: none;
+    /* Remove the default outline */
+}
+
+#toolbar button {
+    background-color: transparent;
+    color: #333;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    transition: color 0.3s;
+}
+
 
 /* ===================== */
 
@@ -3504,6 +3537,22 @@ i.icon2 {
 	border-radius: 6px;
 }
 
+.steps_btn {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    background: #475692;
+    padding: 0px 20px;
+    border: 0;
+    height: 40px;
+}
+
+.steps_btn:hover {
+    color: #fff;
+    background: #333;
+}
+
 .more_reviews {
     display: block;
     text-align: center;
@@ -3544,6 +3593,11 @@ i.icon2 {
 .radio--group-inline-container .radio-item input[type="radio"]:checked + .radio-label:before {
 	background-color: #475692;
 	box-shadow: inset 0 0 0 2px #f4f4f4;
+}
+
+.radio-item input[type="radio"]:checked+.radio-label:before {
+    background-color: #475692;
+    box-shadow: inset 0 0 0 2px #f4f4f4;
 }
 
 .radio--group-inline-container .radio-item input[type="radio"]:focus + .radio-label:before {

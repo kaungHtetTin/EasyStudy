@@ -9,6 +9,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/instructors/subscribe/{id}',[InstructorController::class,'subscribe'])->name('instructor.subscribe');
 
     Route::get('/teach-on',[LayoutController::class,'teachOn'])->name('teach-on');
+
+    Route::post('/questions',[QuestionController::class,'create'])->name('question.create');
    
 });
 

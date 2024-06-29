@@ -35,7 +35,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('carts',function(Blueprint $table){
+        Schema::table('subscribers',function(Blueprint $table){
             $table->dropIndex(['user_id']);
             $table->dropIndex(['instructor_id']);
           
