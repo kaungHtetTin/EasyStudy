@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('login_time')->default(1);
             $table->date('last_active')->nullable();
             $table->string('fcm_token')->nullable();
+            $table->string('image_url')->nullable();
             $table->timestamps();
         });
     }

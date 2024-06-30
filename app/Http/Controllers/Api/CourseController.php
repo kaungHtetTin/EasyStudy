@@ -9,6 +9,8 @@ use App\Models\Reaction;
 use App\Models\Review;
 use App\Models\Lesson;
 use App\Models\Module;
+use App\Models\Question;
+use App\Models\Answer;
 
 class CourseController extends Controller
 {
@@ -159,8 +161,17 @@ class CourseController extends Controller
     public function reviews($id){
 
         $reviews = Review::with('user:id,name,email,fcm_token')->where('course_id',$id)->paginate(10);
-
         return $reviews;
+    }
+
+    public function questions($id){
+        $questions = Question::with('user:id,name,email,fcm_token')->where('course_id',$id)->paginate(10);
+        return $questions;
+    }
+
+    public function answers($id, $qid){
+        $answers = Answer::with('user:id,name,email,fcm_token,image_url')->where('question_id',$qid)->paginate(10);
+        return $answers;
     }
 
     public function lessons(Request $req, $id){
@@ -174,4 +185,6 @@ class CourseController extends Controller
 
         return $res;
     }
+
+
 }

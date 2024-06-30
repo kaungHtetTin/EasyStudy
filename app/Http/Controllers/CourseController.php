@@ -154,8 +154,6 @@ class CourseController extends Controller
         $course = Course::find($id);
         $user = Auth::user();
         $myReview=false;
-        
-        
      
         $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
         if($access==null){

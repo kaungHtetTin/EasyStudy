@@ -90,7 +90,7 @@ if (!function_exists('calculatePercent')) {
     $four_star_percent = calculatePercent($total_four_star,$total_star_count);
     $five_star_percent = calculatePercent($total_five_star,$total_star_count);
 
- $api_token = Cookie::get('api_auth_token');
+    $api_token = Cookie::get('api_auth_token');
 @endphp
 
 <!DOCTYPE html>
@@ -263,8 +263,6 @@ if (!function_exists('calculatePercent')) {
                 border-color: #2196F3;
             }
              
-
-        
         </style>
     </head>
 
@@ -415,9 +413,7 @@ if (!function_exists('calculatePercent')) {
                                             </div>
 
                                             <div id="ask_input" style="display: none">
-                                                <h5 id="btn_notAsk" style="cursor: pointer;margin-bottom:30px;"><i class='uil uil-arrow-left'></i> Back</h5>
-                                                
-                                                <form action="">
+                                                <h5 id="btn_back_ask" style="cursor: pointer;margin-bottom:30px;"><i class='uil uil-arrow-left'></i> Back</h5>
                                                     <div class="course__form" style="padding:30px;">
                                                         <div class="general_info10">
                                                             <div class="row">
@@ -427,13 +423,13 @@ if (!function_exists('calculatePercent')) {
                                                                         <div class="rpt100">
                                                                             <div class="radio--group-inline-container">
                                                                                 @foreach ($question_types as $type)
-                                                                                    
                                                                                     <div class="radio-item">
-                                                                                        <input id="{{$type->id}}" name="question_type" type="radio" value="{{$type->id}}" style="margin-right:20px;">
+                                                                                        <input class="question_type_input" id="{{$type->id}}" name="question_type" type="radio" value="{{$type->id}}" style="margin-right:20px;">
                                                                                         <label for="{{$type->id}}" class="radio-label"> <b>{{$type->title}}</b></label>
                                                                                     </div> <br>
                                                                                 
                                                                                 @endforeach
+                                                                                <p id="question_type_error" style="color:red;font-size:12px; display:none">Please select a question related</p>
                                                                             </div>
                                                                         </div>
                                                                     @endif
@@ -447,13 +443,13 @@ if (!function_exists('calculatePercent')) {
                                                                             </div>
                                                                         </div>
                                                                         <div class="help-block">220 words</div>
+                                                                        <p id="question_title_error" style="color:red;font-size:12px; display:none">Please enter the question title or summary.</p>
                                                                     </div>								
                                                                 </div>
                                                                 <div class="col-lg-12 col-md-12">
                                                                     <div class="course_des_textarea mt-30 lbel25">
                                                                         <label for="question_details"><h4>Detail (Optional)</h4></label>
                                                                         <div class="course_des_bg">
-
                                                                             <div id="toolbar">
                                                                                 <button data-command="bold" id="boldBtn"><i class="fas fa-bold"></i></button>
                                                                                 <button data-command="italic" id="italicBtn"><i class="fas fa-italic"></i></button>
@@ -466,60 +462,55 @@ if (!function_exists('calculatePercent')) {
                                                                                     <div id="editor" contenteditable="true"></div>
                                                                                 </div>
                                                                             </div>
-                                                                            
+                                                                         
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <br>
-                                                        <button style="width:100%;marign-top:20px;" class="steps_btn">Submit for Review</button>
-                                                    </div>
-                                                    
-                                                </form>
+                                                        {{-- <input type="hidden" name="question_detail" id="editorContent"> --}}
+                                                    <form action="{{route('question.create')}}" id="question_form" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" id="question_type_input" name="question_type">
+                                                        <input type="hidden" id="question_title_input" name="question_title">
+                                                        <input type="hidden" id="question_detail_input" name="question_detail">
+                                                        <input type="hidden" id="course_id" name="course_id" value="{{$course->id}}">
+                                                        <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
+                                                    </form>
+                                                    <button id="btn_question_publish" style="width:100%;marign-top:20px;" class="steps_btn">Publish</button>
+                                                </div>
                                                 
                                             </div>
 
                                             <div id="question_container">
-                                                <div class="review_item">
-                                                    <div class="review_usr_dt">
-                                                        <img src="{{asset('images/left-imgs/img-3.jpg')}}" alt="">
-                                                        <div class="rv1458">
-                                                            <h5 class="">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</h5>
-                                                            <span style="display: inline" class="time_145">By Kaung Htet Tin</span> . <span style="display: inline"  class="time_145">5 days ago</span>
-                                                            <span style="float:right;cursor:pointer"><u>See answers </u><i class='uil uil-comments-alt'></i> 12 </span>
-                                                        </div>
-                                                    </div>   
-                                                </div>
-                                                <div class="review_item">
-                                                    <div class="review_usr_dt">
-                                                        <img src="{{asset('images/left-imgs/img-3.jpg')}}" alt="">
-                                                        <div class="rv1458">
-                                                            <h5 class="">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</h5>
-                                                            <span style="display: inline" class="time_145">By Kaung Htet Tin</span> . <span style="display: inline"  class="time_145">5 days ago</span>
-                                                            <span style="float:right;cursor:pointer"><u>See answers </u><i class='uil uil-comments-alt'></i> 12 </span>
-                                                        </div>
-                                                    </div>   
-                                                </div>
-                                                <div class="review_item">
-                                                    <div class="review_usr_dt">
-                                                        <img src="{{asset('images/left-imgs/img-3.jpg')}}" alt="">
-                                                        <div class="rv1458">
-                                                            <h5 class="">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</h5>
-                                                            <span style="display: inline" class="time_145">By Kaung Htet Tin</span> . <span style="display: inline"  class="time_145">5 days ago</span>
-                                                            <span style="float:right;cursor:pointer"><u>See answers</u><i class='uil uil-comments-alt'></i> 12 </span>
-                                                        </div>
-                                                    </div>   
-                                                </div>
-                                                <div class="review_item">
-                                                    <div class="review_usr_dt">
-                                                        <img src="{{asset('images/left-imgs/img-3.jpg')}}" alt="">
-                                                        <div class="rv1458">
-                                                            <h5 class="">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</h5>
-                                                            <span style="display: inline" class="time_145">By Kaung Htet Tin</span> . <span style="display: inline"  class="time_145">5 days ago</span>
-                                                            <span style="float:right;cursor:pointer"><u>See answers</u><i class='uil uil-comments-alt'></i> 12 </span>
-                                                        </div>
-                                                    </div>   
+                                                
+                                            </div>
+
+                                            <div id="answer_container" style="display:none">
+                                                <h5 id="btn_back_answer" style="cursor: pointer;margin-bottom:30px;"><i class='uil uil-arrow-left'></i> Back</h5>
+                                                <div>
+                                                    <div class="review_item">
+                                                        <div class="review_usr_dt" id="question_layout">
+                                                            
+                                                        </div> 
+                                                        <div style="padding-left:50px;" id="answers_layout">
+
+                                                            <div class="review_item">
+                                                                <div class="review_usr_dt">
+                                                                    <img src="" alt="" style="width:30px; height:30px;">
+                                                                    <div class="rv1458">
+                                                                        <div>
+                                                                            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, ex vel. Maiores mollitia voluptatum ab, cum rerum cupiditate nobis, veritatis sint praesentium consequuntur, laudantium corporis modi omnis! Eos, repellat esse.</div>
+                                                                        </div>
+                                                                        <span style="display: inline" class="time_145">By kaung htet tin</span> . <span style="display: inline"  class="time_145">15 min ago</span>
+                                                                       
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>  
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -865,9 +856,15 @@ if (!function_exists('calculatePercent')) {
         let is_review_tab = false;
         let reviewArr = [];
 
-        let fetch_review_url = `/api/courses/${course.id}/reviews`
+        let is_question_fetching = false;
+        let is_question_tab = false;
+        let questionArr = [];
 
-        console.log('php course', course);
+        let fetch_review_url = `/api/courses/${course.id}/reviews`
+        let fetch_question_url = `/api/courses/${course.id}/questions`;
+        let fetch_answer_url = `/api/courses/${course.id}/questions/`; // dynamically concatenate 
+
+        let selectedQuestionTypeId = null;
 
         $(document).ready(()=>{
             adjustLayout();
@@ -949,6 +946,13 @@ if (!function_exists('calculatePercent')) {
                 }else{
                     is_review_tab = false;
                 }
+
+                if(elementId=="nav-q-and-a-tab"){
+                    is_question_tab = true;
+                    if(!is_question_fetching && is_question_tab){
+                        fetchQuestion();
+                    }
+                }
             });
 
             $('#btn_ask').click(()=>{
@@ -957,16 +961,27 @@ if (!function_exists('calculatePercent')) {
                 $('#question_container').hide();
             })
 
-            $('#btn_notAsk').click(()=>{
+            $('#btn_back_ask').click(()=>{
                 $('#search_input').show();
                 $('#ask_input').hide();
                 $('#question_container').show();
+            })
+
+            $('#btn_back_answer').click(()=>{
+                $('#question_container').show();
+                $('#answer_container').hide();
+
+                $('#question_loading').hide();
             })
 
             $(window).scroll(()=>{
                 if($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
                     if(!is_review_fetching && is_review_tab){
                         fetchReviews();
+                    }
+
+                    if(!is_question_fetching && is_question_tab){
+                        fetchQuestion();
                     }
                 }
             });
@@ -983,9 +998,121 @@ if (!function_exists('calculatePercent')) {
 
                 });
             });
+           
+
+            $('.question_type_input').on('change', function() {
+                selectedQuestionTypeId = $(this).val();
+            });
+
+            $('#btn_question_publish').click(()=>{
+                
+               publishQuestion();
+            });
 
         });
 
+        function publishQuestion(){
+            let validated = true;
+            $('#question_type_error').hide();
+            $('#question_title_error').hide();
+            if(selectedQuestionTypeId!=null){
+                $('#question_type_input').val(selectedQuestionTypeId);
+            }else{
+                $('#question_type_error').show();
+                validated=false;
+
+            }
+
+            let question_title = $('#question_title').val();
+
+            if(question_title==""){
+                $('#question_title_error').show();
+                validated=false;
+            }
+
+            
+
+            $('#question_title_input').val(question_title);
+            $('#question_detail_input').val($('#editor').html());
+
+
+            if(validated)  $('#question_form').submit();
+        }
+
+        function fetchQuestion(){
+            is_question_fetching = true;
+            $('#question_loading').show();
+            if(fetch_question_url==null){
+                $('#question_loading').hide();
+                return;
+            }
+
+            $.get(fetch_question_url,function(res,status){
+                is_question_fetching=false;
+                $('#question_loading').hide();
+                if(res){
+                    fetch_question_url = res.next_page_url;
+                    let questions = res.data;
+                    setQuestions(questions);
+                     
+                }
+                
+            })
+        }
+
+        function setQuestions(questions){
+            questions.map((question,index)=>{
+                $('#question_container').append(questionComponent(question));
+                questionArr.push(question);
+            })
+        }
+
+        function questionComponent(question){
+            return `
+                <div class="review_item">
+                    <div class="review_usr_dt">
+                        <img src="" alt="">
+                        <div class="rv1458" style="width:100%">
+                            <h5 class="">${question.title}</h5>
+                            <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
+                            <span style="float:right;cursor:pointer" onclick="seeAnswer(${question.id})"><u>See answers </u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                        </div>
+                    </div>   
+                </div>
+            `;
+        }
+
+        function seeAnswer(question_id){
+            const question = questionArr.find(q=>q.id ===question_id );
+            
+            $('#question_layout').html(`
+                <img src="" alt="">
+                <div class="rv1458" style="width:100%">
+                    <div>
+                        <h5 class="">${question.title}</h5>
+                        <div>${question.body}</div>
+                        <br>
+                    </div>
+                    
+                    <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
+                    <span style="float:right;">Answers<i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                </div>
+            `);
+
+
+            $('#question_container').hide();
+            $('#answer_container').show();
+
+            $('#question_loading').show();
+
+            fetch_answer_url= fetch_answer_url+`${question.id}/answers`;
+            fetchAnswer();
+
+        }
+
+        function fetchAnswer(question_id){
+            
+        }
 
         function adjustLayout(){
             var w = window.innerWidth;
@@ -1003,7 +1130,7 @@ if (!function_exists('calculatePercent')) {
                 $('#lesson-section').show();
                 $('#nav-content-tab').hide();
                 $('#nav-overview-tab').click();
-                 $('#course_rating_text1').hide();
+                $('#course_rating_text1').hide();
                 $('#course_rating_text2').show();
                 
             }
@@ -1067,7 +1194,7 @@ if (!function_exists('calculatePercent')) {
         }
 
         
-        function fetchReviews(id){
+        function fetchReviews(){
             is_review_fetching = true;
             $('#shimmer').show();
             if(fetch_review_url==null){
