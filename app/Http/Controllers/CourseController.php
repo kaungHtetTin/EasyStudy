@@ -41,7 +41,7 @@ class CourseController extends Controller
 
         $courses = Course::with('instructor.user')->where('sub_category_id',$sub_category_id)->get();
 
-        return view('courses',[
+        return view('student.courses',[
             'page_title'=>'Courses',
             'sub_categories'=>$sub_categories,
             'sub_category_id'=>$sub_category_id,
@@ -91,7 +91,7 @@ class CourseController extends Controller
         $course->save();
 
 
-        return view('course_detail',[
+        return view('student.course_detail',[
             'page_title'=>'Detail',
             'course'=>$course,
             'myReview'=>$myReview,
@@ -106,7 +106,7 @@ class CourseController extends Controller
         $user = Auth::user();
         $myCourses = SavedCourse::where('user_id',$user->id)->get();
 
-        return view('my_courses',[
+        return view('student.my_courses',[
             'page_title'=>'My Courses',
             'myCourses'=>$myCourses,
         ]);
@@ -174,7 +174,7 @@ class CourseController extends Controller
             $question_types = false;
         }
 
-        return view('course_learn',[
+        return view('student.course_learn',[
             'page_title'=>'Learning',
             'course'=>$course,
             'myReview'=>$myReview,

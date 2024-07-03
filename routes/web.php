@@ -24,6 +24,18 @@ use App\Http\Controllers\QuestionController;
 
 // main pages
 Route::get('/',[LayoutController::class,'index'])->name('index');
+Route::get('/explore',[LayoutController::class,'explore'])->name('explore');
+
+// secondary pages
+Route::get('/about-us',[LayoutController::class,'aboutPage'])->name('about-us');
+//Route::get('/blog',[LayoutController::class,'aboutPage'])->name('about-us');
+Route::get('/contact-us',[LayoutController::class,'contactPage'])->name('contact-us');
+Route::get('/get-mobile-app',[LayoutController::class,'getAppPage'])->name('get-mobile-app');
+Route::get('/help',[LayoutController::class,'helpPage'])->name('help');
+Route::get('/privacy-policy',[LayoutController::class,'privacyPolicyPage'])->name('privacy-policy');
+Route::get('/terms',[LayoutController::class,'termPage'])->name('terms');
+Route::get('/teach-on',[LayoutController::class,'teachOnPage'])->name('teach-on');
+Route::get('/sitemap',[LayoutController::class,'siteMapPage'])->name('sitemap');
 
 
 // main courses
@@ -38,6 +50,8 @@ Route::get('/instructors/{id}',[InstructorController::class,'detail'])->name('in
 Route::get('/editor',function(){
     return view('editor');
 });
+
+
 
 Route::post('/editor',[CourseController::class,'update']);
 
@@ -64,8 +78,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/reviews/update',[ReviewController::class,'update'])->name('reviews.update');
 
     Route::post('/instructors/subscribe/{id}',[InstructorController::class,'subscribe'])->name('instructor.subscribe');
-
-    Route::get('/teach-on',[LayoutController::class,'teachOn'])->name('teach-on');
 
     Route::post('/questions',[QuestionController::class,'create'])->name('question.create');
    

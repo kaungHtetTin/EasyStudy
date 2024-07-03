@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\InstructorController;
+use App\Http\Controllers\Api\LearningHistoryController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -41,11 +42,10 @@ Route::post('/sanctum/token', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', function(Request $req){return $req->user();});
-    
     Route::get('/courses',[CourseController::class,'index']);
     Route::post('/courses/react/{id}',[CourseController::class,'react']);
-    
 
+    Route::post('/learning-histories',[LearningHistoryController::class,'create']);
 });
 
 Route::post('/courses/pre-view/{id}',[CourseController::class,'playPreView']);

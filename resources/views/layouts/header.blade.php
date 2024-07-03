@@ -27,15 +27,17 @@
         </div>
     </div>
     
-    <div class="search120" >
-        <div class="ui search">
-            <div class="ui left icon input swdh10" >
-                <input class="prompt srch10" type="text" placeholder="Search for Tuts Videos, Tutors, Tests and more..">
-                <i class='uil uil-search-alt icon icon1'></i>
+    @if ($page_title!=='Explore')
+        <div class="search120" >
+            <div class="ui search">
+                <div class="ui left icon input swdh10" >
+                    <input class="prompt srch10" type="text" placeholder="Search for Tuts Videos, Tutors, Tests and more..">
+                    <i class='uil uil-search-alt icon icon1'></i>
+                </div>
             </div>
         </div>
-    </div>
-
+    @endif
+    
     @auth
     <div class="header_right">
         <ul>

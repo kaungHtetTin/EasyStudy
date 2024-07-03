@@ -189,14 +189,14 @@
         </div>
         <div class="left_footer">
             <ul>
-                <li><a href="about_us.html">About</a></li>
-                <li><a href="press.html">Press</a></li>
-                <li><a href="contact_us.html">Contact Us</a></li>
-                <li><a href="coming_soon.html">Advertise</a></li>
-                <li><a href="coming_soon.html">Developers</a></li>
-                <li><a href="terms_of_use.html">Copyright</a></li>
-                <li><a href="terms_of_use.html">Privacy Policy</a></li>
-                <li><a href="terms_of_use.html">Terms</a></li>
+                <li><a href="{{route('about-us')}}">About</a></li>
+                <li><a href="press.html">Blog</a></li>
+                <li><a href="{{route('contact-us')}}">Contact Us</a></li>
+                <li><a href="{{route('teach-on')}}">Teach On</a></li>
+                <li><a href="{{route('help')}}">Help</a></li>
+                <li><a href="{{route('terms')}}">Terms</a></li>
+                <li><a href="{{route('privacy-policy')}}">Privacy Policy</a></li>
+                <li><a href="{{route('sitemap')}}">Sitemap</a></li>
             </ul>
             <div class="left_footer_content">
                 <p>© 2024 <strong>CalamusEducation</strong>. All Rights Reserved.</p>

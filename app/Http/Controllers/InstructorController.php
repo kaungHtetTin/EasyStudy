@@ -13,7 +13,7 @@ class InstructorController extends Controller
     //
 
     public function index(){
-        return view('instructors',[
+        return view('student.instructors',[
             'page_title'=>'Instructors',
         ]);
     }
@@ -29,7 +29,7 @@ class InstructorController extends Controller
             }
         }
 
-        return view('instructor_profile',[
+        return view('student.instructor_profile',[
             'page_title'=>'Detail',
             'instructor'=>$instructor,
             'subscribed'=>$subscribed,

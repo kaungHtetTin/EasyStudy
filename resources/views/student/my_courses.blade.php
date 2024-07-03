@@ -51,10 +51,9 @@
                                                 </div>
                                             </a>
                                             <div class="hs_content">
-												<div style="background:rgb(239, 239, 0);border-radius:50px;width:20px;height:20px;position: absolute;right:0;top:0">
-													 
-												</div>
+												
                                                 <div class="vdtodt">
+													<div style="background:rgb(239, 239, 0);border-radius:50px;width:20px;height:20px;position: absolute;right:15px;top:15px;"></div>
                                                     <span class="vdt14">109k views</span>
                                                     <span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
                                                 </div>

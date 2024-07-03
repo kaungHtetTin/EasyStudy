@@ -279,7 +279,7 @@ if (!function_exists('calculatePercent')) {
                 </div>
                 <div id="video_player">
                     <video id="myVideo" style="width:100%" controls controlsList="nodownload">
-                        <source id="videoSrc" src="http://localhost/video-server/easy_korean_honest_review%20(720p).mp4" type="video/mp4">
+                        <source id="videoSrc" src="" type="video/mp4">
                     </video>
                 </div>
                 <div style="float:right;padding:3px;">
@@ -345,7 +345,7 @@ if (!function_exists('calculatePercent')) {
                                                                         @endif
                                                                         
                                                                         <div class="top">
-                                                                            <div class="title">{{$lesson->title}}</div>
+                                                                            <div class="title">{{$lesson->title}} <i class='uil uil-check-circle'></i> </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="details">
@@ -442,7 +442,7 @@ if (!function_exists('calculatePercent')) {
                                                                                 <textarea rows="3" name="question_title" id="question_title" placeholder="Item description here..."></textarea>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="help-block">220 words</div>
+                                                                        <div class="help-block" id="question_title_count">220 words</div>
                                                                         <p id="question_title_error" style="color:red;font-size:12px; display:none">Please enter the question title or summary.</p>
                                                                     </div>								
                                                                 </div>
@@ -817,7 +817,7 @@ if (!function_exists('calculatePercent')) {
                                             @endif
                                             
                                             <div class="top">
-                                                <div class="title">{{$lesson->title}}</div>
+                                                <div class="title">{{$lesson->title}} <i style="color:#475692" class='uil uil-check-circle'></i></div>
                                             </div>
                                         </div>
                                         <div class="details">
@@ -868,7 +868,7 @@ if (!function_exists('calculatePercent')) {
 
         $(document).ready(()=>{
             adjustLayout();
-            playLesson(0,0);
+         
             $('#nav-overview-tab').click(()=>{
               
             });
@@ -1009,6 +1009,25 @@ if (!function_exists('calculatePercent')) {
                publishQuestion();
             });
 
+            $('#question_title').on('keyup',()=>{
+                var text = $('#question_title').val();
+                const letterLimit = 220;
+
+                var letterCount = text.length;
+                if(letterCount>letterLimit){
+                    $('#question_title').val(text.substring(0, $('#question_title').val().length - 1));
+                }else{
+                    letterCount = letterLimit - letterCount;
+                    if(letterCount>1){
+                        $('#question_title_count').html(letterCount+' words');
+                    }else{
+                        $('#question_title_count').html(letterCount+' word');
+                    }
+                }
+
+                
+            });
+
         });
 
         function publishQuestion(){
@@ -1137,20 +1156,32 @@ if (!function_exists('calculatePercent')) {
         }
 
         function playLesson(module_index, lesson_index){
-
+           
             let lesson = modules[module_index].lessons[lesson_index];
             currentLesson = lesson;
 
             if(lesson.lesson_type_id==1){
                 $('#videoSrc').attr('src',lesson.link);
-                $('#myVideo').get(0).load();
-                $('#myVideo').get(0).play();
+                const $video = $('#myVideo');
+                $video[0].load();
+                $video[0].play();
+
+                $video.on('loadedmetadata', function() {
+                    const videoDuration = $video[0].duration.toFixed(2);
+                    updateLearnHistory(lesson);
+                    $video.on('timeupdate', function() {
+                        const videoProgress = $video[0].currentTime.toFixed(2);
+                        if(videoProgress>videoDuration-10){
+                           // updateLearnHistory(lesson);
+                        }
+                    });
+                });
+                    
+               
             }else{
                 $('#myVideo').get(0).pause();
-                
                 downloadContent();
             }
-            
         }
 
         function downloadVideo(){
@@ -1161,7 +1192,6 @@ if (!function_exists('calculatePercent')) {
                 }else{
                     alert('The lecture cannot be downloaded on payment identification progress. You need to contact to your instructor.')
                 }
-                
             }else{
                 alert('Your intructor does not allow to download the lecture. You need to contact to your instructor to get the lecture!')
             }
@@ -1262,6 +1292,25 @@ if (!function_exists('calculatePercent')) {
                     </div>
                 </div> 
             `;
+        }
+
+        function updateLearnHistory(lesson){
+            $.ajax({
+				url: 'http://localhost:8000/api/learning-histories', // Replace with your API endpoint
+				type: 'POST', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+                data:{
+                    'lesson_id':lesson.id,
+                },
+				success: function(response) {
+                    console.log('learning history res ',response);
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
         }
 
         function formatDateTime(cmtTime){

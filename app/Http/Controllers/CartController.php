@@ -14,7 +14,7 @@ class CartController extends Controller
     public function detail(){
         
         $payment_method_types = PaymentMethodType::all();
-        return view('cart',[
+        return view('student.cart',[
             'page_title'=>'Cart',
             'payment_method_types'=>$payment_method_types,
         ]);

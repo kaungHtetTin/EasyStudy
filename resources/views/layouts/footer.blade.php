@@ -3,26 +3,26 @@
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6">
                 <div class="item_f1">
-                    <a href="about_us.html">About</a>
+                    <a href="{{route('about-us')}}">About us</a>
                     <a href="our_blog.html">Blog</a>
-                    <a href="career.html">Careers</a>
-                    <a href="press.html">Press</a>
+                    <a href="{{route('contact-us')}}">Contact us</a>
+                 
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6">
                 <div class="item_f1">
-                    <a href="help.html">Help</a>
-                    <a href="coming_soon.html">Advertise</a>
-                    <a href="coming_soon.html">Developers</a>
-                    <a href="contact_us.html">Contact Us</a>
+                    <a href="{{route('teach-on')}}">Teach On</a>
+                    <a href="{{route('get-mobile-app')}}">Get Mobile App</a>
+                    <a href="{{route('help')}}">Help</a>
+                
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6">
                 <div class="item_f1">
-                    <a href="terms_of_use.html">Copyright Policy</a>
-                    <a href="terms_of_use.html">Terms</a>
-                    <a href="terms_of_use.html">Privacy Policy</a>
-                    <a href="sitemap.html">Sitemap</a>
+                    <a href="{{route('terms')}}">Terms</a>
+                    <a href="{{route('privacy-policy')}}">Pravicy Policy</a>
+                    <a href="{{route('sitemap')}}">Sitemap</a>
+        
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6">
@@ -148,7 +148,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <p>© 2020 <strong>Cursus</strong>. All Rights Reserved.</p>
+                                    <p>© 2024 <strong>Calamuseducation</strong>. All Rights Reserved.</p>
                                 </li>
                             </ul>
                         </div>
