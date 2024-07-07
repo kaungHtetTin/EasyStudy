@@ -25,7 +25,7 @@ if (!function_exists('formatCounting')) {
     $api_token = Cookie::get('api_auth_token');
 @endphp
 
-@extends('layouts.master')
+@extends('student.components.master')
 
 
 @section('content')

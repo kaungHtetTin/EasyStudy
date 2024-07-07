@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('layouts.head')
+    @include('student.components.head')
 </head>
 <body>
-    @include('layouts.header')
+    @include('student.components.header')
 
 	@auth
-		 @include('layouts.navbar')
+		 @include('student.components.navbar')
 	@endauth
 	
 		@guest
 			@if ((request()->route()->getName() == 'index'))
-				@include('layouts.cover_area')
+				@include('student.components.cover_area')
 			@endif
 			
 		@endguest
 
 		@yield('content')
 		
-		@include('layouts.footer')
+		@include('student.components.footer')
 	</div>
     
     <script src="{{asset('js/vertical-responsive-menu.min.js')}}"></script>

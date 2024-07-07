@@ -4,7 +4,7 @@
 	
 @endphp
 
-@extends('layouts.master')
+@extends('student.components.master')
 
 
 @section('content')

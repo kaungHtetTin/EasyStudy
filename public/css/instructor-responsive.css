@@ -345,6 +345,11 @@
     margin-left: 0 !important;
 }
 
+.hide_on_large_screen {
+    display: none;
+    margin-left: 0 !important;
+}
+
 .value_props {
     text-align: center;
 }
@@ -423,7 +428,12 @@
 @media (min-width: 992px) and (max-width: 1199.98px) {
 body {
     overflow-y: scroll;
-  }
+}
+
+.hide_on_large_screen {
+    display: none;
+    margin-left: 0 !important;
+}
 
 .logo img {
 	width: 200px;
@@ -456,6 +466,10 @@ body {
     max-width: 1200px !important;
 }
 
+.hide_on_large_screen {
+    display: none;
+    margin-left: 0 !important;
+}
 
 .hf_img {
     width: 40% !important;

@@ -15,7 +15,7 @@ if (!function_exists('formatCounting')) {
 }
 @endphp
 
-@extends('layouts.master')
+@extends('student.components.master')
 
 
 @section('content')

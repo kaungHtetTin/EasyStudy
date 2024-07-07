@@ -134,7 +134,7 @@ if (!function_exists('calculatePercent')) {
 @endphp
 
 
-@extends('layouts.master')
+@extends('student.components.master')
     @section('content')
     <style>
         .my_star{

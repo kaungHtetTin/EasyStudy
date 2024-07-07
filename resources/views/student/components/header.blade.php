@@ -144,7 +144,7 @@
                                 <span>{{Auth::user()->email}}</span>
                             </div>							
                         </div>
-                        <a href="my_instructor_profile_view.html" class="dp_link_12">View Profile</a>						
+                        <a href="{{route('profile.edit')}}" class="dp_link_12">Edit Profile</a>						
                     </div>
                     <div class="night_mode_switch__btn">
                         <a href="#" id="night-mode" class="btn-night-mode">
@@ -154,8 +154,13 @@
                             </span>
                         </a>
                     </div>
-                    <a href="instructor_dashboard.html" class="item channel_item">Cursus dashboard</a>						
-                    <a href="membership.html" class="item channel_item">Paid Memberships</a>
+                    @if ($instructor)
+                        <a href="{{route('instructor.home')}}" class="item channel_item">Instructor Dashboard</a>						
+                    @else
+                        <a href="{{route('teach-on')}}" class="item channel_item">Teach On</a>						
+                    @endif
+                    
+                    <a href="{{route('mycourses')}}" class="item channel_item">My Courses</a>
                     <a href="setting.html" class="item channel_item">Setting</a>
                     <a href="help.html" class="item channel_item">Help</a>
                     <a href="feedback.html" class="item channel_item">Send Feedback</a>

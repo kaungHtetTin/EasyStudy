@@ -3,7 +3,7 @@
     $carts = Auth::user()->carts;
     $total_amount = 0;
 @endphp
-@extends('layouts.master')
+@extends('student.components.master')
 
 
 @section('content')

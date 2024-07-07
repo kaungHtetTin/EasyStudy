@@ -91,12 +91,13 @@ if (!function_exists('calculatePercent')) {
     $five_star_percent = calculatePercent($total_five_star,$total_star_count);
 
     $api_token = Cookie::get('api_auth_token');
+    $user = Auth::user();
 @endphp
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    @include('layouts.head')
+    @include('student.components.head')
      <style>
             .fixedLessonContainer
             {
@@ -324,7 +325,7 @@ if (!function_exists('calculatePercent')) {
                                                                 <span class="section-title-wrapper">
                                                                     <span class="section-title-text">{{$module->title}}</span>
                                                                 </span>
-                                                                <div style="margin-left:8px;color:#505763;margin-top:3px;font-size:12px;"> {{$module->lessons->count()}} lectures . {{calculateModuleDuration($module->lessons()->sum('duration'))}} </div>
+                                                                <div style="margin-left:8px;color:#505763;margin-top:3px;font-size:12px;"> {{$module->lessons->count()}} lectures . {{calculateModuleDuration($module->lessons->sum('duration'))}} </div>
                                                             </div>
                                                             <div class="section-header-right" style="flex-basis: 5%">
                                                                 <i class='uil uil-angle-down crse_icon'></i>
@@ -332,7 +333,7 @@ if (!function_exists('calculatePercent')) {
                                                         </a>
                                                         <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
                                                             
-                                                            @foreach ($module->lessons as $lesson)
+                                                            @foreach ($module->mLessons($user->id) as $lesson)
                                                                 @php
                                                                     $lesson_index = $loop->index;
                                                                 @endphp
@@ -345,7 +346,11 @@ if (!function_exists('calculatePercent')) {
                                                                         @endif
                                                                         
                                                                         <div class="top">
-                                                                            <div class="title">{{$lesson->title}} <i class='uil uil-check-circle'></i> </div>
+                                                                            <div class="title">{{$lesson->title}} 
+                                                                               @if ($lesson->learned==1)
+                                                                                    <i class='uil uil-check-circle'></i> 
+                                                                                @endif
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="details">
@@ -766,7 +771,7 @@ if (!function_exists('calculatePercent')) {
                 </div>
 
                 <div id="footer1">
-                    @include('layouts.footer');
+                    @include('student.components.footer');
                 </div>
 
             </div>
@@ -802,7 +807,7 @@ if (!function_exists('calculatePercent')) {
                             </a>
                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" style="margin-top:0px;">
                                 
-                                @foreach ($module->lessons as $lesson)
+                                @foreach ($module->mLessons($user->id) as $lesson)
 
                                     @php
                                         $lesson_index = $loop->index;
@@ -817,7 +822,11 @@ if (!function_exists('calculatePercent')) {
                                             @endif
                                             
                                             <div class="top">
-                                                <div class="title">{{$lesson->title}} <i style="color:#475692" class='uil uil-check-circle'></i></div>
+                                                <div class="title">{{$lesson->title}} 
+                                                     @if ($lesson->learned==1)
+                                                        <i style="color:#475692" class='uil uil-check-circle'></i>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="details">
@@ -970,8 +979,8 @@ if (!function_exists('calculatePercent')) {
             $('#btn_back_answer').click(()=>{
                 $('#question_container').show();
                 $('#answer_container').hide();
-
                 $('#question_loading').hide();
+                $('#search_input').show();
             })
 
             $(window).scroll(()=>{
@@ -1054,7 +1063,6 @@ if (!function_exists('calculatePercent')) {
             $('#question_title_input').val(question_title);
             $('#question_detail_input').val($('#editor').html());
 
-
             if(validated)  $('#question_form').submit();
         }
 
@@ -1121,7 +1129,7 @@ if (!function_exists('calculatePercent')) {
 
             $('#question_container').hide();
             $('#answer_container').show();
-
+            $('#search_input').hide();
             $('#question_loading').show();
 
             fetch_answer_url= fetch_answer_url+`${question.id}/answers`;
@@ -1166,21 +1174,30 @@ if (!function_exists('calculatePercent')) {
                 $video[0].load();
                 $video[0].play();
 
+                let videoDuration = 0 ;
+                let updatedLearningRecord = false;
                 $video.on('loadedmetadata', function() {
-                    const videoDuration = $video[0].duration.toFixed(2);
-                    updateLearnHistory(lesson);
-                    $video.on('timeupdate', function() {
+                    videoDuration = $video[0].duration.toFixed(2);
+                    
+                });
+
+                $video.on('timeupdate', function() {
+                    if(videoDuration>0){
                         const videoProgress = $video[0].currentTime.toFixed(2);
                         if(videoProgress>videoDuration-10){
-                           // updateLearnHistory(lesson);
+                            if(!updatedLearningRecord){
+                                updateLearnHistory(lesson);
+                                updatedLearningRecord=true;
+                            }
                         }
-                    });
+                    }
                 });
                     
                
             }else{
                 $('#myVideo').get(0).pause();
                 downloadContent();
+                updateLearnHistory(lesson);
             }
         }
 
@@ -1339,8 +1356,6 @@ if (!function_exists('calculatePercent')) {
 		}
 
     </script>
-
-
 
     <script src="{{asset('js/vertical-responsive-menu.min.js')}}"></script>
 	<script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>

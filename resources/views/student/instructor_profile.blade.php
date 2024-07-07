@@ -51,7 +51,7 @@ if (!function_exists('formatCount')) {
 @endphp
 
 
-@extends('layouts.master')
+@extends('student.components.master')
 @section('content')
 
 @auth

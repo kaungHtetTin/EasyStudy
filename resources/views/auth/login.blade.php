@@ -2,7 +2,7 @@
 <html lang="en">
 
 	<head>
-		@include('layouts.head')
+		@include('student.components.head')
 		
 	</head> 
 

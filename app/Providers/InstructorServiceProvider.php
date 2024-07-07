@@ -3,14 +3,15 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use App\Models\Category;
 use Illuminate\Support\Str;
+use App\Models\Instructor;
 
-class CategoryServiceProvider extends ServiceProvider
+class InstructorServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Register services.
      *
      * @return void
      */
@@ -18,10 +19,9 @@ class CategoryServiceProvider extends ServiceProvider
     {
         //
     }
-    
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      *
      * @return void
      */
@@ -29,6 +29,7 @@ class CategoryServiceProvider extends ServiceProvider
     {
         $excludedViews = [
             'student.components.*',
+            'instructor.*'
             // Add other views you want to exclude
         ];
 
@@ -39,9 +40,13 @@ class CategoryServiceProvider extends ServiceProvider
                     return;
                 }
             }
+            $user = Auth::user();
+            if($user==null){
+                return $view->with('instructor', false);
+            }
+            $instructor = Instructor::where('user_id',$user->id);
 
-            $categories = Category::all();
-            $view->with('categories', $categories);
+            $view->with('instructor', $instructor);
         });
     }
 }

@@ -18,7 +18,7 @@
 
 @endphp
 
-@extends('layouts.master')
+@extends('student.components.master')
 
 @section('content')
 	<div class="wrapper">

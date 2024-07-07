@@ -10,6 +10,8 @@
     margin-left: 0 !important;
 }
 
+
+
 .upload_btn {
 	display: none;
 }
@@ -548,6 +550,11 @@
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
+.hide_on_large_screen {
+        display: none;
+        margin-left: 0 !important;
+    }
+
 .main_logo {
     margin-left: 10px !important;
 }
@@ -695,6 +702,11 @@ body {
     overflow-y: scroll;
   }
 
+.hide_on_large_screen {
+    display: none;
+    margin-left: 0 !important;
+}
+
 .logo img {
 	width: 200px;
 	text-align: center;
@@ -764,6 +776,10 @@ body {
     max-width: 1200px !important;
 }
 
+.hide_on_large_screen {
+    display: none;
+    margin-left: 0 !important;
+}
 
 .hf_img {
     width: 40% !important;
