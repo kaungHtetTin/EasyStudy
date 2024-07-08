@@ -54,9 +54,10 @@
             padding:10px;
             background: #475692;
             color:white;
-            border-radius: 10px;
+            border-radius: 30px;
             z-index: 1000;
-            
+            font-size:24px;
+            transition: all 0.3s ease-out;
         }
 
 
@@ -72,38 +73,177 @@
                 
                  
                 <span class="btn-menu" id="btn-drawer-toggle" style="display: none">
-                    More setting <i class='uil  uil-angle-double-down'></i>
+                   <i class='uil  uil-angle-down'></i>
                 </span>
                 
 				<div style="position: relative;display:flex">
                     <div class="profile_form" style="flex:1">
-                        <div class="col-lg-9 col-md-8 col-sm-8">
+                        <div>
                             <div align="center">
-                                <h3 id="form-title">Title</h3>
-                                <p id="form-description">This is discription</p>
+                                <h3 id="form-title"> </h3>
+                                <p id="form-description"> </p>
+                                 
+                            </div>
+                            <br><br>
+                            <div class="edit-container" id="form-profile">
+                               
+
+                               
+                                <div>
+                                    <form method="POST" action="{{ route('login') }}">
+                                        @csrf
+                                        <h5>Name</h5>
+                                        <div class="ui search focus mt-15">
+                                            <div class="ui input swdh95">
+                                                <input class="prompt srch_explore" type="text" name="name" value="" id="id_name" required="" maxlength="64" placeholder="Name">															
+                                                
+                                            </div>
+                                        </div>
+                                        <h5>Bio</h5>
+                                        <div class="ui search focus mt-15">
+                                            <div class="ui input swdh95">
+                                                <input class="prompt srch_explore" type="text" name="bio" value="" id="id_bio" required="" maxlength="225" placeholder="Bio">															
+                                                
+                                            </div>
+                                        </div>
+
+                                        <h5>Phone</h5>
+                                        <div class="ui search focus mt-15">
+                                            <div class="ui input swdh95">
+                                                <input class="prompt srch_explore" type="text" name="phone" value="" id="id_phone" required="" maxlength="225" placeholder="Phone">															
+                                                
+                                            </div>
+                                        </div>
+                                        <h5>Gender</h5>
+                                        <div class="ui fluid search selection dropdown focus">
+                                            <input type="hidden" name="gender" class="prompt srch_explore" id="selector_gender" placeholder="Gender">
+                                            <i class="dropdown icon"></i>
+                                                <div class="default text"></div>
+                                                <div class="menu">
+                                                <div class="item" data-value="Male"></i>Male</div>
+                                                <div class="item" data-value="Female"></i>Female</div>
+                                            </div>
+                                        </div>
+
+                                        <h5>Birthday</h5>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                Day
+                                                <div class="ui fluid search selection dropdown focus">
+                                                    
+                                                    <input type="hidden" name="gender" class="prompt srch_explore" id="selector_day" placeholder="Day">
+                                                    <i class="dropdown icon"></i>
+                                                    <div class="default text"> </div>
+                                                    <div class="menu" id="day_container">
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4">
+                                                Month
+                                                <div class="ui fluid search selection dropdown focus">
+                                                    
+                                                    <input type="hidden" name="gender" class="prompt srch_explore" id="selector_month" placeholder="Month">
+                                                    <i class="dropdown icon"></i>
+                                                    <div class="default text"> </div>
+                                                    <div class="menu" id="month_container">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4">
+                                                Year
+                                                <div class="ui fluid search selection dropdown focus">
+                                                    <input type="hidden" name="gender" class="prompt srch_explore" id="selector_year" placeholder="Year">
+                                                    <i class="dropdown icon"></i>
+                                                    <div class="default text"> </div>
+                                                    <div class="menu" id="year_container">
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h5>Education</h5>
+                                        <div class="ui search focus mt-15">
+                                            <div class="ui input swdh95">
+                                                <input class="prompt srch_explore" type="text" name="education" value="" id="id_education" required="" maxlength="225" placeholder="Education">	
+                                            </div>
+                                        </div>
+
+                                        <h5>Address</h5>
+                                        <div class="ui search focus mt-15">
+                                            <div class="ui input swdh95">
+                                                <input class="prompt srch_explore" type="text" name="address" value="" id="id_address" required="" maxlength="225" placeholder="Address">	
+                                            </div>
+                                        </div>
+
+                                        <button class="login-btn" type="submit">Save</button>
+                                    </form>
+                                </div>
+
                             </div>
 
-                        <div class="edit-container" id="form-profile">
-                                Profile form
-                        </div>
+                            <script>
+                                // basic form script
+                                let months =[
+                                    "Jan",
+                                    "Feb",
+                                    "March",
+                                    "April",
+                                    "May",
+                                    "June",
+                                    "July",
+                                    "Aug",
+                                    "Sept",
+                                    "Oct",
+                                    "Nov",
+                                    "Dec"
+                                ];
 
-                        <div class="edit-container" id="form-photo">
-                                photo form
-                        </div>
+                                var dateObj = new Date();
+		                        var currentYear=dateObj.getUTCFullYear();
 
-                        <div class="edit-container" id="form-privacy">
-                                Privacy Form
-                        </div>
+                                $(document).ready(()=>{
+                                    for(var i=1;i<32;i++){
+                                        $('#day_container').append(`<div class="item" data-value="${i}"></i>${i}</div>`);
+                                    }
 
-                        <div class="edit-container" id="form-notification">
-                                Notification Form
-                        </div>
+                                    for(var i=0;i<months.length;i++){
+                                        $('#month_container').append(`<div class="item" data-value="${months[i]}"></i>${months[i]}</div>`);
+                                    }
 
-                        <div class="edit-container" id="form-close-account">
-                                Close Account Form
-                        </div>
+                                    for(var i=currentYear-14;i>1950;i--){
+                                        $('#year_container').append(`<div class="item" data-value="${i}"></i>${i}</div>`);
+                                    }
+                                });
+
+                            </script>
 
 
+                            <div class="edit-container" id="form-photo" style="margin:0 auto;">
+                                <div style="margin: auto;width:360px;">
+                                    <h5>Image Preview</h5>
+                                    <div>
+                                        <img src="" alt="" style="width:360px; height:180px;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="edit-container" id="form-privacy">
+                                <h5>Profile page settings</h5>
+                                
+                            </div>
+
+                            <div class="edit-container" id="form-notification">
+                                    Notification Form
+                            </div>
+
+                            <div class="edit-container" id="form-close-account">
+                                    Close Account Form
+                            </div>
                         </div>
                     </div>
                     <div class="profile_nav_menu" id="drawer" style="display: none">
@@ -130,9 +270,11 @@
 
     <script>
 
+        let small_screen;
+        let toggle_open = false;
         const titles = [
-            {title:"Profile",description:"Edit your profile"},
-            {title:"Photo",description:"Upload your profile photo"},
+            {title:"Profile",description:"Add your information"},
+            {title:"Photo",description:"Add your profile photo"},
             {title:"Privay",description:"Constomize your profile visibility"},
             {title:"Notification",description:"Customize your notification setting"},
             {title:"Close Account",description:"Close your account pernamently"},
@@ -143,6 +285,7 @@
             $('.edit-menu').each((menu_index, menu)=>{
                 $(menu).click(()=>{
                     
+
                     $('.edit-menu').each((menu_index2, menu2)=>{
                         $(menu2).css({"background":""});
                         $(menu2).css({"color":""});
@@ -163,20 +306,28 @@
                 
                    $('#form-title').html(info.title);
                    $('#form-description').html(info.description);
+
+                   if(small_screen){
+                        $('#drawer').attr('class','profile_nav_menu_closed');
+                        $('#btn-drawer-toggle').html(`<i class='uil  uil-angle-down'></i>`);
+                        toggle_open=false;
+                   }
                     
                 });
             });
 
             $('.edit-menu').get(0).click();
 
-            let toggle_open = false;
+            
             $('#btn-drawer-toggle').click(()=>{
                 $('#drawer').css({'display':'block'});
                 if(toggle_open) {
                     $('#drawer').attr('class','profile_nav_menu_closed');
+                    $('#btn-drawer-toggle').html(`<i class='uil  uil-angle-down'></i>`);
                     toggle_open=false;
                 }else{
                     $('#drawer').attr('class','profile_nav_menu_opened');
+                    $('#btn-drawer-toggle').html(`<i class='uil  uil-angle-up'></i>`);
                     toggle_open=true;
                 }
                 
@@ -195,10 +346,12 @@
             if(w<=768){
                 $('#btn-drawer-toggle').css({'display':''});
                 $('#drawer').css({'display':'none'});
+                small_screen=true;
             }else{
                 $('#drawer').attr('class','profile_nav_menu');
                 $('#drawer').css({'display':'block'});
                 $('#btn-drawer-toggle').css({'display':'none'});
+                small_screen=false;
             }
         }
 
