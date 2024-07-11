@@ -17,6 +17,8 @@ Route::post('/sanctum/token', function (Request $request) {
         'device_name' => 'required',
     ]);
 
+ 
+
     $user = User::where('email', $request->email)->first();
 
     if (! $user || ! Hash::check($request->password, $user->password)) {
@@ -24,6 +26,8 @@ Route::post('/sanctum/token', function (Request $request) {
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
+
+  
 
     return $user->createToken($request->device_name)->plainTextToken;
 });

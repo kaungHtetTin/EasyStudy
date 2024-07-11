@@ -22,11 +22,14 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            $table->date('birth_date')->nullable();
+            $table->timestamp('birth_date')->nullable();
             $table->integer('login_time')->default(1);
-            $table->date('last_active')->nullable();
+            $table->timestamp('last_active')->nullable();
             $table->string('fcm_token')->nullable();
             $table->string('image_url')->nullable();
+            $table->string('bio')->nullable();
+            $table->string('education')->nullable();
+            $table->string('gender')->nullable();
             $table->timestamps();
         });
     }

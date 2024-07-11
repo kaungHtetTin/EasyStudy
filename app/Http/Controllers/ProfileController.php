@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -20,6 +22,35 @@ class ProfileController extends Controller
             'page_title'=>'Edit Profile',
             'user' => $request->user(),
         ]);
+    }
+
+    public function updateProfile(Request $request){
+
+        return $request;
+
+        $validatedData = $request->validate([
+            'name' => 'required',
+        ]);
+
+        $year = $request->year;
+        $month = $request->month;
+        $day = $request->day;
+
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', "$year-$month-$day 00:00:00");
+       
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->bio = $request->bio;
+        $user->education = $request->education;
+        $user->address = $request->address;
+        $user->gender = $request->gender;
+        $user->birth_date  = $date;
+        $user->save();
+
+        return $user;
+
     }
 
     /**
