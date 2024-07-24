@@ -128,12 +128,12 @@
             </li>
             <li class="ui dropdown">
                 <a href="#" class="opts_account" title="Account">
-                    <img src="{{asset('images/hd_dp.jpg')}}" alt="">
+                    <img src="{{asset('storage/'.Auth::user()->image_url)}}" alt="" style="width: 35px;height:35px;">
                 </a>
                 <div class="menu dropdown_account">
                     <div class="channel_my">
                         <div class="profile_link">
-                            <img src="{{asset('images/hd_dp.jpg')}}" alt="">
+                            <img src="{{asset('storage/'.Auth::user()->image_url)}}" alt="" style="width: 35px;height:35px;">
                             <div class="pd_content">
                                 <div class="rhte85">
                                     <h6>{{Auth::user()->name}}</h6>
@@ -154,7 +154,7 @@
                             </span>
                         </a>
                     </div>
-                    @if ($instructor)
+                    @if ($is_current_user_instructor)
                         <a href="{{route('instructor.home')}}" class="item channel_item">Instructor Dashboard</a>						
                     @else
                         <a href="{{route('teach-on')}}" class="item channel_item">Teach On</a>						

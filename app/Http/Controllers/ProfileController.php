@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -26,8 +27,6 @@ class ProfileController extends Controller
 
     public function updateProfile(Request $request){
 
-        return $request;
-
         $validatedData = $request->validate([
             'name' => 'required',
         ]);
@@ -36,9 +35,6 @@ class ProfileController extends Controller
         $month = $request->month;
         $day = $request->day;
 
-        $date = Carbon::createFromFormat('Y-m-d H:i:s', "$year-$month-$day 00:00:00");
-       
-
         $user = Auth::user();
         $user->name = $request->name;
         $user->phone = $request->phone;
@@ -46,10 +42,31 @@ class ProfileController extends Controller
         $user->education = $request->education;
         $user->address = $request->address;
         $user->gender = $request->gender;
-        $user->birth_date  = $date;
+        if($year!=null && $month!=null && $day!=null){
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', "$year-$month-$day 00:00:00");
+            $user->birth_date  = $date;
+        }
         $user->save();
 
-        return $user;
+        return Redirect::route('profile.edit')->with('status', 'Your profile information is uploaded successfully.');
+
+    }
+
+    public function updateImage(Request $request){
+        $user = Auth::user();
+
+        $validatedData = $request->validate([
+            'profile_image' => 'required|mimes:jpeg,png,jpg,gif,JPG,PNG|max:10485760',
+        ]);
+
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $path = $image->store('images/profiles', 'public');
+            $user->image_url = $path;
+            $user->save();
+            return Redirect::route('profile.edit')->with('status', 'Upload your image successfull.');
+        }
+        return Redirect::route('profile.edit')->with('status', 'Image upload fail');
 
     }
 
@@ -66,7 +83,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'Your profile information is uploaded successfully.');
     }
 
     /**

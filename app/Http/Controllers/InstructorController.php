@@ -29,6 +29,7 @@ class InstructorController extends Controller
             }
         }
 
+   
         return view('student.instructor_profile',[
             'page_title'=>'Detail',
             'instructor'=>$instructor,

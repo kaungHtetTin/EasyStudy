@@ -98,6 +98,25 @@
             font-size: 12px;
         }
 
+        #canvas {
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        #crop-area {
+            border: 2px dashed #000;
+            position: absolute;
+            cursor: move;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 320px;
+        }
+        #cropped-canvas{
+            width: 100px;
+        }
+
     </style>
 
 	@auth
@@ -107,7 +126,6 @@
 	@endauth
 		<div class="sa4d25">
 			<div class="container-fluid">	
-                
                  
                 <span class="btn-menu" id="btn-drawer-toggle" style="display: none">
                    <i class='uil  uil-angle-down'></i>
@@ -117,6 +135,13 @@
                     <div class="profile_form" style="flex:1">
                         <div>
                             <div align="center">
+                                
+                                @if (session('status'))
+                                    <div class="alert alert-success">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
+
                                 <h3 id="form-title"> </h3>
                                 <p id="form-description"> </p>
                             </div>
@@ -261,22 +286,45 @@
                             <div class="edit-container" id="form-photo" style="margin:0 auto;">
                                 <div style="margin: auto;width:360px;">
                                     <h5>Image Preview</h5>
-                                    <div>
-                                        <img src="" alt="" style="width:360px; height:180px;">
+                                    
+                                    <div id="canvas-container">
+                                        <canvas id="canvas"></canvas>
+                                        <div id="crop-area" style="display:none"></div>
                                     </div>
-
-                                    <form method="POST" action="{{ route('login') }}">
+                                    <h5 style="cursor: pointer;" id="btn-upload-image">Add/Change Image</h5>
+                                    <canvas id="cropped-canvas" style="display: none"></canvas>
+                                    <input class="prompt srch_explore" id="upload-image" type="file" name="name" placeholder="Name" style="display: none">	
+                                    <form id="image-form" method="POST" action="{{route('profile.updateImage')}}" enctype="multipart/form-data">
                                         @csrf
-                                        <h5>Add/Change Image</h5>
                                         <div class="ui search focus mt-15">
                                             <div class="ui input swdh95">
-                                                <input class="prompt srch_explore" type="file" name="name" placeholder="Name" style="display: none">															
-                                                <span>Upload Image</span>
+                                                <input type="file" id="cropped-image-file" style="display: none;" name="profile_image">
+                                                 <p style="text-align:left;font-size:12px;color:red"> {{$errors->first('profile_image')}} </p>	
                                             </div>
                                         </div>
-                                            
                                     </form>
+                                    <button id="btn-image-save" class="login-btn" type="submit" style="display: none">Save</button>
                                 </div>
+                                <script src="{{asset('js/cropper.js')}}"></script>
+                                <script>
+                                    $(document).ready(()=>{
+                                        $('#btn-upload-image').click(()=>{
+                                            $('#upload-image').click();
+                                            $('#btn-image-save').show();
+                                        })
+
+                                        $('#btn-image-save').click(()=>{
+                                            cropImageAndPutToInput(()=>{
+                                                $('#image-form').submit();
+                                            });
+                                        })
+
+                                        $('#canvas').click(()=>{
+                                            $('#upload-image').click();
+                                            $('#btn-image-save').show();
+                                        })
+                                    })
+                                </script>
                             </div>
 
                             <div class="edit-container" id="form-privacy" style="padding-left:30px; padding-right: 30px;">
@@ -306,15 +354,19 @@
                                 <b style="color: red">Warning: </b>By deleting account, you will lose access to all data associated with this account forever and you will be unsubscribed from all of your courses even if 
                                 you create the new account using the same email address in future.
 
-                                <form id="del_account_form" method="GET" action="">
+                                <form id="del_account_form" method="POST" action="{{route('profile.destroy')}}">
                                     @csrf
+                                    @method('DELETE')
                                     <h5>Enter password</h5>
                                     <div class="ui search focus mt-15">
                                         <div class="ui input swdh95">
-                                            <input class="prompt srch_explore" type="text" name="password" value="" id="del_account_password_input" required="" maxlength="64" placeholder="Enter your password">															
+                                            <input class="prompt srch_explore" type="password" name="password" value="" id="del_account_password_input" required="" maxlength="64" placeholder="Enter your password">															
                                            
                                         </div>
                                     </div>
+                                    @if ($errors->userDeletion->isNotEmpty())
+                                         <p style="text-align:left;font-size:12px;color:red"> {{$errors->userDeletion->get('password')}} </p>	
+                                    @endif
                                      <p id="del_account_error" style="margin-top:15px; color:red;"></p>
                                    
                                 </form>
@@ -327,8 +379,7 @@
                                             if(password==""){
                                                 $('#del_account_error').html("Please enter your password");
                                             }else{
-                                                // check the password is correct or not
-
+                                                $('#del_account_form').submit();
                                             }
                                         });
                                     });
@@ -340,7 +391,8 @@
                     <div class="profile_nav_menu" id="drawer" style="display: none">
                         <div align="center">
                             <br> 
-                            <img src="{{asset('images/hd_dp.jpg')}}" style="width: 80px; height:80px;" alt="Profile Picture">
+                         
+                            <img src="{{asset('storage/'.$user->image_url)}}" style="width: 80px; height:80px;border-radius:50px;" alt="Profile Picture">
                             <br>
                             <h4>{{$user->name}}</h4>
                         </div>

@@ -47,6 +47,7 @@ Route::get('/courses/{id}',[CourseController::class,'detail'])->name('course_det
 //instructors
 Route::get('/instructors',[InstructorController::class,'index'])->name('instructors');
 Route::get('/instructors/{id}',[InstructorController::class,'detail'])->name('instructor_detail');
+
 Route::get('/editor',function(){
     return view('editor');
 });
@@ -64,6 +65,8 @@ Route::middleware('auth')->group(function () {
     //user profile
     Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update',[ProfileController::class,'updateProfile'])->name('profile.update');
+    Route::post('/profile/update-image',[ProfileController::class,'updateImage'])->name('profile.updateImage');
+
     Route::patch('/profile', [ProfileController::class, 'update']);
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 

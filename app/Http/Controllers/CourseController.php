@@ -14,6 +14,7 @@ use App\Models\PaymentHistory;
 use App\Models\Reaction;
 use App\Models\Subscriber;
 use App\Models\QuestionType;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -146,6 +147,9 @@ class CourseController extends Controller
         $saved_course->verified = 0;
         $saved_course->disable = 0;
         $saved_course->save();
+
+        $cart = Cart::where('user_id',$user->id)->where('course_id',$id)->first();
+        if($cart) $cart->delete();
 
         return redirect()->back()->with('check_out_status','Succesfully requested');
     }

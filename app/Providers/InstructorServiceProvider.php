@@ -46,7 +46,7 @@ class InstructorServiceProvider extends ServiceProvider
             }
             $instructor = Instructor::where('user_id',$user->id);
 
-            $view->with('instructor', $instructor);
+            $view->with('is_current_user_instructor', $instructor);
         });
     }
 }

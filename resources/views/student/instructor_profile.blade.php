@@ -1,4 +1,7 @@
 @php
+
+ 
+
 if (!function_exists('calculateHour')) {
 	function calculateHour($min){
 		$hr = $min/60;
@@ -38,16 +41,20 @@ if (!function_exists('formatCount')) {
 
     $api_token = Cookie::get('api_auth_token');
 
-
-	$courses = $instructor->courses;
+	
 	$student_enrolled =0;
 	$review_count = 0;
-	foreach ($courses as $key => $course) {
+	if(isset($instructor->courses)){
+		$courses = $instructor->courses;
+		foreach ($courses as $key => $course) {
 		# code...
-		$student_enrolled+=$course->enroll_count;
-		$review_count +=$course->rating_count;
+			$student_enrolled+=$course->enroll_count;
+			$review_count +=$course->rating_count;
+		}
 	}
 
+	
+ 
 @endphp
 
 
