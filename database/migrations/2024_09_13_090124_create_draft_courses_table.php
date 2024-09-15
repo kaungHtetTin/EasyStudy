@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('draft_courses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('instructor_id');
             $table->unsignedBigInteger('category_id');
@@ -29,21 +29,11 @@ return new class extends Migration
             $table->integer('fee')->default(0)->nullable();
             $table->json('payment_method_id')->nullable();
             $table->boolean('certificate')->default(false);
-        
-            $table->float('rating')->default(0)->nullable();
-            $table->integer('rating_count')->default(0); // review count
-            $table->integer('total_lecture')->default(0);
-            $table->integer('duration')->default(0);
-            $table->integer('visit')->default(0);
-            $table->integer('share_count')->default(0);
-            $table->integer('preview_count')->default(0);
-            $table->integer('like_count')->default(0);
-            $table->integer('dislike_count')->default(0);
-            $table->integer('enroll_count')->default(0);
+
+            $table->integer('draft')->default(0)->nullable();
             $table->timestamps();
 
             $table->index('title');
-            $table->index('rating');
             $table->index('category_id');
             $table->index('sub_category_id');
             $table->index('topic_id');
@@ -55,7 +45,6 @@ return new class extends Migration
             $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->foreign('level_id')->references('id')->on('topics')->onDelete('cascade');
-        
         });
     }
 
@@ -66,9 +55,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('courses', function (Blueprint $table) {
+        Schema::table('draft_courses', function (Blueprint $table) {
             $table->dropIndex(['title']);
-            $table->dropIndex(['rating']);
             $table->dropIndex(['category_id']);
             $table->dropIndex(['instructor_id']);
             $table->dropIndex(['sub_category_id']);
@@ -81,6 +69,6 @@ return new class extends Migration
             $table->dropForeign(['topic_id']);
             $table->dropForeign(['level_id']);
         });
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('draft_courses');
     }
 };

@@ -247,6 +247,16 @@ if (!function_exists('calculatePercent')) {
                 white-space: pre-wrap;
             }
 
+            .field div ul{
+                list-style-type: disc;
+                margin-inline-start: 20px;
+            }
+
+            .description ul{
+                list-style-type: disc;
+                margin-inline-start: 20px;
+            }
+
             .night-mode #question_title{
                 color:white;
             }
@@ -263,6 +273,8 @@ if (!function_exists('calculatePercent')) {
                 background-color: #48f321;
                 border-color: #2196F3;
             }
+
+            
              
         </style>
     </head>
@@ -400,7 +412,7 @@ if (!function_exists('calculatePercent')) {
                                                 <i class='uil uil-clock-two'></i> Last updated {{$course->updated_at->diffForHumans()}}
                                             </div>
                                             <hr>
-                                            <div>
+                                            <div class="description">
                                                 {!!$course->description!!}		
                                             </div>
                                         </div>
@@ -858,6 +870,8 @@ if (!function_exists('calculatePercent')) {
         const question_types = @json($question_types);
         let lessons, modules;
         let currentLesson = null;
+
+        console.log('api token',apiToken);
         
         modules = course.modules;
 

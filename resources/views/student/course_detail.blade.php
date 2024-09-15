@@ -155,6 +155,11 @@ if (!function_exists('calculatePercent')) {
             cursor: pointer;
         }
 
+        ._htg451 ul{
+			list-style-type: disc;
+			margin-inline-start: 20px;
+		}
+
     </style>
     <!-- Video Model Start -->
 	<div class="modal vd_mdl fade" id="videoModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -840,6 +845,8 @@ if (!function_exists('calculatePercent')) {
 
     <script>
         const apiToken = "{{$api_token}}";
+        console.log('api token',apiToken);
+        
         let like = "{{$like}}";
         let dislike = "{{$dislike}}";
         let course = @json($course);

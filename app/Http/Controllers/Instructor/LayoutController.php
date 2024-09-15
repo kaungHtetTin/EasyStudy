@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Instructor;
+use App\Models\SubCategory;
+use App\Models\Topic;
+use App\Models\Level;
 
 class LayoutController extends Controller
 {
@@ -26,7 +29,7 @@ class LayoutController extends Controller
 
     public function courseCreate(){
         
-        return view('instructor.course-create');
+       return "error";
 
     }
 }

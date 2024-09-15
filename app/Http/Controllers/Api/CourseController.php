@@ -34,7 +34,15 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $validatedData = $request->validate([
+            'title'=>'required',
+            'short'=>'required',
+            'description'=>'required',
+            'language'=>'required',
+            'level_id'=>'required|numeric',
+            'category_id'=>'required|numeric',
+            'sub_category_id'=>'required|numeric',
+        ]);
     }
 
     /**

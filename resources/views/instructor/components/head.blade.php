@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">		
-    <title>Cursus - Dashboard</title>
+    <title>Instructor - Dashboard</title>
     
     <!-- Favicon Icon -->
-    <link rel="icon" type="image/png" href="images/fav.png">
+     <link rel="icon" type="image/png" href="{{asset('images/fav.png')}}">
     
     <!-- Stylesheets -->
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet'>

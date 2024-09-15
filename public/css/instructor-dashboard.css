@@ -24,7 +24,7 @@ h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
+b, u, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
@@ -2252,9 +2252,9 @@ table {
 
 #add-course-tab .step-steps > li {
 	-webkit-box-flex: 0;
-	-ms-flex: 0 0 20%;
-	flex: 0 0 20%;
-	max-width: 0 0 20%;
+	-ms-flex: 0 0 25%;
+	flex: 0 0 25%;
+	max-width: 0 0 25%;
 }
 
 #add-course-tab .step-steps > li:before {
@@ -2308,7 +2308,7 @@ table {
 
 #add-course-tab .step-steps > li.active > a > .number:before,
 #add-course-tab .step-steps > li.done > a > .number:before {
-	background-color: rgba(237, 42, 38, 0.3);
+	background-color: rgba(60, 129, 250, 0.258);
 }
 
 #add-course-tab .step-steps > li.active > a > .step-name,
