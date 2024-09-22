@@ -82,12 +82,6 @@
 	<div class="wrapper">
 		<div class="sa4d25">
 			<div class="container">	
-				<div id="alert_success" class="alert alert-success" style="display: none">
-				 
-				</div>
-				<div id="alert_progress" class="alert alert-warning" style="display: none">
-					 
-				</div>	
 				<div class="row">
 					<div class="col-lg-12">	
 						<h2 class="st_title"><i class="uil uil-analysis"></i> Create New Course</h2>
@@ -182,8 +176,9 @@
 															</div>
 															<select id="language_selector" class="ui hj145 dropdown cntry152 prompt srch_explore" >
 																<option value="">Select Audio Language</option>
-																<option value="Myanmar">Myanmar</option>															
-																<option value="Myanmar">English</option>
+																@foreach ($languages as $language)
+																	<option value="{{$language->id}}">{{$language->type}}</option>
+																@endforeach
 															</select>
 														</div>
 														
@@ -206,7 +201,7 @@
 																<span class="input_error" id="subcategory_selector_error"> Please select the sub category </span>
 															</div>
 															<select id="subcategory_selector" class="ui hj145 dropdown cntry152 prompt srch_explore" >
-																
+																<option value="">Select Category</option>
 															</select>
 														</div>
 
@@ -216,7 +211,7 @@
 																<span class="input_error" id="topic_selector_error"> Please select the topic</span>
 															</div>
 															<select id="topic_selector" class="ui hj145 dropdown cntry152 prompt srch_explore">
-
+																<option value="">Select Category</option>
 															</select>
 														</div>
 														<div class="col-12">
@@ -429,7 +424,6 @@
 		let filtered_sub_categories;
 		let topics = @json($topics);
 		let step = 1;
-		let formData = {};
 		let form_data = new FormData();
 
 		$(document).ready(()=>{
@@ -465,6 +459,7 @@
 					displayPreview();
 				}
 			})
+	
 
 			$('#ThumbFile__input--source').change(()=>{
 				var files=$('#ThumbFile__input--source').prop('files');
@@ -474,8 +469,6 @@
 				reader.onload = function (e) {
 					imageSrc=e.target.result;
 					$('#image_preview').attr('src', imageSrc);
-					formData.thumbnail_src = imageSrc;
-					formData.thumbnail_file = file;
 
 					form_data.append('thumbnail_src',imageSrc);
 					form_data.append('thumbnail_file',file);
@@ -542,15 +535,12 @@
 
 		function validateFormData (){
 
-		 
-
 			let isValidate = true;
 			const title = $('#input_title').val();
 			if(title==""){
 				isValidate = false;
 				$('#input_title_error').show();
 			}else{
-				formData.title = title;
 				form_data.append('title',title);
 			}
 
@@ -559,7 +549,6 @@
 				isValidate = false;
 				$('#editor_error').show();
 			}else{
-				formData.description = description;
 				form_data.append('description',description);
 			}
 			
@@ -568,7 +557,6 @@
 				isValidate = false;
 				$('#level_selector_error').show();
 			}else{
-				formData.level_id = level_id;
 				form_data.append('level_id',level_id);
 			}
 
@@ -577,8 +565,7 @@
 				isValidate = false;
 				$('#language_selector_error').show();
 			}else{
-				formData.language = language;
-				form_data.append('language',language);
+				form_data.append('language_id',language);
 			}
 
 			const category_id =  $('#category_selector').val();
@@ -586,7 +573,6 @@
 				isValidate = false;
 				$('#category_selector_error').show();
 			}else{
-				formData.category_id = category_id;
 				form_data.append('category_id',category_id);
 			}
 
@@ -595,7 +581,6 @@
 				isValidate = false;
 				$('#subcategory_selector_error').show();
 			}else{
-				formData.subcategory_id = subcategory_id;
 				form_data.append('sub_category_id',subcategory_id);
 			}
 
@@ -603,17 +588,13 @@
 			if(topic_id==""){
 				isValidate = false;
 				$('#topic_selector_error').show();
-				return isValidate;
 			}else{
-				formData.topic_id = topic_id;
 				form_data.append('topic_id',topic_id);
 			}
 
 			if($('#certification_access').prop('checked')){
-				 formData.certificate=true;
 				 form_data.append('certificate',true);
 			} else {
-				formData.certificate = false;
 				form_data.append('certificate',false);
 			}
 
@@ -637,12 +618,10 @@
 
 			let fee = $('#fee').val();
 			if(fee=="") fee = 0;
-			formData.fee = fee;
 			form_data.append('fee',fee);
 
 			let discount = $('#discount').val();
 			if(discount=="") discount = 0;
-			formData.discount = discount;
 			form_data.append('discount',discount);
 
 			return true;
@@ -655,11 +634,12 @@
             $('#img_profile').hide();
             ajax.onload =function(){
                 if(ajax.status==200 || ajax.readyState==4){
-                    console.log(ajax.responseText);
-					 
+					let course = JSON.parse(ajax.responseText);
+					console.log(course);
+					location.href ="http://localhost:8000/instructor/modules?course_id="+course.id;
                 }else{
                     console.log('Error');
-                    $('#profile_uploading').hide();
+					$('#loading').hide();
                 }
             };
             ajax.open("post",`http://localhost:8000/instructor/api/courses`,true);
@@ -669,23 +649,24 @@
 		}
 
 		function displayPreview(){
-			console.log('formdata', formData);
-			$('#preview_course_thumbnail').attr('src', formData.thumbnail_src);
-			$('#preview_course_title').text(formData.title);
-			const category_id = formData.category_id;
+			console.log('formdata', form_data);
+		
+			$('#preview_course_thumbnail').attr('src', form_data.get('thumbnail_src'));
+			$('#preview_course_title').text(form_data.get('title'));
+			const category_id = form_data.get('category_id');
 			const category = categories.find(category => category.id == category_id);
 		
-			const subcategory_id = formData.subcategory_id;
+			const subcategory_id = form_data.get('sub_category_id');
 			const subcategory = sub_categories.find(sub => sub.id == subcategory_id);
 
-			const topic_id = formData.topic_id;
+			const topic_id = form_data.get('topic_id');
 			const topic = topics.find(topic => topic.id == topic_id);
 
 			$('#preview_course_category').html(`
 				${category.title} <i class="uil uil-arrow-right"></i> ${subcategory.title}  <i class="uil uil-arrow-right"></i>  ${topic.title};
 			`);
 
-			$('#preview_course_description').html(formData.description);
+			$('#preview_course_description').html(form_data.get('description'));
 		}
 
 		function setSubCategorySelectorOption(category_id){

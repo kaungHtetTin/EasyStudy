@@ -326,16 +326,6 @@ if (!function_exists('calculatePercent')) {
 @else
 <div style="padding-top:60px;">
 @endauth
-
-    @if ($access)
-        @if ($access->verified==0)
-            <div style="background: yellow;display:flex;text-align:center;padding:5px;">
-                <div style="width:12px;height:12px;background:red;border-radius:50px;margin-left:15px;"></div>
-                <div style="margin-left:15px;font-family: 'Roboto', sans-serif;font-size:12px;">Your payment is checking by ... </div>
-            </div>
-         @endif
-    @endif
-
     <div class="_215b01">
         <div class="container-fluid">			
             <div class="row">
@@ -429,7 +419,7 @@ if (!function_exists('calculatePercent')) {
                                 <div class="_215b05">										
                                     Last updated {{$course->updated_at->diffForHumans()}}
                                 </div>
-                                @if (!$access)
+                                @if ($user->id!=$course->instructor->user_id)
                                     <ul class="_215b31">										
                                         <li>
                                             <form action="{{route('cart')}}" method="POST">
@@ -465,7 +455,7 @@ if (!function_exists('calculatePercent')) {
                         <div class="user_dt_left">
                             <div class="live_user_dt">
                                 <div class="user_img5">
-                                    <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}"><img src="{{asset('images/left-imgs/img-1.jpg')}}" alt=""></a>												
+                                    <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}"><img src="{{asset('storage/'.$course->instructor->user->image_url)}}" alt=""></a>												
                                 </div>
                                 <div class="user_cntnt">
                                     <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}" class="_df7852">{{$course->instructor->user->name}}</a>
@@ -979,7 +969,7 @@ if (!function_exists('calculatePercent')) {
                 </div> 
             `;
         }
-
+        
         function formatDateTime(cmtTime){
 			var currentTime = Date.now();
 			var min=60;

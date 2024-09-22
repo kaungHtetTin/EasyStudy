@@ -16,6 +16,7 @@ use App\Models\Topic;
 use App\Models\Level;
 use App\Models\Review;
 use App\Models\PaymentMethodType;
+use App\Models\Language;
 
 class DatabaseSeeder extends Seeder
 {
@@ -52,6 +53,15 @@ class DatabaseSeeder extends Seeder
             "type"=>"CB pay",
             "icon_url"=>"images/payment-cb-pay.png",
         ]);
+
+        Language::create([
+            "type"=>"Myanmar",
+        ]);
+
+        Language::create([
+            "type"=>"English",
+        ]);
+
 
 
         Level::create(['level'=>'Beginner']);

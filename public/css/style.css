@@ -1219,7 +1219,7 @@ i.icon1 {
 
 .dropdown-content span:hover {
 	color: #333 !important;
-	background-color: #ffecec;
+	background-color: #efeeff;
 }
 
 .more_dropdown:hover .dropdown-content {display: block;}
@@ -1453,7 +1453,7 @@ i.icon1 {
 	font-size: 36px;
     margin-right: 0;
     color: #333;
-    background: #ffecec;
+    background: #efeeff;
     border-radius: 3px;
     padding: 10px 6px;
     display: inline-block;
@@ -1792,7 +1792,7 @@ i.icon1 {
     font-size: 30px;
     text-align: center;
     padding: 14px 0;
-	background: #ffecec;
+	background: #efeeff;
     border-radius: 100%;
 	border-bottom: 1px solid #efefef;
 }
@@ -8076,7 +8076,7 @@ a.rmv-btn i {
     font-size: 120%;
 	height: 30px;
 	Width: 30px;
-	background: #ffecec;
+	background: #efeeff;
 	border-radius: 100%;
 	margin-right: 10px;
 	padding: 6px 4px 0;

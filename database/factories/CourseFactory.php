@@ -26,6 +26,7 @@ class CourseFactory extends Factory
             "sub_category_id"=>rand(1,30),
             "topic_id"=>rand(1,120),
             "level_id"=>rand(1,3),
+            "language_id"=>rand(1,2),
             "title"=>ucwords($this->faker->word),
             "description"=>ucwords($this->faker->paragraph),
             "duration"=>rand(300,3000),

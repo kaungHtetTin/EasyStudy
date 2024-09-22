@@ -4,7 +4,11 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+
 use App\Http\Controllers\Api\Instructor\CourseController;
+use App\Http\Controllers\Api\Instructor\ModuleController;
+use App\Http\Controllers\Api\Instructor\LessonController;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -43,4 +47,9 @@ Route::middleware('auth:sanctum')->group(function(){
 
     //Route::get('/draft-courses',[DraftCourseController::class,'index']);
     Route::apiResource('courses', CourseController::class);
+    Route::post('/courses/{id}/update-cover-image',[CourseController::class,'changeCoverImage']);
+
+    Route::apiResource('modules', ModuleController::class);
+    Route::apiResource('lessons', LessonController::class);
+ 
 });

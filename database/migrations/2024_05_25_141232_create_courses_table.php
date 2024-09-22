@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('sub_category_id');
             $table->unsignedBigInteger('topic_id');
             $table->unsignedBigInteger('level_id');
+            $table->unsignedBigInteger('language_id');
             $table->string('title');
             $table->text('description');
             $table->string('language')->nullable();
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->string('preview_url')->nullable();
             $table->string('community_link')->nullable();
             $table->integer('fee')->default(0)->nullable();
+            $table->integer('discount')->default(0)->nullable();
             $table->json('payment_method_id')->nullable();
             $table->boolean('certificate')->default(false);
         
@@ -55,6 +57,7 @@ return new class extends Migration
             $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->foreign('level_id')->references('id')->on('topics')->onDelete('cascade');
+            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
         
         });
     }
@@ -80,6 +83,7 @@ return new class extends Migration
             $table->dropForeign(['sub_category_id']);
             $table->dropForeign(['topic_id']);
             $table->dropForeign(['level_id']);
+            $table->dropForeign(['language_id']);
         });
         Schema::dropIfExists('courses');
     }

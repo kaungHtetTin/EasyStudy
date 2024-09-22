@@ -3,13 +3,13 @@
         <div class="left_section">
             <ul>
                 <li class="menu--item">
-                    <a href="instructor_dashboard.html" class="menu--link active" title="Dashboard">
+                    <a href="instructor_dashboard.html" class="menu--link {{$page_title=='Dashboard'?'active':''}}" title="Dashboard">
                         <i class="uil uil-apps menu--icon"></i>
                         <span class="menu--label">Dashboard</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_courses.html" class="menu--link" title="Courses">
+                    <a href="{{route('instructor.courses.lists')}}" class="menu--link {{$page_title=='Courses'?'active':''}}" title="Courses">
                         <i class='uil uil-book-alt menu--icon'></i>
                         <span class="menu--label">Courses</span>
                     </a>
@@ -21,7 +21,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{route('instructor.course-create')}}" class="menu--link" title="Create Course">
+                    <a href="{{route('instructor.course-create')}}" class="menu--link {{$page_title=='Create Course'?'active':''}}""  title="Create Course">
                         <i class='uil uil-plus-circle menu--icon'></i>
                         <span class="menu--label">Create Course</span>
                     </a>

@@ -11,10 +11,14 @@ use App\Models\Lesson;
 use App\Models\Module;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Instructor;
 
 use App\Models\SubCategory;
 use App\Models\Topic;
 use App\Models\Level;
+use App\Models\Language;
+
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -25,19 +29,26 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
-        $courses = Course::all();
-        return $courses;
+        $user = Auth::user();
+        $instructor = Instructor::find($user->id);
+        $courses = Course::where('instructor_id',$instructor->id)->get();
+        return view('instructor.courses',[
+            'courses'=>$courses,
+            'page_title'=>'Courses'
+        ]);
     }
 
     public function create(){
         $topics = Topic::all();
         $sub_categories = SubCategory::all();
         $levels = Level::all();
+        $languages = Language::all();
         return view('instructor.course-create',[
             'topics'=>$topics,
             'sub_categories'=>$sub_categories,
-            'levels'=>$levels
+            'levels'=>$levels,
+            'languages'=>$languages,
+            'page_title'=>'Create Course',
         ]);
     }
 
@@ -50,7 +61,7 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         return $request;
-         $validatedData = $request->validate([
+        $validatedData = $request->validate([
             'title'=>'required',
             'short'=>'required',
             'description'=>'required',
@@ -79,6 +90,36 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function edit($id){
+
+        $course = Course::find($id);
+        if(!$course) return redirect(route('instructor.error'));
+
+        $topics = Topic::all();
+        $sub_categories = SubCategory::all();
+        $levels = Level::all();
+        $languages = Language::all();
+        $user = Auth::user();
+        $instructor = $course->instructor;
+
+        if($user->id != $instructor->user->id){
+            return redirect(route('instructor.error'));
+        }
+
+        return view('instructor.course-edit',[
+            'topics'=>$topics,
+            'sub_categories'=>$sub_categories,
+            'levels'=>$levels,
+            'languages'=>$languages,
+            'course'=>$course,
+            'page_title'=>'Edit Course',
+        ]);
+
+
+    }
+
+
     public function update(Request $request, $id)
     {
         //
@@ -92,7 +133,7 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $id;   
     }
 
 }

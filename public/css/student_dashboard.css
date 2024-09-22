@@ -1386,7 +1386,7 @@ i.icon1 {
 
 .dropdown-content span:hover {
 	color: #333 !important;
-	background-color: #ffecec;
+	background-color: #efeeff;
 }
 
 .more_dropdown:hover .dropdown-content {display: block;}
@@ -1766,7 +1766,7 @@ table.table.ucp-table {
 .ucp-table thead tr th {
     color: #333;
 	font-size: 14px;
-    background-color: #ffecec;
+    background-color: #efeeff;
 }
 
 .ucp-table tfoot {
@@ -2910,7 +2910,7 @@ i.icon8 {
 
 .chat__message__dt.active, .chat__message__dt:hover {
     border-left: 4px solid #475692;
-	background: #ffecec;
+	background: #efeeff;
 }
 
 .user-status {
@@ -3200,7 +3200,7 @@ i.icon8 {
 }
 
 .message-dt.st3 .message-inner-dt > p {
-	background-color: #ffecec;
+	background-color: #efeeff;
 	color: #686f7a;
 	width: auto;
 	padding: 12px 20px;

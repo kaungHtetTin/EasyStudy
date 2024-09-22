@@ -36,6 +36,7 @@ Route::get('/privacy-policy',[LayoutController::class,'privacyPolicyPage'])->nam
 Route::get('/terms',[LayoutController::class,'termPage'])->name('terms');
 Route::get('/teach-on',[LayoutController::class,'teachOnPage'])->name('teach-on');
 Route::get('/sitemap',[LayoutController::class,'siteMapPage'])->name('sitemap');
+Route::get('/error',function(){  return view('student.error',['page_title'=>'Error']); })->name('error');
 
 
 // main courses

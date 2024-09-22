@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('lesson_type_id');
             $table->string('title');
-            $table->string('mini_title')->nullable();
             $table->string('description')->nullable();
             $table->string('thumbnail')->nullable();
             $table->integer('view')->default(0)->nullable();
@@ -27,6 +26,7 @@ return new class extends Migration
             $table->string('download_url')->nullable();
             $table->integer('duration')->default(0)->nullable();
             $table->boolean('downloadable')->default(false)->nullable();
+            $table->boolean('free_preview')->default(false)->nullable();
             $table->integer('size')->default(0)->nullable();
             $table->timestamps();
 

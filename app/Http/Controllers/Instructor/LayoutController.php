@@ -27,9 +27,9 @@ class LayoutController extends Controller
         }
     }
 
-    public function courseCreate(){
-        
-       return "error";
-
+    public function error(){
+        return view('instructor.error',[
+            'page_title'=>"Error",
+        ]);
     }
 }

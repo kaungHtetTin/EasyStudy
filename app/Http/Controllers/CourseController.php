@@ -55,17 +55,20 @@ class CourseController extends Controller
     public function detail($id){
 
         $course = Course::find($id);
+        
+        if($course==null){
+            return redirect()->route('error');
+        }
+
         $user = Auth::user();
         $myReview=false;
-        $access=false;
+       
         $reaction = false;
         $subscribed = false; // check subscribed to instructor
         if (Auth::check()) {
 
             $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
-            if($access==null){
-                $access=false;
-            }else{
+            if($access){
                 return redirect()->route('course.learn',['id'=>$id]);
             }
 
@@ -96,7 +99,6 @@ class CourseController extends Controller
             'page_title'=>'Detail',
             'course'=>$course,
             'myReview'=>$myReview,
-            'access'=>$access,
             'reaction'=>$reaction,
             'subscribed'=>$subscribed,
         ]);
@@ -147,6 +149,9 @@ class CourseController extends Controller
         $saved_course->verified = 0;
         $saved_course->disable = 0;
         $saved_course->save();
+
+        $course->enroll_count = $course->enroll_count+1;
+        $course->save();
 
         $cart = Cart::where('user_id',$user->id)->where('course_id',$id)->first();
         if($cart) $cart->delete();
