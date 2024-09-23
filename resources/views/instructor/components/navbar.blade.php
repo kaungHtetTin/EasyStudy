@@ -3,7 +3,7 @@
         <div class="left_section">
             <ul>
                 <li class="menu--item">
-                    <a href="instructor_dashboard.html" class="menu--link {{$page_title=='Dashboard'?'active':''}}" title="Dashboard">
+                    <a href="{{route('instructor.home')}}" class="menu--link {{$page_title=='Dashboard'?'active':''}}" title="Dashboard">
                         <i class="uil uil-apps menu--icon"></i>
                         <span class="menu--label">Dashboard</span>
                     </a>

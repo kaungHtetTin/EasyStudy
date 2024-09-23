@@ -22,7 +22,7 @@
     <div class="header_right">
         <ul>
             <li>
-                <a href="{{route('instructor.course-create')}}" class="upload_btn" title="Create New Course">Create New Course</a>
+                <a href="#" class="upload_btn" title="Create New Course">Guide</a>
             </li>
             <li>
                 <a href="shopping_cart.html" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">2</span></a>

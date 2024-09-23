@@ -16,9 +16,9 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class);
     }
 
-    public function instructor(){
-        return $this->hasOne(Instructor::class);
-    }
+    // public function instructor(){
+    //     return $this->hasOne(Instructor::class);
+    // }
 
     public function saved_courses(){
         return $this->hasMany(SavedCourse::class);

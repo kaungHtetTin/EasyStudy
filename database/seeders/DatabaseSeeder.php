@@ -18,6 +18,8 @@ use App\Models\Review;
 use App\Models\PaymentMethodType;
 use App\Models\Language;
 
+use Illuminate\Support\Str;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -67,6 +69,19 @@ class DatabaseSeeder extends Seeder
         Level::create(['level'=>'Beginner']);
         Level::create(['level'=>'Intermediate']);
         Level::create(['level'=>'Expert']);
+
+        User::create([
+            'name' => 'Disable User',
+            'email' => 'disableemail@gmail.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
+
+        Instructor::create([
+            "user_id"=> 1,
+            "student_enroll"=>rand(1,1000),
+        ]);
 
         User::factory(100)->create();
         $instructors = Instructor::factory()

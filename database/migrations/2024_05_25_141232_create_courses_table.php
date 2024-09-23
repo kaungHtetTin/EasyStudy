@@ -42,6 +42,7 @@ return new class extends Migration
             $table->integer('like_count')->default(0);
             $table->integer('dislike_count')->default(0);
             $table->integer('enroll_count')->default(0);
+            $table->boolean('disable')->default(false)->nullable();
             $table->timestamps();
 
             $table->index('title');

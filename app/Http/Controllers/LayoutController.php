@@ -11,9 +11,10 @@ use App\Models\Review;
 class LayoutController extends Controller
 {
     public function index(){
+        //extract recommended course
 
-        $newestCourses = Course::with('instructor.user')->with('category')->with('sub_category')->with('topic')->limit(10)->orderBy('id','desc')->get();
-        $featureCourses = Course::with('instructor.user')->with('category')->with('sub_category')->with('topic')->limit(10)->orderBy('id','asc')->get();
+        $newestCourses = Course::with('instructor.user')->with('category')->with('sub_category')->with('topic')->where('disable',0)->limit(10)->orderBy('id','desc')->get();
+        $featureCourses = Course::with('instructor.user')->with('category')->with('sub_category')->with('topic')->where('disable',0)->limit(10)->orderBy('id','asc')->get();
         $popularInstructors = Instructor::with('user:id,name,email,phone,address')->
         with('categories')->limit(10)->orderBy('student_enroll','desc')->get();
         $reviews = Review::limit(10)->get();

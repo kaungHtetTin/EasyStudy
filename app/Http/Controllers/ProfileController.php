@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Instructor;
+use App\Models\Course;
+
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -98,6 +101,17 @@ class ProfileController extends Controller
         $user = $request->user();
 
         Auth::logout();
+
+        $instructor = Instructor::where('user_id',$user->id)->first();
+        if($instructor){
+            $id = $instructor->id;
+            $instructor->user_id = 1;
+            $instructor->save();
+
+            Course::where('instructor_id',$id)->update(
+                ['disable'=>1]
+            );
+        }
 
         $user->delete();
 

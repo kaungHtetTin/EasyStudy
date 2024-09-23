@@ -30,7 +30,9 @@ return new class extends Migration
             $table->string('bio')->nullable();
             $table->string('education')->nullable();
             $table->string('gender')->nullable();
+            $table->boolean('disable')->default(false)->nullable();
             $table->timestamps();
+            
         });
     }
 

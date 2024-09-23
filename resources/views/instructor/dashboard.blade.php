@@ -63,7 +63,7 @@
 								<h1>Jump Into Course Creation</h1>
 							</div>
 							<div class="card_dash_right1">
-								<button class="create_btn_dash" onclick="window.location.href = 'create_new_course.html';">Create Your Course</button>
+								<button class="create_btn_dash" onclick="window.location.href = '{{route('instructor.course-create')}}';">Create Your Course</button>
 							</div>
 						</div>
 					</div>					

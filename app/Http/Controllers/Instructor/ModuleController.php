@@ -49,6 +49,6 @@ class ModuleController extends Controller
 
     public function destroy($id){
         Module::find($id)->delete();
-        return back()->width('msg','Section has been deleted successfully.');
+        return back()->with('msg','Section has been deleted successfully.');
     }
 }

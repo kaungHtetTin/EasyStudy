@@ -268,15 +268,15 @@
                                         <div class="col-md-12">
                                             <div class="curriculum-add-item">
                                                 <h4 class="section-title mt-0"><i class="fas fa-th-list mr-2"></i>Curriculum</h4>
-                                                <button class="main-btn color btn-hover ml-left add-section-title" data-toggle="modal" data-target="#add_section_model">New Section</button>
+                                                <button class="main-btn color btn-hover ml-left add-section-title reloadFun" data-toggle="modal" data-target="#add_section_model">New Section</button>
                                             </div>
                                                 @foreach ($course->modules as $module)
                                                 <div class="added-section-item mb-30">
                                                     <div class="section-header">
                                                         <h4><i class="fas fa-bars mr-2"></i>{{$module->title}}</h4>
                                                         <div class="section-edit-options">
-                                                            <button class="btn-152" type="button" data-toggle="collapse" data-target="#edit-section"><i class="fas fa-edit"></i></button>
-															<button class="btn-152" type="button" data-toggle="collapse" data-target="#delete-section"><i class="fas fa-trash-alt"></i></button>
+                                                            <button class="btn-152 reloadFun" type="button" data-toggle="collapse" data-target="#edit-section"><i class="fas fa-edit"></i></button>
+															<button class="btn-152 reloadFun" type="button" data-toggle="collapse" data-target="#delete-section"><i class="fas fa-trash-alt"></i></button>
 															
                                                         </div>
                                                     </div>
@@ -334,8 +334,8 @@
 
                                                                     <span class="section-item-title-text">{{$lesson->title}}</span>
                                                                 </div>
-                                                                <button type="button" class="section-item-tools"><i class="fas fa-edit"></i></button>
-                                                                <button type="button" class="section-item-tools"  data-toggle="modal" data-target="#delete-section{{$lesson->id}}" ><i class="fas fa-trash-alt"></i></button>
+                                                                <button type="button" class="section-item-tools reloadFun"><i class="fas fa-edit"></i></button>
+                                                                <button type="button" class="section-item-tools reloadFun"  data-toggle="modal" data-target="#delete-section{{$lesson->id}}" ><i class="fas fa-trash-alt"></i></button>
                                                            
 
 
@@ -433,6 +433,7 @@
 			}
 
 			$(document).ready(()=>{
+
 
 				$('#btn_add_module').click(()=>{
                     addModule();
@@ -594,12 +595,13 @@
 			}
 
 			function addLecture(formData){
-				 
+				$('.reloadFun').hide();
 				var ajax=new XMLHttpRequest();
 				ajax.onload =function(){
 					if(ajax.status==200 || ajax.readyState==4){
 						let lesson = JSON.parse(ajax.responseText);
 						console.log(lesson);
+						$('.reloadFun').show();
 					
 					}else{
 						console.log(ajax.responseText);
