@@ -129,6 +129,8 @@ if (!function_exists('calculatePercent')) {
         if($reaction->react==2) $dislike = true;
     }
 
+    $payment_methods = $course->instructor->payment_methods;
+
     $user = Auth::user();
 
 @endphp
@@ -183,144 +185,170 @@ if (!function_exists('calculatePercent')) {
     <div style="" class="modal vd_mdl fade" id="payModal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-				<div class="modal-body">
-                    <div style="text-align: right">
-                        <button class="btn_payment_cancel" style="width:35px;height:35px;float:right;margin-top:0" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div id="loading" style="display: none">
-                        <div class="col-md-12">
-                            <br><br><br><br><br>
-                            <div class="main-loader mt-50" style="margin-bottom:150px;">													
-                                <div class="spinner">
-                                    <div class="bounce1"></div>
-                                    <div class="bounce2"></div>
-                                    <div class="bounce3"></div>
-                                </div>																										
-                            </div>
-                        </div>
-                    </div>
-
-					<div class="membership_chk_bg rght1528">
-                        <div class="coupon_code">
-                            <h4>How to apply?</4>
-                            <p>
-                                Select the payment methods. <br>
-                                Transfer the required amount ({{$course->fee}} MMK). <br>
-                                Send the payment screenshot with transaction ID. <br>
-                                <br><br>
-                            </p>
+                @if (count($payment_methods)>1)
+                    <div class="modal-body">
+                        <div style="text-align: right">
+                            <button class="btn_payment_cancel" style="width:35px;height:35px;float:right;margin-top:0" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
 
-                        <div class="checkout_title">
-                            <h4>Payment Methods</h4>
-                            <img src="{{asset('images/line.svg')}}" alt="">
-                        </div>
-                        <div class="order_dt_section">
-
-                            @foreach ($course->instructor->payment_methods as $method)
-                                <div class="fcrse_1 payment_method" style="margin:3px;">
-                                    <div class="" style="display: flex;padding:5px;">
-                                        <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset($method->payment_method_type->icon_url)}}" alt="">
-                                        <div >
-                                            <strong>{{$method->payment_method_type->type}}</strong>
-                                            <div>{{$method->method}}</div>
-                                        </div>
-                                    </div>
-                                    
+                        <div id="loading" style="display: none">
+                            <div class="col-md-12">
+                                <br><br><br><br><br>
+                                <div class="main-loader mt-50" style="margin-bottom:150px;">													
+                                    <div class="spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                    </div>																										
                                 </div>
-                            @endforeach
-                            
-                            <div class="order_title">
-                                <h2>Amount</h2>
-                                <div class="order_price5">{{$course->fee}} MMK</div>
                             </div>
+                        </div>
 
+                        <div class="membership_chk_bg rght1528">
                             <div class="coupon_code">
-                                <h4> </4>
+                                <h4>How to apply?</4>
                                 <p>
-                                    
-                                    <br>
+                                    Select the payment methods. <br>
+                                    Transfer the required amount ({{$course->fee}} MMK). <br>
+                                    Send the payment screenshot with transaction ID. <br>
+                                    <br><br>
                                 </p>
                             </div>
-                            <div style="text-align: center;">
-                                <img id="img_screenshot" style="width: 180px;height:320px;display:none" src="" alt="">
-                                <br><br>
-                                
-                                <span id="screenshot_picker" style="border: 1px solid #475692;border-radius:7px;color:#475692;padding:10px;cursor:pointer">
-                                    Upload Screenshot
-                                </span><br><br>
-                                Select a payment screenshot
-                                <p style="text-align:left;font-size:12px;color:red;margin-top:10px;"> {{$errors->first('screenshot')}} </p>	
+
+                            <div class="checkout_title">
+                                <h4>Payment Methods</h4>
+                                <img src="{{asset('images/line.svg')}}" alt="">
                             </div>
-                            <form id="checkoutform" action="{{route('course.checkout',['id'=>$course->id])}}" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <input type="file" name="screenshot" id="input_screenshot" style="display:none" accept="image/*">
-                                <input id="payment_method" type="hidden" name="payment" value="" />
-                                <p style="text-align:left;font-size:12px;color:red;margin-top:10px;"> {{$errors->first('payment')}} </p>	
-                            </form>
-                            <a onclick="checkoutNow()" style="cursor: pointer" class="chck-btn22">Checkout Now</a>
+                            <div class="order_dt_section">
+
+                                @foreach ($payment_methods as $method)
+                                    <div class="fcrse_1 payment_method" style="margin:3px;">
+                                        <div class="" style="display: flex;padding:5px;">
+                                            <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset($method->payment_method_type->icon_url)}}" alt="">
+                                            <div >
+                                                <strong>{{$method->payment_method_type->type}}</strong>
+                                                <div>{{$method->method}}</div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                @endforeach
+                                
+                                <div class="order_title">
+                                    <h2>Amount</h2>
+                                    <div class="order_price5">{{$course->fee}} MMK</div>
+                                </div>
+
+                                <div class="coupon_code">
+                                    <h4> </4>
+                                    <p>
+                                        
+                                        <br>
+                                    </p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <img id="img_screenshot" style="width: 180px;height:320px;display:none" src="" alt="">
+                                    <br><br>
+                                    
+                                    <span id="screenshot_picker" style="border: 1px solid #475692;border-radius:7px;color:#475692;padding:10px;cursor:pointer">
+                                        Upload Screenshot
+                                    </span><br><br>
+                                    Select a payment screenshot
+                                    <p style="text-align:left;font-size:12px;color:red;margin-top:10px;"> {{$errors->first('screenshot')}} </p>	
+                                </div>
+                                <form id="checkoutform" action="{{route('course.checkout',['id'=>$course->id])}}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="screenshot" id="input_screenshot" style="display:none" accept="image/*">
+                                    <input id="payment_method" type="hidden" name="payment" value="" />
+                                    <p style="text-align:left;font-size:12px;color:red;margin-top:10px;"> {{$errors->first('payment')}} </p>	
+                                </form>
+                                <a onclick="checkoutNow()" style="cursor: pointer" class="chck-btn22">Checkout Now</a>
+                            </div>
                         </div>
                     </div>
-				</div>
+                    <script>
+
+                        const show_check_out_modal ='{{$show_check_out_modal}}';
+                        const payment_methods = @json($payment_methods);
+
+                        $(document).ready(()=>{
+
+                            if(show_check_out_modal=="1"){
+                                $('#btn_pay_now').click();
+                            }
+
+                            $('.payment_method').each((j,method)=>{
+                                $(method).click(()=>{
+                                    const payment_method_id = payment_methods[j].id;
+                                    $('#payment_method').val(payment_method_id);
+
+                                    $('.payment_method').each((i,m)=>{
+                                        $(m).css({"border":""});
+                                    })
+
+                                    $(method).css({"border":"2px solid #475692"});
+                                    
+                                })
+                            })
+
+                            $('#screenshot_picker').click(()=>{
+                                $('#input_screenshot').click();
+                                $('#img_screenshot').attr('src', '');
+                                $('#img_screenshot').hide();
+                            });
+
+                            $('#input_screenshot').change(()=>{
+
+                                var files=$('#input_screenshot').prop('files');
+                                var file=files[0];
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    imageSrc=e.target.result;
+                                
+                                    $('#img_screenshot').attr('src', imageSrc);
+                                    $('#img_screenshot').show();
+                                };
+
+                                reader.readAsDataURL(file);
+                                    
+                            });
+                        })
+
+                        function checkoutNow(){
+                            $('#checkoutform').submit();
+                        }
+                    </script>
+                @else
+                    <div class="modal-body">
+                        <div style="text-align: right">
+                            <button class="btn_payment_cancel" style="width:35px;height:35px;float:right;margin-top:0" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div style="padding:20px;text-align:center">
+                            <br><br>
+                            <i style="font-size: 40px;" class="uil uil-card-atm"></i> <br><br>
+
+                            No payment method is defined by the instructor for this course. <br>
+                            You cannot purchase the course. <br>
+                            Thank you.
+                            <br><br> 
+                            <button class="subscribe-btn" style="width:100px;margin:auto;magin-top:20px;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                Close
+                            </button>
+                        </div>
+
+                    </div>
+                @endif
+                
+
 				
 			</div>
 		</div>
-        <script>
-
-            const show_check_out_modal ='{{$show_check_out_modal}}';
-            const payment_methods = @json($payment_methods);
-
-            $(document).ready(()=>{
-
-                if(show_check_out_modal=="1"){
-                    $('#btn_pay_now').click();
-                }
-
-                $('.payment_method').each((j,method)=>{
-                    $(method).click(()=>{
-                        const payment_method_id = payment_methods[j].id;
-                        $('#payment_method').val(payment_method_id);
-
-                        $('.payment_method').each((i,m)=>{
-                            $(m).css({"border":""});
-                        })
-
-                        $(method).css({"border":"2px solid #475692"});
-                        
-                    })
-                })
-
-                $('#screenshot_picker').click(()=>{
-                    $('#input_screenshot').click();
-                    $('#img_screenshot').attr('src', '');
-                    $('#img_screenshot').hide();
-                });
-
-                $('#input_screenshot').change(()=>{
-
-                    var files=$('#input_screenshot').prop('files');
-                    var file=files[0];
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        imageSrc=e.target.result;
-                       
-                        $('#img_screenshot').attr('src', imageSrc);
-                        $('#img_screenshot').show();
-                    };
-
-                    reader.readAsDataURL(file);
-                        
-                });
-            })
-
-            function checkoutNow(){
-                $('#checkoutform').submit();
-            }
-        </script>
 	</div>
 
     {{-- Paynow modal End --}}

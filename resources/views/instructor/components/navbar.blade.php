@@ -50,10 +50,20 @@
                         <span class="menu--label">Reviews</span>
                     </a>
                 </li>
-                 <li class="menu--item">
+            </ul>
+        </div>
+        <div class="left_section pt-2">
+            <ul>
+                <li class="menu--item">
                     <a href="{{route('instructor.payment-methods.lists')}}"  class="menu--link {{$page_title=='Payment Methods'?'active':''}}"  title="Payment Methods">
                         <i class='uil uil-card-atm menu--icon'></i>
                         <span class="menu--label">Payment Methods</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{route('instructor.statements.lists')}}" class="menu--link {{$page_title=='Statements'?'active':''}}" title="Statements">
+                        <i class='uil uil-file-alt menu--icon'></i>
+                        <span class="menu--label">Statements</span>
                     </a>
                 </li>
                 <li class="menu--item">
@@ -66,18 +76,6 @@
                     <a href="instructor_payout.html" class="menu--link" title="Payout">
                         <i class='uil uil-wallet menu--icon'></i>
                         <span class="menu--label">Payout</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="instructor_statements.html" class="menu--link" title="Statements">
-                        <i class='uil uil-file-alt menu--icon'></i>
-                        <span class="menu--label">Statements</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="instructor_verification.html" class="menu--link" title="Verification">
-                        <i class='uil uil-check-circle menu--icon'></i>
-                        <span class="menu--label">Verification</span>
                     </a>
                 </li>
             </ul>

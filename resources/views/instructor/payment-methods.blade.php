@@ -3,7 +3,7 @@
 	@section('content')
 	<style>
 		.payment_content{
-			padding: 10px;
+			padding: 10px 25px 25px 25px;
 			float: left;
 			width: 100%;
 		}

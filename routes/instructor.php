@@ -8,6 +8,7 @@ use App\Http\Controllers\Instructor\CourseController;
 use App\Http\Controllers\Instructor\ModuleController;
 use App\Http\Controllers\Instructor\LessonController;
 use App\Http\Controllers\Instructor\PaymentMethodController;
+use App\Http\Controllers\Instructor\PaymentHistoryController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
@@ -43,6 +44,12 @@ Route::middleware('auth')->group(function () {
             'index' => 'instructor.payment-methods.lists',
             'store'=>'instructor.payment-methods.save',
             'destroy'=>'instructor.payment-methods.remove',
+        ]);
+
+        Route::resource('statements',PaymentHistoryController::class)->names([
+            'index'=>'instructor.statements.lists',
+            'update'=>'instructor.statements.change',
+            'destroy'=>'instructor.statements.remove',
         ]);
 
         Route::get('/error',[LayoutController::class,'error'])->name('instructor.error');

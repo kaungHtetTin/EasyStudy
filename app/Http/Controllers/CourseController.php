@@ -137,9 +137,11 @@ class CourseController extends Controller
         
         $payment = new PaymentHistory();
         $payment->user_id = $user->id;
+        $payment->instructor_id = $course->instructor_id;
         $payment->course_id = $id;
         $payment->payment_method_id = $req->payment;
         $payment->amount = $course->fee;
+        $payment->screenshot_url = $path;
         $payment->billed = 0;
         $payment->save();
 
@@ -170,12 +172,10 @@ class CourseController extends Controller
         }
 
         if (Auth::check()) {
-
             $myReview = Review::where('user_id',$user->id)->where('course_id',$course->id)->first();
             if($myReview==null){
                 $myReview=false;
             }
-
         }
         
         $question_types = QuestionType::where('course_id',$id)->get();
