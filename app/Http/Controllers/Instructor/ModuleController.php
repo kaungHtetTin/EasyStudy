@@ -12,13 +12,24 @@ use Illuminate\Support\Facades\Auth;
 class ModuleController extends Controller
 {
     public function index(Request $req){
+        $user = Auth::user();
         $course_id = $req->course_id;
         $course = Course::find($course_id);
-        return view('instructor.modules',[
-            'page_title'=>$course->title,
-            'course'=>$course,
 
-        ]);
+        if($course){
+            if($course->instructor->user->id ==$user->id ){
+                return view('instructor.modules',[
+                    'page_title'=>$course->title,
+                    'course'=>$course,
+
+                ]);
+            }else{
+                return redirect(route('instructor.error'));
+            }
+        }else{
+            return redirect(route('instructor.error'));
+        }
+
     }
 
     public function store(Request $req){

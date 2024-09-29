@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">		
-    <title>Instructor - {{$page_title}}</title>
+    <title>Instructor | {{$page_title}}</title>
     
     <!-- Favicon Icon -->
      <link rel="icon" type="image/png" href="{{asset('images/fav.png')}}">

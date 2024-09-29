@@ -147,7 +147,6 @@ if (!function_exists('calculatePercent')) {
         }
 
         .payment_method:hover{
-            border: 1px solid #475692;
             color :#475692;
             background:#efeeff;
             border-radius: 7px;
@@ -221,11 +220,16 @@ if (!function_exists('calculatePercent')) {
                         </div>
                         <div class="order_dt_section">
 
-                            @foreach ($payment_methods as $payment)
-                                <div class="order_title payment_method" style="display: flex;">
-                                    <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset($payment['icon'])}}" alt="">
-                                    <h6>{{$payment['type']}}</h6>
-                                    <div class="order_price">{{$payment['method']}}</div>
+                            @foreach ($course->instructor->payment_methods as $method)
+                                <div class="fcrse_1 payment_method" style="margin:3px;">
+                                    <div class="" style="display: flex;padding:5px;">
+                                        <img style="width:30px;height:30px;margin-right:20px;background:#475692;border-radius:3px;" src="{{asset($method->payment_method_type->icon_url)}}" alt="">
+                                        <div >
+                                            <strong>{{$method->payment_method_type->type}}</strong>
+                                            <div>{{$method->method}}</div>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             @endforeach
                             
@@ -281,10 +285,10 @@ if (!function_exists('calculatePercent')) {
                         $('#payment_method').val(payment_method_id);
 
                         $('.payment_method').each((i,m)=>{
-                            $(m).css({"background":""});
+                            $(m).css({"border":""});
                         })
 
-                        $(method).css({"background":"#A5FE82"});
+                        $(method).css({"border":"2px solid #475692"});
                         
                     })
                 })

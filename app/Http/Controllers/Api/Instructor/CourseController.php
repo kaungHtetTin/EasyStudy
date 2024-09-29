@@ -20,7 +20,7 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $user = $request->user();
-        $instructor = Instructor::find($user->id);
+        $instructor = Instructor::where('user_id',$user->id)->first();
 
         $validatedData = $request->validate([
             'title'=>'required',
@@ -70,7 +70,7 @@ class CourseController extends Controller
     {
     
         $user = $request->user();
-        $instructor = $instructor = Instructor::find($user->id);
+        $instructor = Instructor::where('user_id',$user->id)->first();
         $course = Course::find($id);
         if($course==null){
             return response()->json(['status'=>'fail','message'=>'Bad request'],400);
@@ -115,7 +115,7 @@ class CourseController extends Controller
         ]);
 
         $user = $request->user();
-        $instructor = $instructor = Instructor::find($user->id);
+        $instructor = Instructor::where('user_id',$user->id)->first();
         $course = Course::find($id);
         if($course==null){
             return response()->json(['status'=>'fail','message'=>'Bad request'],400);

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('instructor_id');
             $table->unsignedBigInteger('payment_method_type_id')->nullable();
             $table->string('method')->nullable(); // this may be phone no or banck account no
+            $table->string('account_name')->nullable();
             $table->timestamps();
 
             $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');

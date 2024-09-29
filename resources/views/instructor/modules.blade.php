@@ -349,7 +349,7 @@
 																				</button>
 																			</div>
 																			<div class="modal-body">
-																				Do you really want to delelet this lesson? <br><br>
+																				Do you really want to delete this lesson? <br><br>
 																				<div class="section-item-title">
 																					@if ($lesson->lesson_type_id==1)
 																						<i class="uil uil-play-circle"></i>

@@ -8,6 +8,21 @@
 					<div class="col-lg-12">	
 						<h2 class="st_title"><i class="uil uil-apps"></i> Instructor Dashboard</h2>
 					</div>
+					@if (count($payment_methods)==0)
+						<div class="col-12">
+							<div class="card_dash1">
+								<div class="alert alert-warning">Important </div>
+								<div class="card_dash_left1">
+									<i class="uil uil-card-atm"></i>
+									<h1>Add payment method</h1>
+								</div>
+								<div class="card_dash_right1">
+									<button class="create_btn_dash" onclick="window.location.href = '{{route('instructor.payment-methods.lists')}}';">Add Now</button>
+								</div>
+							</div>
+							
+						</div>		
+					@endif
 					<div class="col-xl-3 col-lg-6 col-md-6">
 						<div class="card_dash">
 							<div class="card_dash_left">
@@ -282,4 +297,5 @@
 		@include('instructor.components.footer')
 	</div>
 	<!-- Body End -->
+
 	@endsection

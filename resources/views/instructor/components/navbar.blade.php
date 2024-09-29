@@ -21,7 +21,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{route('instructor.course-create')}}" class="menu--link {{$page_title=='Create Course'?'active':''}}""  title="Create Course">
+                    <a href="{{route('instructor.course-create')}}" class="menu--link {{$page_title=='Create Course'?'active':''}}"  title="Create Course">
                         <i class='uil uil-plus-circle menu--icon'></i>
                         <span class="menu--label">Create Course</span>
                     </a>
@@ -48,6 +48,12 @@
                     <a href="instructor_all_reviews.html" class="menu--link" title="Reviews">
                         <i class='uil uil-star menu--icon'></i>
                         <span class="menu--label">Reviews</span>
+                    </a>
+                </li>
+                 <li class="menu--item">
+                    <a href="{{route('instructor.payment-methods.lists')}}"  class="menu--link {{$page_title=='Payment Methods'?'active':''}}"  title="Payment Methods">
+                        <i class='uil uil-card-atm menu--icon'></i>
+                        <span class="menu--label">Payment Methods</span>
                     </a>
                 </li>
                 <li class="menu--item">

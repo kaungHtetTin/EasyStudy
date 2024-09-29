@@ -30,7 +30,7 @@ class CourseController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $instructor = Instructor::find($user->id);
+        $instructor = Instructor::where('user_id',$user->id)->first();
         $courses = Course::where('instructor_id',$instructor->id)->get();
         return view('instructor.courses',[
             'courses'=>$courses,
