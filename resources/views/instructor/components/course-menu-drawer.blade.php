@@ -67,7 +67,7 @@
                             </a>
                         </li>
                         <li class="menu--item">
-                            <a href="" class="menu--link {{$page_title=='Reviews'?'active':''}}" title="Reviews">
+                            <a href="{{route('instructor.reviews.lists')}}?course_id={{$course->id}}" class="menu--link {{$page_title=='Reviews'?'active':''}}" title="Reviews">
                                 <i class='uil uil-star menu--icon'></i>
                                 <span class="menu--label">Reviews</span>
                             </a>
@@ -113,6 +113,8 @@
                 }
                 
             });
+
+           
         })
 
         function adjustLayout(){

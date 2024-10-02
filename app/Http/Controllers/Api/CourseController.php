@@ -168,7 +168,7 @@ class CourseController extends Controller
 
     public function reviews($id){
 
-        $reviews = Review::with('user:id,name,email,fcm_token')->where('course_id',$id)->paginate(10);
+        $reviews = Review::with('user:id,name,email,fcm_token,image_url')->where('course_id',$id)->paginate(10);
         return $reviews;
     }
 

@@ -41,11 +41,8 @@ Route::middleware('auth')->group(function () {
             'index' => 'instructor.questions.lists',
         ]);
 
-        Route::resource('reviews',ReviewController::class)->names([
-            'index' => 'instructor.reviews.lists',
-            'update' => 'instructor.reviews.change',
-        ]);
-
+        Route::get('/reviews',[ReviewController::class,'index'])->name('instructor.reviews.lists');
+ 
         Route::resource('lessons',LessonController::class)->names([
             'store'=>'instructor.lessons.save',
             'destroy'=>'instructor.lessons.remove',

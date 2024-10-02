@@ -16,6 +16,7 @@
     <link href="{{asset('css/instructor-dashboard.css')}}" rel="stylesheet">
     <link href="{{asset('css/instructor-responsive.css')}}" rel="stylesheet">
     <link href="{{asset('css/night-mode.css')}}" rel="stylesheet">
+    <link href="{{asset('css/mystyle.css')}}" rel="stylesheet">
 
     
     

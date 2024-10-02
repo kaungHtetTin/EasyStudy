@@ -603,7 +603,6 @@ if (!function_exists('calculatePercent')) {
                                                     <div class="col-lg-12">
                                                         <div class="reviews_left">
                                                             <h3>Student Feedback</h3>
-                                                            
                                                             <div class="row _rate003">
                                                                 <div class="col-lg-2 col-md-4 col-sm-6"  style="">
                                                                     <h1 style="font-size:70px;color:#333;font-weight:bold;margin-bottom:-15px;">
@@ -1186,7 +1185,7 @@ if (!function_exists('calculatePercent')) {
         }
 
         function questionComponent(question){
-            let delBtn = question.user_id == user.id ? `<span style="float:right;cursor:pointer" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog"><u>Delete </u><i class='uil uil-trash'></i> </span>`:'';
+            let delBtn = question.user_id == user.id ? `<span class="btn_span" style="float:right;" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>`:'';
             return `
                 <div class="review_item" id="question_component_${question.id}">
                     <div class="review_usr_dt">
@@ -1194,7 +1193,7 @@ if (!function_exists('calculatePercent')) {
                         <div class="rv1458" style="width:100%">
                             <h5 class="">${question.title}</h5>
                             <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
-                            <span style="float:right;cursor:pointer" onclick="seeAnswer(${question.id})"> <u> See answers </u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                            <span class="btn_span" style="float:right" onclick="seeAnswer(${question.id})"> See answers <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
                             ${delBtn}
                         </div>
                     </div>   
@@ -1261,7 +1260,7 @@ if (!function_exists('calculatePercent')) {
 		}
 
 		function answerComponent(answer){
-            let delBtn = answer.user_id == user.id ? `<span style="cursor:pointer" onclick="defineDeleteQA(${answer.id},false)"  data-toggle="modal" data-target="#delete_dialog"><u>Delete </u><i class='uil uil-trash'></i> </span>`:'';
+            let delBtn = answer.user_id == user.id ? ` . <span class="btn_span" onclick="defineDeleteQA(${answer.id},false)"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>`:'';
 			return `
 				<div class="review_item" id="answer_component_${answer.id}">
 					<div class="review_usr_dt">
@@ -1272,8 +1271,8 @@ if (!function_exists('calculatePercent')) {
 							</div>
                             <br>
 							<span style="display: inline" class="time_145">By ${answer.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(answer.created_at))}</span>
-							. <span onclick="defineReply(${answer.question_id})"  style="cursor:pointer" data-toggle="modal" data-target="#reply_dialog" ><u>Answer</u><i class='uil uil-comments-alt'></i>  </span>
-                            . ${delBtn}
+							. <span class="btn_span" onclick="defineReply(${answer.question_id})" data-toggle="modal" data-target="#reply_dialog" >Answer<i class='uil uil-comments-alt'></i>  </span>
+                            ${delBtn}
 						</div>
 					</div>
 				</div>
@@ -1466,7 +1465,7 @@ if (!function_exists('calculatePercent')) {
             return `
                 <div class="review_item">
                     <div class="review_usr_dt">
-                        <img src="images/left-imgs/img-1.jpg" alt="">
+                        <img src="http://localhost:8000/storage/${review.user.image_url}" alt="">
                         <div class="rv1458">
                             <h4 class="tutor_name1">${review.user.name}</h4>
                             <span class="time_145">${formatDateTime(new Date(review.created_at))}</span>

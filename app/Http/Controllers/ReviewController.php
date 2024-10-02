@@ -8,6 +8,8 @@ use App\Models\Course;
 
 class ReviewController extends Controller
 {
+    
+
     public function create(Request $req){
         $validatedData = $req->validate([
             'star' => 'required|integer|min:1|max:5',

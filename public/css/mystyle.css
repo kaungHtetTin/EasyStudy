@@ -66,3 +66,18 @@
     color: #333 !important;
     background: #f4f4f4;
 }
+
+.btn_span {
+    cursor: pointer;
+    padding:3px;
+    margin: 5px;
+    text-decoration: underline;
+}
+
+.btn_span:hover {
+    color: #475692;
+    background-color: #efeeff;
+    border-radius: 3px;
+    text-decoration: none;
+    text-decoration: none;
+}

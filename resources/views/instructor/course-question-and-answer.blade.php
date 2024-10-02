@@ -2,32 +2,7 @@
     	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
 
-		if (!function_exists('calculateHour')) {
-			function calculateHour($min){
-				$hr = $min/60;
-				$hr = floor($hr);
-				return $hr;
-			}
-		}
-
-		$downloadable_count = 0;
-		$article_count = 0;
-		$assignment_count = 0;
-		foreach ($course->lessons as $key => $lesson) {
-		
-			# code...
-			if($lesson->downloadable==1){
-				$downloadable_count++;
-			}
-			if($lesson->lesson_type_id==2){
-				$article_count++;
-
-			}
-			if($lesson->lesson_type_id==3){
-				$assignment_count++;
-			}
-		}
-
+	
     @endphp
     @extends('instructor.master')
 
@@ -415,8 +390,8 @@
 							<div class="rv1458" style="width:100%">
 								<h5 class="">${question.title}</h5>
 								<span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
-								<span style="float:right;cursor:pointer" onclick="replyNow(${question.id})"><u>Reply Now </u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
-								<span style="float:right;cursor:pointer" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog"><u>Delete </u><i class='uil uil-trash'></i> </span>
+								<span class="btn_span" style="float:right;" onclick="replyNow(${question.id})">Reply Now <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+								<span class="btn_span" style="float:right;" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>
 							</div>
 						</div>   
 					</div>
@@ -439,7 +414,7 @@
                     </div>
                     
                     <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
-                    <span onclick="defineReply(${question_id})"  style="float:right;cursor:pointer" data-toggle="modal" data-target="#reply_dialog" ><u>Answer</u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                    <span class="btn_span" onclick="defineReply(${question_id})"  style="float:right;" data-toggle="modal" data-target="#reply_dialog" >Answer<i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
                 </div>
             `);
 
@@ -488,9 +463,10 @@
 						<img src="http://localhost:8000/storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
 						<div class="rv1458"  style="width:100%">
 							<div class="content_body">${answer.body}</div>
+							<br>
 							<span style="display: inline" class="time_145">By ${answer.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(answer.created_at))}</span>
-							. <span onclick="defineReply(${answer.question_id})"  style="cursor:pointer" data-toggle="modal" data-target="#reply_dialog" ><u>Answer</u><i class='uil uil-comments-alt'></i>  </span>
-							. <span style="cursor:pointer" onclick="defineDeleteQA(${answer.id},false)"  data-toggle="modal" data-target="#delete_dialog"><u>Delete </u><i class='uil uil-trash'></i> </span>
+							. <span class="btn_span" onclick="defineReply(${answer.question_id})"data-toggle="modal" data-target="#reply_dialog" >Answer<i class='uil uil-comments-alt'></i>  </span>
+							. <span class="btn_span" onclick="defineDeleteQA(${answer.id},false)"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>
 						</div>
 					</div>
 				</div>
