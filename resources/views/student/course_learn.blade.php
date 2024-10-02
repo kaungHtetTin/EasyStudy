@@ -257,9 +257,19 @@ if (!function_exists('calculatePercent')) {
                 margin-inline-start: 20px;
             }
 
+            .content_body{
+                overflow: auto;
+            }
+
             .content_body ul{
                 list-style-type: disc;
                 margin-inline-start: 20px;
+                width: 100%;
+             
+            }
+
+            .content_body div{
+                width: max-content;
             }
 
             .night-mode #question_title{
@@ -285,7 +295,7 @@ if (!function_exists('calculatePercent')) {
     </head>
 
 <body onresize="">
-        <!-- Add New Section Start -->
+    <!-- Reply Dialog Section Start -->
 	<div class="modal fade" id="reply_dialog" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -303,12 +313,37 @@ if (!function_exists('calculatePercent')) {
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-					<button id="btn_reply_dialog_add" type="button" class="main-btn">Post</button>
+					<button id="btn_reply_dialog_add" type="button" class="main-btn" data-dismiss="modal">Post</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Add New Section End -->
+	<!-- Reply Dialog Section End -->
+
+    <!-- Delete Dialog Section Start -->
+	<div class="modal fade" id="delete_dialog" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="lectureModalLabel">Delete</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="new-section-block">
+						Do you reall want to delete
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
+					<button id="btn_delete_dialog_add" onclick="deleteQA()" type="button" class="main-btn" data-dismiss="modal">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Delete Dialog Section End -->
+
     <div class="fixedLessonContainer">
         <div class="row" style="padding-right:0px;">
             <div class="col-lg-8 col-md-6" style="padding-right:0px;" id="player-section">
@@ -1151,14 +1186,16 @@ if (!function_exists('calculatePercent')) {
         }
 
         function questionComponent(question){
+            let delBtn = question.user_id == user.id ? `<span style="float:right;cursor:pointer" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog"><u>Delete </u><i class='uil uil-trash'></i> </span>`:'';
             return `
-                <div class="review_item">
+                <div class="review_item" id="question_component_${question.id}">
                     <div class="review_usr_dt">
-                        <img src="" alt="">
+                        <img src="http://localhost:8000/storage/${question.user.image_url}" alt="">
                         <div class="rv1458" style="width:100%">
                             <h5 class="">${question.title}</h5>
                             <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
-                            <span style="float:right;cursor:pointer" onclick="seeAnswer(${question.id})"><u>See answers </u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                            <span style="float:right;cursor:pointer" onclick="seeAnswer(${question.id})"> <u> See answers </u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                            ${delBtn}
                         </div>
                     </div>   
                 </div>
@@ -1224,8 +1261,9 @@ if (!function_exists('calculatePercent')) {
 		}
 
 		function answerComponent(answer){
+            let delBtn = answer.user_id == user.id ? `<span style="cursor:pointer" onclick="defineDeleteQA(${answer.id},false)"  data-toggle="modal" data-target="#delete_dialog"><u>Delete </u><i class='uil uil-trash'></i> </span>`:'';
 			return `
-				<div class="review_item">
+				<div class="review_item" id="answer_component_${answer.id}">
 					<div class="review_usr_dt">
 						<img src="http://localhost:8000/storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
 						<div class="rv1458"  style="width:100%">
@@ -1235,6 +1273,7 @@ if (!function_exists('calculatePercent')) {
                             <br>
 							<span style="display: inline" class="time_145">By ${answer.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(answer.created_at))}</span>
 							. <span onclick="defineReply(${answer.question_id})"  style="cursor:pointer" data-toggle="modal" data-target="#reply_dialog" ><u>Answer</u><i class='uil uil-comments-alt'></i>  </span>
+                            . ${delBtn}
 						</div>
 					</div>
 				</div>
@@ -1272,7 +1311,9 @@ if (!function_exists('calculatePercent')) {
 					'Accept': 'application/json'
 				},
 				success: function(response) {
-					console.log(response);
+                    let answer = response;
+                    answer.user = user;
+                    $('#answers_layout').append(answerComponent(answer));
 				 
 				},
 				error: function(xhr, status, error) {
@@ -1472,6 +1513,41 @@ if (!function_exists('calculatePercent')) {
 			});
         }
 
+        var deleteQAContentId = 0;
+        var isQuestionDelete;
+
+        function defineDeleteQA(id, isQuestion){
+            deleteQAContentId = id;
+            isQuestionDelete = isQuestion;
+            console.log(typeof(isQuestion));
+        }
+
+        function deleteQA(){
+            let api_url;
+            if(isQuestionDelete){
+                api_url = `/api/questions/${deleteQAContentId}`;
+                $('#question_component_'+deleteQAContentId).html("");
+            }else{
+                api_url = `/api/answers/${deleteQAContentId}`;
+                $('#answer_component_'+deleteQAContentId).html("");
+            }
+            
+             $.ajax({
+				url: api_url, // Replace with your API endpoint
+				type: 'DELETE', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+                
+				success: function(response) {
+                    console.log(response);
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
+        }
+
     </script>
 
     <script src="{{asset('js/vertical-responsive-menu.min.js')}}"></script>
@@ -1480,7 +1556,6 @@ if (!function_exists('calculatePercent')) {
 	<script src="{{asset('vendor/semantic/semantic.min.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>
 	<script src="{{asset('js/night-mode.js')}}"></script>
-	{{-- <script src="{{asset('js/editor.js')}}"></script> --}}
     <script src="{{asset('js/editor_component.js')}}"></script>
     <script src="{{asset('js/util.js')}}"></script>
 

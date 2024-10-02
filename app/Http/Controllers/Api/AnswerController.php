@@ -10,6 +10,10 @@ use App\Models\Question;
 
 class AnswerController extends Controller
 {
+    public function index(){
+        return "all answers";
+    }
+
     public function store(Request $req){
         $req->validate([
             'user_id'=>'required|numeric',
@@ -28,5 +32,34 @@ class AnswerController extends Controller
 
         $answer->save();
         return response()->json($answer, 201);
+    }
+
+    public function destroy(Request  $req, $id){
+        $user = $req->user();
+        $answer = Answer::find($id);
+        if($answer==null){
+            return response()->json("Bad Request",400);
+        }
+        $question = Question::find($answer->question_id);
+
+        if($answer->user_id == $user->id){
+            $question->answer_count = $question->answer_count - 1;
+            $question->save();
+
+            $answer->delete();
+            return response()->json("success",200);
+        }else{
+            $course = Course::find($question->course_id);
+            if($course->instructor->user->id == $user->id){
+                
+                $question->answer_count = $question->answer_count - 1;
+                $question->save();
+
+                $answer->delete();
+                return response()->json("success",200);
+            }else{
+                return response()->json('Un authorize', 403);
+            }
+        }
     }
 }

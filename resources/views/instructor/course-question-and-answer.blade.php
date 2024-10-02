@@ -74,10 +74,26 @@
 			margin-inline-start: 20px;
 		}
 
+		.content_body{
+			overflow: auto;
+	 
+		}
+
+		#editor{
+			overflow: auto;
+		}
+
 		.content_body ul{
 			list-style-type: disc;
 			margin-inline-start: 20px;
+			width: 100%;
 		}
+
+		.content_body div, #editor div{
+			width: max-content;
+		}
+
+
 
 
     </style>
@@ -127,6 +143,29 @@
 		</div>
 	</div>
 	<!-- Add New Section End -->
+	    <!-- Delete Dialog Section Start -->
+	<div class="modal fade" id="delete_dialog" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="lectureModalLabel">Delete</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="new-section-block">
+						Do you reall want to delete
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
+					<button id="btn_delete_dialog_add" onclick="deleteQA()" type="button" class="main-btn" data-dismiss="modal">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Delete Dialog Section End -->
 
 
 	<!-- Add New Section Start -->
@@ -153,7 +192,7 @@
 							<div class="course_des_bg" >
 								<div class="ui form swdh30">
 									<div class="field">
-										<div id="editor" contenteditable="true"></div>
+										<div  id="editor" contenteditable="true"></div>
 									</div>
 								</div>
 								
@@ -164,7 +203,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-					<button id="btn_reply_dialog_add" type="button" class="main-btn">Post</button>
+					<button id="btn_reply_dialog_add" type="button" class="main-btn" data-dismiss="modal">Post</button>
 				</div>
 			</div>
 		</div>
@@ -173,9 +212,9 @@
 
 	<div class="wrapper">
 		<div class="sa4d25">
-            <div class="container">	
-				<div style="position: relative; display:flex">
-					<div style="flex:1">
+            <div class="container" id="main_container">	
+				<div style="position: relative; display:flex;">
+					<div style="flex:1"  id="main_layout">
 						@if (session('msg'))
 							<div class="alert alert-success">
 								{{session('msg')}}
@@ -194,39 +233,7 @@
 												<h2>{{$course->title}}</h2>
 												<span class="_215b04">{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}</span>
 											</div>
-											
-											<div class="row">
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">		
-														<span><i class='uil uil-play-circle'></i></span>
-														<div>
-															{{calculateHour($course->duration)}} hours on-demand video
-														</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-file-alt'></i></span>
-														<div>{{$assignment_count}} Assignments</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-document'></i></span>
-														<div>{{$article_count}} articles</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-cloud-download'></i></span>
-														<div>{{$downloadable_count}} downloable resourses</div>
-													</div>
-												</div>
-											</div>
-											
-											<div class="_215b05">										
-												Last updated {{$course->updated_at->diffForHumans()}}
-											</div>
+
 											<div class="_215b05">
 												<h4>Related Question types</h4>
 												<ul>
@@ -250,7 +257,7 @@
                                                 
 						</div>
 
-						<div class="fcrse_1" id="answer_container" style="display:none">
+						<div class="" id="answer_container" style="display:none">
 							<h5 id="btn_back_answer" style="cursor: pointer;margin-bottom:30px;"><i class='uil uil-arrow-left'></i> Back</h5>
 							<div>
 								<div class="review_item">
@@ -319,8 +326,11 @@
 
 		let reply_question_id = 0;
 		 
-
+	 
 		$(document).ready(()=>{
+
+			$('#main_layout').width(300);
+
 			$(window).scroll(()=>{
                 if($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
                     if(!is_question_fetching && question_mode){
@@ -398,17 +408,19 @@
 
         function questionComponent(question){
             return `
-                <div class="fcrse_1" style="margin-bottom:5px;">
-                    <div class="review_usr_dt">
-                        <img src="http://localhost:8000/storage/${question.user.image_url}" alt="">
-                        <div class="rv1458" style="width:100%">
-                            <h5 class="">${question.title}</h5>
-                            <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
-                            <span style="float:right;cursor:pointer" onclick="replyNow(${question.id})"><u>Reply Now </u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
-                        </div>
-                    </div>   
-                </div>
-				
+				<div id="question_component_${question.id}">
+					<div class="fcrse_1" style="margin-bottom:5px;">
+						<div class="review_usr_dt">
+							<img src="http://localhost:8000/storage/${question.user.image_url}" alt="">
+							<div class="rv1458" style="width:100%">
+								<h5 class="">${question.title}</h5>
+								<span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
+								<span style="float:right;cursor:pointer" onclick="replyNow(${question.id})"><u>Reply Now </u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+								<span style="float:right;cursor:pointer" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog"><u>Delete </u><i class='uil uil-trash'></i> </span>
+							</div>
+						</div>   
+					</div>
+				</div>
             `;
         }
 
@@ -427,7 +439,7 @@
                     </div>
                     
                     <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
-                    <span onclick="defineReply(${question_id})"  style="float:right;cursor:pointer" data-toggle="modal" data-target="#reply_dialog" >Answer<i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                    <span onclick="defineReply(${question_id})"  style="float:right;cursor:pointer" data-toggle="modal" data-target="#reply_dialog" ><u>Answer</u><i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
                 </div>
             `);
 
@@ -471,15 +483,14 @@
 
 		function answerComponent(answer){
 			return `
-				<div class="review_item">
+				<div class="review_item" id="answer_component_${answer.id}">
 					<div class="review_usr_dt">
 						<img src="http://localhost:8000/storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
 						<div class="rv1458"  style="width:100%">
-							<div>
-								<div class="content_body">${answer.body}</div>
-							</div>
+							<div class="content_body">${answer.body}</div>
 							<span style="display: inline" class="time_145">By ${answer.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(answer.created_at))}</span>
-							<span onclick="defineReply(${answer.question_id})"  style="float:right;cursor:pointer" data-toggle="modal" data-target="#reply_dialog" >Answer<i class='uil uil-comments-alt'></i>  </span>
+							. <span onclick="defineReply(${answer.question_id})"  style="cursor:pointer" data-toggle="modal" data-target="#reply_dialog" ><u>Answer</u><i class='uil uil-comments-alt'></i>  </span>
+							. <span style="cursor:pointer" onclick="defineDeleteQA(${answer.id},false)"  data-toggle="modal" data-target="#delete_dialog"><u>Delete </u><i class='uil uil-trash'></i> </span>
 						</div>
 					</div>
 				</div>
@@ -545,7 +556,9 @@
 					'Accept': 'application/json'
 				},
 				success: function(response) {
-					console.log(response);
+					let answer = response;
+                    answer.user = user;
+                    $('#answers_layout').append(answerComponent(answer));
 				 
 				},
 				error: function(xhr, status, error) {
@@ -589,6 +602,40 @@
 			});
 			
 		}
+
+		var deleteQAContentId = 0;
+        var isQuestionDelete;
+
+        function defineDeleteQA(id, isQuestion){
+            deleteQAContentId = id;
+            isQuestionDelete = isQuestion;
+        }
+
+        function deleteQA(){
+            let api_url;
+            if(isQuestionDelete){
+                api_url = `/api/questions/${deleteQAContentId}`;
+                $('#question_component_'+deleteQAContentId).html("");
+            }else{
+                api_url = `/api/answers/${deleteQAContentId}`;
+                $('#answer_component_'+deleteQAContentId).html("");
+            }
+            
+             $.ajax({
+				url: api_url, // Replace with your API endpoint
+				type: 'DELETE', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+                
+				success: function(response) {
+
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
+        }
 
 	</script>
 	@endsection

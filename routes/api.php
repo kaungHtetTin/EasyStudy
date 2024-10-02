@@ -49,6 +49,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/learning-histories',[LearningHistoryController::class,'create']);
 
     Route::post('/courses',[CourseController::class,'store']);
+
+    Route::apiResource('answers', AnswerController::class);
+    Route::apiResource('questions', QuestionController::class);
+    
 });
 
 Route::post('/courses/pre-view/{id}',[CourseController::class,'playPreView']);
@@ -62,4 +66,4 @@ Route::get('/instructors',[InstructorController::class,'index']);
 
 Route::post('/questions/upload-photo',[QuestionController::class,'uploadPhoto']);
 
-Route::apiResource('answers', AnswerController::class);
+Route::get('/answers',[AnswerController::class,'index']);

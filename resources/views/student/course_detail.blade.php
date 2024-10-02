@@ -95,34 +95,6 @@ if (!function_exists('calculatePercent')) {
 
     $show_check_out_modal = $errors->first('screenshot')!="" || $errors->first('payment')!="";
 
-    $payment_methods =Array(
-        [
-            'id'=>1,
-            'icon'=>'images/payment-wave-pay.jpg',
-            'type'=>'Wave Pay',
-            'method'=>'09682537158',
-        ],
-        [
-            'id'=>2,
-            'icon'=>'images/payment-kbz-pay.jpg',
-            'type'=>'KBZ Pay',
-            'method'=>'09682537158',
-        ],
-        [
-            'id'=>3,
-            'icon'=>'images/payment-aya-pay.png',
-            'type'=>'AYA Pay',
-            'method'=>'09682537158',
-        ],
-        [
-            'id'=>4,
-            'icon'=>'images/payment-cb-pay.png',
-            'type'=>'CB Pay',
-            'method'=>'09682537158',
-        ],
-    );
-
-
     $like = false; $dislike = false;
     if($reaction){
         if($reaction->react==1) $like = true;
