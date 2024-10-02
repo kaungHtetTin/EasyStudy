@@ -38,3 +38,31 @@
 .color_picker{
     background-color: #0000008a;
 }
+
+.main-btn {
+    height: 40px;
+    padding: 0 20px;
+    font-size: 14px;
+    color: #fff;
+    border: 0;
+    background: #475692;
+    border-radius: 3px;
+    margin-right: 5px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif !important;
+}
+
+.main-btn:hover {
+    color: #fff !important;
+    background: #333;
+}
+
+.main-btn.cancel {
+    color: #91699c;
+    background: #f3f3f3;
+}
+
+.main-btn.cancel:hover {
+    color: #333 !important;
+    background: #f4f4f4;
+}

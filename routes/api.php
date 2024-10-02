@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\InstructorController;
 use App\Http\Controllers\Api\LearningHistoryController;
+use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\AnswerController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -57,3 +59,7 @@ Route::get('/courses/{id}/questions',[CourseController::class,'questions']);
 Route::get('/courses/{id}/questions/{qid}/answers',[CourseController::class,'answers']);
 
 Route::get('/instructors',[InstructorController::class,'index']);
+
+Route::post('/questions/upload-photo',[QuestionController::class,'uploadPhoto']);
+
+Route::apiResource('answers', AnswerController::class);

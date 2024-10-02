@@ -173,7 +173,7 @@ class CourseController extends Controller
     }
 
     public function questions($id){
-        $questions = Question::with('user:id,name,email,fcm_token')->where('course_id',$id)->paginate(10);
+        $questions = Question::with('user:id,name,email,fcm_token,image_url')->where('course_id',$id)->paginate(10);
         return $questions;
     }
 

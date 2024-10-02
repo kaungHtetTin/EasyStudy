@@ -15,13 +15,16 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('question_id');
             $table->text('body');
-            $table->text('image_url');
             $table->timestamps();
 
             $table->index('question_id');
+            $table->index('user_id');
+
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -34,7 +37,10 @@ return new class extends Migration
     {
         Schema::table('answers',function(Blueprint $table){
             $table->dropIndex(['question_id']);
+            $table->dropIndex(['user_id']);
+
             $table->dropForeign(['question_id']);
+            $table->dropForeign(['user_id']);
         });
         Schema::dropIfExists('answers');
     }

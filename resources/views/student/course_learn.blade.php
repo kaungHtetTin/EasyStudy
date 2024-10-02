@@ -257,6 +257,11 @@ if (!function_exists('calculatePercent')) {
                 margin-inline-start: 20px;
             }
 
+            .content_body ul{
+                list-style-type: disc;
+                margin-inline-start: 20px;
+            }
+
             .night-mode #question_title{
                 color:white;
             }
@@ -280,6 +285,30 @@ if (!function_exists('calculatePercent')) {
     </head>
 
 <body onresize="">
+        <!-- Add New Section Start -->
+	<div class="modal fade" id="reply_dialog" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="lectureModalLabel">Reply</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="new-section-block">
+						<div id="reply_editor_container"></div>
+						<span id="editor_input_error" style="color: red; padding:5px;display:none">*Please enter what on your mind.</span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
+					<button id="btn_reply_dialog_add" type="button" class="main-btn">Post</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Add New Section End -->
     <div class="fixedLessonContainer">
         <div class="row" style="padding-right:0px;">
             <div class="col-lg-8 col-md-6" style="padding-right:0px;" id="player-section">
@@ -466,20 +495,22 @@ if (!function_exists('calculatePercent')) {
                                                                 <div class="col-lg-12 col-md-12">
                                                                     <div class="course_des_textarea mt-30 lbel25">
                                                                         <label for="question_details"><h4>Detail (Optional)</h4></label>
-                                                                        <div class="course_des_bg">
-                                                                            <div id="toolbar">
-                                                                                <button data-command="bold" id="boldBtn"><i class="fas fa-bold"></i></button>
-                                                                                <button data-command="italic" id="italicBtn"><i class="fas fa-italic"></i></button>
-                                                                                <button data-command="insertUnorderedList" id="listBtn"><i class="fas fa-list-ul"></i></button>
-                                                                                <button id="codeBtn"><i class="fas fa-code"></i></button>
-                                                                                <button id="imageBtn"><i class="fas fa-image"></i></button>
-                                                                            </div>
-                                                                            <div class="ui form swdh30">
-                                                                                <div class="field">
-                                                                                    <div id="editor" contenteditable="true"></div>
+                                                                        <div id="question_editor_container">
+                                                                            {{-- <input id="dialog_input_file" type="file" accept="image/*" style="display: none">
+                                                                            <div class="course_des_bg">
+                                                                                <div id="toolbar">
+                                                                                    <button data-command="bold" id="boldBtn"><i class="fas fa-bold"></i></button>
+                                                                                    <button data-command="italic" id="italicBtn"><i class="fas fa-italic"></i></button>
+                                                                                    <button data-command="insertUnorderedList" id="listBtn"><i class="fas fa-list-ul"></i></button>
+                                                                                    <button id="codeBtn"><i class="fas fa-code"></i></button>
+                                                                                    <button id="imageBtn"><i class="fas fa-image"></i></button>
                                                                                 </div>
-                                                                            </div>
-                                                                         
+                                                                                <div class="ui form swdh30">
+                                                                                    <div class="field">
+                                                                                        <div id="editor" contenteditable="true"></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div> --}}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -493,7 +524,7 @@ if (!function_exists('calculatePercent')) {
                                                         <input type="hidden" id="question_title_input" name="question_title">
                                                         <input type="hidden" id="question_detail_input" name="question_detail">
                                                         <input type="hidden" id="course_id" name="course_id" value="{{$course->id}}">
-                                                        <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
+                                                        <input type="hidden" id="user_id" name="user_id" value="{{$user->id}}">
                                                     </form>
                                                     <button id="btn_question_publish" style="width:100%;marign-top:20px;" class="steps_btn">Publish</button>
                                                 </div>
@@ -512,19 +543,6 @@ if (!function_exists('calculatePercent')) {
                                                             
                                                         </div> 
                                                         <div style="padding-left:50px;" id="answers_layout">
-
-                                                            <div class="review_item">
-                                                                <div class="review_usr_dt">
-                                                                    <img src="" alt="" style="width:30px; height:30px;">
-                                                                    <div class="rv1458">
-                                                                        <div>
-                                                                            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, ex vel. Maiores mollitia voluptatum ab, cum rerum cupiditate nobis, veritatis sint praesentium consequuntur, laudantium corporis modi omnis! Eos, repellat esse.</div>
-                                                                        </div>
-                                                                        <span style="display: inline" class="time_145">By kaung htet tin</span> . <span style="display: inline"  class="time_145">15 min ago</span>
-                                                                       
-                                                                    </div>
-                                                                </div>
-                                                            </div>
 
                                                         </div>  
                                                     </div>
@@ -866,10 +884,13 @@ if (!function_exists('calculatePercent')) {
 
         const apiToken = "{{$api_token}}";
         const course = @json($course);
+        const user = @json($user);
         const access = @json($access);
         const question_types = @json($question_types);
+        const imageShimmer = "{{asset('images/courses/img-1.jpg')}}";
         let lessons, modules;
         let currentLesson = null;
+        let reply_question_id = 0;
 
         console.log('api token',apiToken);
         
@@ -881,11 +902,15 @@ if (!function_exists('calculatePercent')) {
 
         let is_question_fetching = false;
         let is_question_tab = false;
+        let question_mode = true;
         let questionArr = [];
 
         let fetch_review_url = `/api/courses/${course.id}/reviews`
         let fetch_question_url = `/api/courses/${course.id}/questions`;
         let fetch_answer_url = `/api/courses/${course.id}/questions/`; // dynamically concatenate 
+
+        let is_answer_is_fetching = false;
+        let answer_mode = false;
 
         let selectedQuestionTypeId = null;
 
@@ -972,16 +997,21 @@ if (!function_exists('calculatePercent')) {
 
                 if(elementId=="nav-q-and-a-tab"){
                     is_question_tab = true;
+                    question_mode = true;
+			        answer_mode = false;
                     if(!is_question_fetching && is_question_tab){
                         fetchQuestion();
                     }
                 }
+
             });
 
             $('#btn_ask').click(()=>{
                 $('#search_input').hide();
                 $('#ask_input').show();
                 $('#question_container').hide();
+                $('#reply_editor_container').html("");
+                new MyTextEditor("question_editor_container");
             })
 
             $('#btn_back_ask').click(()=>{
@@ -995,6 +1025,9 @@ if (!function_exists('calculatePercent')) {
                 $('#answer_container').hide();
                 $('#question_loading').hide();
                 $('#search_input').show();
+
+                question_mode = true;
+				answer_mode = false;
             })
 
             $(window).scroll(()=>{
@@ -1003,9 +1036,14 @@ if (!function_exists('calculatePercent')) {
                         fetchReviews();
                     }
 
-                    if(!is_question_fetching && is_question_tab){
+                    if(!is_question_fetching && is_question_tab && question_mode){
                         fetchQuestion();
                     }
+
+                    if(!is_answer_is_fetching && answer_mode){
+                        fetchAnswer();
+                    }
+
                 }
             });
 
@@ -1050,6 +1088,10 @@ if (!function_exists('calculatePercent')) {
 
                 
             });
+
+            $('#btn_reply_dialog_add').click(()=>{
+                reply();
+            })
 
         });
 
@@ -1125,18 +1167,20 @@ if (!function_exists('calculatePercent')) {
 
         function seeAnswer(question_id){
             const question = questionArr.find(q=>q.id ===question_id );
-            
+            question_mode = false;
+			answer_mode = true;
+            $('#answers_layout').html("");
             $('#question_layout').html(`
                 <img src="" alt="">
                 <div class="rv1458" style="width:100%">
                     <div>
                         <h5 class="">${question.title}</h5>
-                        <div>${question.body}</div>
+                        <div class="content_body">${question.body}</div>
                         <br>
                     </div>
                     
                     <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
-                    <span style="float:right;">Answers<i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                    <span style="float:right;">Total <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
                 </div>
             `);
 
@@ -1146,14 +1190,98 @@ if (!function_exists('calculatePercent')) {
             $('#search_input').hide();
             $('#question_loading').show();
 
-            fetch_answer_url= fetch_answer_url+`${question.id}/answers`;
+            fetch_answer_url= `/api/courses/${course.id}/questions/${question.id}/answers`;
             fetchAnswer();
 
         }
 
         function fetchAnswer(question_id){
-            
+            is_answer_is_fetching = true;
+            $('#question_loading').show();
+            if(fetch_answer_url==null){
+                $('#question_loading').hide();
+                return;
+            }
+
+            $.get(fetch_answer_url,function(res,status){
+                is_answer_is_fetching=false;
+                $('#question_loading').hide();
+                if(res){
+                    fetch_answer_url = res.next_page_url;
+                    let answers = res.data;
+					setAnswer(answers);
+                     
+                }
+                
+            })
         }
+
+        function setAnswer(answers){
+			answers.map((answer,index)=>{
+                $('#answers_layout').append(answerComponent(answer));
+               // questionArr.push(question);
+            })
+		}
+
+		function answerComponent(answer){
+			return `
+				<div class="review_item">
+					<div class="review_usr_dt">
+						<img src="http://localhost:8000/storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
+						<div class="rv1458"  style="width:100%">
+							<div>
+								<div class="content_body">${answer.body}</div>
+							</div>
+                            <br>
+							<span style="display: inline" class="time_145">By ${answer.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(answer.created_at))}</span>
+							. <span onclick="defineReply(${answer.question_id})"  style="cursor:pointer" data-toggle="modal" data-target="#reply_dialog" ><u>Answer</u><i class='uil uil-comments-alt'></i>  </span>
+						</div>
+					</div>
+				</div>
+
+			`;
+
+		}
+
+        function defineReply(question_id){
+            $('#question_editor_container').html("");
+            new MyTextEditor("reply_editor_container");
+			$('#editor').html("");
+			reply_question_id = question_id;
+		}
+
+        function reply(){
+			const body = $('#editor').html();
+			if(body==""){
+				$('#editor_input_error').show();
+				return;
+			}
+
+			let formData = {};
+			formData.body = body;
+			formData.user_id = user.id;
+			formData.question_id = reply_question_id;
+			 
+			console.log(formData);
+			$.ajax({
+				url: `http://localhost:8000/api/answers`,
+				type: 'POST',
+				data: formData,
+				headers: {
+					'Authorization': 'Bearer ' + apiToken,
+					'Accept': 'application/json'
+				},
+				success: function(response) {
+					console.log(response);
+				 
+				},
+				error: function(xhr, status, error) {
+					console.log('Error:', xhr.status, error);
+					 
+				}
+			});
+
+		}
 
         function adjustLayout(){
             var w = window.innerWidth;
@@ -1344,31 +1472,6 @@ if (!function_exists('calculatePercent')) {
 			});
         }
 
-        function formatDateTime(cmtTime){
-			var currentTime = Date.now();
-			var min=60;
-			var h=min*60;
-			var day=h*24;
-
-			var diff =currentTime-cmtTime
-			diff=diff/1000;
-			
-			if(diff<day*3){
-				if(diff<min){
-					return "a few second ago";
-				}else if(diff>=min&&diff<h){
-					return Math.floor(diff/min)+'min ago';
-				}else if(diff>=h&&diff<day){
-					return Math.floor(diff/h)+'h ago';
-				}else{
-					return Math.floor(diff/day)+'d ago';
-				}
-			}else{
-				var date = new Date(Number(cmtTime));
-				return date.toLocaleDateString("en-GB");
-			}
-		}
-
     </script>
 
     <script src="{{asset('js/vertical-responsive-menu.min.js')}}"></script>
@@ -1377,7 +1480,9 @@ if (!function_exists('calculatePercent')) {
 	<script src="{{asset('vendor/semantic/semantic.min.js')}}"></script>
 	<script src="{{asset('js/custom.js')}}"></script>
 	<script src="{{asset('js/night-mode.js')}}"></script>
-	<script src="{{asset('js/editor.js')}}"></script>
+	{{-- <script src="{{asset('js/editor.js')}}"></script> --}}
+    <script src="{{asset('js/editor_component.js')}}"></script>
+    <script src="{{asset('js/util.js')}}"></script>
 
 </body>
 </html>

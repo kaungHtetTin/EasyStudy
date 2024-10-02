@@ -3928,6 +3928,25 @@ i.icon8 {
     background: #475692;
 }
 
+#toolbar button {
+    background-color: transparent;
+    color: #333;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    transition: color 0.3s;
+}
+#editor {
+    min-height: 200px;
+    padding:5px;
+    background:#f5f5f5
+}
+
 .st_download_btn:hover {
     color: #fff;
     background: #333;

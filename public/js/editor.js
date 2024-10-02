@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Add event listener to Image button
-    document.getElementById('imageBtn').addEventListener('click', function () {
-        insertImage();
-        toggleHighlight(this);
-    });
+    // document.getElementById('imageBtn').addEventListener('click', function () {
+    //     insertImage();
+    //     toggleHighlight(this);
+    // });
 
     function insertCodeBlock() {
         const codeBlock = document.createElement('pre');

@@ -18,8 +18,8 @@ class ModuleController extends Controller
 
         if($course){
             if($course->instructor->user->id ==$user->id ){
-                return view('instructor.modules',[
-                    'page_title'=>$course->title,
+                return view('instructor.course-modules',[
+                    'page_title'=>'Add Curriculum',
                     'course'=>$course,
 
                 ]);

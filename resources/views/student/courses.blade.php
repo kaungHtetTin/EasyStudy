@@ -12,7 +12,7 @@
 	<style>
 
 		.sub_category{
-			padding:10px;
+			padding:3px 10px 3px 10px;
 			border:1px solid black;
 			margin-right:10px;
 			border-radius:2px;
@@ -26,7 +26,7 @@
 		}
 
 		.sub_category_active{
-		 	padding:10px;
+		 	padding:7px 10px 7px 10px;
 			border:1px solid black;
 			margin-right:10px;
 			background:#475692;
@@ -36,7 +36,7 @@
 		}
 
 		.sub_category_active:hover{
-		 	padding:10px;
+		 	padding:7px 10px 7px 10px;
 			cursor: pointer;
 			border:1px solid black;
 			margin-right:10px;
@@ -52,6 +52,45 @@
         }
 
 
+		.btn-menu{
+            cursor: pointer;
+            position: fixed;
+            right:20px;
+            top:70px;
+            padding:10px;
+            background: #475692;
+            color:white;
+            border-radius: 30px;
+            z-index: 1000;
+            font-size:24px;
+            transition: all 0.3s ease-out;
+        }
+
+		.right_drawer {
+            width: 300px;
+            transition: all 0.3s ease-out;
+        }
+
+        .right_drawer_closed {
+            position: fixed;
+            right: 0;
+            width: 0px;
+            transition: all 0.3s ease-out;
+        }
+
+        .right_drawer_opened {
+            position: fixed;
+            right: 0;
+            width: 300px;
+            z-index: 500;
+            background:#fff;
+            transition: all 0.3s ease-out;
+			margin-bottom:100px;
+			overflow:auto;
+			height: 100%;
+        }
+
+
 	</style>
     @auth
 	<div class="wrapper">
@@ -59,9 +98,12 @@
 	<div style="padding-top:60px;">
 	@endauth
 		<div class="sa4d25">
-			<div class="container-fluid">			
+			<div class="container-fluid">	
+				<span class="btn-menu" id="btn-drawer-toggle">
+					<i class='uil  uil-angle-down'></i>
+				</span>		
 				<div class="row">
-					<div class="col-12">
+					<div class="col-10">
 						<div class="scroll-container">
 							@guest
 								<br>
@@ -70,12 +112,12 @@
 								<span onclick="sub_category_click({{$sub_category->id}})" class="{{$sub_category_id==$sub_category->id ? 'sub_category_active':'sub_category'}}"> {{$sub_category->title}} </span>
 							@endforeach
 						</div>
-				 
-					</div>
-					<div class="col-md-8">
+					</div>			
+				</div>
+				<div style="position: relative;display:flex">
+					<div style="flex:1">
 						<div class="_14d25">
 							<div class="row" id="course_container">
-								
 								<div class="col-md-12">
 									<br><br><br><br><br>
 									<div class="main-loader mt-50">													
@@ -89,93 +131,104 @@
 							</div>				
 						</div>				
 					</div>	
-					<div class="col-md-4">
-						<div class="fcrse_1 mt-10">
-							<div class="crse14s">
-								Rating
-							</div>
-								<div class="ui checkbox mncheck">
-									<input class="rating_inputs" type="checkbox" tabindex="0" class="hidden" value="4.5">
-									<label>Rating 4.5 & up</label>
-								</div><br>
-								<div class="ui checkbox mncheck">
-									<input class="rating_inputs" type="checkbox" tabindex="0" class="hidden" value="4.0">
-									<label>Rating 4.0 & up</label>
-								</div><br>
-								<div class="ui checkbox mncheck">
-									<input class="rating_inputs" type="checkbox" tabindex="0" class="hidden" value="3.5">
-									<label>Rating 3.5 & up</label>
-								</div><br>
-								<div class="ui checkbox mncheck">
-									<input class="rating_inputs" type="checkbox" tabindex="0" class="hidden" value="3.0">
-									<label>Rating 3.0 & up</label>
+			 
+					<div class="right_drawer" id="drawer" style="display: none">
+						<div style="padding-left:15px;padding-top:20px;position:relative">
+							<div class="fcrse_1 mt-10">
+								<div class="crse14s">
+									Popular Topics
 								</div>
-
-							<hr>
-							<div class="crse14s">
-								Course Duration
-							</div>
-								<div class="ui checkbox mncheck">
-									<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="0">
-									<label>0 - 3 Hours</label>
-								</div> <br>
-								<div class="ui checkbox mncheck">
-									<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="1">
-									<label>3 - 10 Hours</label>
-								</div><br>
-								<div class="ui checkbox mncheck">
-									<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="2">
-									<label>10 - 20 Hours</label>
-								</div><br>
-								<div class="ui checkbox mncheck">
-									<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="3">
-									<label>20 and above</label>
-								</div>
-							<hr>
-							<div class="crse14s">
-								Topic
-							</div>
-								@foreach ($topics as $topic)
-									<div class="ui checkbox mncheck">
-										<input class="topic_inputs" type="checkbox" tabindex="0" class="hidden" value="{{$topic->id}}"
-										@if (isset($topic_ids))
-											@if (in_array($topic->id,$topic_ids))
-												@checked(true)
+									@foreach ($topics as $topic)
+										<div class="ui checkbox mncheck">
+											<input class="topic_inputs" type="checkbox" tabindex="0" class="hidden" value="{{$topic->id}}"
+											@if (isset($topic_ids))
+												@if (in_array($topic->id,$topic_ids))
+													@checked(true)
+												@endif
 											@endif
-										@endif
-										
-										>
-										<label>{{$topic->title}}</label>
-									</div> <br>
-								@endforeach
-							<hr>
-							<div class="crse14s">
-								Level
-							</div> 
-									<div class="ui checkbox mncheck">
-										<input id="all_level" type="checkbox" tabindex="0" class="hidden" value="all">
-										<label>All levels</label>
-									</div><br>
-								@foreach ($levels as $level)
-									<div class="ui checkbox mncheck">
-										<input class="level_inputs" type="checkbox" tabindex="0" class="hidden" value="{{$level->id}}">
-										<label>{{$level->level}}</label>
-									</div><br>
-								@endforeach
-							<hr>
-							<div class="crse14s">
-								Price
-							</div>
-								<div class="ui checkbox mncheck">
-									<input class="price_inputs" type="checkbox" tabindex="0" class="hidden" value="1">
-									<label>Paid</label>
-								</div><br>
-								<div class="ui checkbox mncheck">
-									<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="0">
-									<label>Free</label>
+											
+											>
+											<label>{{$topic->title}}</label>
+										</div> <br>
+									@endforeach
+								<hr>
+								
+								<div class="crse14s">
+									Rating
 								</div>
+									<div class="ui checkbox mncheck">
+										<input class="rating_inputs" type="checkbox" tabindex="0" class="hidden" value="4.5">
+										<label>Rating 4.5 & up</label>
+									</div><br>
+									<div class="ui checkbox mncheck">
+										<input class="rating_inputs" type="checkbox" tabindex="0" class="hidden" value="4.0">
+										<label>Rating 4.0 & up</label>
+									</div><br>
+									<div class="ui checkbox mncheck">
+										<input class="rating_inputs" type="checkbox" tabindex="0" class="hidden" value="3.5">
+										<label>Rating 3.5 & up</label>
+									</div><br>
+									<div class="ui checkbox mncheck">
+										<input class="rating_inputs" type="checkbox" tabindex="0" class="hidden" value="3.0">
+										<label>Rating 3.0 & up</label>
+									</div>
+
+								<hr>
+								<div class="crse14s">
+									Course Duration
+								</div>
+									<div class="ui checkbox mncheck">
+										<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="0">
+										<label>0 - 3 Hours</label>
+									</div> <br>
+									<div class="ui checkbox mncheck">
+										<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="1">
+										<label>3 - 10 Hours</label>
+									</div><br>
+									<div class="ui checkbox mncheck">
+										<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="2">
+										<label>10 - 20 Hours</label>
+									</div><br>
+									<div class="ui checkbox mncheck">
+										<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="3">
+										<label>20 and above</label>
+									</div>
+								<hr>
+								
+								<div class="crse14s">
+									Level
+								</div> 
+										<div class="ui checkbox mncheck">
+											<input id="all_level" type="checkbox" tabindex="0" class="hidden" value="all">
+											<label>All levels</label>
+										</div><br>
+									@foreach ($levels as $level)
+										<div class="ui checkbox mncheck">
+											<input class="level_inputs" type="checkbox" tabindex="0" class="hidden" value="{{$level->id}}">
+											<label>{{$level->level}}</label>
+										</div><br>
+									@endforeach
+								<hr>
+								<div class="crse14s">
+									Price
+								</div>
+									<div class="ui checkbox mncheck">
+										<input class="price_inputs" type="checkbox" tabindex="0" class="hidden" value="1">
+										<label>Paid</label>
+									</div><br>
+									<div class="ui checkbox mncheck">
+										<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="0">
+										<label>Free</label>
+									</div>
+
+								<div class="crse14s" style="height:150px;" id="offset">
+									 
+								</div>
+							</div>
 						</div>
-					</div>			
+					</div>
+						
+			  
 				</div>
 			</div>
 		</div>
@@ -185,6 +238,9 @@
 		const courses = @json($courses);
 		const categories =@json($categories);
 		const sub_categories=@json($sub_categories);
+
+		let small_screen;
+        let toggle_open = false;
 
 
 		let topic_ids = [];
@@ -252,6 +308,27 @@
 			});
 
 			$('#course_container').html(setCourse(courses));
+
+			$('#btn-drawer-toggle').click(()=>{
+                $('#drawer').css({'display':'block'});
+                if(toggle_open) {
+                    $('#drawer').attr('class','right_drawer_closed');
+                    $('#btn-drawer-toggle').html(`<i class='uil  uil-angle-down'></i>`);
+                    toggle_open=false;
+                }else{
+                    $('#drawer').attr('class','right_drawer_opened');
+                    $('#btn-drawer-toggle').html(`<i class='uil  uil-angle-up'></i>`);
+                    toggle_open=true;
+                }
+                
+            });
+
+			adjustLayout();
+            $(window).on('resize', function() {
+                adjustLayout();
+            });
+
+
 		});
 
 
@@ -468,6 +545,22 @@
 
 			return result;
 		}
+
+		function adjustLayout(){
+            var w = window.innerWidth;
+            if(w<=768){
+                $('#btn-drawer-toggle').css({'display':''});
+                $('#drawer').css({'display':'none'});
+                small_screen=true;
+				$('#offset').show();
+            }else{
+                $('#drawer').attr('class','right_drawer');
+                $('#drawer').css({'display':'block'});
+                $('#btn-drawer-toggle').css({'display':'none'});
+                small_screen=false;
+				$('#offset').hide();
+            }
+        }
 
 	</script>
 @endsection

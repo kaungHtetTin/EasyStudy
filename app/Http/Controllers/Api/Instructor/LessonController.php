@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\Lesson;
 use App\Models\Course;
 use App\Models\Module;
+use App\Models\Instructor;
 use Illuminate\Support\Facades\Storage;
 
 class LessonController extends Controller
 {
     public function store(Request $req){
+
+        $user = $req->user();
+        $instructor = Instructor::where('user_id',$user->id)->first();
+
         $req->validate([
             'module_id'=>'required|numeric',
             'lesson_type_id'=>'required|numeric',
@@ -31,6 +36,10 @@ class LessonController extends Controller
         $course = Course::find($module->course_id);
         if($course==null){
             return response()->json(['status'=>'fail','message'=>'Bad request'],400);
+        }
+
+        if($course->instructor_id!= $instructor->id){
+            return response()->json(['status'=>'fail','message'=>'Unauthorize'],403);
         }
 
         $lesson = new Lesson();

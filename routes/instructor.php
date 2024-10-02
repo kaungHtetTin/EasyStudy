@@ -9,6 +9,8 @@ use App\Http\Controllers\Instructor\ModuleController;
 use App\Http\Controllers\Instructor\LessonController;
 use App\Http\Controllers\Instructor\PaymentMethodController;
 use App\Http\Controllers\Instructor\PaymentHistoryController;
+use App\Http\Controllers\Instructor\QuestionController;
+use App\Http\Controllers\Instructor\ReviewController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
@@ -33,6 +35,15 @@ Route::middleware('auth')->group(function () {
             'edit' => 'instructor.modules.modify',
             'update' => 'instructor.modules.change',
             'destroy' => 'instructor.modules.remove',
+        ]);
+
+        Route::resource('questions',QuestionController::class)->names([
+            'index' => 'instructor.questions.lists',
+        ]);
+
+        Route::resource('reviews',ReviewController::class)->names([
+            'index' => 'instructor.reviews.lists',
+            'update' => 'instructor.reviews.change',
         ]);
 
         Route::resource('lessons',LessonController::class)->names([

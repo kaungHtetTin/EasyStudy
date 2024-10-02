@@ -1,5 +1,32 @@
 	@php
     	$api_token = Cookie::get('api_auth_token');
+
+		if (!function_exists('calculateHour')) {
+			function calculateHour($min){
+				$hr = $min/60;
+				$hr = floor($hr);
+				return $hr;
+			}
+		}
+
+		$downloadable_count = 0;
+		$article_count = 0;
+		$assignment_count = 0;
+		foreach ($course->lessons as $key => $lesson) {
+		
+			# code...
+			if($lesson->downloadable==1){
+				$downloadable_count++;
+			}
+			if($lesson->lesson_type_id==2){
+				$article_count++;
+
+			}
+			if($lesson->lesson_type_id==3){
+				$assignment_count++;
+			}
+		}
+
     @endphp
     @extends('instructor.master')
 
@@ -10,6 +37,10 @@
             color:red;
 			display: none;
         }
+
+		._215b05{
+			padding:5px;
+		}
     </style>
 
     <!-- Add New Section Start -->
@@ -250,151 +281,198 @@
 	<div class="wrapper">
 		<div class="sa4d25">
             <div class="container">	
-				@if (session('msg'))
-					<div class="alert alert-success">
-						 {{session('msg')}}
-					</div>
-				@endif
-				
-				<div class="row">
-					<div class="col-12">
-						<div class="step-tab-panel step-tab-gallery" id="tab_step2">
-                            <div class="tab-from-content">
-                                <div class="title-icon">
-                                    <h3 class="title"><i class="uil uil-notebooks"></i>{{$course->title}}</h3>
-                                </div>
-                                <div class="curriculum-section">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="curriculum-add-item">
-                                                <h4 class="section-title mt-0"><i class="fas fa-th-list mr-2"></i>Curriculum</h4>
-                                                <button class="main-btn color btn-hover ml-left add-section-title reloadFun" data-toggle="modal" data-target="#add_section_model">New Section</button>
-                                            </div>
-                                                @foreach ($course->modules as $module)
-                                                <div class="added-section-item mb-30">
-                                                    <div class="section-header">
-                                                        <h4><i class="fas fa-bars mr-2"></i>{{$module->title}}</h4>
-                                                        <div class="section-edit-options">
-                                                            <button class="btn-152 reloadFun" type="button" data-toggle="collapse" data-target="#edit-section"><i class="fas fa-edit"></i></button>
-															<button class="btn-152 reloadFun" type="button" data-toggle="collapse" data-target="#delete-section"><i class="fas fa-trash-alt"></i></button>
-															
-                                                        </div>
-                                                    </div>
+				<div style="position: relative; display:flex">
+					<div style="flex:1">
+						@if (session('msg'))
+							<div class="alert alert-success">
+								{{session('msg')}}
+							</div>
+						@endif
+						<div class="row">
+							<div class="col-12">
+								<div class="step-tab-panel step-tab-gallery" id="tab_step2">
+									<div class="tab-from-content">
+										<div class="title-icon">
+											<h3 class="title"><i class="uil uil-plus-circle"></i> Add Curriculum</h3>
+										</div>
+										
+										<div>
+											<div class="_215b03">
+												<h2>{{$course->title}}</h2>
+												<span class="_215b04">{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}</span>
+											</div>
+											
 
-													<div id="delete-section" class="collapse">
-                                                        <div class="new-section smt-25">
-                                                            <div class="form_group">
-                                                                 <h5>Do you really want to this section ?</h5>
-                                                            </div>
-                                                            <div class="share-submit-btns pl-0">
-																<form action="{{route('instructor.modules.remove',$module->id)}}" style="display: inline" method="POST">
-																	@csrf
-																	@method('DELETE')
-																	<button  type="submit" class="main-btn color btn-hover"><i class="fas fa-trash-alt"></i> Delete Section</button>
-																</form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+											<div class="row">
+												<div class="col-6 _215b08">
+													<div class="_215b05" style="display: flex">		
+														<span><i class='uil uil-play-circle'></i></span>
+														<div>
+															{{calculateHour($course->duration)}} hours on-demand video
+														</div>
+													</div>
+												</div>
+												<div class="col-6 _215b08">
+													<div class="_215b05" style="display: flex">										
+														<span><i class='uil uil-file-alt'></i></span>
+														<div>{{$assignment_count}} Assignments</div>
+													</div>
+												</div>
+												<div class="col-6 _215b08">
+													<div class="_215b05" style="display: flex">										
+														<span><i class='uil uil-document'></i></span>
+														<div>{{$article_count}} articles</div>
+													</div>
+												</div>
+												<div class="col-6 _215b08">
+													<div class="_215b05" style="display: flex">										
+														<span><i class='uil uil-cloud-download'></i></span>
+														<div>{{$downloadable_count}} downloable resourses</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="_215b05">										
+												Last updated {{$course->updated_at->diffForHumans()}}
+											</div>
+										</div>							
+											
+										<div class="curriculum-section">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="curriculum-add-item">
+														<h4 class="section-title mt-0"><i class="fas fa-th-list mr-2"></i>Curriculum</h4>
+														<button class="main-btn color btn-hover ml-left add-section-title reloadFun" data-toggle="modal" data-target="#add_section_model">New Section</button>
+													</div>
+														@foreach ($course->modules as $module)
+														<div class="added-section-item mb-30">
+															<div class="section-header">
+																<h4><i class="fas fa-bars mr-2"></i>{{$module->title}}</h4>
+																<div class="section-edit-options">
+																	<button class="btn-152 reloadFun" type="button" data-toggle="collapse" data-target="#edit-section"><i class="fas fa-edit"></i></button>
+																	<button class="btn-152 reloadFun" type="button" data-toggle="collapse" data-target="#delete-section"><i class="fas fa-trash-alt"></i></button>
+																	
+																</div>
+															</div>
 
-                                                    <div id="edit-section" class="collapse">
-                                                        <div class="new-section smt-25">
-															<form action="{{route('instructor.modules.change',$module->id)}}" method="post">
-																@csrf
-																@method('PUT')
-																<div class="form_group">
-																	<div class="ui search focus mt-30 lbel25">
-																		<label>Section Name*</label>
-																		<div class="ui left icon input swdh19">
-																			<input class="prompt srch_explore" type="text" placeholder="" name="title" maxlength="60" id="main[title]" value="{{$module->title}}">															
-																		</div>
+															<div id="delete-section" class="collapse">
+																<div class="new-section smt-25">
+																	<div class="form_group">
+																		<h5>Do you really want to this section ?</h5>
+																	</div>
+																	<div class="share-submit-btns pl-0">
+																		<form action="{{route('instructor.modules.remove',$module->id)}}" style="display: inline" method="POST">
+																			@csrf
+																			@method('DELETE')
+																			<button  type="submit" class="main-btn color btn-hover"><i class="fas fa-trash-alt"></i> Delete Section</button>
+																		</form>
 																	</div>
 																</div>
-																<div class="share-submit-btns pl-0">
-																	<button class="main-btn color btn-hover"><i class="fas fa-save mr-2"></i>Update Section</button>
-																</div>
-															</form>
-                                                        </div>
-                                                    </div>
+															</div>
 
-                                                    <div class="section-group-list sortable">
-                                                        @foreach ($module->lessons as $lesson)
-                                                            <div class="section-list-item">
-                                                                <div class="section-item-title">
-                                                                    @if ($lesson->lesson_type_id==1)
-                                                                        <i class="uil uil-play-circle"></i>
-                                                                    @endif
-
-                                                                    @if ($lesson->lesson_type_id==2)
-                                                                        <i class="uil uil-file mr-2"></i>
-                                                                    @endif
-
-                                                                    @if ($lesson->lesson_type_id==3)
-                                                                        <i class="uil uil-file mr-2"></i>
-                                                                    @endif
-
-                                                                    <span class="section-item-title-text">{{$lesson->title}}</span>
-                                                                </div>
-                                                                <button type="button" class="section-item-tools reloadFun"><i class="fas fa-edit"></i></button>
-                                                                <button type="button" class="section-item-tools reloadFun"  data-toggle="modal" data-target="#delete-section{{$lesson->id}}" ><i class="fas fa-trash-alt"></i></button>
-                                                           
-
-
-																<div class="modal fade" id="delete-section{{$lesson->id}}" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
-																	<div class="modal-dialog modal-lg">
-																		<div class="modal-content">
-																			<div class="modal-header">
-																				<h5 class="modal-title" id="lectureModalLabel">Delete Lesson</h5>
-																				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																					<span aria-hidden="true">&times;</span>
-																				</button>
-																			</div>
-																			<div class="modal-body">
-																				Do you really want to delete this lesson? <br><br>
-																				<div class="section-item-title">
-																					@if ($lesson->lesson_type_id==1)
-																						<i class="uil uil-play-circle"></i>
-																					@endif
-
-																					@if ($lesson->lesson_type_id==2)
-																						<i class="uil uil-file mr-2"></i>
-																					@endif
-
-																					@if ($lesson->lesson_type_id==3)
-																						<i class="fas fa-clipboard-list mr-2"></i>
-																					@endif
-
-																					<span class="section-item-title-text">{{$lesson->title}}</span>
+															<div id="edit-section" class="collapse">
+																<div class="new-section smt-25">
+																	<form action="{{route('instructor.modules.change',$module->id)}}" method="post">
+																		@csrf
+																		@method('PUT')
+																		<div class="form_group">
+																			<div class="ui search focus mt-30 lbel25">
+																				<label>Section Name*</label>
+																				<div class="ui left icon input swdh19">
+																					<input class="prompt srch_explore" type="text" placeholder="" name="title" maxlength="60" id="main[title]" value="{{$module->title}}">															
 																				</div>
 																			</div>
-																			<div class="modal-footer">
-																				<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-																				<form action="{{route('instructor.lessons.remove',$lesson->id)}}" method="post">
-																					@csrf
-																					@method('DELETE')
-																					<button type="submit" class="main-btn">Delete</button>
-																				</form>
+																		</div>
+																		<div class="share-submit-btns pl-0">
+																			<button class="main-btn color btn-hover"><i class="fas fa-save mr-2"></i>Update Section</button>
+																		</div>
+																	</form>
+																</div>
+															</div>
+
+															<div class="section-group-list sortable">
+																@foreach ($module->lessons as $lesson)
+																	<div class="section-list-item">
+																		<div class="section-item-title">
+																			@if ($lesson->lesson_type_id==1)
+																				<i class="uil uil-play-circle"></i>
+																			@endif
+
+																			@if ($lesson->lesson_type_id==2)
+																				<i class="uil uil-file mr-2"></i>
+																			@endif
+
+																			@if ($lesson->lesson_type_id==3)
+																				<i class="uil uil-file mr-2"></i>
+																			@endif
+
+																			<span class="section-item-title-text">{{$lesson->title}}</span>
+																		</div>
+																		<button type="button" class="section-item-tools reloadFun"><i class="fas fa-edit"></i></button>
+																		<button type="button" class="section-item-tools reloadFun"  data-toggle="modal" data-target="#delete-section{{$lesson->id}}" ><i class="fas fa-trash-alt"></i></button>
+																
+
+
+																		<div class="modal fade" id="delete-section{{$lesson->id}}" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
+																			<div class="modal-dialog modal-lg">
+																				<div class="modal-content">
+																					<div class="modal-header">
+																						<h5 class="modal-title" id="lectureModalLabel">Delete Lesson</h5>
+																						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																							<span aria-hidden="true">&times;</span>
+																						</button>
+																					</div>
+																					<div class="modal-body">
+																						Do you really want to delete this lesson? <br><br>
+																						<div class="section-item-title">
+																							@if ($lesson->lesson_type_id==1)
+																								<i class="uil uil-play-circle"></i>
+																							@endif
+
+																							@if ($lesson->lesson_type_id==2)
+																								<i class="uil uil-file mr-2"></i>
+																							@endif
+
+																							@if ($lesson->lesson_type_id==3)
+																								<i class="fas fa-clipboard-list mr-2"></i>
+																							@endif
+
+																							<span class="section-item-title-text">{{$lesson->title}}</span>
+																						</div>
+																					</div>
+																					<div class="modal-footer">
+																						<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
+																						<form action="{{route('instructor.lessons.remove',$lesson->id)}}" method="post">
+																							@csrf
+																							@method('DELETE')
+																							<button type="submit" class="main-btn">Delete</button>
+																						</form>
+																					</div>
+																				</div>
 																			</div>
 																		</div>
-																	</div>
-																</div>
 
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="section-add-item-wrap p-3">
-                                                        <button onclick="defineModuleIdForLecture({{$module->id}})" id="btn_add_lecture" class="add_lecture" data-toggle="modal" data-target="#add_lecture_model"><i class="far fa-plus-square mr-2"></i>Lecture</button>
-                                                        <button onclick="defineModuleIdForAssignment({{$module->id}})" class="add_assignment" data-toggle="modal" data-target="#add_assignment_model"><i class="far fa-plus-square mr-2"></i>Assignment</button>
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+																	</div>
+																@endforeach
+															</div>
+															<div class="section-add-item-wrap p-3">
+																<button onclick="defineModuleIdForLecture({{$module->id}})" id="btn_add_lecture" class="add_lecture" data-toggle="modal" data-target="#add_lecture_model"><i class="far fa-plus-square mr-2"></i>Lecture</button>
+																<button onclick="defineModuleIdForAssignment({{$module->id}})" class="add_assignment" data-toggle="modal" data-target="#add_assignment_model"><i class="far fa-plus-square mr-2"></i>Assignment</button>
+															</div>
+														</div>
+														@endforeach
+												</div>
+											
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					@include('instructor.components.course-menu-drawer')
 				</div>
+
 			</div>
 		</div>
 		@include('instructor.components.footer')
@@ -405,8 +483,6 @@
 			let course = @json($course);
 			let modules = @json($course->modules);
 			let lessons = @json($course->lessons);
-
-			console.log(lessons);
 
 			let module_id = 0;
 			let formData = null;
@@ -515,7 +591,7 @@
                 $('#module_form_container').hide();
                 $('#module_loading').show();
                 $.ajax({
-                    url: 'http://localhost:8000/instructor/api/modules', // Replace with your API endpoint
+                    url: 'http://localhost:8000/instructor/api/question-types', // Replace with your API endpoint
                     type: 'POST', // or 'GET' depending on your request
                     headers: {
                         'Authorization': 'Bearer '+apiToken, // Example for Authorization header

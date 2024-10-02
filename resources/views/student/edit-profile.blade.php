@@ -74,7 +74,7 @@
             right: 0;
             width: 250px;
             overflow: hidden;
-            z-index: 500;
+            z-index: 5000;
             background:#fff;
             transition: all 0.3s ease-out;
         }
@@ -293,12 +293,12 @@
                                     </div>
                                     <h5 style="cursor: pointer;" id="btn-upload-image">Add/Change Image</h5>
                                     <canvas id="cropped-canvas" style="display: none"></canvas>
-                                    <input class="prompt srch_explore" id="upload-image" type="file" name="name" placeholder="Name" style="display: none">	
+                                    <input class="prompt srch_explore" id="upload-image" type="file" name="name" placeholder="Name" style="display: none" accept=".jpg, .jpeg, .png">	
                                     <form id="image-form" method="POST" action="{{route('profile.updateImage')}}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="ui search focus mt-15">
                                             <div class="ui input swdh95">
-                                                <input type="file" id="cropped-image-file" style="display: none;" name="profile_image">
+                                                <input type="file" id="cropped-image-file" style="display: none;" name="profile_image" accept=".jpg, .jpeg, .png">
                                                  <p style="text-align:left;font-size:12px;color:red"> {{$errors->first('profile_image')}} </p>	
                                             </div>
                                         </div>
@@ -426,7 +426,6 @@
             adjustLayout();
             $('.edit-menu').each((menu_index, menu)=>{
                 $(menu).click(()=>{
-                    
 
                     $('.edit-menu').each((menu_index2, menu2)=>{
                         $(menu2).css({"background":""});

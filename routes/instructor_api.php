@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Controllers\Api\Instructor\CourseController;
 use App\Http\Controllers\Api\Instructor\ModuleController;
 use App\Http\Controllers\Api\Instructor\LessonController;
+use App\Http\Controllers\Api\Instructor\QuestionTypeController;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -51,5 +52,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::apiResource('modules', ModuleController::class);
     Route::apiResource('lessons', LessonController::class);
+    Route::apiResource('question-types', QuestionTypeController::class);
  
 });
