@@ -81,3 +81,12 @@
     text-decoration: none;
     text-decoration: none;
 }
+
+.resource {
+    padding: 5px;
+    border-radius: 3px;
+    color: #475692;
+    margin-top: 7px;
+    background-color: #efeeff;
+    width: max-content;
+}

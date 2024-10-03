@@ -49,7 +49,7 @@ if (!function_exists('formatCounting')) {
 											<div class="item">
 												<div class="fcrse_1 mb-20">
 													<a href="{{route('course_detail', ['id' => $course->id])}}" class="fcrse_img">
-														<img src="{{asset('images/courses/img-1.jpg')}}" alt="">
+														<img src="{{asset('storage/'.$course->cover_url)}}" alt="">
 														<div class="course-overlay">
 															<div class="badge_seller">Bestseller</div>
 															<div class="crse_reviews">
@@ -109,7 +109,7 @@ if (!function_exists('formatCounting')) {
 										<div class="item">
 											<div class="fcrse_1 mb-20">
 												<a href="{{route('course_detail', ['id' => $course->id])}}" class="fcrse_img">
-													<img src="{{asset('images/courses/img-1.jpg')}}" alt="">
+													<img src="{{asset('storage/'.$course->cover_url)}}" alt="">
 													<div class="course-overlay">
 														<div class="badge_seller">Bestseller</div>
 														<div class="crse_reviews">
@@ -167,7 +167,7 @@ if (!function_exists('formatCounting')) {
 										<div class="item">
 											<div class="fcrse_1 mb-20">
 												<a href="{{route('course_detail', ['id' => $course->id])}}" class="fcrse_img">
-													<img src="images/courses/img-14.jpg" alt="">
+													<img src="{{asset('storage/'.$course->cover_url)}}" alt="">
 													<div class="course-overlay">
 														<div class="crse_reviews">
 															<i class='uil uil-star'></i>{{$course->rating}}

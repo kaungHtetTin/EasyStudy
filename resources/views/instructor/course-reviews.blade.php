@@ -75,29 +75,6 @@
 
     </style>
 
-		<div class="modal fade" id="delete_dialog" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="lectureModalLabel">Delete</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="new-section-block">
-							Do you reall want to delete
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-						<button id="btn_delete_dialog_add" onclick="deleteReview()" type="button" class="main-btn" data-dismiss="modal">Delete</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Delete Dialog Section End -->
-
 	<div class="wrapper">
 		<div class="sa4d25">
             <div class="container">	
@@ -346,20 +323,11 @@
 							${star}
 						</div>
 						<p class="rvds10">${review.body}</p>
-						<span class="btn_span" style="float:right" onclick="defineDeleteItem(${review.id})"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>
 						<br>
 					</div> 
 				`;
 			}
 
-			function defineDeleteItem(id){
-
-			}
-
-			function deleteReview(){
-
-			}
-				
 		</script>
 		<script src="{{asset('js/util.js')}}"></script>
 

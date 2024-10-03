@@ -13,6 +13,10 @@ class QuestionController extends Controller
 {
     public function index(Request $req){
         $user = Auth::user();
+        $req->validate([
+            'course_id'=>'required|numeric',
+        ]);
+        
         $course_id = $req->course_id;
         $course = Course::find($course_id);
 

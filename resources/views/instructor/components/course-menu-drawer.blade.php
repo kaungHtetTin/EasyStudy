@@ -73,9 +73,9 @@
                             </a>
                         </li>
                         <li class="menu--item">
-                            <a href="" class="menu--link {{$page_title=='Anouncements'?'active':''}}" title="Anouncements">
+                            <a href="{{route('instructor.announcements.lists')}}?course_id={{$course->id}}" class="menu--link {{$page_title=='Announcements'?'active':''}}" title="Announcements">
                                 <i class='uil uil-notes menu--icon'></i>
-                                <span class="menu--label">Anouncements</span>
+                                <span class="menu--label">Announcements</span>
                             </a>
                         </li>
                         <li class="menu--item">

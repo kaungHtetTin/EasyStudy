@@ -60,6 +60,7 @@ Route::post('/courses/share/{id}',[CourseController::class,'share']);
 Route::get('/courses/{id}/reviews',[CourseController::class,'reviews']);
 Route::get('/courses/{id}/lessons',[CourseController::class,'lessons']);
 Route::get('/courses/{id}/questions',[CourseController::class,'questions']);
+Route::get('/courses/{id}/announcements',[CourseController::class,'announcements']);
 Route::get('/courses/{id}/questions/{qid}/answers',[CourseController::class,'answers']);
 
 Route::get('/instructors',[InstructorController::class,'index']);

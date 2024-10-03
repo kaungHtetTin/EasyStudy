@@ -92,6 +92,7 @@ if (!function_exists('calculatePercent')) {
 
     $api_token = Cookie::get('api_auth_token');
     $user = Auth::user();
+    $instructor = $course->instructor->user;
 @endphp
 
 <!DOCTYPE html>
@@ -816,8 +817,11 @@ if (!function_exists('calculatePercent')) {
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="nav-anouncements" role="tabpanel">
-                                            <br><br><br>
-                                            <div class="main-loader mt-50 mb-50">													
+                                            <div id="anouncement_container">
+
+											</div>
+                                            <br><br>
+                                            <div id="announcement_loading" class="main-loader mt-50 mb-50">													
                                                 <div class="spinner">
                                                     <div class="bounce1"></div>
                                                     <div class="bounce2"></div>
@@ -921,6 +925,7 @@ if (!function_exists('calculatePercent')) {
         const user = @json($user);
         const access = @json($access);
         const question_types = @json($question_types);
+        const instructor = @json($instructor); // user model
         const imageShimmer = "{{asset('images/courses/img-1.jpg')}}";
         let lessons, modules;
         let currentLesson = null;
@@ -939,9 +944,15 @@ if (!function_exists('calculatePercent')) {
         let question_mode = true;
         let questionArr = [];
 
+        let is_anouncement_fetching = false;
+        let is_announcement_tab = false;
+		let anouncementArr = [];
+			
+
         let fetch_review_url = `/api/courses/${course.id}/reviews`
         let fetch_question_url = `/api/courses/${course.id}/questions`;
         let fetch_answer_url = `/api/courses/${course.id}/questions/`; // dynamically concatenate 
+        let fetch_anouncement_url = `/api/courses/${course.id}/announcements`;
 
         let is_answer_is_fetching = false;
         let answer_mode = false;
@@ -1036,6 +1047,18 @@ if (!function_exists('calculatePercent')) {
                     if(!is_question_fetching && is_question_tab){
                         fetchQuestion();
                     }
+                }else{
+                    is_question_tab = false;
+                    answer_mode = false;
+                }
+
+                if(elementId=="nav-anouncements-tab"){
+                    is_announcement_tab = true;
+                    if(!is_anouncement_fetching){
+                        
+                    }
+                }else{
+                    is_announcement_tab = false;
                 }
 
             });
@@ -1076,6 +1099,10 @@ if (!function_exists('calculatePercent')) {
 
                     if(!is_answer_is_fetching && answer_mode){
                         fetchAnswer();
+                    }
+
+                    if(!is_anouncement_fetching && is_announcement_tab){
+                        fetchAnnouncements();
                     }
 
                 }
@@ -1128,6 +1155,67 @@ if (!function_exists('calculatePercent')) {
             })
 
         });
+
+        function fetchAnnouncements(){
+            is_anouncement_fetching = true;
+            $('#announcement_loading').show();
+            if(fetch_anouncement_url==null){
+                $('#announcement_loading').hide();
+                return;
+            }
+
+            $.get(fetch_anouncement_url,function(res,status){
+                is_anouncement_fetching=false;
+                if(res){
+                    fetch_anouncement_url = res.next_page_url;
+                    let anouncements = res.data;
+                    setAnouncement(anouncements);
+                    console.log(anouncements);
+                }
+                
+            })
+        }
+
+        function setAnouncement(anouncements){
+                $('#announcement_loading').hide();
+                anouncements.map((anouncement,index)=>{
+                    anouncementArr.push(anouncement);	
+                    $('#anouncement_container').append(anouncementComponent(anouncement));
+                })
+        }
+
+        function anouncementComponent(anouncement){
+            let photo_attachment = "";
+            if(anouncement.image_url!=""){
+                photo_attachment = `<img style="width:200px;margin-top:10px;border-radius:3px;" src="http://localhost:8000/storage/${anouncement.image_url}" alt="">`;
+            }
+            let resource_file = "";
+            if(anouncement.resource_url!=""){
+                resource_file = `
+                    <a href="http://localhost:8000/storage/${anouncement.resource_url}"> <div class="resource" id="resource_attachment">Resource <i class="uil uil-download-alt"></i></div> </a>
+                `;
+            }
+            return `
+                <div class="reviews_left">
+                    <div style="display: flex;">
+                        <div>
+                            <img src="http://localhost:8000/storage/${instructor.image_url}" alt="" style="width: 30px;height:30px; border-radius:50px;">
+                        </div>
+                        <div style="margin-left: 15px;flex:1;margin-right:15px;">
+                            <span style="font-weight:bold;margin-bottom:5px;">{{$course->title}}</span> <br>
+                            <span class="time_145">Announced by ${instructor.name} . ${formatDateTime(new Date(anouncement.created_at))}</span>
+
+                            <br>
+                            <div>
+                                ${anouncement.body}	<br>
+                                ${photo_attachment}
+                                ${resource_file}
+                            </div>
+                        </div>
+                    </div>					
+                </div>
+            `
+        }
 
         function publishQuestion(){
             let validated = true;

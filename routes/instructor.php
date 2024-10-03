@@ -11,6 +11,7 @@ use App\Http\Controllers\Instructor\PaymentMethodController;
 use App\Http\Controllers\Instructor\PaymentHistoryController;
 use App\Http\Controllers\Instructor\QuestionController;
 use App\Http\Controllers\Instructor\ReviewController;
+use App\Http\Controllers\Instructor\AnnouncementController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
@@ -42,7 +43,10 @@ Route::middleware('auth')->group(function () {
         ]);
 
         Route::get('/reviews',[ReviewController::class,'index'])->name('instructor.reviews.lists');
- 
+
+        Route::get('/announcements',[AnnouncementController::class,'index'])->name('instructor.announcements.lists');
+        Route::post('/announcements',[AnnouncementController::class,'store'])->name('instructor.announcements.save');
+
         Route::resource('lessons',LessonController::class)->names([
             'store'=>'instructor.lessons.save',
             'destroy'=>'instructor.lessons.remove',

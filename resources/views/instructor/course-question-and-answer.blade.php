@@ -291,6 +291,8 @@
 		const imageShimmer = "{{asset('images/courses/img-1.jpg')}}";
 		const user = @json($user);
 
+		console.log('api' , apiToken);
+
 		let is_question_fetching = false;
 		let question_mode = true;
 		let fetch_question_url = `/api/courses/${course.id}/questions`;

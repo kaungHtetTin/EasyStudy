@@ -11,6 +11,7 @@ use App\Models\Lesson;
 use App\Models\Module;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Announcement;
 
 class CourseController extends Controller
 {
@@ -180,6 +181,11 @@ class CourseController extends Controller
     public function answers($id, $qid){
         $answers = Answer::with('user:id,name,email,fcm_token,image_url')->where('question_id',$qid)->paginate(10);
         return $answers;
+    }
+
+    public function announcements($id){
+        $announcements = Announcement::where('course_id',$id)->orderBy('id','DESC')->paginate(10);
+        return $announcements;
     }
 
     public function lessons(Request $req, $id){
