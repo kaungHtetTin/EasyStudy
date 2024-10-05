@@ -56,5 +56,11 @@ class Course extends Model
     public function announcements(){
         return $this->hasMany(Announcement::class);
     }
+
+    public function language(){
+        $language_id = $this->language_id;
+        return language::find($language_id);
+    }
+
     
 }

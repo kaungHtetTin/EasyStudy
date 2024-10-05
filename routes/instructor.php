@@ -25,9 +25,10 @@ Route::middleware('auth')->group(function () {
             'show' => 'instructor.courses.view',
             'edit' => 'instructor.courses.modify',
             'update' => 'instructor.courses.change',
-            'destroy' => 'instructor.courses.remove',
+            'destroy' => 'instructor.courses.remove', 
         ]);
         Route::get('courses/{id}/overview',[CourseController::class,'overview'])->name('instructor.courses.overview');
+         Route::get('courses/{id}/students',[CourseController::class,'studentEnroll'])->name('instructor.courses.students.lists');
 
         Route::resource('modules',ModuleController::class)->names([
             'index' => 'instructor.modules.lists',

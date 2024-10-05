@@ -79,6 +79,12 @@
                             </a>
                         </li>
                         <li class="menu--item">
+                            <a href="{{route('instructor.courses.students.lists',$course->id)}}" class="menu--link {{$page_title=='Students Enrolled'?'active':''}}" title="Students Enrolled">
+                                <i class='uil uil-graduation-hat menu--icon'></i>
+                                <span class="menu--label">Students Enrolled</span>
+                            </a>
+                        </li>
+                        <li class="menu--item">
                             <a href="{{route('instructor.courses.modify',$course->id)}}" class="menu--link {{$page_title=='Edit Course'?'active':''}}" title="Edit Course">
                                 <i class="uil uil-edit-alt menu--icon"></i>
                                 <span class="menu--label">Edit Course</span>

@@ -66,7 +66,7 @@
 								<div class="step-tab-panel step-tab-gallery" id="tab_step2">
 									<div class="tab-from-content">
 										<div class="title-icon">
-											<h3 class="title"><i class="uil uil-analytics"></i> Overview</h3>
+											<h3 class="title"><i class="uil uil-graduation-hat"></i> Students Enrolled</h3>
 										</div> 
 									</div>
 								</div>

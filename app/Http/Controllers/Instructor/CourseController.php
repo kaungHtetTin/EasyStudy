@@ -146,11 +146,30 @@ class CourseController extends Controller
     public function overview($id){
         $user = Auth::user();
         $course = Course::find($id);
-
+ 
         if($course){
             if($course->instructor->user->id ==$user->id ){
                 return view('instructor.course-overview',[
                     'page_title'=>'Course Overview',
+                    'course'=>$course,
+
+                ]);
+            }else{
+                return redirect(route('instructor.error'));
+            }
+        }else{
+            return redirect(route('instructor.error'));
+        }
+    }
+
+    public function studentEnroll($id){
+        $user = Auth::user();
+        $course = Course::find($id);
+ 
+        if($course){
+            if($course->instructor->user->id ==$user->id ){
+                return view('instructor.course-students',[
+                    'page_title'=>'Students Enrolled',
                     'course'=>$course,
 
                 ]);
