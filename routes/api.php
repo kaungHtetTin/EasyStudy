@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\InstructorController;
 use App\Http\Controllers\Api\LearningHistoryController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\AnswerController;
+use App\Http\Controllers\Api\AnnouncementController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -52,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::apiResource('answers', AnswerController::class);
     Route::apiResource('questions', QuestionController::class);
+    Route::apiResource('announcements', AnnouncementController::class);
     
 });
 

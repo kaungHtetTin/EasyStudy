@@ -1,6 +1,15 @@
+	
+	
 	@extends('instructor.master')
 
 	@section('content')
+
+	<style>
+		a i{
+			color:white;
+		}
+	</style>
+
 	<div class="wrapper">
 		<div class="sa4d25">
 			 <div class="container-fluid">			
@@ -63,9 +72,9 @@
 														<td class="text-center">{{$course->category->title}}</td>
 														<td class="text-center"><b class="course_active">Active</b></td>
 														<td class="text-center">
- 
-															<a href="{{route('instructor.modules.lists')}}?course_id={{$course->id}}" title="Add Curriculum" class="gray-s"><i class='uil uil-plus-circle'></i></a>
-															<a href="{{route('instructor.courses.modify',$course->id)}}" title="Edit" class="gray-s"><i class="uil uil-edit-alt"></i></a>
+															<a class="st_download_btn" style="padding:5px;font-size:12px;text-decoration:none" href="{{route('instructor.courses.overview',$course->id)}}" title="Overview" class="gray-s"><i class='uil uil uil-analytics'></i></a>
+															<a class="st_download_btn" style="padding:5px;font-size:12px;text-decoration:none" href="{{route('instructor.modules.lists')}}?course_id={{$course->id}}" title="Add Curriculum" class="gray-s"><i class='uil uil-plus-circle'></i></a>
+															<a class="st_download_btn" style="padding:5px;font-size:12px;text-decoration:none" href="{{route('instructor.courses.modify',$course->id)}}" title="Edit" class="gray-s"><i class="uil uil-edit-alt"></i></a>
 														</td> 
 													</tr>
 												@endforeach

@@ -2550,6 +2550,12 @@ Night Mood
     background: #545454;
 }
 
+
+.night-mode .st_download_btn:hover {
+    color: #fff;
+    background: #475692;
+}
+
 .night-mode .white-bg {
     background: #333 !important;
 }

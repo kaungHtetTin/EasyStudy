@@ -49,7 +49,7 @@
                 <div id="js-menu">
                     <ul>
                         <li class="menu--item">
-                            <a href="{{route('instructor.courses.lists')}}" class="menu--link {{$page_title=='Course Overview'?'active':''}}" title="Course Overview">
+                            <a href="{{route('instructor.courses.overview',$course->id)}}" class="menu--link {{$page_title=='Course Overview'?'active':''}}" title="Course Overview">
                                 <i class='uil uil-analytics menu--icon'></i>
                                 <span class="menu--label">Overview</span>
                             </a>

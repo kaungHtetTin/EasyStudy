@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
             'update' => 'instructor.courses.change',
             'destroy' => 'instructor.courses.remove',
         ]);
+        Route::get('courses/{id}/overview',[CourseController::class,'overview'])->name('instructor.courses.overview');
 
         Route::resource('modules',ModuleController::class)->names([
             'index' => 'instructor.modules.lists',
@@ -62,7 +63,9 @@ Route::middleware('auth')->group(function () {
             'index'=>'instructor.statements.lists',
             'update'=>'instructor.statements.change',
             'destroy'=>'instructor.statements.remove',
+            'show'=>'instructor.statements.view',
         ]);
+        
 
         Route::get('/error',[LayoutController::class,'error'])->name('instructor.error');
     });

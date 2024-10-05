@@ -44,12 +44,6 @@
                         <span class="menu--label">My Certificates</span>
                     </a>
                 </li>
-                <li class="menu--item">
-                    <a href="instructor_all_reviews.html" class="menu--link" title="Reviews">
-                        <i class='uil uil-star menu--icon'></i>
-                        <span class="menu--label">Reviews</span>
-                    </a>
-                </li>
             </ul>
         </div>
         <div class="left_section pt-2">

@@ -13,6 +13,7 @@ use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Instructor;
 
+use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Topic;
 use App\Models\Level;
@@ -31,7 +32,8 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         $instructor = Instructor::where('user_id',$user->id)->first();
-        $courses = Course::where('instructor_id',$instructor->id)->get();
+        $courses = Course::with('category')->where('instructor_id',$instructor->id)->get();
+    
         return view('instructor.courses',[
             'courses'=>$courses,
             'page_title'=>'Courses'
@@ -41,11 +43,13 @@ class CourseController extends Controller
     public function create(){
         $topics = Topic::all();
         $sub_categories = SubCategory::all();
+        $categories = Category::all();
         $levels = Level::all();
         $languages = Language::all();
         return view('instructor.course-create',[
             'topics'=>$topics,
             'sub_categories'=>$sub_categories,
+            'categories'=>$categories,
             'levels'=>$levels,
             'languages'=>$languages,
             'page_title'=>'Create Course',
@@ -96,6 +100,7 @@ class CourseController extends Controller
         $course = Course::find($id);
         if(!$course) return redirect(route('instructor.error'));
 
+        $categories = Category::all();
         $topics = Topic::all();
         $sub_categories = SubCategory::all();
         $levels = Level::all();
@@ -108,8 +113,10 @@ class CourseController extends Controller
         }
 
         return view('instructor.course-edit',[
+            'user'=>$user,
             'topics'=>$topics,
             'sub_categories'=>$sub_categories,
+            'categories'=>$categories,
             'levels'=>$levels,
             'languages'=>$languages,
             'course'=>$course,
@@ -134,6 +141,25 @@ class CourseController extends Controller
     public function destroy($id)
     {
         return $id;   
+    }
+
+    public function overview($id){
+        $user = Auth::user();
+        $course = Course::find($id);
+
+        if($course){
+            if($course->instructor->user->id ==$user->id ){
+                return view('instructor.course-overview',[
+                    'page_title'=>'Course Overview',
+                    'course'=>$course,
+
+                ]);
+            }else{
+                return redirect(route('instructor.error'));
+            }
+        }else{
+            return redirect(route('instructor.error'));
+        }
     }
 
 }

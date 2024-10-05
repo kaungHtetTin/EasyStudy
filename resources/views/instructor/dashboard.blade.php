@@ -27,7 +27,7 @@
 						<div class="card_dash">
 							<div class="card_dash_left">
 								<h5>Total Sales</h5>
-								<h2>$350</h2>
+								<h2>{{$total_sale}} MMK</h2>
 								<span class="crdbg_1">New $50</span>
 							</div>
 							<div class="card_dash_right">
@@ -39,7 +39,7 @@
 						<div class="card_dash">
 							<div class="card_dash_left">
 								<h5>Total Enroll</h5>
-								<h2>1500</h2>
+								<h2>{{$total_student}}</h2>
 								<span class="crdbg_2">New 125</span>
 							</div>
 							<div class="card_dash_right">
@@ -51,7 +51,7 @@
 						<div class="card_dash">
 							<div class="card_dash_left">
 								<h5>Total Courses</h5>
-								<h2>130</h2>
+								<h2>{{$total_course}}</h2>
 								<span class="crdbg_3">New 5</span>
 							</div>
 							<div class="card_dash_right">

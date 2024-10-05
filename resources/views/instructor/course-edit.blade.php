@@ -282,7 +282,7 @@
 												<label>Course Title*</label> <span class="input_error" id="input_title_error"> Please enter the title </span>
 												<div class="ui left icon input swdh19">
 													<input id="input_title" class="prompt srch_explore" type="text" placeholder="Course title here" name="title" data-purpose="edit-course-title" maxlength="60" id="main[title]" value="{{$course->title}}">															
-													<div class="badge_num">60</div>
+													<div id="title_count" class="badge_num"></div>
 												</div>
 													
 											</div>									
@@ -550,7 +550,21 @@
 				 
 			})
 
-			$('#input_title').on('input',()=>{$('#input_title_error').hide() });	
+			$('#title_count').html(60 - $('#input_title').val().length);
+
+			$('#input_title').on('input',()=>{
+				$('#input_title_error').hide();
+				let text = $('#input_title').val();
+                const letterLimit = 60;
+				let letterCount = text.length;
+
+				if(letterCount>letterLimit){
+                    $('#input_title').val(text.substring(0, $('#input_title').val().length - 1));
+                }else{
+                    $('#title_count').html(letterLimit - letterCount);
+                }
+
+			});	
 			$('#editor').on('input',()=> $('#editor_error').hide());
 			$('#level_selector').change(()=>$('#level_selector_error').hide());
 			$('#language_selector').change(()=> $('#language_selector_error').hide() );
@@ -575,6 +589,8 @@
 			}else{
 				form_data.title=title;
 			}
+
+
 
 			const description = $('#editor').html();
 			if(description==""){

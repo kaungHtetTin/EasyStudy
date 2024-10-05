@@ -47,7 +47,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-						<button id="btn_delete_dialog_add" type="button" class="main-btn" data-dismiss="modal">Delete</button>
+						<button onclick="deleteAnnouncement()" type="button" class="main-btn" data-dismiss="modal">Delete</button>
 					</div>
 				</div>
 			</div>
@@ -246,7 +246,7 @@
 					`;
 				}
 				return `
-					<div class="reviews_left" style="margin-top: 5px;">
+					<div class="reviews_left" style="margin-top: 5px;" id="announcement_component_${anouncement.id}">
 						<div style="display: flex;">
 							<div>
 								<img src="http://localhost:8000/storage/${user.image_url}" alt="" style="width: 30px;height:30px; border-radius:50px;">
@@ -261,19 +261,35 @@
 									${photo_attachment}
 									${resource_file}
 								</div>
-								<span class="btn_span" style="float:right" onclick=""  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>
+								<span class="btn_span" style="float:right" onclick="defineDeleteItem(${anouncement.id})"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>
 							</div>
 						</div>					
 					</div>
 				`
 			}
 
+			let delete_id =0;
 			function defineDeleteItem(id){
-
+				delete_id = id;
 			}
 
-			function deleteReview(){
-
+			function deleteAnnouncement(){
+				 
+				$.ajax({
+					url: `/api/announcements/${delete_id}`, // Replace with your API endpoint
+					type: 'DELETE', // or 'GET' depending on your request
+					headers: {
+						'Authorization': 'Bearer '+apiToken // Example for Authorization header
+					},
+					
+					success: function(response) {
+						console.log(response);
+						$(`#announcement_component_${delete_id}`).hide();
+					},
+					error: function(xhr, status, error) {
+						console.error('Error:', status, error);
+					}
+				});
 			}
 				
 		</script>

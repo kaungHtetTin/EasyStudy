@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use App\Models\Instructor;
+use App\Models\PaymentHistory;
 
 class InstructorServiceProvider extends ServiceProvider
 {
@@ -28,8 +29,10 @@ class InstructorServiceProvider extends ServiceProvider
     public function boot()
     {
         $excludedViews = [
-            'student.components.*',
-            'instructor.*'
+            'student.*',
+            'pages.*',
+            'instructor.components.*',
+            'instructor.master'
             // Add other views you want to exclude
         ];
 
@@ -40,13 +43,17 @@ class InstructorServiceProvider extends ServiceProvider
                     return;
                 }
             }
+    
             $user = Auth::user();
             if($user==null){
                 return $view->with('instructor', false);
             }
-            $instructor = Instructor::where('user_id',$user->id);
+            $instructor = Instructor::where('user_id',$user->id)->first();
+            $unapproved_payment_count = PaymentHistory::where('instructor_id',$instructor->id)->where('verified',0)->count();
 
-            $view->with('is_current_user_instructor', $instructor);
+            $view->with([
+                'unapproved_payment_count'=>$unapproved_payment_count,
+            ]);
         });
     }
 }

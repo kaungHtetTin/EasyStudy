@@ -111,7 +111,7 @@
 
         #canvas-container {
             position: relative;
-            width: 320px;
+            width: 200px;
         }
         #cropped-canvas{
             width: 100px;

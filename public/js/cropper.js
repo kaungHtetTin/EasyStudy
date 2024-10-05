@@ -1,3 +1,4 @@
+
 document.getElementById('upload-image').addEventListener('change', function (e) {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -21,7 +22,7 @@ document.getElementById('upload-image').addEventListener('change', function (e) 
             // Set the actual canvas size to the original image size
             canvas.width = img.width;
             canvas.height = img.height;
-
+      
             ctx.drawImage(img, 0, 0, img.width, img.height);
 
             initCropArea(displayWidth, displayHeight);
@@ -37,8 +38,15 @@ function initCropArea(displayWidth, displayHeight) {
     const canvasContainer = document.getElementById('canvas-container');
     const canvas = document.getElementById('canvas');
 
-    cropArea.style.width = '150px';
-    cropArea.style.height = '150px';
+    if(displayHeight>260){
+        cropArea.style.width = '250px';
+        cropArea.style.height = '250px';
+    }else{
+        cropArea.style.width = (displayHeight-10)+'px';
+        cropArea.style.height = (displayHeight-10)+'px';
+    }
+
+    
     cropArea.style.left = '85px';
     cropArea.style.top = '10px';
 
