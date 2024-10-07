@@ -12,14 +12,19 @@ use App\Models\Module;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Instructor;
+use App\Models\PaymentHistory;
+use App\Models\SavedCourse;
 
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Topic;
 use App\Models\Level;
 use App\Models\Language;
+use App\Models\User;
+use App\Models\LearningHistory;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
@@ -143,15 +148,53 @@ class CourseController extends Controller
         return $id;   
     }
 
-    public function overview($id){
+    public function overview(Request $req, $id){
         $user = Auth::user();
         $course = Course::find($id);
  
+        if(isset($req->year)) $year = $req->year;
+        else $year = date('Y');
+
+        if(isset($req->month)) $month = $req->month;
+        else $month = date('m');
+
+        $saleOfYears = DB::table('payment_histories')
+                        ->selectRaw(DB::raw("sum(amount) as amount, MONTH(created_at) as month"))
+                        ->where(DB::raw("YEAR(created_at)"),$year)
+                        ->where('course_id',$course->id)
+                        ->groupBy("month")
+                        ->get();
+
+        $saleofMonth = DB::table('payment_histories')
+                        ->selectRaw(DB::raw("sum(amount) as amount, Day(created_at) as day"))
+                        ->where(DB::raw("YEAR(created_at)"),$year)
+                        ->where(DB::raw("MONTH(created_at)"),$month)
+                        ->where('course_id',$course->id)
+                        ->groupBy("day")
+                        ->get();
+
+        $lastPeriod = $this->getLastMonth($year,$month);
+
+        $saleofPreviousMonth = DB::table('payment_histories')
+                        ->selectRaw(DB::raw("sum(amount) as amount, Day(created_at) as day"))
+                        ->where(DB::raw("YEAR(created_at)"),$lastPeriod['year'])
+                        ->where(DB::raw("MONTH(created_at)"),$lastPeriod['month'])
+                        ->where('course_id',$course->id)
+                        ->groupBy("day")
+                        ->get();
+   
         if($course){
             if($course->instructor->user->id ==$user->id ){
                 return view('instructor.course-overview',[
                     'page_title'=>'Course Overview',
                     'course'=>$course,
+                    'request'=>[
+                        'year'=>$year,
+                        'month'=>$month
+                    ],
+                    'saleOfYears'=>$saleOfYears,
+                    'saleofPreviousMonth'=>$saleofPreviousMonth,
+                    'saleofMonth'=>$saleofMonth,
 
                 ]);
             }else{
@@ -181,4 +224,60 @@ class CourseController extends Controller
         }
     }
 
+    public function studentDetail($id,$sid){
+        $user = Auth::user();
+        $course = Course::find($id);
+        $student = User::find($sid);
+ 
+        if(!$course){
+            return redirect(route('instructor.error'));
+        }
+
+        if($course->instructor->user->id !=$user->id ){
+            return redirect(route('instructor.error'));
+        }
+
+        $saveCourse = SavedCourse::where('course_id',$id)->where('user_id',$sid)->first();
+        if(!$saveCourse){
+           return redirect(route('instructor.error'));
+        }
+
+        $other_courses = SavedCourse::selectRaw('courses.id, courses.title')
+        ->where('user_id',$sid)
+        ->where('courses.instructor_id',$course->instructor->id)
+        ->where('saved_courses.course_id','!=',$course->id)
+        ->join('courses','courses.id','=','saved_courses.course_id')
+        ->get();
+
+        return view('instructor.course-students-detail',[
+            'page_title'=>'Student\'s Detail',
+            'course'=>$course,
+            'student'=>$student,
+            'joined'=>$saveCourse->created_at,
+            'other_courses'=>$other_courses,
+
+        ]);
+    }
+
+    public function approveStudent($id, $student_id){
+        $paymentHistory = PaymentHistory::where('user_id',$student_id)->where('course_id',$id)->first();
+        if($paymentHistory==null){
+            return redirect(route('instructor.error'));
+        }
+        return redirect(route('instructor.statements.view',$paymentHistory->id));
+    }
+
+    function getLastMonth($year, $month){
+
+        $month--;
+        if($month==0){
+            $month=12;
+            $year--;
+        }
+
+        $result['year']=$year;
+        $result['month']=$month;
+
+        return $result;
+    }
 }

@@ -1,31 +1,7 @@
 	@php
     	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
-		if (!function_exists('calculateHour')) {
-			function calculateHour($min){
-				$hr = $min/60;
-				$hr = floor($hr);
-				return $hr;
-			}
-		}
-
-		$downloadable_count = 0;
-		$article_count = 0;
-		$assignment_count = 0;
-		foreach ($course->lessons as $key => $lesson) {
 		
-			# code...
-			if($lesson->downloadable==1){
-				$downloadable_count++;
-			}
-			if($lesson->lesson_type_id==2){
-				$article_count++;
-
-			}
-			if($lesson->lesson_type_id==3){
-				$assignment_count++;
-			}
-		}
     @endphp
     @extends('instructor.master')
 
@@ -47,6 +23,12 @@
 			height: 1rem;
 			position: relative;
 			display: inline-block;
+		}
+
+		.user_menu_btn{
+			padding:5px;
+			font-size:12px;
+			float:right;
 		}
 
     </style>
@@ -82,74 +64,33 @@
 												<h2>{{$course->title}}</h2>
 												<span class="_215b04">{{$course->category->title}} <i class="uil uil-arrow-right"></i> {{$course->sub_category->title}} <i class="uil uil-arrow-right"></i>  {{$course->topic->title}}</span>
 											</div>
-											<div class="_215b05">
-												<div class="crse_reviews mr-2">
-													<i class="uil uil-star"></i>{{$course->rating}}
-													<br>
-													({{$course->rating_count}} ratings )
-												</div>
-												
-											</div>
-
-											<div class="row">
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">		
-														<span><i class='uil uil-play-circle'></i></span>
-														<div>
-															{{calculateHour($course->duration)}} hours on-demand video
-														</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-file-alt'></i></span>
-														<div>{{$assignment_count}} Assignments</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-document'></i></span>
-														<div>{{$article_count}} articles</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-cloud-download'></i></span>
-														<div>{{$downloadable_count}} downloable resourses</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-graduation-hat'></i></span>
-														<div>{{$course->enroll_count}} students enrolled</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-clock-seven'></i></span>
-														<div>Full life-time access</div>
-													</div>
-												</div>
-												<div class="col-6 _215b08">
-													<div class="_215b05" style="display: flex">										
-														<span><i class='uil uil-comment'></i></span>
-														<div>{{$course->language()->type}}</div>
-													</div>
-												</div>
-												@if ($course->certificate)
-													<div class="col-6 _215b08">
-														<div class="_215b05" style="display: flex">										
-															<span><i class='uil uil-trophy'></i></span>
-															<div>Certification of completion</div>
-														</div>
-													</div>
-												@endif
-											</div>
 										</div>							
 									</div>							
 								</div>							
 							</div>															
 						</div>
+
+						<div id="student_container" style="margin-top: 20px;">
+							
+							  
+						</div>
+						<div class="row" id="shimmer">				
+							<div class="col-md-12">
+								<br><br><br>
+								<div class="main-loader mt-50">													
+									<div class="spinner">
+										<div class="bounce1"></div>
+										<div class="bounce2"></div>
+										<div class="bounce3"></div>
+									</div>																										
+								</div>
+								<br><br><br>
+							</div>
+							<div class="col-md-12">
+								<br><br><br>
+							</div>
+						</div>			
+
 					</div>
 					@include('instructor.components.course-menu-drawer')
 				</div>
@@ -164,15 +105,86 @@
 			const course = @json($course);
         	const user = @json($user);
 
+			let is_fetching = false;
+			let arr = [];
+			let fetch_url = `http://localhost:8000/instructor/api/courses/${course.id}/students`
 
 			$(document).ready(()=>{
-				
+	
+				fetchStudents();
 
 			})
 
-		
-		<script src="{{asset('js/util.js')}}"></script>
+			function fetchStudents(){
+				is_fetching = true;
+				$('#shimmer').show();
+				if(fetch_url==null){
+					$('#shimmer').hide();
+					return;
+				}
 
+				$.ajax({
+					url: fetch_url,
+					type: 'GET', // or 'GET' depending on your request
+					headers: {
+						'Authorization': 'Bearer '+apiToken // Example for Authorization header
+					},
+					
+					success: function(res) {
+						is_fetching=false;
+						if(res){
+							fetch_url = res.next_page_url;
+							let students = res.data;
+							setStudents(students);
+							console.log(students);
+						}
+					},
+					error: function(xhr, status, error) {
+						console.error('Error:', status, error);
+					}
+				});
+			}
+
+			function setStudents(students){
+				$('#shimmer').hide();
+				students.map((student,index)=>{
+					arr.push(student);	
+					$('#student_container').append(studentComponent(student));
+				})
+			}
+
+			function studentComponent(student){
+				let approve_btn ="";
+				if(student.verified==0){
+					approve_btn = `<button onclick="approve(${student.user.id})" class="st_download_btn user_menu_btn" >Approved <i class="uil uil-check-circle"></i></button>`;
+				}
+				return `
+					<div class="fcrse_1">
+						<a href="http://localhost:8000/instructor/courses/${course.id}/students/${student.user.id}">
+							<div class="review_usr_dt">
+								<img src="http://localhost:8000/storage/${student.user.image_url}" alt="">
+								<div class="rv1458">
+									<h4 class="tutor_name1">${student.user.name}</h4>
+									<span class="time_145">Joined . ${formatDateTime(new Date(student.created_at))}</span>
+									
+								</div>
+							</div>
+						</a>
+						<div>
+							${approve_btn}
+							<button class="st_download_btn user_menu_btn" >Call <i class="uil uil-phone-alt"></i></button>
+						</div>
+					</div> 
+				
+				`;
+			}
+
+			function approve(student_id){
+				let url = `http://localhost:8000/instructor/courses/${course.id}/students/${student_id}/approve`;
+				window.location.href=url;
+			}
+	</script>
+	<script src="{{asset('js/util.js')}}"></script>
 	</div>
 	<!-- Body End -->
 	@endsection

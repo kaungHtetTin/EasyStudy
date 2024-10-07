@@ -39,7 +39,7 @@ class LessonController extends Controller
         }
 
         if($course->instructor_id!= $instructor->id){
-            return response()->json(['status'=>'fail','message'=>'Unauthorize'],403);
+            return response()->json(['status'=>'fail','message'=>'Forbidden'],403);
         }
 
         $lesson = new Lesson();

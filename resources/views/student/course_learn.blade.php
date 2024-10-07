@@ -1463,7 +1463,6 @@ if (!function_exists('calculatePercent')) {
                     }
                 });
                     
-               
             }else{
                 $('#myVideo').get(0).pause();
                 downloadContent();
@@ -1486,6 +1485,7 @@ if (!function_exists('calculatePercent')) {
 
         function downloadContent(){
 
+            console.log(currentLesson.link);
             const link = $('<a></a>').attr('href', currentLesson.link).attr('download', '');
             $('body').append(link);
             link[0].click();

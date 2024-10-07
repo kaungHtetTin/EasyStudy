@@ -58,7 +58,7 @@ class AnswerController extends Controller
                 $answer->delete();
                 return response()->json("success",200);
             }else{
-                return response()->json('Un authorize', 403);
+                return response()->json('Forbidden', 403);
             }
         }
     }

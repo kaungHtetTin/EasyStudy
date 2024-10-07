@@ -49,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function(){
     //Route::get('/draft-courses',[DraftCourseController::class,'index']);
     Route::apiResource('courses', CourseController::class);
     Route::post('/courses/{id}/update-cover-image',[CourseController::class,'changeCoverImage']);
+    Route::get('/courses/{id}/students',[CourseController::class,'students']);
 
     Route::apiResource('modules', ModuleController::class);
     Route::apiResource('lessons', LessonController::class);

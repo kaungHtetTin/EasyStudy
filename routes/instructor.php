@@ -28,7 +28,9 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'instructor.courses.remove', 
         ]);
         Route::get('courses/{id}/overview',[CourseController::class,'overview'])->name('instructor.courses.overview');
-         Route::get('courses/{id}/students',[CourseController::class,'studentEnroll'])->name('instructor.courses.students.lists');
+        Route::get('courses/{id}/students',[CourseController::class,'studentEnroll'])->name('instructor.courses.students.lists');
+        Route::get('courses/{id}/students/{sid}/approve',[CourseController::class,'approveStudent'])->name('instructor.courses.student.approved');
+        Route::get('courses/{id}/students/{sid}',[CourseController::class,'studentDetail'])->name('instructor.courses.student.show');
 
         Route::resource('modules',ModuleController::class)->names([
             'index' => 'instructor.modules.lists',

@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Instructor;
 use App\Models\User;
-use App\Models\PaymentMethod;
 use App\Models\PaymentMethodType;
+use App\Models\Course;
 
 
 class PaymentMethodController extends Controller
@@ -56,6 +56,6 @@ class PaymentMethodController extends Controller
 
     public function destroy($id){
         PaymentMethod::find($id)->delete();
-       return back()->with('success_msg','Payment method deleted successfully');
+        return back()->with('success_msg','Payment method deleted successfully');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Instructor;
 use App\Models\User;
+use App\Models\SavedCourse;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -77,7 +78,7 @@ class CourseController extends Controller
         }
 
         if($course->instructor_id!= $instructor->id){
-            return response()->json(['status'=>'fail','message'=>'Unauthorize'],403);
+            return response()->json(['status'=>'fail','message'=>'Forbidden'],403);
         }
 
         $request->validate([
@@ -121,7 +122,7 @@ class CourseController extends Controller
             return response()->json(['status'=>'fail','message'=>'Bad request'],400);
         }
         if($course->instructor_id!= $instructor->id){
-            return response()->json(['status'=>'fail','message'=>'Unauthorize'],403);
+            return response()->json(['status'=>'fail','message'=>'Forbidden'],403);
         }
 
         $old_path =  $course->cover_url;
@@ -140,6 +141,26 @@ class CourseController extends Controller
 
         return response()->json(['status' => 'fail', 'message' => 'No image file provided'], 400);
 
+    }
+
+    public function students(Request $request, $id){
+
+    
+        $user = $request->user();
+        $instructor = Instructor::where('user_id',$user->id)->first();
+        $course = Course::find($id);
+
+        if($course==null){
+            return response()->json(['status'=>'fail','message'=>'Bad request'],400);
+        }
+        if($course->instructor_id!= $instructor->id){
+            return response()->json(['status'=>'fail','message'=>'Forbidden'],403);
+        }
+
+        $students = SavedCourse::with('user:id,name,email,fcm_token,image_url')->where('course_id',$course->id)
+        ->orderBy('id','DESC')->paginate(10);
+
+        return response()->json($students, 201);
     }
 
     public function destroy(Post $post)

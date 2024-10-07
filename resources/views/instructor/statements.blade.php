@@ -181,7 +181,9 @@
 															</button>
 														</div>
 														<div class="modal-body">
-															Do you really want to delete this statement
+															<div class="alert alert-warning">
+																<b>Important warning: </b> By deleting this statemt, {{$history->user->name}} will have no longer access to the {{$history->course->title}}. It is the same that the user is removed from the course's student list.
+															</div>
 														</div>
 														<div class="modal-footer">
 															<button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
@@ -212,7 +214,6 @@
 		@include('instructor.components.footer')
 	</div>
 	<!-- Body End -->
-
     <script>
 
         let statement_url = "{{route('instructor.statements.lists')}}";
@@ -305,4 +306,5 @@
 		}
 
     </script>
+	
 	@endsection

@@ -26,7 +26,7 @@ class AnnouncementController extends Controller
             $announcement->delete();
             return response()->json("success",200);
         }else{
-            return response()->json('Unauthorized', 403);
+            return response()->json('Forbidden', 403);
         }
     }
 }

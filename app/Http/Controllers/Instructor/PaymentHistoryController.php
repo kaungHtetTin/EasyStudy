@@ -107,6 +107,10 @@ class PaymentHistoryController extends Controller
         $user_id = $payment_history->user_id;
         $course_id = $payment_history->course_id;
 
+        $course = Course::find($course_id);
+        $course->enroll_count = $course->enroll_count - 1;
+        $course->save();
+        
         SavedCourse::where('user_id',$user_id)->where('course_id',$course_id)->delete();
 
         $path = $payment_history->screenshort_url;
