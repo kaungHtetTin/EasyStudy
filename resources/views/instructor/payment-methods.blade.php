@@ -123,7 +123,7 @@
 									<input name="phone" id="input_phone_number" class="form_input_1" type="text" placeholder="Phone number here">
 									<br><br>
 									<label class="label25">Account Name*</label>
-									<span class="input_error" id="input_name_error"> Please enter the phone number </span>
+									<span class="input_error" id="input_name_error"> Please enter the account name </span>
 									<input name="acc_name" id="input_name" class="form_input_1" type="text" placeholder="Account name here">
 
 									<br><br>

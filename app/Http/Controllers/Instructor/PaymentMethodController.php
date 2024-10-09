@@ -10,6 +10,7 @@ use App\Models\Instructor;
 use App\Models\User;
 use App\Models\PaymentMethodType;
 use App\Models\Course;
+use App\Models\PaymentMethod;
 
 
 class PaymentMethodController extends Controller

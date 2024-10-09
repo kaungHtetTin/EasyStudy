@@ -15,6 +15,7 @@ use App\Models\SubCategory;
 use App\Models\Topic;
 use App\Models\Level;
 use App\Models\Review;
+use App\Models\SocialMedia;
 use App\Models\PaymentMethodType;
 use App\Models\Language;
 
@@ -80,8 +81,16 @@ class DatabaseSeeder extends Seeder
 
         Instructor::create([
             "user_id"=> 1,
-            "student_enroll"=>rand(1,1000),
+            "student_enroll"=>0,
         ]);
+
+        SocialMedia::create(['media'=>'Facebook','web_icon'=>'<span class="fb"><i class="fab fa-facebook-f"></i></span>']);
+        SocialMedia::create(['media'=>'Youtube','web_icon'=>'<span class="yu"><i class="fab fa-youtube"></i></span>']);
+        SocialMedia::create(['media'=>'Instagram','web_icon'=>'']);
+        SocialMedia::create(['media'=>'Telegram','web_icon'=>'']);
+        SocialMedia::create(['media'=>'Tikok','web_icon'=>'']);
+        SocialMedia::create(['media'=>'Twitter','web_icon'=>'<span class="tw"><i class="fab fa-twitter"></i></span>']);
+        SocialMedia::create(['media'=>'LinkIn','web_icon'=>'<span class="ln"><i class="fab fa-linkedin-in"></i></span>']);
 
         User::factory(100)->create();
         $instructors = Instructor::factory()

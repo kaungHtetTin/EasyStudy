@@ -3918,6 +3918,58 @@ i.icon8 {
     height: 143px;
 }
 
+.tutor_social_links li {
+    display: inline-block !important;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-bottom: 0 !important;
+}
+
+.tutor_social_links li:last-child {
+    margin-right: 0;
+}
+
+.tutor_social_links li a, .tutor_social_links li span {
+    font-size: 14px;
+    float: left;
+    width: 35px;
+    height: 36px;
+    border-radius: 3px;
+    text-align: center;
+    padding: 9px 0;
+    color: #fff;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.tutor_social_links li a:hover {
+    color: #fff !important;
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.fb {
+    background: #3b5998;
+}
+
+.tw {
+    background: #1da1f2;
+}
+
+.ln {
+    background: #8d6cab;
+}
+
+.yu {
+    background: #ff0000;
+}
+
 .st_download_btn {
     font-size: 14px;
     color: #fff;

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Instructor;
 use App\Models\Category;
 use App\Models\Subscriber;
+use App\Models\SocialMedia;
 use Illuminate\Support\Facades\Auth;
 
 class InstructorController extends Controller
@@ -13,8 +14,10 @@ class InstructorController extends Controller
     //
 
     public function index(){
+        $social_media = SocialMedia::all();
         return view('student.instructors',[
             'page_title'=>'Instructors',
+            'social_media'=>$social_media,
         ]);
     }
 
@@ -38,11 +41,10 @@ class InstructorController extends Controller
     }
 
     public function subscribe(Request $req,$id){
-        $this->validate($req, [
-            'user_id' => 'required|integer'
-        ]);
-
-        $user_id = $req->user_id;
+       
+        $user = Auth::user();
+        $user_id = $user->id;
+        
         $instructor = Instructor::find($id);
 
         $subscribed = Subscriber::where('user_id',$user_id)->where('instructor_id',$id)->first();

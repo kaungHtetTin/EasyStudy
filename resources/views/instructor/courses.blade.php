@@ -5,7 +5,7 @@
 	@section('content')
 
 	<style>
-		a i{
+		.st_download_btn i{
 			color:white;
 		}
 	</style>

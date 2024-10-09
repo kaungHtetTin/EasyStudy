@@ -104,6 +104,8 @@ if (!function_exists('calculatePercent')) {
     $payment_methods = $course->instructor->payment_methods;
 
     $user = Auth::user();
+    if($user) $my_course = $user->id==$course->instructor->user_id;
+    else $my_course = false;
 
 @endphp
 
@@ -423,7 +425,7 @@ if (!function_exists('calculatePercent')) {
                                 <div class="_215b05">										
                                     Last updated {{$course->updated_at->diffForHumans()}}
                                 </div>
-                                @if ($user->id!=$course->instructor->user_id)
+                                @if (!$my_course)
                                     <ul class="_215b31">										
                                         <li>
                                             <form action="{{route('cart')}}" method="POST">
@@ -465,9 +467,6 @@ if (!function_exists('calculatePercent')) {
                                     <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}" class="_df7852">{{$course->instructor->user->name}}</a>
                                     <form action="{{route('instructor.subscribe',['id'=>$course->instructor->id])}}" method="POST">
                                         @csrf
-                                        @auth
-                                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                                        @endauth
                                         @if ($subscribed)
                                             <button type="submit" class="subscribe-btn" style="border-radius:15px;background:#efeeff;color:#475692"><i class='uil uil-bell'></i>Subscribed</button>
                                         @else

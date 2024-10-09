@@ -459,6 +459,28 @@ if (!function_exists('calculatePercent')) {
                                                 @endif
                                                  
                                                 <h2>{{$course->title}}</h2>
+                                           
+                                                <div style="display: flex">
+                                                    <div class="user_img5">
+                                                        <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}"><img src="{{asset('storage/'.$course->instructor->user->image_url)}}" alt=""></a>												
+                                                    </div>
+                                                    <div class="user_cntnt">
+                                                        <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}" class="_df7852">{{$course->instructor->user->name}}</a>
+                                                        <form action="{{route('instructor.subscribe',['id'=>$course->instructor->id])}}" method="POST">
+                                                            @csrf
+                                                            @auth
+                                                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                                            @endauth
+                                                            @if ($subscribed)
+                                                                <button type="submit" class="subscribe-btn" style="border-radius:15px;background:#efeeff;color:#475692"><i class='uil uil-bell'></i>Subscribed</button>
+                                                            @else
+                                                                <button type="submit" class="subscribe-btn">Subscribe</button>
+                                                            @endif
+                                                            
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <br>
                                                 <div style="display:flex">
                                                     <div style="width:100px;">
                                                         <b style="font-size:16px;">{{$course->rating}}</b>  <span class="rating-star full-star"></span> <br>
@@ -1055,7 +1077,7 @@ if (!function_exists('calculatePercent')) {
                 if(elementId=="nav-anouncements-tab"){
                     is_announcement_tab = true;
                     if(!is_anouncement_fetching){
-                        
+                        fetchAnnouncements();
                     }
                 }else{
                     is_announcement_tab = false;

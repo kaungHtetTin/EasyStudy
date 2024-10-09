@@ -60,7 +60,12 @@ if (!function_exists('formatCount')) {
 
 @extends('student.components.master')
 @section('content')
-
+	<style>
+		._htg452 ul{
+			list-style-type: disc;
+			margin-inline-start: 20px;
+		}
+	</style>
 @auth
 <div class="wrapper _bg4586">
 @else
@@ -78,7 +83,7 @@ if (!function_exists('formatCount')) {
 									</a>
 									<div class="dp_dt150">						
 										<div class="img148">
-											<img src="images/left-imgs/img-1.jpg" alt="">										
+											<img src="{{asset('storage/'.$instructor->user->image_url)}}" alt="">										
 										</div>
 										<div class="prfledt1">
 											<h2>{{$instructor->user->name}}</h2>
@@ -95,7 +100,7 @@ if (!function_exists('formatCount')) {
 									<ul class="_ttl120">
 										<li>
 											<div class="_ttl121">
-												<div class="_ttl122">Enroll Students</div>
+												<div class="_ttl122">Students</div>
 												<div class="_ttl123">{{formatCount($student_enrolled)}}</div>
 											</div>
 										</li>
@@ -125,22 +130,23 @@ if (!function_exists('formatCount')) {
 									</a>
 									<div class="rgt-145">
 										<ul class="tutor_social_links">
-											<li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
-											<li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
-											<li><a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a></li>
-											<li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
+											@foreach ($instructor->user->social_contacts as $contact)
+												<li><a href="{{$contact->link}}"> <?= $contact->social_media->web_icon ?> </a> </li>
+											@endforeach
 										</ul>
 									</div>
 									<ul class="_bty149">
 										<li>
-											@if ($subscribed)
-												<button class="subscribe-btn btn500" style="border-radius:15px;background:#efeeff;color:#475692">
-													<span><i class='uil uil-bell'></i> Subscribed</span>
-												</button>
-											 
-											@else
-												<button class="subscribe-btn btn500">Subscribe</button>
-											@endif
+											<form action="{{route('instructor.subscribe',['id'=>$instructor->id])}}" method="POST">
+											@csrf
+												@if ($subscribed)
+													<button type="submit" class="subscribe-btn btn500" style="border-radius:15px;background:#efeeff;color:#475692">
+														<span><i class='uil uil-bell'></i> Subscribed</span>
+													</button>
+												@else
+													<button type="submit" class="subscribe-btn btn500">Subscribe</button>
+												@endif
+											</form>
 											
 										</li>								
 										<li>
@@ -149,10 +155,8 @@ if (!function_exists('formatCount')) {
 											@else
 												<button class="msg125 btn500">Message</button>
 											@endif
-											
 										</li>								
 									</ul>
-									
 								</div>													
 							</div>							
 						</div>							
@@ -187,7 +191,7 @@ if (!function_exists('formatCount')) {
 									<div class="_htg451">
 										<div class="_htg452">
 											<h3>About Me</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum scelerisque nibh sed ligula blandit, quis faucibus lorem pellentesque. Suspendisse pulvinar dictum pellentesque. Vestibulum at sagittis lectus, sit amet aliquam turpis. In quis elit tempus, semper justo vitae, lacinia massa. Etiam sagittis quam quis fermentum lacinia. Curabitur blandit sapien et risus congue viverra. Mauris auctor risus sit amet cursus sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat sodales massa, in viverra dolor condimentum ut. In imperdiet, justo nec volutpat blandit, tellus justo tempor quam, sed pretium nibh nunc nec mauris. Mauris vel malesuada magna. Quisque iaculis molestie purus, non luctus mauris porta id. Maecenas imperdiet tincidunt mauris vestibulum vulputate. Aenean sollicitudin pretium nibh, et sagittis risus tincidunt ac. Phasellus scelerisque rhoncus massa, ac euismod massa pharetra non. Phasellus dignissim, urna in iaculis varius, turpis libero mollis velit, sit amet euismod arcu mi ac nibh. Praesent tincidunt eros at ligula pellentesque elementum. Fusce condimentum enim a tellus egestas, sit amet rutrum elit gravida. Pellentesque in porta sapien. Fusce tristique maximus ipsum et mollis. Sed at massa ac est dapibus vulputate at eu nibh.</p>
+											<p><div><?= $instructor->about ?></div></p>
 										</div>																	
 									</div>							
 								</div>
@@ -200,7 +204,7 @@ if (!function_exists('formatCount')) {
 													<div class="col-lg-4 col-md-4">
 														<div class="fcrse_1 mb-30">
 															<a href="{{route('course_detail', ['id' => $course->id])}}" class="fcrse_img">
-																<img src="{{asset('images/courses/img-1.jpg')}}" alt="">
+																<img src="{{asset('storage/'.$course->cover_url)}}" alt="" style="height:160px;">
 																<div class="course-overlay">
 																	<div class="badge_seller">Bestseller</div>
 																	<div class="crse_reviews">

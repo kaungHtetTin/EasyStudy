@@ -12,10 +12,17 @@ use App\Http\Controllers\Instructor\PaymentHistoryController;
 use App\Http\Controllers\Instructor\QuestionController;
 use App\Http\Controllers\Instructor\ReviewController;
 use App\Http\Controllers\Instructor\AnnouncementController;
+use App\Http\Controllers\Instructor\ProfileController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
         Route::get('/',[LayoutController::class,'index'])->name('instructor.home');
+
+        Route::get('/profile',[ProfileController::class,'edit'])->name('instructor.profile.edit'); 
+        Route::put('/profile',[ProfileController::class,'update'])->name('instructor.profile.update'); 
+        Route::post('/profile/add-social-conatact',[ProfileController::class,'addSocialContact'])->name('instructor.profile.add-social-contact'); 
+       
+        
         // Route::get('/course/create',[LayoutController::class,'courseCreate'])->name('instructor.course-create');
 
         Route::resource('courses',CourseController::class)->names([

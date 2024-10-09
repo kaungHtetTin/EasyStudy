@@ -15,8 +15,13 @@ class LayoutController extends Controller
 
         $newestCourses = Course::with('instructor.user')->with('category')->with('sub_category')->with('topic')->where('disable',0)->limit(10)->orderBy('id','desc')->get();
         $featureCourses = Course::with('instructor.user')->with('category')->with('sub_category')->with('topic')->where('disable',0)->limit(10)->orderBy('id','asc')->get();
-        $popularInstructors = Instructor::with('user:id,name,email,phone,address')->
-        with('categories')->limit(10)->orderBy('student_enroll','desc')->get();
+        $popularInstructors = Instructor::with('user:id,name,email,phone,address')
+        ->with('user.social_contacts')
+        ->with('categories')
+        ->where('user_id','>',1)
+        ->orderBy('student_enroll','desc')
+        ->limit(10)->get();
+
         $reviews = Review::limit(10)->get();
         
         return view('student.index',[

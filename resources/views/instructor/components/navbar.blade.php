@@ -9,6 +9,12 @@
                     </a>
                 </li>
                 <li class="menu--item">
+                    <a href="{{route('instructor.course-create')}}" class="menu--link {{$page_title=='Create Course'?'active':''}}"  title="Create Course">
+                        <i class='uil uil-plus-circle menu--icon'></i>
+                        <span class="menu--label">Create Course</span>
+                    </a>
+                </li>
+                <li class="menu--item">
                     <a href="{{route('instructor.courses.lists')}}" class="menu--link {{$page_title=='Courses'?'active':''}}" title="Courses">
                         <i class='uil uil-book-alt menu--icon'></i>
                         <span class="menu--label">Courses</span>
@@ -18,12 +24,6 @@
                     <a href="instructor_analyics.html" class="menu--link" title="Analyics">
                         <i class='uil uil-analysis menu--icon'></i>
                         <span class="menu--label">Analyics</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="{{route('instructor.course-create')}}" class="menu--link {{$page_title=='Create Course'?'active':''}}"  title="Create Course">
-                        <i class='uil uil-plus-circle menu--icon'></i>
-                        <span class="menu--label">Create Course</span>
                     </a>
                 </li>
                 <li class="menu--item">

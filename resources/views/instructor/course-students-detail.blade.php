@@ -44,10 +44,6 @@
             margin-top:5px;
         }
 
-        .night-mode .kht-table td{
-            color:#eee
-        }
-
     </style>
 
 	<div class="wrapper">

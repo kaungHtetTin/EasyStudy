@@ -15,6 +15,7 @@ use App\Models\Reaction;
 use App\Models\Subscriber;
 use App\Models\QuestionType;
 use App\Models\Cart;
+use App\Models\Instructor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -155,6 +156,10 @@ class CourseController extends Controller
         $course->enroll_count = $course->enroll_count+1;
         $course->save();
 
+        $instructor = Instructor::find($course->instructor_id);
+        $instructor->student_enroll = $instructor->student_enroll + 1;
+        $instructor->save();
+
         $cart = Cart::where('user_id',$user->id)->where('course_id',$id)->first();
         if($cart) $cart->delete();
 
@@ -183,12 +188,19 @@ class CourseController extends Controller
             $question_types = false;
         }
 
+        $subscribed = Subscriber::where('user_id',$user->id)->where('instructor_id',$course->instructor_id)->first();
+        if($subscribed==null){
+            $subscribed=false;
+        }
+
+
         return view('student.course_learn',[
             'page_title'=>'Learning',
             'course'=>$course,
             'myReview'=>$myReview,
             'access'=>$access,
             'question_types'=>$question_types,
+            'subscribed'=>$subscribed,
         ]);
     }
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Instructor;
 use App\Models\User;
+use App\Models\Category;
 use App\Models\SavedCourse;
 
 use Illuminate\Support\Facades\Storage;
@@ -56,6 +57,14 @@ class CourseController extends Controller
             $path = $image->store('images/courses', 'public');
             $course->cover_url = $path;
             $course->save();
+
+            $instructor->total_course = $instructor->total_course + 1;
+            $instructor->save();
+
+            $category = Category::find($request->category_id);
+            $category->course_count = $category->course_count + 1;
+            $category->save();
+            
             return response()->json($course, 201);
         }
         

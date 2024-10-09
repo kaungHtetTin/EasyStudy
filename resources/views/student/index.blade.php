@@ -274,7 +274,7 @@ if (!function_exists('formatCounting')) {
 										<div class="item">
 											<div class="fcrse_1 mb-20">
 												<div class="tutor_img">
-													<a href="{{route('instructor_detail',['id'=>$instructor->id])}}"><img src="images/left-imgs/img-1.jpg" alt=""></a>												
+													<a href="{{route('instructor_detail',['id'=>$instructor->id])}}"><img src="{{asset('storage/'.$instructor->user->image_url)}}" alt=""></a>												
 												</div>
 												<div class="tutor_content_dt">
 													<div class="tutor150">
@@ -292,11 +292,10 @@ if (!function_exists('formatCounting')) {
 														@endforeach
 													</div>
 													<ul class="tutor_social_links">
-														<li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
-														<li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
-														<li><a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a></li>
-														<li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
-													</ul>
+														@foreach ($instructor->user->social_contacts as $contact)
+															<li><a href="{{$contact->link}}" style="margin-top:-10px;"> <?= $contact->social_media->web_icon ?> </a></li>
+														@endforeach
+														
 													<div class="tut1250">
 														<span class="vdt15">{{formatCounting($instructor->student_enroll,' Student')}}</span>
 														<span class="vdt15">

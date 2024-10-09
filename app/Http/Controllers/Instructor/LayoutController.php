@@ -12,6 +12,8 @@ use App\Models\Level;
 use App\Models\PaymentMethod;
 use App\Models\Course;
 use App\Models\PaymentHistory;
+use App\Models\SocialMedia;
+
 
 class LayoutController extends Controller
 {
@@ -39,6 +41,18 @@ class LayoutController extends Controller
                 'page_title'=>'Teach On',
             ]);
         }
+    }
+
+    public function profileEdit(){
+        $user = Auth::user();
+        $instructor = Instructor::where('user_id',$user->id)->first();
+        $social_media = SocialMedia::get();
+    
+        return view('instructor.instructor-profile-edit',[
+            'page_title'=>"Profile Edit",
+            'instructor'=>$instructor,
+            'social_media'=>$social_media,
+        ]);
     }
 
     public function error(){

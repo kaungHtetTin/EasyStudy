@@ -84,7 +84,8 @@ if (!function_exists('formatCounting')) {
 			let isFetching=false;
 			let url = '/api/instructors';
 			var instructorArr=[];
-
+			const social_media = @json($social_media);
+			console.log('social ',social_media);
 
 			$(document).ready(()=>{
 
@@ -122,8 +123,10 @@ if (!function_exists('formatCounting')) {
 			 function setInstructors(instructors){
 				$('#shimmer').hide();
 				instructors.map((instructor,index)=>{
-					instructorArr.push(instructor);	
-					$('#instructor_container').append(instructorComponent(instructor));
+					if(instructor.id!=1){
+						instructorArr.push(instructor);
+						$('#instructor_container').append(instructorComponent(instructor));
+					}
 				})
 			}
 
@@ -132,7 +135,7 @@ if (!function_exists('formatCounting')) {
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="fcrse_1 mt-30">
 							<div class="tutor_img">
-								<a href="/instructors/${instructor.id}"><img src="images/left-imgs/img-1.jpg" alt=""></a>												
+								<a href="/instructors/${instructor.id}"><img src="http://localhost:8000/storage/${instructor.user.image_url}" alt=""></a>												
 							</div>
 							<div class="tutor_content_dt">
 								<div class="tutor150">
@@ -145,10 +148,7 @@ if (!function_exists('formatCounting')) {
 									${setCategory(instructor.categories)}
 								</div>
 								<ul class="tutor_social_links">
-									<li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
-									<li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
-									<li><a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a></li>
-									<li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
+									${setSocialContact(instructor.user.social_contacts)}
 								</ul>
 								<div class="tut1250">
 									<span class="vdt15">${formatCounting(instructor.student_enroll,' Student')}</span>
@@ -177,11 +177,22 @@ if (!function_exists('formatCounting')) {
 				return result;
 			}
 
+			function setSocialContact(contacts){
+				let result = "";
+				for (const contact of contacts) {
+					media = social_media.find((media)=> media.id == contact.social_media_id )
+					result+= `<li><a href="${contact.link}" style="margin-top:-10px;">${media.web_icon}</a></li>`;
+				}
+
+				return result;
+			}
+
 			function formatCounting(count,unit){
+				count = count*1;
 				if(count<=1){
 					return count+' '+unit;
 				}else if(count>1 && count<1000){
-					return Math.floor(count/1000)+' '+unit+'s';
+					return count+' '+unit+'s';
 				}else if(count>=1000 && count<1000000){
 					return Math.floor(count/1000)+'k '+unit+'s';
 				}else {

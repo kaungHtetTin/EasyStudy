@@ -13,19 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('instructors', function (Blueprint $table) {
+        Schema::create('social_contacts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('student_enroll')->default(0)->nullable();
-            $table->integer('subscriber')->default(0);
-            $table->integer('total_course')->default(0);
-            $table->text('about')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->datetime('last_billing_date')->nullable();
+            $table->unsignedBigInteger('social_media_id');
+
+            $table->string('link')->nullable();
             $table->timestamps();
 
             $table->index('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('social_media_id')->references('id')->on('social_media')->onDelete('cascade');
         });
     }
 
@@ -36,12 +34,14 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('instructors',function(Blueprint $table){
+        Schema::table('social_contacts',function(Blueprint $table){
             $table->dropIndex(['user_id']);
             
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['social_media_id']);
             
         });
-        Schema::dropIfExists('instructors');
+
+        Schema::dropIfExists('social_contacts');
     }
 };

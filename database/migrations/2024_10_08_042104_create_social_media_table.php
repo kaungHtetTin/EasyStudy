@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('social_media', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->integer('course_count')->default(0);
-            $table->boolean('active')->default(false)->nullable();
+            $table->string('media');
+            $table->string('web_icon');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('social_media');
     }
 };

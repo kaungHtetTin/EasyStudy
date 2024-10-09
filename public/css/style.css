@@ -1550,7 +1550,7 @@ i.icon1 {
     margin-right: 0;
 }
 
-.tutor_social_links li a {
+.tutor_social_links li a, .tutor_social_links li span {
     font-size: 14px;
     float: left;
     width: 35px;
