@@ -80,6 +80,7 @@ class AnnouncementController extends Controller
         $announcement->resource_url = $resource_path;
         $announcement->save();
 
+
         return back()->with('msg','New message was successfully announced');
     }
 }

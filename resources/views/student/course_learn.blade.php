@@ -90,6 +90,12 @@ if (!function_exists('calculatePercent')) {
     $four_star_percent = calculatePercent($total_four_star,$total_star_count);
     $five_star_percent = calculatePercent($total_five_star,$total_star_count);
 
+    $like = false; $dislike = false;
+    if($reaction){
+        if($reaction->react==1) $like = true;
+        if($reaction->react==2) $dislike = true;
+    }
+
     $api_token = Cookie::get('api_auth_token');
     $user = Auth::user();
     $instructor = $course->instructor->user;
@@ -332,7 +338,7 @@ if (!function_exists('calculatePercent')) {
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="new-section-block">
+					<div class="alert alert-warning">
 						Do you reall want to delete
 					</div>
 				</div>
@@ -481,6 +487,7 @@ if (!function_exists('calculatePercent')) {
                                                     </div>
                                                 </div>
                                                 <br>
+                                             
                                                 <div style="display:flex">
                                                     <div style="width:100px;">
                                                         <b style="font-size:16px;">{{$course->rating}}</b>  <span class="rating-star full-star"></span> <br>

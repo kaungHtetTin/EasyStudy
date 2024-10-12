@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Instructor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 
 use App\Models\Course;
@@ -37,6 +38,8 @@ class QuestionTypeController extends Controller
         $question_type->title = $title;
         $question_type->course_id = $course_id;
         $question_type->save();
+
+        
 
         return response()->json($question_type, 200);
     

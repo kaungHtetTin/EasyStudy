@@ -1143,11 +1143,15 @@ i.icon1 {
 
 .prce142 {
     float: right;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
     color: #333;
     text-align: right;
+}
+
+.prce142 span{
+    font-size: 12px;
 }
 
 .vdtodt {
@@ -1589,6 +1593,14 @@ i.icon1 {
 
 .yu {
 	background: #ff0000;
+}
+
+.tg{
+    background:#178EC9;
+}
+
+.ig {
+    background: linear-gradient(45deg, rgb(255, 242, 0), red, rgb(247, 27, 200));
 }
 
 .sbbc145 {
@@ -6547,7 +6559,7 @@ a.rmv-btn i {
 .order_title {
 	float: left;
 	width: 100%;
-	padding: 20px 0;
+	padding: 10px 0;
     border-bottom: 1px solid #efefef;
 }
 
@@ -6559,7 +6571,7 @@ a.rmv-btn i {
 	float: left;
 	margin-bottom: 0;
 	line-height: 24px;
-	width: 70%;
+	width: 60%;
 	text-align: left;
 }
 
@@ -6570,7 +6582,7 @@ a.rmv-btn i {
 	color: #686f7a;
 	text-align: right;
 	float: right;
-	width: 30%;
+	width: 40%;
 	margin-bottom: 0;
 }
 

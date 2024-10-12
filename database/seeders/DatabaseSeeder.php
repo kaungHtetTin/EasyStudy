@@ -86,17 +86,31 @@ class DatabaseSeeder extends Seeder
 
         SocialMedia::create(['media'=>'Facebook','web_icon'=>'<span class="fb"><i class="fab fa-facebook-f"></i></span>']);
         SocialMedia::create(['media'=>'Youtube','web_icon'=>'<span class="yu"><i class="fab fa-youtube"></i></span>']);
-        SocialMedia::create(['media'=>'Instagram','web_icon'=>'']);
-        SocialMedia::create(['media'=>'Telegram','web_icon'=>'']);
+        SocialMedia::create(['media'=>'Instagram','web_icon'=>'<span class="ig"><i class="fab fa-instagram"></i></span>']);
+        SocialMedia::create(['media'=>'Telegram','web_icon'=>'<span class="tg"><i class="fab fa-telegram"></i></span>']);
         SocialMedia::create(['media'=>'Tikok','web_icon'=>'']);
         SocialMedia::create(['media'=>'Twitter','web_icon'=>'<span class="tw"><i class="fab fa-twitter"></i></span>']);
         SocialMedia::create(['media'=>'LinkIn','web_icon'=>'<span class="ln"><i class="fab fa-linkedin-in"></i></span>']);
+
+        Category::create(['title'=>'Development','web_icon'=>"<i class='uil uil-arrow'></i>"]);
+        Category::create(['title'=>'Business','web_icon'=>"<i class='uil uil-graph-bar'></i>"]);
+        Category::create(['title'=>'Finance & Accounting','web_icon'=>"<i class='uil uil-calcualtor'></i>"]);
+        Category::create(['title'=>'IT & Software','web_icon'=>"<i class='uil uil-monitor'></i>"]);
+        Category::create(['title'=>'Office Productivity','web_icon'=>""]);
+        Category::create(['title'=>'Personal Development','web_icon'=>"<i class='uil uil-book-open'></i>"]);
+        Category::create(['title'=>'Design','web_icon'=>"<i class='uil uil-ruler'></i>"]);
+        Category::create(['title'=>'Marketing','web_icon'=>"<i class='uil uil-chart-line'></i>"]);
+        Category::create(['title'=>'Lifestyle','web_icon'=>""]);
+        Category::create(['title'=>'Photography & video','web_icon'=>"<i class='uil uil-camera'></i>"]);
+        Category::create(['title'=>'Health & Fitness','web_icon'=>""]);
+        Category::create(['title'=>'Music','web_icon'=>"<i class='uil uil-music'></i>"]);
+
 
         User::factory(100)->create();
         $instructors = Instructor::factory()
             ->count(10)
             ->create();
-        $categories=Category::factory(5)->create();
+       
         SubCategory::factory(30)->create();
         Topic::factory(120)->create();
 
@@ -104,13 +118,6 @@ class DatabaseSeeder extends Seeder
         Module::factory(500)->create();
         Lesson::factory(3000)->create();
         Review::factory(100)->create();
-
-        $instructors->each(function ($instructor) use ($categories) {
-            $instructor->categories()->attach(
-                $categories->random(rand(1, 3))->pluck('id')->toArray()
-            );
-        });
-       
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

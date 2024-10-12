@@ -33,6 +33,8 @@
         $month_text = null;
     }
 
+    $click_index = 0;
+
 @endphp
 
 @extends('student.components.master')
@@ -41,18 +43,14 @@
 @section('content')
 
     <style>
-        .edit-menu:hover{
-            background: #475692;
-            color:#fff !important;
-        }
-
+ 
         .edit-container{
             display: none;
            
         }
 
         .profile_form{
-            padding: 20px;
+           
             transition: all 0.3s ease-out;
         }
 
@@ -74,7 +72,7 @@
             right: 0;
             width: 250px;
             overflow: hidden;
-            z-index: 5000;
+            z-index: 500;
             background:#fff;
             transition: all 0.3s ease-out;
         }
@@ -364,8 +362,11 @@
                                            
                                         </div>
                                     </div>
-                                    @if ($errors->userDeletion->isNotEmpty())
-                                         <p style="text-align:left;font-size:12px;color:red"> {{$errors->userDeletion->get('password')}} </p>	
+                                    @if ($errors->userDeletion->isNotEmpty()) 
+                                        @php
+                                            $click_index = 4;
+                                        @endphp
+                                         <p style="text-align:left;font-size:12px;color:red"> {{$errors->userDeletion->first('password')}} </p>	
                                     @endif
                                      <p id="del_account_error" style="margin-top:15px; color:red;"></p>
                                    
@@ -389,21 +390,48 @@
                     </div>
 
                     <div class="profile_nav_menu" id="drawer" style="display: none">
-                        <div align="center">
-                            <br> 
-                         
-                            <img src="{{asset('storage/'.$user->image_url)}}" style="width: 80px; height:80px;border-radius:50px;" alt="Profile Picture">
-                            <br>
-                            <h4>{{$user->name}}</h4>
-                        </div>
+                        <div class="fcrse_1" style="padding:0">
+                            <div align="center">
+                                <br> 
+                            
+                                <img src="{{asset('storage/'.$user->image_url)}}" style="width: 80px; height:80px;border-radius:50px;" alt="Profile Picture">
+                                <br>
+                                <h4>{{$user->name}}</h4>
+                            </div>
 
-                        <ul class="allcate15 mt-10">
-                            <li><a href="#" class="edit-menu ct_item">Profile</a></li>
-                            <li><a href="#" class="edit-menu ct_item">Photo</a></li>
-                            <li><a href="#" class="edit-menu ct_item">Privacy</a></li>
-                            <li><a href="#" class="edit-menu ct_item">Notification</a></li>
-                            <li><a href="#" class="edit-menu ct_item">Close Account</a></li>
-                        </ul>
+                            <ul class="allcate15 mt-10">
+                                <li  class="menu--item">
+                                    <a href="#" class="edit-menu menu--link">
+                                        <i class='uil uil-user-circle menu--icon'></i>
+                                        <span class="menu--label">Profile</span>
+                                    </a>
+                                </li>
+                                <li  class="menu--item">
+                                    <a href="#" class="edit-menu active menu--link">
+                                        <i class='uil uil-camera menu--icon'></i>
+                                        <span class="menu--label">Photo</span>
+                                    </a>
+                                </li>
+                                <li  class="menu--item">
+                                    <a href="#" class="edit-menu menu--link">
+                                        <i class='uil uil-lock-alt menu--icon'></i>
+                                        <span class="menu--label">Privacy</span>
+                                    </a>
+                                </li>
+                                <li  class="menu--item">
+                                    <a href="#" class="edit-menu menu--link">
+                                        <i class='uil uil-bell menu--icon'></i>
+                                        <span class="menu--label">Notification</span>
+                                    </a>
+                                </li>
+                                <li  class="menu--item">
+                                    <a href="#" class="edit-menu menu--link">
+                                        <i class='uil uil-trash menu--icon'></i>
+                                        <span class="menu--label">Close Account</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 			</div>
@@ -414,6 +442,8 @@
 
         let small_screen;
         let toggle_open = false;
+        let click_index = "{{$click_index}}";
+        click_index = parseInt(click_index);
         const titles = [
             {title:"Profile",description:"Add your information"},
             {title:"Photo",description:"Add your profile photo"},
@@ -428,12 +458,11 @@
                 $(menu).click(()=>{
 
                     $('.edit-menu').each((menu_index2, menu2)=>{
-                        $(menu2).css({"background":""});
-                        $(menu2).css({"color":""});
+                        $(menu2).attr('class','edit-menu menu--link');
+                        
                     })
 
-                    $(menu).css({"background":"#475692"});
-                    $(menu).css({"color":"#fff"});
+                     $(menu).attr('class','edit-menu menu--link active');
 
                     $('.edit-container').each((container_index,conatiner)=>{
                         if(container_index==menu_index){
@@ -457,7 +486,7 @@
                 });
             });
 
-            $('.edit-menu').get(0).click();
+            $('.edit-menu').get(click_index).click();
 
             
             $('#btn-drawer-toggle').click(()=>{

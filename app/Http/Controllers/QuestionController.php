@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Question;
+use App\Models\Course;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -23,6 +24,8 @@ class QuestionController extends Controller
             
         ]);
 
+        $course = Course::find($req->course_id);
+
         $question = new Question();
         $question->user_id = $user->id;
         $question->course_id = $req->course_id;
@@ -31,6 +34,16 @@ class QuestionController extends Controller
         $question->title = $req->question_title;
 
         $question->save();
+
+        NotificationController::store([
+            'notification_type_id'=>24,
+            'user_id'=>$user->id,
+            'passive_user_id'=>$course->instructor->user->id,
+            'body'=>"",
+            'payload'=>[
+                'course_id'=>$course->id,
+            ]
+        ]);
 
         return redirect()->back()->with('status','Question successfully published');
     }

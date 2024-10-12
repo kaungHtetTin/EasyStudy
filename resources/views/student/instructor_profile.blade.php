@@ -204,7 +204,7 @@ if (!function_exists('formatCount')) {
 													<div class="col-lg-4 col-md-4">
 														<div class="fcrse_1 mb-30">
 															<a href="{{route('course_detail', ['id' => $course->id])}}" class="fcrse_img">
-																<img src="{{asset('storage/'.$course->cover_url)}}" alt="" style="height:160px;">
+																<img src="{{asset('storage/'.$course->cover_url)}}" alt="">
 																<div class="course-overlay">
 																	<div class="badge_seller">Bestseller</div>
 																	<div class="crse_reviews">
@@ -239,7 +239,7 @@ if (!function_exists('formatCount')) {
 																</a>
 																<div class="auth1lnkprce">
 																	<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
-																	<div class="prce142">{{$course->fee}} MMK</div>
+																	<div class="prce142">{{$course->fee}} <span>MMK</span></div>
 																	<form action="{{route('cart')}}" method="POST">
 																		<input type="hidden" value="{{$course->id}}" name="course_id">
 																		@csrf

@@ -9,6 +9,7 @@ use App\Models\Instructor;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\SavedCourse;
+use App\Models\QuestionType;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -64,6 +65,11 @@ class CourseController extends Controller
             $category = Category::find($request->category_id);
             $category->course_count = $category->course_count + 1;
             $category->save();
+
+            $question_type = new QuestionType();
+            $question_type->title = "Related to course";
+            $question_type->course_id = $course->id;
+            $question_type->save();
             
             return response()->json($course, 201);
         }

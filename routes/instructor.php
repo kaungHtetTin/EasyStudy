@@ -13,6 +13,7 @@ use App\Http\Controllers\Instructor\QuestionController;
 use App\Http\Controllers\Instructor\ReviewController;
 use App\Http\Controllers\Instructor\AnnouncementController;
 use App\Http\Controllers\Instructor\ProfileController;
+use App\Http\Controllers\Instructor\NotificationController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
@@ -20,8 +21,10 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/profile',[ProfileController::class,'edit'])->name('instructor.profile.edit'); 
         Route::put('/profile',[ProfileController::class,'update'])->name('instructor.profile.update'); 
-        Route::post('/profile/add-social-conatact',[ProfileController::class,'addSocialContact'])->name('instructor.profile.add-social-contact'); 
-       
+        Route::post('/profile/social-contacts',[ProfileController::class,'addSocialContact'])->name('instructor.profile.social-contacts.add'); 
+        Route::delete('/profile/social-contacts/{id}',[ProfileController::class,'removeSocialContact'])->name('instructor.profile.social-contacts.remove'); 
+        Route::post('/profile/categories',[ProfileController::class,'addCategory'])->name('instructor.profile.categories.add'); 
+        Route::delete('/profile/categories/{id}',[ProfileController::class,'removeCategory'])->name('instructor.profile.categories.remove'); 
         
         // Route::get('/course/create',[LayoutController::class,'courseCreate'])->name('instructor.course-create');
 
@@ -75,7 +78,9 @@ Route::middleware('auth')->group(function () {
             'destroy'=>'instructor.statements.remove',
             'show'=>'instructor.statements.view',
         ]);
+
         
+        Route::get('/notifications',[NotificationController::class,'index'])->name('instructor.notifications.list');
 
         Route::get('/error',[LayoutController::class,'error'])->name('instructor.error');
     });

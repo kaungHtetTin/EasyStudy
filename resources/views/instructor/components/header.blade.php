@@ -122,7 +122,7 @@
                             </div>							
                         </div>
                         <a href="{{route('profile.edit')}}" class="dp_link_12">Edit Profile</a>	
-                        <a href="{{route('instructor.profile.edit')}}" class="dp_link_12">Edit Instructor Profile</a>						
+                        <a href="{{route('instructor.profile.edit')}}" class="dp_link_12">Instructor Account Setting</a>						
                     </div>
                     <div class="night_mode_switch__btn">
                         <a href="#" id="night-mode" class="btn-night-mode">

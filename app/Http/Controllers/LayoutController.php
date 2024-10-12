@@ -24,12 +24,15 @@ class LayoutController extends Controller
 
         $reviews = Review::limit(10)->get();
         
+        $top_categories = Category::orderBY('course_count','DESC')->limit(6)->get();
+
         return view('student.index',[
             'page_title'=>'Home',
             'newestCourses'=>$newestCourses,
             'featureCourses'=>$featureCourses,
             'popularInstructors'=>$popularInstructors,
             'reviews'=>$reviews,
+            'top_categories'=>$top_categories,
         ]);
     }
 

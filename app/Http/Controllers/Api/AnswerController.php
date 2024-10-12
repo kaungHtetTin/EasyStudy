@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 
 use App\Models\Answer;
@@ -31,6 +32,18 @@ class AnswerController extends Controller
         $question->save();
 
         $answer->save();
+
+        NotificationController::store([
+            'notification_type_id'=>25,
+            'user_id'=>$req->user_id, // (active person)
+            'passive_user_id'=>$question->user_id, // (passive person)
+            'body'=>"",
+            'payload'=>[
+                'question_id'=>$question->id,
+                'course_id'=>$question->course_id,
+            ]
+        ]);
+
         return response()->json($answer, 201);
     }
 

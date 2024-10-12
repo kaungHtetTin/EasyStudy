@@ -17,12 +17,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('notification_type_id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('passive_user_id');
             $table->text('body');
+            $table->text('payload');
             $table->timestamp('read_at');
             $table->timestamps();
 
-            $table->index('user_id');
+            $table->index('passive_user_id');
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('passive_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('notification_type_id')->references('id')->on('notification_types')->onDelete('cascade');
 
         });
@@ -36,8 +40,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('notifications',function(Blueprint $table){
-            $table->dropIndex(['user_id']);
+            $table->dropIndex(['passive_user_id']);
+
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['passive_user_id']);
             $table->dropForeign(['notification_type_id']);
         });
         Schema::dropIfExists('notifications');

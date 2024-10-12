@@ -16,6 +16,7 @@ use App\Models\Subscriber;
 use App\Models\QuestionType;
 use App\Models\Cart;
 use App\Models\Instructor;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -160,6 +161,16 @@ class CourseController extends Controller
         $instructor->student_enroll = $instructor->student_enroll + 1;
         $instructor->save();
 
+        NotificationController::store([
+            'notification_type_id'=>21,
+            'user_id'=>$user->id,
+            'passive_user_id'=>$course->instructor->user->id,
+            'body'=>"",
+            'payload'=>[
+                'course_id'=>$course->id,
+            ]
+        ]);
+
         $cart = Cart::where('user_id',$user->id)->where('course_id',$id)->first();
         if($cart) $cart->delete();
 
@@ -193,6 +204,11 @@ class CourseController extends Controller
             $subscribed=false;
         }
 
+        $reaction = Reaction::where('user_id',$user->id)->where('content_id',$id)->first();
+        if($reaction==null){
+            $reaction = false;
+        }
+
 
         return view('student.course_learn',[
             'page_title'=>'Learning',
@@ -201,6 +217,7 @@ class CourseController extends Controller
             'access'=>$access,
             'question_types'=>$question_types,
             'subscribed'=>$subscribed,
+            'reaction'=>$reaction,
         ]);
     }
 

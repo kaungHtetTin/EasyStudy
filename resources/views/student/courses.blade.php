@@ -420,7 +420,7 @@
 								
 								<div class="auth1lnkprce">
 									<p class="cr1fot">By <a href="/instructors/${course.instructor_id}">${course.instructor.user.name}</a></p>
-									<div class="prce142">${course.fee} MMK</div>
+									<div class="prce142">${course.fee} <span>MMK</span></div>
 									<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
 								</div>
 							</div>

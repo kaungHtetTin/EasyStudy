@@ -30,6 +30,16 @@ class ReviewController extends Controller
         $course->rating = $totalStar/$totalRater;
         $course->save();
 
+        NotificationController::store([
+            'notification_type_id'=>26,
+            'user_id'=>$req->user_id, // (active person)
+            'passive_user_id'=>$course->instructor->user->id, // (passive person)
+            'body'=>"",
+            'payload'=>[
+                'course_id'=>$course->id
+            ]
+        ]);
+
         return redirect()->back()->with('review_added', 'Review added successfully!');
     }
 

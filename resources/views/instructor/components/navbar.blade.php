@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_notifications.html" class="menu--link" title="Notifications">
+                    <a href="{{route('instructor.notifications.list')}}" class="menu--link {{$page_title=='Notifications'?'active':''}}" title="Notifications">
                         <i class='uil uil-bell menu--icon'></i>
                         <span class="menu--label">Notifications</span>
                     </a>

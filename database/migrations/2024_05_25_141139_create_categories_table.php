@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->integer('course_count')->default(0);
+            $table->string('web_icon');
             $table->boolean('active')->default(false)->nullable();
             $table->timestamps();
         });

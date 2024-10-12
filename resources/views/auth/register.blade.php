@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, shrink-to-fit=9">
 		<meta name="description" content="Gambolthemes">
 		<meta name="author" content="Gambolthemes">
-		<title>Cursus - Sign Up</title>
+		<title>Easy Study | Register</title>
 		
 		<!-- Favicon Icon -->
 		<link rel="icon" type="image/png" href="images/fav.png">
@@ -84,7 +84,7 @@
 							<button class="login-btn" type="submit">Sign up</button>
 						</form>
 						<p class="sgntrm145">By signing up, you agree to our <a href="terms_of_use.html">Terms of Use</a> and <a href="terms_of_use.html">Privacy Policy</a>.</p>
-						<p class="mb-0 mt-30">Already have an account? <a href="sign_in.html">Log In</a></p>
+						<p class="mb-0 mt-30">Already have an account? <a href="{{route('login')}}">Log In</a></p>
 					</div>
 					<div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2020 <strong>Cursus</strong>. All Rights Reserved.</div>
 				</div>				

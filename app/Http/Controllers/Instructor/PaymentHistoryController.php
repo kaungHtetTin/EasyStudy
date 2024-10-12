@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Instructor;
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Gate;
 use App\Models\Instructor;
 use App\Models\PaymentHistory;
 use App\Models\SavedCourse;
 use App\Models\Course;
+ 
 
 class PaymentHistoryController extends Controller
 {
@@ -89,15 +91,31 @@ class PaymentHistoryController extends Controller
         ]);
 
         $payment_history = PaymentHistory::find($id);
+        $user_id = $payment_history->user_id; // student
+        $course_id = $payment_history->course_id;
+
+        $course = Course::find($course_id);
+
+        if(Gate::denies('my-course',$course)){
+            return back()->with('error','Unauthorize');
+        }
+
         $payment_history->verified = 1;
         $payment_history->save();
-
-        $user_id = $payment_history->user_id;
-        $course_id = $payment_history->course_id;
 
         $savedCourse = SavedCourse::where('user_id',$user_id)->where('course_id',$course_id)->first();
         $savedCourse->verified = 1;
         $savedCourse->save();
+
+        NotificationController::store([
+            'notification_type_id'=>22,
+            'user_id'=>Auth::user()->id, // instructor (active person)
+            'passive_user_id'=>$user_id, // student (passive person)
+            'body'=>"",
+            'payload'=>[
+                'course_id'=>$course_id,
+            ]
+        ]);
         
         return back()->with('msg','The statement has been approved successfully.');
     }
@@ -108,6 +126,11 @@ class PaymentHistoryController extends Controller
         $course_id = $payment_history->course_id;
 
         $course = Course::find($course_id);
+
+        if(Gate::denies('my-course',$course)){
+            return back()->with('error','Unauthorize');
+        }
+
         $course->enroll_count = $course->enroll_count - 1;
         $course->save();
         
@@ -119,6 +142,16 @@ class PaymentHistoryController extends Controller
         }
 
         $payment_history->delete();
+
+        NotificationController::store([
+            'notification_type_id'=>23,
+            'user_id'=>Auth::user()->id, // instructor (active person)
+            'passive_user_id'=>$user_id, // student (passive person)
+            'body'=>"",
+            'payload'=>[
+                'course_id'=>$course_id,
+            ]
+        ]);
 
         return back()->with('msg','The statement has been deleted successfully.');
     

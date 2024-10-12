@@ -38,7 +38,7 @@
                                         @endphp
                                         <div class="fcrse_1">
                                             <a href="{{route('course_detail', ['id' => $course->id])}}" class="hf_img">
-                                                <img src="images/courses/img-1.jpg" alt="">
+                                                <img src="{{asset('storage/'.$course->cover_url)}}" alt="">
                                                 <div class="course-overlay">
                                                     <div class="badge_seller">Bestseller</div>
                                                     <div class="crse_reviews">
@@ -53,7 +53,9 @@
                                             <div class="hs_content">
 												
                                                 <div class="vdtodt">
-													<div style="background:rgb(239, 239, 0);border-radius:50px;width:20px;height:20px;position: absolute;right:15px;top:15px;"></div>
+													@if ($myCourse->verified == 0)
+														<div style="background:rgb(239, 239, 0);border-radius:50px;width:15px;height:15px;position: absolute;right:15px;top:15px;"></div>
+													@endif
                                                     <span class="vdt14">109k views</span>
                                                     <span class="vdt14">{{$course->created_at->diffForHumans()}}</span>
                                                 </div>

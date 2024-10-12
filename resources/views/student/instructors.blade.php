@@ -179,9 +179,12 @@ if (!function_exists('formatCounting')) {
 
 			function setSocialContact(contacts){
 				let result = "";
+				let i =0;
 				for (const contact of contacts) {
+					if(i==4) break;
 					media = social_media.find((media)=> media.id == contact.social_media_id )
 					result+= `<li><a href="${contact.link}" style="margin-top:-10px;">${media.web_icon}</a></li>`;
+					i++;
 				}
 
 				return result;

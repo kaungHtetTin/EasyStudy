@@ -85,7 +85,7 @@ if (!function_exists('formatCounting')) {
 														</a>
 														<div class="auth1lnkprce">
 															<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
-															<div class="prce142">{{$course->fee}} MMK</div>
+															<div class="prce142">{{$course->fee}} <span>MMK</span></div>
 															<form action="{{route('cart')}}" method="POST">
 																<input type="hidden" value="{{$course->id}}" name="course_id">
 																@csrf
@@ -144,7 +144,7 @@ if (!function_exists('formatCounting')) {
 													</a>
 													<div class="auth1lnkprce">
 														<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
-														<div class="prce142">{{$course->fee}} MMK</div>
+														<div class="prce142">{{$course->fee}} <span>MMK</span></div>
 														<form action="{{route('cart')}}" method="POST">
 															<input type="hidden" value="{{$course->id}}" name="course_id">
 															@csrf
@@ -201,7 +201,7 @@ if (!function_exists('formatCounting')) {
 													</a>
 													<div class="auth1lnkprce">
 														<p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
-														<div class="prce142">{{$course->fee}} MMK</div>
+														<div class="prce142">{{$course->fee}} <span>MMK</span></div>
 														<form action="{{route('cart')}}" method="POST">
 															<input type="hidden" value="{{$course->id}}" name="course_id">
 															@csrf
@@ -359,17 +359,10 @@ if (!function_exists('formatCounting')) {
 									<h4>Top Categories</h4>
 								</div>
 								<ul class="allcate15">
-									@foreach ($categories as $category)
-										<li><a href="{{route('courses')}}?category_id={{$category->id}}" class="ct_item"><i class='uil uil-arrow'></i>{{$category->title}}</a></li>
+									@foreach ($top_categories as $category)
+										<li><a href="{{route('courses')}}?category_id={{$category->id}}" class="ct_item"><?= $category->web_icon ?> {{$category->title}}</a></li>
 									@endforeach
-									
-									<li><a href="#" class="ct_item"><i class='uil uil-graph-bar'></i>Business</a></li>
-									<li><a href="#" class="ct_item"><i class='uil uil-monitor'></i>IT and Software</a></li>
-									<li><a href="#" class="ct_item"><i class='uil uil-ruler'></i>Design</a></li>
-									<li><a href="#" class="ct_item"><i class='uil uil-chart-line'></i>Marketing</a></li>
-									<li><a href="#" class="ct_item"><i class='uil uil-book-open'></i>Personal Development</a></li>
-									<li><a href="#" class="ct_item"><i class='uil uil-camera'></i>Photography</a></li>
-									<li><a href="#" class="ct_item"><i class='uil uil-music'></i>Music</a></li>
+								  
 								</ul>
 							</div>
 							<div class="strttech120">

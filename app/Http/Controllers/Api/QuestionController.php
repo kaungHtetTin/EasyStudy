@@ -31,6 +31,9 @@ class QuestionController extends Controller
     public function destroy(Request $req, $id){
         $user = $req->user();
         $question = Question::find($id);
+
+        return $bodyArr;
+
         if($question == null){
             return response()->json("Bad Request",400);
         }
