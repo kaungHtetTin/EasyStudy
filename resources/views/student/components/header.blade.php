@@ -1,4 +1,8 @@
 
+@php
+    $api_token = Cookie::get('api_auth_token');
+    $user = Auth::user();
+@endphp
 
 <header class="header clearfix">
     @auth
@@ -92,39 +96,36 @@
                 </div>
             </li>
             <li class="ui dropdown">
-                <a href="#" class="option_links" title="Notifications"><i class='uil uil-bell'></i><span class="noti_count">3</span></a>
-                <div class="menu dropdown_mn">
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="{{asset('images/left-imgs/img-1.jpg')}}" alt="">
-                            <div class="pd_content">
-                                <h6>Rock William</h6>
-                                <p>Like Your Comment On Video <strong>How to create sidebar menu</strong>.</p>
-                                <span class="nm_time">2 min ago</span>
-                            </div>							
-                        </div>							
+                @if ($unseen_notification_count>0)
+                    <a id="btn_nav_notification" href="#" class="option_links" title="Notifications">
+                        <i class='uil uil-bell'></i>
+                        <span class="noti_count">{{$unseen_notification_count}}</span>
                     </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="{{asset('images/left-imgs/img-2.jpg')}}" alt="">
-                            <div class="pd_content">
-                                <h6>Jassica Smith</h6>
-                                <p>Added New Review In Video <strong>Full Stack PHP Developer</strong>.</p>
-                                <span class="nm_time">12 min ago</span>
-                            </div>							
-                        </div>							
+                    <div class="menu dropdown_mn" id="nav_notification_container">
+                        <a href="#" class="channel_my item" id="nav_notification_shimmer">
+                            <div class="row">				
+                                <div class="col-md-12">
+                                    <br><br><br>
+                                    <div class="main-loader mt-50">													
+                                        <div class="spinner">
+                                            <div class="bounce1"></div>
+                                            <div class="bounce2"></div>
+                                            <div class="bounce3"></div>
+                                        </div>																										
+                                    </div>
+                                    <br><br><br>
+                                </div>
+                                <div class="col-md-12">
+                                    <br><br><br>
+                                </div>
+                            </div>		
+                        </a>
+                    </div>
+                 @else
+                    <a id="btn_nav_notification" href="#" class="option_links" title="Notifications">
+                        <i class='uil uil-bell'></i>
                     </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="images/left-imgs/img-9.jpg" alt="">
-                            <div class="pd_content">
-                                <p> Your Membership Approved <strong>Upload Video</strong>.</p>
-                                <span class="nm_time">20 min ago</span>
-                            </div>							
-                        </div>							
-                    </a>
-                    <a class="vbm_btn" href="instructor_notifications.html">View All <i class='uil uil-arrow-right'></i></a>
-                </div>
+                @endif
             </li>
             <li class="ui dropdown">
                 <a href="#" class="opts_account" title="Account">
@@ -186,5 +187,94 @@
              
         </ul>
     </div>
+
     @endauth
+    <script>
+        {
+            const apiToken = "{{$api_token}}";
+            const user = @json($user);
+            const unseen_notification_count = "{{$unseen_notification_count}}";
+
+            $(document).ready(()=>{
+                $('#btn_nav_notification').click(()=>{
+                    if(unseen_notification_count>0){
+                        navfetchNotification();
+                    }else{
+                        location.href = "{{route('notifications.list')}}";
+                    }
+                    
+                })
+            });
+
+            function navfetchNotification(){
+                $.ajax({
+                    url: "http://localhost:8000/api/notifications?page=1&&seen=0",
+                    type: 'GET', // or 'GET' depending on your request
+                    headers: {
+                        'Authorization': 'Bearer '+apiToken // Example for Authorization header
+                    },
+                    
+                    success: function(res) {
+                        $('#nav_notification_shimmer').hide();
+                        if(res){
+                            
+                            console.log('nav bar noti res', res);
+                            let notifications = res.data;
+                            setNavNotifications(notifications);
+                            
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', status, error);
+                    }
+                });
+            }
+
+            function setNavNotifications(notifications){
+                let notificationHTML = ""
+                notifications.map((notification,index)=>{
+                    if(index<3) notificationHTML += navNotificationComponent(notification);
+                })
+
+                $('#nav_notification_container').html(notificationHTML);
+                $('#nav_notification_container').append(`<a class="vbm_btn" href="{{route('notifications.list')}}">View All <i class='uil uil-arrow-right'></i></a>`);
+            }
+
+            function navNotificationComponent(notification){
+               
+                return `
+                    <a href="${createNotificationToUrl(notification)}" class="channel_my item bg-unseen" onclick="navNotificationSeen(${notification.id})">
+                        <div class="profile_link">
+                            <div>
+								<img src="http://localhost:8000/storage/${notification.user.image_url}" alt=""/>
+								${notification.notification_type.web_icon}
+							</div>
+                            <div class="pd_content">
+                                <h6>${notification.user.name}</h6>
+                                <p>${notification.notification_type.description}<strong> ${notification.body}</strong>.</p>
+                                <span class="nm_time">${formatDateTime(new Date(notification.created_at))}</span>
+                            </div>							
+                        </div>							
+                    </a>
+                `;
+            }
+
+            function navNotificationSeen(notification_id){
+				$.ajax({
+					url: `http://localhost:8000/api/notifications/${notification_id}`, // Replace with your API endpoint
+					type: 'PUT', // or 'GET' depending on your request
+					headers: {
+						'Authorization': 'Bearer '+apiToken // Example for Authorization header
+					},
+					success: function(response) {
+						 console.log(response);
+					},
+					error: function(xhr, status, error) {
+						console.error('Error:', status, error);
+					}
+				});
+			}
+        }
+    </script>
+    <script src="{{asset('js/util.js')}}"></script>
 </header>

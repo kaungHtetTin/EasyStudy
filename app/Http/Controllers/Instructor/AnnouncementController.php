@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 
 use App\Models\Course;
@@ -40,6 +41,8 @@ class AnnouncementController extends Controller
         $req->validate([
             'course_id'=>'required|numeric',
         ]);
+
+        $user = $req->user();
 
         $course_id = $req->course_id;
 
@@ -80,6 +83,18 @@ class AnnouncementController extends Controller
         $announcement->resource_url = $resource_path;
         $announcement->save();
 
+        $course = Course::find($course_id);
+        NotificationController::storeGroupNotification([
+            'notification_type_id'=>27, // post a announcement
+            'user_id'=>$user->id, // (active person)
+            'passive_users'=>$course->users, // (passive people)
+            'body'=>$course->title,
+            'passive_user_type'=>3,
+            'payload'=>[
+                'announcement_id'=>$announcement->id,
+                'course_id'=>$course->id,
+            ]
+        ]);
 
         return back()->with('msg','New message was successfully announced');
     }

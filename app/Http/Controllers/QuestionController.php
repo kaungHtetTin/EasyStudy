@@ -30,7 +30,7 @@ class QuestionController extends Controller
         $question->user_id = $user->id;
         $question->course_id = $req->course_id;
         $question->question_type_id = $req->question_type;
-        $question->body = $req->question_detail;
+        $question->body = $req->question_detail!=null? $req->question_detail :"";
         $question->title = $req->question_title;
 
         $question->save();
@@ -39,7 +39,8 @@ class QuestionController extends Controller
             'notification_type_id'=>24,
             'user_id'=>$user->id,
             'passive_user_id'=>$course->instructor->user->id,
-            'body'=>"",
+            'passive_user_type'=>2,
+            'body'=>$course->title,
             'payload'=>[
                 'course_id'=>$course->id,
             ]

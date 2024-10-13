@@ -174,13 +174,21 @@ class CourseController extends Controller
     }
 
     public function questions($id){
-        $questions = Question::with('user:id,name,email,fcm_token,image_url')->where('course_id',$id)->paginate(10);
+        $questions = Question::with('user:id,name,email,fcm_token,image_url')
+        ->where('course_id',$id)
+        ->orderBy('id','DESC')
+        ->paginate(10);
         return $questions;
     }
 
     public function answers($id, $qid){
         $answers = Answer::with('user:id,name,email,fcm_token,image_url')->where('question_id',$qid)->paginate(10);
-        return $answers;
+        $questions = Question::with('user:id,name,email,fcm_token,image_url')->find($qid);
+        
+        $res['answer']=$answers;
+        $res['question']=$questions;
+
+        return response()->json($res);
     }
 
     public function announcements($id){

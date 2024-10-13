@@ -239,6 +239,10 @@ Night Mood
     white-space: normal;
 }
 
+.night-mode .channel_my:hover {
+    background: #444 !important;
+}
+
 .night-mode  .pd_content p {
     color: #c7c7c7 !important;
 }

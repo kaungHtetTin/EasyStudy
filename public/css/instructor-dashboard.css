@@ -579,6 +579,10 @@ i.icon1 {
     border-bottom: 0 !important;
 }
 
+.channel_my:hover {
+    background: #e6e4ff !important;
+}
+
 .profile_link {
     display: flex;
 }

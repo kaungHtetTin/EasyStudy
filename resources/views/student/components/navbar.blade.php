@@ -28,6 +28,12 @@
                     </ul>
                 </li>
                 <li class="menu--item">
+                    <a href="{{route('notifications.list')}}" class="menu--link {{$page_title=='Notifications'?'active':''}}" title="Notifications">
+                        <i class='uil uil-bell menu--icon'></i>
+                        <span class="menu--label">Notifications</span>
+                    </a>
+                </li>
+                <li class="menu--item">
                     <a href="{{route('cart')}}" class="menu--link {{$page_title=='Cart'?'active':''}}" title="Live Streams">
                         <i class='uil uil-shopping-cart-alt menu--icon'></i>
                         <span class="menu--label">Cart</span>

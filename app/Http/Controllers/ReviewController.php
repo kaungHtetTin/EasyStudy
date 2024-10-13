@@ -34,7 +34,8 @@ class ReviewController extends Controller
             'notification_type_id'=>26,
             'user_id'=>$req->user_id, // (active person)
             'passive_user_id'=>$course->instructor->user->id, // (passive person)
-            'body'=>"",
+            'passive_user_type'=>2,
+            'body'=>$course->title,
             'payload'=>[
                 'course_id'=>$course->id
             ]

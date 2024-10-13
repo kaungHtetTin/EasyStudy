@@ -22,3 +22,51 @@ function formatDateTime(cmtTime){
         return date.toLocaleDateString("en-GB");
     }
 }
+
+function createNotificationToUrl(notification){
+    const type = notification.notification_type_id;
+    let url = "";
+
+    // instructor dashboard
+
+    if(type==21){ // Course Purchased
+        url="http://localhost:8000/instructor/statements";
+    }else if(type==24){ // Course Question
+        let course_id = JSON.parse(notification.payload).course_id;
+        url = "http://localhost:8000/instructor/questions?course_id="+course_id;
+    }else if(type == 26) {// Course Review
+        let course_id = JSON.parse(notification.payload).course_id;
+        url = "http://localhost:8000/instructor/reviews?course_id="+course_id;
+    }else if(type == 41){ // Subscribed
+        
+    }
+
+    // user application
+    if(type==22){ // payment verified
+        let course_id = JSON.parse(notification.payload).course_id;
+        url="http://localhost:8000/courses/"+course_id;
+    }else if(type==23){ // payment verification fail
+        let course_id = JSON.parse(notification.payload).course_id;
+        url="http://localhost:8000/courses/"+course_id;
+    }else if(type == 25) {// Course answer
+        let payload = JSON.parse(notification.payload);
+        let course_id = payload.course_id;
+        let question_id = payload.question_id;
+        url=`http://localhost:8000/courses/${course_id}/learn?question_id=${question_id}`;
+    }else if(type == 27){
+        let payload = JSON.parse(notification.payload);
+        let course_id = payload.course_id;
+        let announcement_id = payload.announcement_id;
+        url=`http://localhost:8000/courses/${course_id}/learn?announcement_id=${announcement_id}`;
+    }else if(type == 28){ // add new module
+        let course_id = JSON.parse(notification.payload).course_id;
+        url="http://localhost:8000/courses/"+course_id;
+    }else if(type == 29){ // add new lesson
+        let course_id = JSON.parse(notification.payload).course_id;
+        url="http://localhost:8000/courses/"+course_id;
+    }else if(type == 43){ // Message sent to user
+        
+    }
+
+    return url;
+}

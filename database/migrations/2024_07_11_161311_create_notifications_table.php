@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('passive_user_id');
             $table->text('body');
             $table->text('payload');
-            $table->timestamp('read_at');
+            $table->boolean('seen')->default(false);
             $table->timestamps();
 
             $table->index('passive_user_id');

@@ -10,6 +10,7 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/instructors/subscribe/{id}',[InstructorController::class,'subscribe'])->name('instructor.subscribe');
 
     Route::post('/questions',[QuestionController::class,'create'])->name('question.create');
+
+    Route::get('/notifications',[NotificationController::class,'index'])->name('notifications.list');
    
 });
 

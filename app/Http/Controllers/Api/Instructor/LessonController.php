@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api\Instructor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use App\Models\Lesson;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\Instructor;
+use App\Models\SavedCourse;
 use Illuminate\Support\Facades\Storage;
+
 
 class LessonController extends Controller
 {
@@ -81,6 +84,20 @@ class LessonController extends Controller
         // defind video duration
 
         $lesson->save();
+
+        // sent notification
+
+        NotificationController::storeGroupNotification([
+            'notification_type_id'=>29, // add new lesson
+            'user_id'=>$user->id, // (active person)
+            'passive_users'=>$course->users, // (passive people)
+            'body'=>$course->title,
+            'passive_user_type'=>3,
+            'payload'=>[
+                'lesson_id'=>$lesson->id,
+                'course_id'=>$course->id,
+            ]
+        ]);
 
         return response()->json($lesson, 200);
     }

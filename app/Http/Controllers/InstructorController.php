@@ -60,6 +60,17 @@ class InstructorController extends Controller
             $subscriber->save();
 
             $instructor->subscriber = $instructor->subscriber+1;
+
+            NotificationController::store([
+                'notification_type_id'=>41,
+                'user_id'=>$user->id,
+                'passive_user_id'=>$instructor->user->id,
+                'passive_user_type'=>2,
+                'body'=>"",
+                'payload'=>[
+                    
+                ]
+            ]);
         }
 
         $instructor->save();

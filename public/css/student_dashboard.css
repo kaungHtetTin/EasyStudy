@@ -575,6 +575,10 @@ i.icon1 {
     white-space: normal;
 }
 
+.channel_my:hover {
+    background: #e6e4ff !important;
+}
+
 .channel_my:last-child {
     border-bottom: 0 !important;
 }

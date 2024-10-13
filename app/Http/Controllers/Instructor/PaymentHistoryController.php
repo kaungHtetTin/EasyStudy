@@ -111,9 +111,11 @@ class PaymentHistoryController extends Controller
             'notification_type_id'=>22,
             'user_id'=>Auth::user()->id, // instructor (active person)
             'passive_user_id'=>$user_id, // student (passive person)
-            'body'=>"",
+            'passive_user_type'=>3,
+            'body'=>$course->title,
             'payload'=>[
                 'course_id'=>$course_id,
+                'payment_id'=>$id,
             ]
         ]);
         
@@ -147,9 +149,11 @@ class PaymentHistoryController extends Controller
             'notification_type_id'=>23,
             'user_id'=>Auth::user()->id, // instructor (active person)
             'passive_user_id'=>$user_id, // student (passive person)
-            'body'=>"",
+            'passive_user_type'=>3,
+            'body'=>$course->title,
             'payload'=>[
                 'course_id'=>$course_id,
+                'payment_id'=>$id,
             ]
         ]);
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Course;
 
 class AnswerController extends Controller
 {
@@ -33,11 +34,14 @@ class AnswerController extends Controller
 
         $answer->save();
 
+        $course = Course::find($question->course_id);
+
         NotificationController::store([
             'notification_type_id'=>25,
             'user_id'=>$req->user_id, // (active person)
             'passive_user_id'=>$question->user_id, // (passive person)
-            'body'=>"",
+            'passive_user_type'=>3,
+            'body'=>$course->title,
             'payload'=>[
                 'question_id'=>$question->id,
                 'course_id'=>$question->course_id,

@@ -165,7 +165,8 @@ class CourseController extends Controller
             'notification_type_id'=>21,
             'user_id'=>$user->id,
             'passive_user_id'=>$course->instructor->user->id,
-            'body'=>"",
+            'passive_user_type'=>2,
+            'body'=>$course->title,
             'payload'=>[
                 'course_id'=>$course->id,
             ]
@@ -177,10 +178,16 @@ class CourseController extends Controller
         return redirect()->back()->with('check_out_status','Succesfully requested');
     }
 
-    public function learn($id){
+    public function learn(Request $req,$id){
         $course = Course::find($id);
         $user = Auth::user();
         $myReview=false;
+
+        if(isset($req->question_id)) $question_id = $req->question_id; // for notification click
+        else $question_id = 0; 
+
+        if(isset($req->announcement_id)) $announcement_id = $req->announcement_id; // for notification click
+        else $announcement_id = 0; 
      
         $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
         if($access==null){
@@ -218,6 +225,8 @@ class CourseController extends Controller
             'question_types'=>$question_types,
             'subscribed'=>$subscribed,
             'reaction'=>$reaction,
+            'question_id'=>$question_id,
+            'announcement_id'=>$announcement_id,
         ]);
     }
 

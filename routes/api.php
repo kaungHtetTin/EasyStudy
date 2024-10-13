@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\LearningHistoryController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\AnswerController;
 use App\Http\Controllers\Api\AnnouncementController;
+use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -54,7 +55,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('answers', AnswerController::class);
     Route::apiResource('questions', QuestionController::class);
     Route::apiResource('announcements', AnnouncementController::class);
-    
+    Route::apiResource('notifications', NotificationController::class);
+    Route::post('/mark-as-read-all-notifications',[NotificationController::class,'markAsReadAll']);
 });
 
 Route::post('/courses/pre-view/{id}',[CourseController::class,'playPreView']);

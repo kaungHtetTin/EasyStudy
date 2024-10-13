@@ -113,6 +113,14 @@
 	
 				fetchStudents();
 
+				$(window).scroll(()=>{
+					if($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
+						if(!is_fetching){
+							fetchStudents();
+						}
+					}
+				});
+
 			})
 
 			function fetchStudents(){

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use App\Models\Instructor;
 use App\Models\PaymentHistory;
+use App\Models\Notification;
 
 class InstructorServiceProvider extends ServiceProvider
 {
@@ -50,9 +51,14 @@ class InstructorServiceProvider extends ServiceProvider
             }
             $instructor = Instructor::where('user_id',$user->id)->first();
             $unapproved_payment_count = PaymentHistory::where('instructor_id',$instructor->id)->where('verified',0)->count();
+            $unseen_notification_count = Notification::where('passive_user_id',$user->id)
+            ->where('seen',0)
+            ->where('passive_user_type',2)
+            ->count();
 
             $view->with([
                 'unapproved_payment_count'=>$unapproved_payment_count,
+                'unseen_notification_count'=>$unseen_notification_count,
             ]);
         });
     }

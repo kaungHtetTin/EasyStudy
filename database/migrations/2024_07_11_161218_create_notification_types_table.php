@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('passive_user_type');
+            $table->string('web_icon');
             $table->timestamps();
         });
     }

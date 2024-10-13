@@ -956,9 +956,15 @@ if (!function_exists('calculatePercent')) {
         const question_types = @json($question_types);
         const instructor = @json($instructor); // user model
         const imageShimmer = "{{asset('images/courses/img-1.jpg')}}";
+
+        const question_id = "{{$question_id}}";
+        const announcement_id = "{{$announcement_id}}";
+
         let lessons, modules;
         let currentLesson = null;
         let reply_question_id = 0;
+
+
 
         console.log('api token',apiToken);
         
@@ -1092,6 +1098,15 @@ if (!function_exists('calculatePercent')) {
 
             });
 
+            if(question_id!=0){
+                $('#nav-q-and-a-tab').click();
+                seeAnswer(question_id);
+            }
+
+            if(announcement_id!=0){
+                $('#nav-anouncements-tab').click();
+            }
+
             $('#btn_ask').click(()=>{
                 $('#search_input').hide();
                 $('#ask_input').show();
@@ -1224,8 +1239,10 @@ if (!function_exists('calculatePercent')) {
                     <a href="http://localhost:8000/storage/${anouncement.resource_url}"> <div class="resource" id="resource_attachment">Resource <i class="uil uil-download-alt"></i></div> </a>
                 `;
             }
+
+            let seen = announcement_id == anouncement.id ? "bg-unseen":"";
             return `
-                <div class="reviews_left">
+                <div class="reviews_left ${seen}">
                     <div style="display: flex;">
                         <div>
                             <img src="http://localhost:8000/storage/${instructor.image_url}" alt="" style="width: 30px;height:30px; border-radius:50px;">
@@ -1299,12 +1316,14 @@ if (!function_exists('calculatePercent')) {
                 $('#question_container').append(questionComponent(question));
                 questionArr.push(question);
             })
+
         }
 
         function questionComponent(question){
             let delBtn = question.user_id == user.id ? `<span class="btn_span" style="float:right;" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>`:'';
+            let seen = question_id==question.id ? 'bg-unseen':'';
             return `
-                <div class="review_item" id="question_component_${question.id}">
+                <div class="review_item ${seen}" id="question_component_${question.id}">
                     <div class="review_usr_dt">
                         <img src="http://localhost:8000/storage/${question.user.image_url}" alt="">
                         <div class="rv1458" style="width:100%">
@@ -1319,31 +1338,17 @@ if (!function_exists('calculatePercent')) {
         }
 
         function seeAnswer(question_id){
-            const question = questionArr.find(q=>q.id ===question_id );
+          
             question_mode = false;
 			answer_mode = true;
             $('#answers_layout').html("");
-            $('#question_layout').html(`
-                <img src="" alt="">
-                <div class="rv1458" style="width:100%">
-                    <div>
-                        <h5 class="">${question.title}</h5>
-                        <div class="content_body">${question.body}</div>
-                        <br>
-                    </div>
-                    
-                    <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
-                    <span style="float:right;">Total <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
-                </div>
-            `);
-
 
             $('#question_container').hide();
             $('#answer_container').show();
             $('#search_input').hide();
             $('#question_loading').show();
 
-            fetch_answer_url= `/api/courses/${course.id}/questions/${question.id}/answers`;
+            fetch_answer_url= `/api/courses/${course.id}/questions/${question_id}/answers`;
             fetchAnswer();
 
         }
@@ -1360,8 +1365,26 @@ if (!function_exists('calculatePercent')) {
                 is_answer_is_fetching=false;
                 $('#question_loading').hide();
                 if(res){
-                    fetch_answer_url = res.next_page_url;
-                    let answers = res.data;
+                    console.log('ans Res',res);
+                    let answer = res.answer;
+                    let question = res.question;
+
+                    $('#question_layout').html(`
+                        <img src="" alt="">
+                        <div class="rv1458" style="width:100%">
+                            <div>
+                                <h5 class="">${question.title}</h5>
+                                <div class="content_body">${question.body}</div>
+                                <br>
+                            </div>
+                            
+                            <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
+                            <span style="float:right;">Total <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
+                        </div>
+                    `);
+
+                    fetch_answer_url = answer.next_page_url;
+                    let answers = answer.data;
 					setAnswer(answers);
                      
                 }
@@ -1449,15 +1472,17 @@ if (!function_exists('calculatePercent')) {
             if(w<=w_player_section+250){
                 $('#lesson-section').hide();
                 $('#nav-content-tab').show();
-                $('#nav-content-tab').click();
                 $('#course_rating_text1').show();
                 $('#course_rating_text2').hide();
+
+                $('#nav-content-tab').click();
             }else{
                 $('#lesson-section').show();
                 $('#nav-content-tab').hide();
-                $('#nav-overview-tab').click();
                 $('#course_rating_text1').hide();
                 $('#course_rating_text2').show();
+
+                $('#nav-overview-tab').click();
                 
             }
         }

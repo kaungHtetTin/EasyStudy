@@ -90,3 +90,51 @@
     background-color: #efeeff;
     width: max-content;
 }
+
+.bg-unseen{
+    background-color: #efeeff;
+}
+
+.night-mode .bg-unseen {
+    background-color: #05002a;
+}
+
+.noti-icon-default {
+    background: #F00;
+    border-radius: 100%;
+    color:white;
+    padding: 2px;
+    display: block;
+    margin-top: -15px;
+    margin-left: 30px;
+}
+
+.noti-icon-msg {
+    background: #27ac03;
+    border-radius: 100%;
+    color: white;
+    padding: 2px;
+    display: block;
+    margin-top: -15px;
+    margin-left: 30px;
+}
+
+.noti-icon-course {
+    background: #475692;
+    border-radius: 100%;
+    color: white;
+    padding: 2px;
+    display: block;
+    margin-top: -15px;
+    margin-left: 30px;
+}
+
+.noti-icon-review {
+    background: #e5ff00;
+    border-radius: 100%;
+    color: white;
+    padding: 2px;
+    display: block;
+    margin-top: -15px;
+    margin-left: 30px;
+}
