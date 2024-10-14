@@ -11,6 +11,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +92,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/notifications',[NotificationController::class,'index'])->name('notifications.list');
    
+    Route::get('/feedback/create',[FeedbackController::class,'create'])->name('feedback.create');
+    Route::post('/feedback',[FeedbackController::class,'store'])->name('feedback.save');
+
+    Route::get('/reports',[ReportController::class,'index'])->name('reports.list');
+    
 });
 
 

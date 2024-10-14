@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('report_type_id');
             $table->string('body');
+            $table->boolean('action_taken')->default(false);
             $table->timestamps();
 
             $table->index('user_id');

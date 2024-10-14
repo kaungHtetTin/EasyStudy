@@ -126,6 +126,17 @@
 					arr.push(notification);	
 					$('#notification_container').append(notificationComponent(notification));
 				})
+
+				if(arr.length==0){
+					$('#notification_container').html(`
+						<br><br><br>
+						<div style="text-align:center;font-size:16px;">
+							<i style="font-size:50px;" class="uil uil-bell"></i><br>
+							No notification.
+						</div>
+						<br><br><br>
+					`)
+				}
 			}
 
 			function notificationComponent(notification){

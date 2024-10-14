@@ -71,7 +71,7 @@
         <script>
 			const apiToken = "{{$api_token}}";
         	const user = @json($user);
-
+			
 			let is_fetching = false;
 			let arr = [];
 			let fetch_url = `http://localhost:8000/api/notifications?page=1`
@@ -118,7 +118,9 @@
 						}
 					},
 					error: function(xhr, status, error) {
-						console.error('Error:', status, error);
+						if(xhr.status==401){
+							location.href="http://localhost:8000/logout";
+						}
 					}
 				});
 			}
@@ -129,6 +131,17 @@
 					arr.push(notification);	
 					$('#notification_container').append(notificationComponent(notification));
 				})
+
+				if(arr.length==0){
+					$('#notification_container').html(`
+						<br><br><br>
+						<div style="text-align:center;font-size:16px;">
+							<i style="font-size:50px;" class="uil uil-bell"></i><br>
+							No notification.
+						</div>
+						<br><br><br>
+					`)
+				}
 			}
 
 			function notificationComponent(notification){
@@ -175,7 +188,11 @@
 						loadPage();
 					},
 					error: function(xhr, status, error) {
-						console.error('Error:', status, error);
+						console.error('Error:',xhr, status, error);
+						if(error=="Unauthorized"){
+							
+						}
+						location.href="http://localhost:8000/logout";
 					}
 				});
 			}

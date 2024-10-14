@@ -87,13 +87,13 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="report_history.html" class="menu--link" title="Report History">
+                    <a href="{{route('reports.list')}}" class="menu--link {{$page_title=='Report History'?'active':''}}" title="Report History">
                         <i class='uil uil-windsock menu--icon'></i>
                         <span class="menu--label">Report History</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="feedback.html" class="menu--link" title="Send Feedback">
+                    <a href="{{route('feedback.create')}}" class="menu--link {{$page_title=='Feedback'?'active':''}}" title="Send Feedback">
                         <i class='uil uil-comment-alt-exclamation menu--icon'></i>
                         <span class="menu--label">Send Feedback</span>
                     </a>
