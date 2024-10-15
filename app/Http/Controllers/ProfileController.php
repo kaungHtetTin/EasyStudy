@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Instructor;
 use App\Models\Course;
+use App\Models\SavedCourse;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
@@ -20,10 +21,36 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+
+    public function index($id){
+
+        if($id<3){
+            return Redirect::route('error');
+        }
+
+        $user = User::find($id);
+        if($user==null){
+            return Redirect::route('error');
+        }
+
+        $instructor = Instructor::where('user_id',$user->id)->first();
+
+        if($instructor){
+            return Redirect::route('instructor_detail',$instructor->id);
+        }
+
+        $purchased_courses = SavedCourse::with('course:*')->where('user_id',$id)->get();
+        return view('student.profile',[
+            'page_title'=>'Profile',
+            'user'=>$user,
+            'purchased_courses'=>$purchased_courses,
+        ]);
+    }
+
     public function edit(Request $request): View
     {
         return view('student.edit-profile', [
-            'page_title'=>'Edit Profile',
+            'page_title'=>'Setting',
             'user' => $request->user(),
         ]);
     }
@@ -51,7 +78,7 @@ class ProfileController extends Controller
         }
         $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'Your profile information is uploaded successfully.');
+        return back()->with('status', 'Your profile information is uploaded successfully.');
 
     }
 

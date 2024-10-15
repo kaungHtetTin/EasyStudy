@@ -134,12 +134,12 @@
 
 				if(arr.length==0){
 					$('#notification_container').html(`
-						<br><br><br>
-						<div style="text-align:center;font-size:16px;">
-							<i style="font-size:50px;" class="uil uil-bell"></i><br>
-							No notification.
+						<div style="text-align: center;color:#888">
+							<br><br><br><br><br>
+							<i style="font-size:80px;" class="uil uil-bell"></i><br><br>
+								<span style="font-size: 20px;">No notification</span>
+							<br><br><br><br><br>
 						</div>
-						<br><br><br>
 					`)
 				}
 			}

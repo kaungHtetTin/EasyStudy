@@ -1,7 +1,4 @@
 @php
-
- 
-
 if (!function_exists('calculateHour')) {
 	function calculateHour($min){
 		$hr = $min/60;
@@ -53,8 +50,8 @@ if (!function_exists('formatCount')) {
 		}
 	}
 
-	
- 
+	$user = Auth::user();
+
 @endphp
 
 
@@ -65,6 +62,11 @@ if (!function_exists('formatCount')) {
 			list-style-type: disc;
 			margin-inline-start: 20px;
 		}
+
+		 .my-table td{
+            padding:5px;
+        }
+
 	</style>
 @auth
 <div class="wrapper _bg4586">
@@ -78,9 +80,15 @@ if (!function_exists('formatCount')) {
 						<div class="section3125 rpt145">							
 							<div class="row">						
 								<div class="col-lg-7">
-									<a href="#" class="_216b22">										
-										<span><i class="uil uil-windsock"></i></span>Report Profile
-									</a>
+									@if ($user->id == $instructor->user->id)
+										<a href="{{route('instructor.profile.edit')}}" class="_216b22">										
+											<span><i class="uil uil-edit"></i></span>Edit Profile
+										</a>
+									@else
+										<a href="#" class="_216b22">										
+											<span><i class="uil uil-windsock"></i></span>Report Profile
+										</a>
+									@endif
 									<div class="dp_dt150">						
 										<div class="img148">
 											<img src="{{asset('storage/'.$instructor->user->image_url)}}" alt="">										
@@ -97,37 +105,19 @@ if (!function_exists('formatCount')) {
 											</span>
 										</div>										
 									</div>
-									<ul class="_ttl120">
-										<li>
-											<div class="_ttl121">
-												<div class="_ttl122">Students</div>
-												<div class="_ttl123">{{formatCount($student_enrolled)}}</div>
-											</div>
-										</li>
-										<li>
-											<div class="_ttl121">
-												<div class="_ttl122">Courses</div>
-												<div class="_ttl123">{{$courses->count()}}</div>
-											</div>
-										</li>
-										<li>
-											<div class="_ttl121">
-												<div class="_ttl122">Reviews</div>
-												<div class="_ttl123">{{formatCount($review_count)}}</div>
-											</div>
-										</li>
-										<li>
-											<div class="_ttl121">
-												<div class="_ttl122">Subscribers</div>
-												<div class="_ttl123">{{formatCount($instructor->Subscribers->count())}}</div>
-											</div>
-										</li>
-									</ul>
+
 								</div>
 								<div class="col-lg-5">
-									<a href="#" class="_216b12">										
-										<span><i class="uil uil-windsock"></i></span>Report Profile
-									</a>
+									@if ($user->id == $instructor->user->id)
+										<a href="{{route('instructor.profile.edit')}}" class="_216b12">										
+											<span><i class="uil uil-edit"></i></span>Edit Profile
+										</a>
+									@else
+										<a href="#" class="_216b12">										
+											<span><i class="uil uil-windsock"></i></span>Report Profile
+										</a>
+									@endif
+									
 									<div class="rgt-145">
 										<ul class="tutor_social_links">
 											@foreach ($instructor->user->social_contacts as $contact)
@@ -135,29 +125,89 @@ if (!function_exists('formatCount')) {
 											@endforeach
 										</ul>
 									</div>
-									<ul class="_bty149">
-										<li>
-											<form action="{{route('instructor.subscribe',['id'=>$instructor->id])}}" method="POST">
-											@csrf
+									@if ($user->id == $instructor->user->id)
+										
+									@else
+										<ul class="_bty149">
+											<li>
+												<form action="{{route('instructor.subscribe',['id'=>$instructor->id])}}" method="POST">
+												@csrf
+													@if ($subscribed)
+														<button type="submit" class="subscribe-btn btn500" style="border-radius:15px;background:#efeeff;color:#475692">
+															<span><i class='uil uil-bell'></i> Subscribed</span>
+														</button>
+													@else
+														<button type="submit" class="subscribe-btn btn500">Subscribe</button>
+													@endif
+												</form>
+												
+											</li>								
+											<li>
 												@if ($subscribed)
-													<button type="submit" class="subscribe-btn btn500" style="border-radius:15px;background:#efeeff;color:#475692">
-														<span><i class='uil uil-bell'></i> Subscribed</span>
-													</button>
+													<button class="msg125 btn500" style="border-radius:15px;background:#333">Message</button>
 												@else
-													<button type="submit" class="subscribe-btn btn500">Subscribe</button>
+													<button class="msg125 btn500">Message</button>
 												@endif
-											</form>
-											
-										</li>								
-										<li>
-											@if ($subscribed)
-												<button class="msg125 btn500" style="border-radius:15px;background:#333">Message</button>
-											@else
-												<button class="msg125 btn500">Message</button>
-											@endif
-										</li>								
-									</ul>
-								</div>													
+											</li>								
+										</ul>
+									@endif
+								</div>	
+
+
+                                <div class="col-lg-6 col-md-6">
+                                    <table class="my-table" style="margin-top:20px;color:white">
+
+										<tr>
+                                            <td> <i class="uil uil-envelope"></i></i> Email</td>
+                                            <td>{{$user->email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td> <i class="uil uil-phone-alt"></i> Phone</td>
+                                            <td>{{$user->phone}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> <i class="uil uil-mars"></i> Gender</td>
+                                            <td>{{$user->gender}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td> <i class="uil uil-calendar-alt"></i> Birth on</td>
+                                            <td>{{$user->brith_date}}</td>
+                                        </tr>
+
+										<tr>
+                                            <td> <i class="uil uil-home-alt"></i> Address</td>
+                                            <td>{{$user->address}}</td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+
+								<div class="col-lg-6 col-md-6">
+                                    <table class="my-table" style="margin-top:20px;color:white">
+										<tr>
+                                            <td> <i class="uil uil-book"></i></i> Courses</td>
+                                            <td>{{$courses->count()}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> <i class="uil uil-graduation-hat"></i></i> Students</td>
+                                            <td>{{formatCount($student_enrolled)}}</td>
+                                        </tr>
+
+										<tr>
+                                            <td> <i class="uil uil-bell"></i></i> Subscribers</td>
+                                            <td>{{formatCount($instructor->Subscribers->count())}}</td>
+                                        </tr>
+
+										<tr>
+                                            <td> <i class="uil uil-star"></i></i> Reviews</td>
+                                            <td>{{formatCount($review_count)}}</td>
+                                        </tr>
+										
+                                    </table>
+                                </div>
+								
 							</div>							
 						</div>							
 					</div>															
@@ -173,7 +223,8 @@ if (!function_exists('formatCount')) {
 								<div class="nav nav-tabs tab_crse" id="nav-tab" role="tablist">
 									<a class="nav-item nav-link active" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-selected="true">About</a>
 									<a class="nav-item nav-link" id="nav-courses-tab" data-toggle="tab" href="#nav-courses" role="tab" aria-selected="false">Courses</a>
-									<a class="nav-item nav-link" id="nav-reviews-tab" data-toggle="tab" href="#nav-reviews" role="tab" aria-selected="false">Discussion</a>
+									<a class="nav-item nav-link" id="nav-purchased-tab" data-toggle="tab" href="#nav-purchased" role="tab" aria-selected="false">Purchased</a>
+									<a class="nav-item nav-link" id="nav-reviews-tab" data-toggle="tab" href="#nav-reviews" role="tab" aria-selected="false">Blog</a>
 								</div>
 							</nav>						
 						</div>
@@ -255,69 +306,164 @@ if (!function_exists('formatCount')) {
 										</div>		
 									</div>
 								</div>
+
+								<div class="tab-pane fade show" id="nav-purchased" role="tabpanel">
+									<div class="_htg451">
+										<div class="_htg452">
+											 @if (count($user->saved_courses)>1) 
+												<h3>Purchased Courses</h3>
+												<div class="row">
+													@foreach ($user->saved_courses as $myCourse)
+														@php
+															$course = $myCourse->course;
+														@endphp
+														<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+															@include('student.components.item-course')
+														</div>
+													@endforeach
+												
+												</div>
+											@else
+												<div style="text-align: center;color:#888">
+													<br><br><br><br><br>
+													<i style="font-size:80px;" class="uil uil-book"></i><br><br>
+													<span style="font-size: 20px;">No purchased course</span>
+													<br><br><br><br><br>
+												</div>
+											@endif
+											 
+										</div>																	
+									</div>							
+								</div>
 								<div class="tab-pane fade" id="nav-reviews" role="tabpanel">
 									<div class="student_reviews">
 										<div class="row">
 											<div class="col-lg-12">
 												<div class="review_right">
 													<div class="review_right_heading">
-														<h3>Discussions</h3>
+														<h3>instructor's Blog</h3>
 													</div>
 												</div>
-												<div class="cmmnt_1526">
-													<div class="cmnt_group">
-														<div class="img160">
-															<img src="images/left-imgs/img-1.jpg" alt="">										
-														</div>
-														<textarea class="_cmnt001" placeholder="Add a public comment"></textarea>
-													</div>
-													<button class="cmnt-btn" type="submit">Comment</button>
-												</div>
+												 
 												<div class="review_all120">
-													<div class="review_item">
-														<div class="review_usr_dt">
-															<img src="images/left-imgs/img-1.jpg" alt="">
-															<div class="rv1458">
-																<h4 class="tutor_name1">John Doe</h4>
-																<span class="time_145">2 hour ago</span>
-															</div>
-															<div class="eps_dots more_dropdown">
-																<a href="#"><i class="uil uil-ellipsis-v"></i></a>
-																<div class="dropdown-content">
-																	<span><i class='uil uil-comment-alt-edit'></i>Edit</span>
-																	<span><i class='uil uil-trash-alt'></i>Delete</span>
-																</div>																											
-															</div>
-														</div>
-														<p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
-														<div class="rpt101">
-															<a href="#" class="report155"><i class='uil uil-thumbs-up'></i> 10</a>
-															<a href="#" class="report155"><i class='uil uil-thumbs-down'></i> 1</a>
-															<a href="#" class="report155"><i class='uil uil-heart'></i></a>
-															<a href="#" class="report155 ml-3">Reply</a>
-														</div>
-													</div>
-													<div class="review_reply">
-														<div class="review_item">
-															<div class="review_usr_dt">
-																<img src="images/left-imgs/img-3.jpg" alt="">
-																<div class="rv1458">
-																	<h4 class="tutor_name1">Rock Doe</h4>
-																	<span class="time_145">1 hour ago</span>
-																</div>
-																<div class="eps_dots more_dropdown">
-																	<a href="#"><i class="uil uil-ellipsis-v"></i></a>
-																	<div class="dropdown-content">
-																		<span><i class='uil uil-trash-alt'></i>Delete</span>
-																	</div>																											
+													<div class="row">
+														<div class="col-lg-12 col-md-6">
+															<div class="blogbg_1 mt-50">
+																<a href="blog_single_view.html" class="hf_img">
+																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
+																	<div class="course-overlay"></div>
+																</a>
+																<div class="hs_content">
+																	<div class="vdtodt">
+																		<span class="vdt14">109k views</span>
+																		<span class="vdt14">March 10, 2020</span>
+																	</div>
+																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
+																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
+																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
 																</div>
 															</div>
-															<p class="rvds10">Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
-															<div class="rpt101">
-																<a href="#" class="report155"><i class='uil uil-thumbs-up'></i> 4</a>
-																<a href="#" class="report155"><i class='uil uil-thumbs-down'></i> 2</a>
-																<a href="#" class="report155"><i class='uil uil-heart'></i></a>
-																<a href="#" class="report155 ml-3">Reply</a>
+														</div>
+														<div class="col-lg-12 col-md-6">
+															<div class="blogbg_1 mt-50">
+																<a href="blog_single_view.html" class="hf_img">
+																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
+																	<div class="course-overlay"></div>
+																</a>
+																<div class="hs_content">
+																	<div class="vdtodt">
+																		<span class="vdt14">109k views</span>
+																		<span class="vdt14">March 10, 2020</span>
+																	</div>
+																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
+																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
+																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12 col-md-6">
+															<div class="blogbg_1 mt-50">
+																<a href="blog_single_view.html" class="hf_img">
+																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
+																	<div class="course-overlay"></div>
+																</a>
+																<div class="hs_content">
+																	<div class="vdtodt">
+																		<span class="vdt14">109k views</span>
+																		<span class="vdt14">March 10, 2020</span>
+																	</div>
+																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
+																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
+																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12 col-md-6">
+															<div class="blogbg_1 mt-50">
+																<a href="blog_single_view.html" class="hf_img">
+																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
+																	<div class="course-overlay"></div>
+																</a>
+																<div class="hs_content">
+																	<div class="vdtodt">
+																		<span class="vdt14">109k views</span>
+																		<span class="vdt14">March 10, 2020</span>
+																	</div>
+																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
+																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
+																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12 col-md-6">
+															<div class="blogbg_1 mt-50">
+																<a href="blog_single_view.html" class="hf_img">
+																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
+																	<div class="course-overlay"></div>
+																</a>
+																<div class="hs_content">
+																	<div class="vdtodt">
+																		<span class="vdt14">109k views</span>
+																		<span class="vdt14">March 10, 2020</span>
+																	</div>
+																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
+																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
+																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12 col-md-6">
+															<div class="blogbg_1 mt-50">
+																<a href="blog_single_view.html" class="hf_img">
+																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
+																	<div class="course-overlay"></div>
+																</a>
+																<div class="hs_content">
+																	<div class="vdtodt">
+																		<span class="vdt14">109k views</span>
+																		<span class="vdt14">March 10, 2020</span>
+																	</div>
+																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
+																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
+																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12 col-md-6">
+															<div class="blogbg_1 mt-50">
+																<a href="blog_single_view.html" class="hf_img">
+																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
+																	<div class="course-overlay"></div>
+																</a>
+																<div class="hs_content">
+																	<div class="vdtodt">
+																		<span class="vdt14">109k views</span>
+																		<span class="vdt14">March 10, 2020</span>
+																	</div>
+																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
+																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
+																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
+																</div>
 															</div>
 														</div>
 													</div>
@@ -332,7 +478,6 @@ if (!function_exists('formatCount')) {
 				</div>
 			</div>
 		</div>
-	</div>
 
 	<script>
 		const apiToken = "{{$api_token}}";

@@ -158,8 +158,11 @@
                                 <span>{{Auth::user()->email}}</span>
                             </div>							
                         </div>
-                        <a href="{{route('profile.edit')}}" class="dp_link_12">Edit Profile</a>	
-                        <a href="{{route('instructor.profile.edit')}}" class="dp_link_12">Instructor Account Setting</a>						
+                       <div style="display: flex">
+                            <a style="margin-right:10px;" href="{{route('instructor_detail',$instructor->id)}}" class="dp_link_12">View Profile</a>
+                            <a href="#" class="dp_link_12"> | </a>
+                            <a style="margin-left:10px;" href="{{route('instructor.profile.edit')}}" class="dp_link_12">Edit</a>						
+                       </div>
                     </div>
                     <div class="night_mode_switch__btn">
                         <a href="#" id="night-mode" class="btn-night-mode">

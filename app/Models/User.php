@@ -24,10 +24,6 @@ class User extends Authenticatable
         return $this->hasMany(SavedCourse::class);
     }
 
-    public function courses(){
-        return $this->hasMany(Course::class,'saved_courses');
-    }
-
     public function social_contacts(){
          return $this->hasMany(SocialContact::class);
     }

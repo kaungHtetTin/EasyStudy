@@ -67,7 +67,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     
     //user profile
-    Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/users/{id}', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/setting', [ProfileController::class, 'edit'])->name('setting');
     Route::post('/profile/update',[ProfileController::class,'updateProfile'])->name('profile.update');
     Route::post('/profile/update-image',[ProfileController::class,'updateImage'])->name('profile.updateImage');
 

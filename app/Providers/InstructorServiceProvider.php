@@ -59,6 +59,7 @@ class InstructorServiceProvider extends ServiceProvider
             $view->with([
                 'unapproved_payment_count'=>$unapproved_payment_count,
                 'unseen_notification_count'=>$unseen_notification_count,
+                'instructor'=>$instructor,
             ]);
         });
     }

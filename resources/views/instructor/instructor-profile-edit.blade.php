@@ -137,7 +137,7 @@
 				<div class="fcrse_1" style="padding:10px;">
 					<div class="row">
 						<div class="col-12">
-							<div class="review_usr_dt">
+							<div class="review_usr_dt" style="width:100%;">
 								<img src="{{asset('storage/'.$user->image_url)}}" alt="">
 								<div class="rv1458">
 									<h4 class="tutor_name1">{{$user->name}}</h4>
@@ -163,6 +163,11 @@
 										@endforeach
 									</ul>
 								</div>
+
+								<div style="flex:1">
+									<a href="{{route('setting')}}" style="float: right;"><i class="uil uil-cog "></i> Setting</a>
+								</div>
+								
 							</div>
 						</div>
 
