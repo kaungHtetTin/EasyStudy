@@ -80,15 +80,17 @@ if (!function_exists('formatCount')) {
 						<div class="section3125 rpt145">							
 							<div class="row">						
 								<div class="col-lg-7">
-									@if ($user->id == $instructor->user->id)
-										<a href="{{route('instructor.profile.edit')}}" class="_216b22">										
-											<span><i class="uil uil-edit"></i></span>Edit Profile
-										</a>
-									@else
-										<a href="#" class="_216b22">										
-											<span><i class="uil uil-windsock"></i></span>Report Profile
-										</a>
-									@endif
+									@auth
+										@if ($user->id == $instructor->user->id)
+											<a href="{{route('instructor.profile.edit')}}" class="_216b22">										
+												<span><i class="uil uil-edit"></i></span>Edit Profile
+											</a>
+										@else
+											<a href="#" class="_216b22">										
+												<span><i class="uil uil-windsock"></i></span>Report Profile
+											</a>
+										@endif
+									@endauth
 									<div class="dp_dt150">						
 										<div class="img148">
 											<img src="{{asset('storage/'.$instructor->user->image_url)}}" alt="">										
@@ -108,15 +110,17 @@ if (!function_exists('formatCount')) {
 
 								</div>
 								<div class="col-lg-5">
-									@if ($user->id == $instructor->user->id)
-										<a href="{{route('instructor.profile.edit')}}" class="_216b12">										
-											<span><i class="uil uil-edit"></i></span>Edit Profile
-										</a>
-									@else
-										<a href="#" class="_216b12">										
-											<span><i class="uil uil-windsock"></i></span>Report Profile
-										</a>
-									@endif
+									@auth
+										@if ($user->id == $instructor->user->id)
+											<a href="{{route('instructor.profile.edit')}}" class="_216b12">										
+												<span><i class="uil uil-edit"></i></span>Edit Profile
+											</a>
+										@else
+											<a href="#" class="_216b12">										
+												<span><i class="uil uil-windsock"></i></span>Report Profile
+											</a>
+										@endif
+									@endauth
 									
 									<div class="rgt-145">
 										<ul class="tutor_social_links">
@@ -125,8 +129,31 @@ if (!function_exists('formatCount')) {
 											@endforeach
 										</ul>
 									</div>
-									@if ($user->id == $instructor->user->id)
-										
+									@auth
+										@if ($user->id != $instructor->user->id)
+											<ul class="_bty149">
+												<li>
+													<form action="{{route('instructor.subscribe',['id'=>$instructor->id])}}" method="POST">
+													@csrf
+														@if ($subscribed)
+															<button type="submit" class="subscribe-btn btn500" style="border-radius:15px;background:#efeeff;color:#475692">
+																<span><i class='uil uil-bell'></i> Subscribed</span>
+															</button>
+														@else
+															<button type="submit" class="subscribe-btn btn500">Subscribe</button>
+														@endif
+													</form>
+													
+												</li>								
+												<li>
+													@if ($subscribed)
+														<button class="msg125 btn500" style="border-radius:15px;background:#333">Message</button>
+													@else
+														<button class="msg125 btn500">Message</button>
+													@endif
+												</li>								
+											</ul>
+										@endif
 									@else
 										<ul class="_bty149">
 											<li>
@@ -150,7 +177,7 @@ if (!function_exists('formatCount')) {
 												@endif
 											</li>								
 										</ul>
-									@endif
+									@endauth
 								</div>	
 
 
@@ -159,25 +186,25 @@ if (!function_exists('formatCount')) {
 
 										<tr>
                                             <td> <i class="uil uil-envelope"></i></i> Email</td>
-                                            <td>{{$user->email}}</td>
+                                            <td>{{$instructor->user->email}}</td>
                                         </tr>
                                         <tr>
                                             <td> <i class="uil uil-phone-alt"></i> Phone</td>
-                                            <td>{{$user->phone}}</td>
+                                            <td>{{$instructor->user->phone}}</td>
                                         </tr>
 
                                         <tr>
                                             <td> <i class="uil uil-mars"></i> Gender</td>
-                                            <td>{{$user->gender}}</td>
+                                            <td>{{$instructor->user->gender}}</td>
                                         </tr>
                                         <tr>
                                             <td> <i class="uil uil-calendar-alt"></i> Birth on</td>
-                                            <td>{{$user->brith_date}}</td>
+                                            <td>{{$instructor->user->brith_date}}</td>
                                         </tr>
 
 										<tr>
                                             <td> <i class="uil uil-home-alt"></i> Address</td>
-                                            <td>{{$user->address}}</td>
+                                            <td>{{$instructor->user->address}}</td>
                                         </tr>
 
                                     </table>
@@ -310,10 +337,10 @@ if (!function_exists('formatCount')) {
 								<div class="tab-pane fade show" id="nav-purchased" role="tabpanel">
 									<div class="_htg451">
 										<div class="_htg452">
-											 @if (count($user->saved_courses)>1) 
+											 @if (count($instructor->user->saved_courses)>1) 
 												<h3>Purchased Courses</h3>
 												<div class="row">
-													@foreach ($user->saved_courses as $myCourse)
+													@foreach ($instructor->user->saved_courses as $myCourse)
 														@php
 															$course = $myCourse->course;
 														@endphp
@@ -345,129 +372,29 @@ if (!function_exists('formatCount')) {
 													</div>
 												</div>
 												 
-												<div class="review_all120">
+												<div class="">
 													<div class="row">
-														<div class="col-lg-12 col-md-6">
-															<div class="blogbg_1 mt-50">
-																<a href="blog_single_view.html" class="hf_img">
-																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
-																	<div class="course-overlay"></div>
-																</a>
-																<div class="hs_content">
-																	<div class="vdtodt">
-																		<span class="vdt14">109k views</span>
-																		<span class="vdt14">March 10, 2020</span>
-																	</div>
-																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
-																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
-																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
-																</div>
-															</div>
-														</div>
-														<div class="col-lg-12 col-md-6">
-															<div class="blogbg_1 mt-50">
-																<a href="blog_single_view.html" class="hf_img">
-																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
-																	<div class="course-overlay"></div>
-																</a>
-																<div class="hs_content">
-																	<div class="vdtodt">
-																		<span class="vdt14">109k views</span>
-																		<span class="vdt14">March 10, 2020</span>
-																	</div>
-																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
-																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
-																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
-																</div>
-															</div>
-														</div>
-														<div class="col-lg-12 col-md-6">
-															<div class="blogbg_1 mt-50">
-																<a href="blog_single_view.html" class="hf_img">
-																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
-																	<div class="course-overlay"></div>
-																</a>
-																<div class="hs_content">
-																	<div class="vdtodt">
-																		<span class="vdt14">109k views</span>
-																		<span class="vdt14">March 10, 2020</span>
-																	</div>
-																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
-																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
-																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
-																</div>
-															</div>
-														</div>
-														<div class="col-lg-12 col-md-6">
-															<div class="blogbg_1 mt-50">
-																<a href="blog_single_view.html" class="hf_img">
-																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
-																	<div class="course-overlay"></div>
-																</a>
-																<div class="hs_content">
-																	<div class="vdtodt">
-																		<span class="vdt14">109k views</span>
-																		<span class="vdt14">March 10, 2020</span>
-																	</div>
-																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
-																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
-																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
-																</div>
-															</div>
-														</div>
-														<div class="col-lg-12 col-md-6">
-															<div class="blogbg_1 mt-50">
-																<a href="blog_single_view.html" class="hf_img">
-																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
-																	<div class="course-overlay"></div>
-																</a>
-																<div class="hs_content">
-																	<div class="vdtodt">
-																		<span class="vdt14">109k views</span>
-																		<span class="vdt14">March 10, 2020</span>
-																	</div>
-																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
-																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
-																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
-																</div>
-															</div>
-														</div>
-														<div class="col-lg-12 col-md-6">
-															<div class="blogbg_1 mt-50">
-																<a href="blog_single_view.html" class="hf_img">
-																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
-																	<div class="course-overlay"></div>
-																</a>
-																<div class="hs_content">
-																	<div class="vdtodt">
-																		<span class="vdt14">109k views</span>
-																		<span class="vdt14">March 10, 2020</span>
-																	</div>
-																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
-																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
-																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
-																</div>
-															</div>
-														</div>
-														<div class="col-lg-12 col-md-6">
-															<div class="blogbg_1 mt-50">
-																<a href="blog_single_view.html" class="hf_img">
-																	<img src="{{asset('images/blog/img-1.jpg')}}" alt="">
-																	<div class="course-overlay"></div>
-																</a>
-																<div class="hs_content">
-																	<div class="vdtodt">
-																		<span class="vdt14">109k views</span>
-																		<span class="vdt14">March 10, 2020</span>
-																	</div>
-																	<a href="blog_single_view.html" class="crse14s title900">Blog Title Here</a>
-																	<p class="blog_des">Donec eget arcu vel mauris lacinia vestibulum id eu elit. Nam metus odio, iaculis eu nunc et, interdum mollis arcu. Pellentesque viverra faucibus diam. In sit amet laoreet dolor, vitae fringilla quam interdum mollis arcu.</p>
-																	<a href="blog_single_view.html" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
-																</div>
-															</div>
+														<div class="col-12" id="blog_container">
+															
 														</div>
 													</div>
 												</div>
+												<div class="row" id="shimmer">				
+													<div class="col-md-12">
+														<br><br><br>
+														<div class="main-loader mt-50">													
+															<div class="spinner">
+																<div class="bounce1"></div>
+																<div class="bounce2"></div>
+																<div class="bounce3"></div>
+															</div>																										
+														</div>
+														<br><br><br>
+													</div>
+													<div class="col-md-12">
+														<br><br><br>
+													</div>
+												</div>			
 											</div>
 										</div>
 									</div>
@@ -479,8 +406,104 @@ if (!function_exists('formatCount')) {
 			</div>
 		</div>
 
+	<script src="{{asset('js/util.js')}}"></script>
 	<script>
 		const apiToken = "{{$api_token}}";
+		const instructor = @json($instructor);
+
+		let is_fetching = false;
+		let arr = [];
+		let fetch_url = `http://localhost:8000/api/instructors/${instructor.id}/blogs?page=1`;
+		let delete_blog_id = 0;
+		$(document).ready(()=>{
+	
+			fetchBlog();
+
+			$(window).scroll(()=>{
+				if($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
+					if(!is_fetching){
+						fetchBlog();
+					}
+				}
+			});
+
+		})
+
+		function fetchBlog(){
+			is_fetching = true;
+			$('#shimmer').show();
+			if(fetch_url==null){
+				$('#shimmer').hide();
+				return;
+			}
+			$.ajax({
+				url: fetch_url,
+				type: 'GET', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+				
+				success: function(res) {
+					is_fetching=false;
+					if(res){
+						fetch_url = res.next_page_url;
+						let blogs = res.data;
+						setBlogs(blogs);
+						
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
+		}
+
+		function setBlogs(blogs){
+			$('#shimmer').hide();
+			blogs.map((blog,index)=>{
+				arr.push(blog);	
+				$('#blog_container').append(blogComponent(blog));
+			})
+
+			if(arr.length==0){
+				$('#blog_container').html(`
+					<div style="text-align: center;color:#888">
+						<br><br><br><br><br>
+						<i style="font-size:80px;" class="uil uil-blogger-alt"></i><br><br>
+						<span style="font-size: 20px;">No blog.</span>
+						<br><br><br><br><br>
+					</div>
+				`)
+			}
+		}
+
+		function blogComponent(blog){
+			let cover_photo = "";
+			if(blog.image_url != ""){
+				cover_photo = `
+					<a href="blog_single_view.html" class="hf_img">
+						<img src="{{asset('storage')}}/${blog.image_url}" alt="">
+						<div class="course-overlay"></div>
+					</a>
+				`;
+			}
+			let url = `{{asset("")}}instructors/${instructor.id}/blogs/${blog.id}`;
+			return `
+				
+				<div class="blogbg_1 mt-30">
+					${cover_photo}
+					<div class="hs_content">
+						<div class="vdtodt">
+							<span class="vdt14">${formatCounting(blog.view_count,'view')}</span>
+							<span class="vdt14">${formatDateTime(new Date(blog.created_at))}</span>
+						</div>
+						<a href="${url}" class="crse14s title900">${blog.title}</a>
+						<p class="blog_des">${blog.summary}</p>
+						<a href="${url}" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
+					</div>
+				</div>
+			`;
+		}
 
 		function addToCart(courseId){
 			document.getElementById('cart_form_'+courseId).submit();

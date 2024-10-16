@@ -14,6 +14,7 @@ use App\Http\Controllers\Instructor\ReviewController;
 use App\Http\Controllers\Instructor\AnnouncementController;
 use App\Http\Controllers\Instructor\ProfileController;
 use App\Http\Controllers\Instructor\NotificationController;
+use App\Http\Controllers\Instructor\BlogController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
@@ -50,6 +51,16 @@ Route::middleware('auth')->group(function () {
             'edit' => 'instructor.modules.modify',
             'update' => 'instructor.modules.change',
             'destroy' => 'instructor.modules.remove',
+        ]);
+
+        Route::resource('blogs',BlogController::class)->names([
+            'index' => 'instructor.blogs.lists',
+            'create' => 'instructor.blog.create',
+            'store' => 'instructor.blogs.save',
+            'show' => 'instructor.blogs.view',
+            'edit' => 'instructor.blogs.modify',
+            'update' => 'instructor.blogs.change',
+            'destroy' => 'instructor.blogs.remove',
         ]);
 
         Route::resource('questions',QuestionController::class)->names([

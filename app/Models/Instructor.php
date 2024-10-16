@@ -21,7 +21,7 @@ class Instructor extends Model
     }
 
     public function subscribers(){
-        return $this->hasMany(Subscriber::class);
+        return $this->belongsToMany(User::class,'subscribers');
     }
 
     public function payment_methods (){

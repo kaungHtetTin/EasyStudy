@@ -78,7 +78,8 @@ if (!function_exists('formatCounting')) {
 				</div>
 			</div>
 		</div>
-
+		
+		<script src="{{asset('js/util.js')}}"></script>
 		<script>
 	
 			let isFetching=false;
@@ -190,19 +191,6 @@ if (!function_exists('formatCounting')) {
 				return result;
 			}
 
-			function formatCounting(count,unit){
-				count = count*1;
-				if(count<=1){
-					return count+' '+unit;
-				}else if(count>1 && count<1000){
-					return count+' '+unit+'s';
-				}else if(count>=1000 && count<1000000){
-					return Math.floor(count/1000)+'k '+unit+'s';
-				}else {
-					return Math.floor(count/1000000)+'M '+unit+'s';
-				}
-			}
-
-
+			 
 		</script>
 @endsection

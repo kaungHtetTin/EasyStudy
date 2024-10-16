@@ -129,8 +129,8 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="new-section-block">
-						Do you reall want to delete
+					<div class="alert alert-warning">
+						Do you reall want to delete?
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -601,7 +601,7 @@
                 $('#answer_component_'+deleteQAContentId).html("");
             }
             
-             $.ajax({
+            $.ajax({
 				url: api_url, // Replace with your API endpoint
 				type: 'DELETE', // or 'GET' depending on your request
 				headers: {

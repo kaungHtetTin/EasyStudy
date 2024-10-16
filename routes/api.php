@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\AnswerController;
 use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\BlogController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -68,7 +69,10 @@ Route::get('/courses/{id}/announcements',[CourseController::class,'announcements
 Route::get('/courses/{id}/questions/{qid}/answers',[CourseController::class,'answers']);
 
 Route::get('/instructors',[InstructorController::class,'index']);
+Route::get('/instructors/{id}/blogs',[InstructorController::class,'blogs']);
 
 Route::post('/questions/upload-photo',[QuestionController::class,'uploadPhoto']);
+
+Route::post('/blogs/upload-photo',[BlogController::class,'uploadPhoto']);
 
 Route::get('/answers',[AnswerController::class,'index']);

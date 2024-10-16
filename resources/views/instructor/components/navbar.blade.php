@@ -44,6 +44,12 @@
                         <span class="menu--label">My Certificates</span>
                     </a>
                 </li>
+                <li class="menu--item">
+                    <a href="{{route('instructor.blogs.lists')}}" class="menu--link" title="My Blog">
+                        <i class='uil uil-blogger-alt menu--icon'></i>
+                        <span class="menu--label">My Blog</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="left_section pt-2">

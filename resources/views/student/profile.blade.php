@@ -66,15 +66,17 @@ if (!function_exists('formatCount')) {
 						<div class="section3125 rpt145">							
 							<div class="row">						
 								<div class="col-lg-7">
-                                    @if ($user->id == $current_user->id)
-                                        <a href="{{route('setting')}}" class="_216b22">										
-                                            <span><i class="uil uil-cog"></i></span>Setting
-                                        </a>
-                                    @else
-                                        <a href="#" class="_216b22">										
-                                            <span><i class="uil uil-windsock"></i></span>Report
-                                        </a>
-                                    @endif
+									@auth
+										@if ($user->id == $current_user->id)
+											<a href="{{route('setting')}}" class="_216b22">										
+												<span><i class="uil uil-cog"></i></span>Setting
+											</a>
+										@else
+											<a href="#" class="_216b22">										
+												<span><i class="uil uil-windsock"></i></span>Report
+											</a>
+										@endif
+									@endauth
 									
 									<div class="dp_dt150">						
 										<div class="img148">
@@ -89,23 +91,17 @@ if (!function_exists('formatCount')) {
 									 
 								</div>
 								<div class="col-lg-5">
-                                    @if ($user->id == $current_user->id)
-                                        <a href="{{route('setting')}}" class="_216b12">										
-                                            <span><i class="uil uil-cog"></i></span>Setting
-                                        </a>
-                                    @else
-                                        <a href="#" class="_216b12">										
-                                            <span><i class="uil uil-windsock"></i></span>Report
-                                        </a>
-                                    @endif
-									 
-									<div class="rgt-145">
-										<ul class="tutor_social_links">
-											@if ($user->id != $current_user->id)
-
-                                            @endif
-										</ul>
-									</div>
+									@auth
+										@if ($user->id == $current_user->id)
+											<a href="{{route('setting')}}" class="_216b12">										
+												<span><i class="uil uil-cog"></i></span>Setting
+											</a>
+										@else
+											<a href="#" class="_216b12">										
+												<span><i class="uil uil-windsock"></i></span>Report
+											</a>
+										@endif
+									@endauth
 									 
 								</div>		
                                 

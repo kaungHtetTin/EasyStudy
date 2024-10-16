@@ -51,6 +51,7 @@ Route::get('/courses/{id}',[CourseController::class,'detail'])->name('course_det
 //instructors
 Route::get('/instructors',[InstructorController::class,'index'])->name('instructors');
 Route::get('/instructors/{id}',[InstructorController::class,'detail'])->name('instructor_detail');
+Route::get('/instructors/{id}/blogs/{bid}',[InstructorController::class,'showBlog'])->name('instructor.blog.view');
 
 Route::get('/editor',function(){
     return view('editor');
@@ -64,10 +65,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/users/{id}', [ProfileController::class, 'index'])->name('profile');
+
 Route::middleware('auth')->group(function () {
     
     //user profile
-    Route::get('/users/{id}', [ProfileController::class, 'index'])->name('profile');
+    
     Route::get('/setting', [ProfileController::class, 'edit'])->name('setting');
     Route::post('/profile/update',[ProfileController::class,'updateProfile'])->name('profile.update');
     Route::post('/profile/update-image',[ProfileController::class,'updateImage'])->name('profile.updateImage');
@@ -87,7 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reviews/{id}',[ReviewController::class,'destroy'])->name('reviews.destroy');
     Route::post('/reviews/update',[ReviewController::class,'update'])->name('reviews.update');
 
-    Route::post('/instructors/subscribe/{id}',[InstructorController::class,'subscribe'])->name('instructor.subscribe');
+    Route::post('/instructors/{id}/subscribe',[InstructorController::class,'subscribe'])->name('instructor.subscribe');
 
     Route::post('/questions',[QuestionController::class,'create'])->name('question.create');
 

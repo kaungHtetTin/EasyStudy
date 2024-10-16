@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Instructor;
+use App\Models\Blog;
 
 class InstructorController extends Controller
 {
@@ -17,5 +18,12 @@ class InstructorController extends Controller
         
         return $instructors;
 
+    }
+
+    public function blogs($id){
+        $instructor = Instructor::find($id);
+        $user = $instructor->user;
+        $blogs = Blog::where('user_id',$user->id)->orderBy('id','DESC')->paginate(10);
+        return response()->json($blogs);
     }
 }
