@@ -1000,7 +1000,7 @@ if (!function_exists('calculatePercent')) {
 
         function playPreview(id){
             $.ajax({
-				url: 'http://localhost:8000/api/courses/pre-view/'+id, // Replace with your API endpoint
+				url: '{{asset("")}}api/courses/pre-view/'+id, // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -1076,7 +1076,7 @@ if (!function_exists('calculatePercent')) {
             $('#tv_dislike_count').html(dislike_count);
 
             $.ajax({
-				url: 'http://localhost:8000/api/courses/react/'+course.id, // Replace with your API endpoint
+				url: '{{asset("")}}api/courses/react/'+course.id, // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -1120,7 +1120,7 @@ if (!function_exists('calculatePercent')) {
 			alert('URL copied to clipboard: ' +url);
 
 			$.ajax({
-				url: 'http://localhost:8000/api/courses/share/'+id, // Replace with your API endpoint
+				url: '{{asset("")}}api/courses/share/'+id, // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header

@@ -1231,12 +1231,12 @@ if (!function_exists('calculatePercent')) {
         function anouncementComponent(anouncement){
             let photo_attachment = "";
             if(anouncement.image_url!=""){
-                photo_attachment = `<img style="width:200px;margin-top:10px;border-radius:3px;" src="http://localhost:8000/storage/${anouncement.image_url}" alt="">`;
+                photo_attachment = `<img style="width:200px;margin-top:10px;border-radius:3px;" src="{{asset('')}}storage/${anouncement.image_url}" alt="">`;
             }
             let resource_file = "";
             if(anouncement.resource_url!=""){
                 resource_file = `
-                    <a href="http://localhost:8000/storage/${anouncement.resource_url}"> <div class="resource" id="resource_attachment">Resource <i class="uil uil-download-alt"></i></div> </a>
+                    <a href="{{asset('')}}storage/${anouncement.resource_url}"> <div class="resource" id="resource_attachment">Resource <i class="uil uil-download-alt"></i></div> </a>
                 `;
             }
 
@@ -1245,7 +1245,7 @@ if (!function_exists('calculatePercent')) {
                 <div class="reviews_left ${seen}">
                     <div style="display: flex;">
                         <div>
-                            <img src="http://localhost:8000/storage/${instructor.image_url}" alt="" style="width: 30px;height:30px; border-radius:50px;">
+                            <img src="{{asset('')}}storage/${instructor.image_url}" alt="" style="width: 30px;height:30px; border-radius:50px;">
                         </div>
                         <div style="margin-left: 15px;flex:1;margin-right:15px;">
                             <span style="font-weight:bold;margin-bottom:5px;">{{$course->title}}</span> <br>
@@ -1325,7 +1325,7 @@ if (!function_exists('calculatePercent')) {
             return `
                 <div class="review_item ${seen}" id="question_component_${question.id}">
                     <div class="review_usr_dt">
-                        <img src="http://localhost:8000/storage/${question.user.image_url}" alt="">
+                        <img src="{{asset('')}}storage/${question.user.image_url}" alt="">
                         <div class="rv1458" style="width:100%">
                             <h5 class="">${question.title}</h5>
                             <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
@@ -1404,7 +1404,7 @@ if (!function_exists('calculatePercent')) {
 			return `
 				<div class="review_item" id="answer_component_${answer.id}">
 					<div class="review_usr_dt">
-						<img src="http://localhost:8000/storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
+						<img src="{{asset('')}}storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
 						<div class="rv1458"  style="width:100%">
 							<div>
 								<div class="content_body">${answer.body}</div>
@@ -1442,7 +1442,7 @@ if (!function_exists('calculatePercent')) {
 			 
 			console.log(formData);
 			$.ajax({
-				url: `http://localhost:8000/api/answers`,
+				url: `{{asset("")}}api/answers`,
 				type: 'POST',
 				data: formData,
 				headers: {
@@ -1548,7 +1548,7 @@ if (!function_exists('calculatePercent')) {
 
         function fetchLesson(){
             $.ajax({
-				url: 'http://localhost:8000/api/courses/'+course.id+'/lessons', // Replace with your API endpoint
+				url: '{{asset("")}}api/courses/'+course.id+'/lessons', // Replace with your API endpoint
 				type: 'GET', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -1607,7 +1607,7 @@ if (!function_exists('calculatePercent')) {
             return `
                 <div class="review_item">
                     <div class="review_usr_dt">
-                        <img src="http://localhost:8000/storage/${review.user.image_url}" alt="">
+                        <img src="{{asset('')}}storage/${review.user.image_url}" alt="">
                         <div class="rv1458">
                             <h4 class="tutor_name1">${review.user.name}</h4>
                             <span class="time_145">${formatDateTime(new Date(review.created_at))}</span>
@@ -1637,7 +1637,7 @@ if (!function_exists('calculatePercent')) {
 
         function updateLearnHistory(lesson){
             $.ajax({
-				url: 'http://localhost:8000/api/learning-histories', // Replace with your API endpoint
+				url: '{{asset("")}}api/learning-histories', // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header

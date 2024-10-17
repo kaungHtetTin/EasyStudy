@@ -444,7 +444,7 @@ if (!function_exists('formatCounting')) {
 			alert('URL copied to clipboard: ' +url);
 
 			$.ajax({
-				url: 'http://localhost:8000/api/courses/share/'+id, // Replace with your API endpoint
+				url: '{{asset("")}}api/courses/share/'+id, // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -454,7 +454,7 @@ if (!function_exists('formatCounting')) {
 				},
 				error: function(xhr, status, error) {
 					console.error('Error:', status, error);
-				}
+				
 			});
 
 		}

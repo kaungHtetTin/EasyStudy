@@ -275,7 +275,7 @@
 			formData.append('image_file', file);
 
 			$.ajax({
-				url: `http://localhost:8000/api/blogs/upload-photo`,
+				url: `{{asset("")}}api/blogs/upload-photo`,
 				type: 'POST',
 				data: formData,
 				contentType: false, // Important
@@ -286,7 +286,7 @@
 				},
 				success: function(response) {
 					console.log(response);
-					$('#'+image_id).attr('src',"http://localhost:8000/storage/"+response);
+					$('#'+image_id).attr('src',"{{asset('')}}storage/"+response);
 				},
 				error: function(xhr, status, error) {
 					console.log('Error:', xhr.status, error);

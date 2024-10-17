@@ -26,6 +26,18 @@
 		.content_body div, #editor div{
 			width: max-content;
 		}
+
+		pre code {
+			background-color: #ecffeb;
+			color: #3a3a3a;
+			font-family: 'Courier New', Courier, monospace;
+			padding: 3px;
+			border-radius: 2px;
+			display: block;
+			font-size: 12px;
+			white-space: pre-wrap;
+		}
+		
     </style>
 	<div class="wrapper">
 		<div class="sa4d25">

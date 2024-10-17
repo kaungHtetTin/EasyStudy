@@ -198,7 +198,7 @@
 
             function navfetchNotification(){
                 $.ajax({
-                    url: "http://localhost:8000/instructor/api/notifications?page=1&seen=0",
+                    url: "{{asset('')}}instructor/api/notifications?page=1&seen=0",
                     type: 'GET', // or 'GET' depending on your request
                     headers: {
                         'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -232,10 +232,10 @@
 
             function navNotificationComponent(notification){
                 return `
-                    <a href="${createNotificationToUrl(notification)}" class="channel_my item bg-unseen" onclick="navNotificationSeen(${notification.id})">
+                    <a href="${createNotificationToUrl(notification,"{{asset('')}}")}" class="channel_my item bg-unseen" onclick="navNotificationSeen(${notification.id})">
                         <div class="profile_link" style="padding:5px 10px 5px 10px;">
                             <div>
-								<img src="http://localhost:8000/storage/${notification.user.image_url}" alt=""/>
+								<img src="{{asset('')}}storage/${notification.user.image_url}" alt=""/>
 								${notification.notification_type.web_icon}
 							</div>
                             <div class="pd_content">
@@ -250,7 +250,7 @@
 
             function navNotificationSeen(notification_id){
 				$.ajax({
-					url: `http://localhost:8000/instructor/api/notifications/${notification_id}`, // Replace with your API endpoint
+					url: `{{asset("")}}instructor/api/notifications/${notification_id}`, // Replace with your API endpoint
 					type: 'PUT', // or 'GET' depending on your request
 					headers: {
 						'Authorization': 'Bearer '+apiToken // Example for Authorization header

@@ -647,13 +647,13 @@
                 if(ajax.status==200 || ajax.readyState==4){
 					let course = JSON.parse(ajax.responseText);
 					console.log(course);
-					location.href ="http://localhost:8000/instructor/modules?course_id="+course.id;
+					location.href ="{{asset('')}}instructor/modules?course_id="+course.id;
                 }else{
                     console.log('Error');
 					$('#loading').hide();
                 }
             };
-            ajax.open("post",`http://localhost:8000/instructor/api/courses`,true);
+            ajax.open("post",`{{asset("")}}instructor/api/courses`,true);
 			ajax.setRequestHeader('Authorization','Bearer '+apiToken);
 			ajax.setRequestHeader('Accept','application/json');
             ajax.send(form_data);

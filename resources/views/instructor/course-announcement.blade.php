@@ -237,19 +237,19 @@
 			function anouncementComponent(anouncement){
 				let photo_attachment = "";
 				if(anouncement.image_url!=""){
-					photo_attachment = `<img style="width:100px;margin-top:10px;border-radius:3px;" src="http://localhost:8000/storage/${anouncement.image_url}" alt="">`;
+					photo_attachment = `<img style="width:100px;margin-top:10px;border-radius:3px;" src="{{asset('')}}storage/${anouncement.image_url}" alt="">`;
 				}
 				let resource_file = "";
 				if(anouncement.resource_url!=""){
 					resource_file = `
-					 <a href="http://localhost:8000/storage/${anouncement.resource_url}"> <div class="resource" id="resource_attachment">Resource <i class="uil uil-download-alt"></i></div> </a>
+					 <a href="{{asset('')}}storage/${anouncement.resource_url}"> <div class="resource" id="resource_attachment">Resource <i class="uil uil-download-alt"></i></div> </a>
 					`;
 				}
 				return `
 					<div class="reviews_left" style="margin-top: 5px;" id="announcement_component_${anouncement.id}">
 						<div style="display: flex;">
 							<div>
-								<img src="http://localhost:8000/storage/${user.image_url}" alt="" style="width: 30px;height:30px; border-radius:50px;">
+								<img src="{{asset('')}}storage/${user.image_url}" alt="" style="width: 30px;height:30px; border-radius:50px;">
 							</div>
 							<div style="margin-left: 15px;flex:1;margin-right:15px;">
 								<span style="font-weight:bold;margin-bottom:5px;">{{$course->title}}</span> <br>

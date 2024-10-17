@@ -61,6 +61,7 @@ class BlogController extends Controller
             'passive_user_type'=>3,
             'payload'=>[
                 'blog_id'=>$blog->id,
+                'instructor_id'=>$instructor->id,
             ]
         ]);
 

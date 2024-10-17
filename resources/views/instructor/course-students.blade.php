@@ -107,7 +107,7 @@
 
 			let is_fetching = false;
 			let arr = [];
-			let fetch_url = `http://localhost:8000/instructor/api/courses/${course.id}/students`
+			let fetch_url = `{{asset("")}}instructor/api/courses/${course.id}/students`
 
 			$(document).ready(()=>{
 	
@@ -168,9 +168,9 @@
 				}
 				return `
 					<div class="fcrse_1">
-						<a href="http://localhost:8000/instructor/courses/${course.id}/students/${student.user.id}">
+						<a href="{{asset('')}}instructor/courses/${course.id}/students/${student.user.id}">
 							<div class="review_usr_dt">
-								<img src="http://localhost:8000/storage/${student.user.image_url}" alt="">
+								<img src="{{asset('')}}storage/${student.user.image_url}" alt="">
 								<div class="rv1458">
 									<h4 class="tutor_name1">${student.user.name}</h4>
 									<span class="time_145">Joined . ${formatDateTime(new Date(student.created_at))}</span>
@@ -188,7 +188,7 @@
 			}
 
 			function approve(student_id){
-				let url = `http://localhost:8000/instructor/courses/${course.id}/students/${student_id}/approve`;
+				let url = `{{asset("")}}instructor/courses/${course.id}/students/${student_id}/approve`;
 				window.location.href=url;
 			}
 	</script>

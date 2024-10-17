@@ -75,7 +75,7 @@ class MyTextEditor {
         formData.append('image_file', file);
 
         $.ajax({
-            url: `http://localhost:8000/api/questions/upload-photo`,
+            url: `{{asset("")}}api/questions/upload-photo`,
             type: 'POST',
             data: formData,
             contentType: false, // Important
@@ -86,7 +86,7 @@ class MyTextEditor {
             },
             success: function(response) {
                 console.log(response);
-                $('#'+image_id).attr('src',"http://localhost:8000/storage/"+response);
+                $('#'+image_id).attr('src',"{{asset('storage')}}"+response);
             },
             error: function(xhr, status, error) {
                 console.log('Error:', xhr.status, error);

@@ -666,7 +666,7 @@
 		function submitBasicInformation(form_data){
 			$('#loading').show();
 			$.ajax({
-				url: `http://localhost:8000/instructor/api/courses/${course.id}`, // Replace with your API endpoint
+				url: `{{asset("")}}instructor/api/courses/${course.id}`, // Replace with your API endpoint
 				type: 'PUT', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -691,7 +691,7 @@
 			$('#cover_spinner').show();
 			
 			$.ajax({
-				url: `http://localhost:8000/instructor/api/courses/${course.id}/update-cover-image`,
+				url: `{{asset("")}}instructor/api/courses/${course.id}/update-cover-image`,
 				type: 'POST',
 				data: formData,
 				contentType: false, // Important

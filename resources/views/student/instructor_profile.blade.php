@@ -413,7 +413,7 @@ if (!function_exists('formatCount')) {
 
 		let is_fetching = false;
 		let arr = [];
-		let fetch_url = `http://localhost:8000/api/instructors/${instructor.id}/blogs?page=1`;
+		let fetch_url = `{{asset("")}}api/instructors/${instructor.id}/blogs?page=1`;
 		let delete_blog_id = 0;
 		$(document).ready(()=>{
 	
@@ -531,7 +531,7 @@ if (!function_exists('formatCount')) {
 			alert('URL copied to clipboard: ' +url);
 
 			$.ajax({
-				url: 'http://localhost:8000/api/courses/share/'+id, // Replace with your API endpoint
+				url: '{{asset("")}}api/courses/share/'+id, // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header

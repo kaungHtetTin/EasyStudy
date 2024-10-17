@@ -388,12 +388,12 @@
 				<div id="question_component_${question.id}">
 					<div class="fcrse_1" style="margin-bottom:5px;">
 						<div class="review_usr_dt">
-							<a href="http://localhost:8000/instructor/courses/${course.id}/students/${question.user.id}">
-								<img src="http://localhost:8000/storage/${question.user.image_url}" alt="">
+							<a href="{{asset('')}}instructor/courses/${course.id}/students/${question.user.id}">
+								<img src="{{asset('')}}storage/${question.user.image_url}" alt="">
 							</a>
 							<div class="rv1458" style="width:100%">
 								<h5 class="">${question.title}</h5>
-								<span style="display: inline" class="time_145">By <a href="http://localhost:8000/instructor/courses/${course.id}/students/${question.user.id}">${question.user.name} </a> </span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
+								<span style="display: inline" class="time_145">By <a href="{{asset('')}}instructor/courses/${course.id}/students/${question.user.id}">${question.user.name} </a> </span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
 								<span class="btn_span" style="float:right;" onclick="replyNow(${question.id})">Reply Now <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
 								<span class="btn_span" style="float:right;" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>
 							</div>
@@ -409,7 +409,7 @@
             const question = questionArr.find(q=>q.id ===question_id );
             $('#answers_layout').html("");
             $('#question_layout').html(`
-                <img src="http://localhost:8000/storage/${question.user.image_url}" alt="">
+                <img src="{{asset('')}}storage/${question.user.image_url}" alt="">
                 <div class="rv1458" style="width:100%">
                     <div>
                         <h5 class="">${question.title}</h5>
@@ -464,7 +464,7 @@
 			return `
 				<div class="review_item" id="answer_component_${answer.id}">
 					<div class="review_usr_dt">
-						<img src="http://localhost:8000/storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
+						<img src="{{asset('')}}storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
 						<div class="rv1458"  style="width:100%">
 							<div class="content_body">${answer.body}</div>
 							<br>
@@ -489,7 +489,7 @@
 			$('#question_type_form_container').hide();
 			$('#question_type_loading').show();
 			$.ajax({
-				url: 'http://localhost:8000/instructor/api/question-types', // Replace with your API endpoint
+				url: '{{asset("")}}instructor/api/question-types', // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken, // Example for Authorization header
@@ -528,7 +528,7 @@
 			 
 			console.log(formData);
 			$.ajax({
-				url: `http://localhost:8000/api/answers`,
+				url: `{{asset("")}}api/answers`,
 				type: 'POST',
 				data: formData,
 				headers: {
@@ -562,7 +562,7 @@
 			formData.append('image_file', file);
 
 			$.ajax({
-				url: `http://localhost:8000/api/questions/upload-photo`,
+				url: `{{asset("")}}api/questions/upload-photo`,
 				type: 'POST',
 				data: formData,
 				contentType: false, // Important
@@ -573,7 +573,7 @@
 				},
 				success: function(response) {
 					console.log(response);
-					$('#'+image_id).attr('src',"http://localhost:8000/storage/"+response);
+					$('#'+image_id).attr('src',"{{asset('')}}storage/"+response);
 				},
 				error: function(xhr, status, error) {
 					console.log('Error:', xhr.status, error);

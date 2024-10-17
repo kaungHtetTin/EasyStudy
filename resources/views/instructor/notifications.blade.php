@@ -71,7 +71,7 @@
 
 			let is_fetching = false;
 			let arr = [];
-			let fetch_url = `http://localhost:8000/instructor/api/notifications?page=1`
+			let fetch_url = `{{asset("")}}instructor/api/notifications?page=1`
 
 			$(document).ready(()=>{
 	
@@ -145,7 +145,7 @@
 					<div id="noti_${notification.id}" onclick=notificationClick(${notification.id}) class="channel_my item all__noti5 item-notification ${seen}">
 						<div class="profile_link">
 							<div>
-								<img src="http://localhost:8000/storage/${notification.user.image_url}" alt=""/>
+								<img src="{{asset('')}}storage/${notification.user.image_url}" alt=""/>
 								${notification.notification_type.web_icon}
 							</div>
 							<div class="pd_content">
@@ -163,15 +163,15 @@
 				const notification = arr.find((notification)=> notification.id == id);
 				if(notification.seen == 0){
 					$('#noti_'+notification.id).attr('class','channel_my item all__noti5 item-notification');
-					seen(id,()=>{ location.href = createNotificationToUrl(notification); });
+					seen(id,()=>{ location.href = createNotificationToUrl(notification,"{{asset('')}}"); });
 				}else{
-					location.href = createNotificationToUrl(notification);
+					location.href = createNotificationToUrl(notification,"{{asset('')}}");
 				}
 			}
 
 			function seen(notification_id,loadPage){
 				$.ajax({
-					url: `http://localhost:8000/instructor/api/notifications/${notification_id}`, // Replace with your API endpoint
+					url: `{{asset("")}}instructor/api/notifications/${notification_id}`, // Replace with your API endpoint
 					type: 'PUT', // or 'GET' depending on your request
 					headers: {
 						'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -192,7 +192,7 @@
 				})
 
 				$.ajax({
-					url: `http://localhost:8000/instructor/api/mark-as-read-all-notifications`, // Replace with your API endpoint
+					url: `{{asset("")}}instructor/api/mark-as-read-all-notifications`, // Replace with your API endpoint
 					type: 'POST', // or 'GET' depending on your request
 					headers: {
 						'Authorization': 'Bearer '+apiToken // Example for Authorization header

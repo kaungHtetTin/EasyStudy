@@ -261,7 +261,7 @@
 					month = new Date().getMonth();
 				}
 
-				let url = `http://localhost:8000/instructor/courses/${course.id}/overview?year=${year}&month=${month}`;
+				let url = `{{asset("")}}instructor/courses/${course.id}/overview?year=${year}&month=${month}`;
 				window.location.href=url;
 			}
 

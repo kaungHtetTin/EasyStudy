@@ -105,7 +105,7 @@
 
 		let is_fetching = false;
 		let arr = [];
-		let fetch_url = `http://localhost:8000/api/instructors/${instructor.id}/blogs?page=1`;
+		let fetch_url = `{{asset("")}}api/instructors/${instructor.id}/blogs?page=1`;
 		let delete_blog_id = 0;
 		$(document).ready(()=>{
 	

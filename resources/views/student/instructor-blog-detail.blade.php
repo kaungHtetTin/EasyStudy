@@ -15,6 +15,34 @@
 @endphp
 @extends('student.components.master')
 
+<style>
+        .content_body{
+			overflow: auto;
+	 
+		}
+
+		.content_body ul{
+			list-style-type: disc;
+			margin-inline-start: 20px;
+			width: 100%;
+		}
+
+		.content_body div{
+			width: max-content;
+		}
+
+		pre code {
+			background-color: #ecffeb;
+			color: #3a3a3a;
+			font-family: 'Courier New', Courier, monospace;
+			padding: 3px;
+			border-radius: 2px;
+			display: block;
+			font-size: 12px;
+			white-space: pre-wrap;
+		}
+
+    </style>
 
 @section('content')
 

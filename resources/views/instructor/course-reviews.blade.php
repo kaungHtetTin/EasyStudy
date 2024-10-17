@@ -313,7 +313,7 @@
 				return `
 					<div class="review_item">
 						<div class="review_usr_dt">
-							<img src="http://localhost:8000/storage/${review.user.image_url}" alt="">
+							<img src="{{asset('')}}storage/${review.user.image_url}" alt="">
 							<div class="rv1458">
 								<h4 class="tutor_name1">${review.user.name}</h4>
 								<span class="time_145">${formatDateTime(new Date(review.created_at))}</span>
