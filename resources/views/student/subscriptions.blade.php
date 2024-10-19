@@ -45,7 +45,7 @@ if (!function_exists('formatCounting')) {
 							<div class="explore_search">
 								<div class="ui search focus">
 									<div class="ui left icon input swdh11">
-										<input id="input_search" class="prompt srch_explore" type="text" placeholder="Search Tutors...">
+										<input class="prompt srch_explore" type="text" placeholder="Search Tutors...">
 										<i class="uil uil-search-alt icon icon2"></i>
 									</div>
 								</div>
@@ -83,7 +83,7 @@ if (!function_exists('formatCounting')) {
 		<script>
 	
 			let isFetching=false;
-			let url = '{{asset("")}}api/instructors';
+			let url = '/api/instructors';
 			var instructorArr=[];
 			const social_media = @json($social_media);
 			console.log('social ',social_media);
@@ -99,26 +99,9 @@ if (!function_exists('formatCounting')) {
 						}
 					}
 				});
-
-				$('#input_search').on('keyup',(x)=>{
-					const search_str = $('#input_search').val();
-
-					if(x.key === "Enter" || x.key === " " || search_str==="" ){
-						 
-						url = "{{asset("")}}api/instructors/search?q="+search_str;
-						if(search_str==""){
-							url = '{{asset("")}}api/instructors';
-						}
-						
-						instructorArr = [];
-						$('#shimmer').show();
-						fetchInstructor(true);
-					}
-					
-				})
 			});
 
-			function fetchInstructor(search = false){
+			function fetchInstructor(){
 				isFetching=true;
 				$('#shimmer').show();
 				if(url==null){
@@ -131,7 +114,6 @@ if (!function_exists('formatCounting')) {
 					if(res){
 						url = res.next_page_url;
 						let instructors = res.data;
-						if(search) $('#instructor_container').html("");
 						setInstructors(instructors);
 						console.log(instructors);
 					}
@@ -154,11 +136,11 @@ if (!function_exists('formatCounting')) {
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="fcrse_1 mt-30">
 							<div class="tutor_img">
-								<a href="{{asset("")}}instructors/${instructor.id}"><img src="{{asset('')}}storage/${instructor.user.image_url}" alt=""></a>												
+								<a href="/instructors/${instructor.id}"><img src="{{asset('')}}storage/${instructor.user.image_url}" alt=""></a>												
 							</div>
 							<div class="tutor_content_dt">
 								<div class="tutor150">
-									<a href="{{asset("")}}instructors/${instructor.id}" class="tutor_name">${instructor.user.name}</a>
+									<a href="/instructors/${instructor.id}" class="tutor_name">${instructor.user.name}</a>
 									<div class="mef78" title="Verify">
 										<i class="uil uil-check-circle"></i>
 									</div>

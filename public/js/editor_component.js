@@ -1,7 +1,9 @@
 class MyTextEditor {
     
     static codeMode = false;
+  
     constructor(container_id){
+    
         let container = document.getElementById(container_id);
      
         container.innerHTML ="";
@@ -61,41 +63,11 @@ class MyTextEditor {
         $('#dialog_input_file').change(()=>{
             var files=$('#dialog_input_file').prop('files');
             var file=files[0];
-            MyTextEditor.uploadPhoto(file)
+            uploadPhoto(file);
         })
 
     }
-    
-    static uploadPhoto(file){
-        var image_id = Date.now();
-        let imageView = `<br><img style="width:200px;border-radius:5px;height:auto" id="${image_id}" src = "${imageShimmer}" /><br> `;
-        $('#editor').append(imageView);
-
-        let formData = new FormData();
-        formData.append('image_file', file);
-
-        $.ajax({
-            url: `{{asset("")}}api/questions/upload-photo`,
-            type: 'POST',
-            data: formData,
-            contentType: false, // Important
-            processData: false, // Important
-            headers: {
-                'Authorization': 'Bearer ' + apiToken,
-                'Accept': 'application/json'
-            },
-            success: function(response) {
-                console.log(response);
-                $('#'+image_id).attr('src',"{{asset('storage')}}"+response);
-            },
-            error: function(xhr, status, error) {
-                console.log('Error:', xhr.status, error);
-                    
-            }
-        });
-        
-    }
-    
+     
 
     // Add event listener to Image button
     // document.getElementById('imageBtn').addEventListener('click', function () {

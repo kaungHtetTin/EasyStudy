@@ -32,7 +32,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('my-blog',function($user,$blog){
             return $user->id === $blog->user_id;
         });
-        
 
     }
 }

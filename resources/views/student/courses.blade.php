@@ -1,6 +1,7 @@
 @php
 
 	if(isset(request()->topic_ids))$topic_ids = request()->topic_ids;
+	$api_token = Cookie::get('api_auth_token');
 	
 @endphp
 
@@ -232,12 +233,17 @@
 				</div>
 			</div>
 		</div>
-
+	
+	<script src="{{asset('js/class/course.js')}}"></script>
 	<script>
 		
 		const courses = @json($courses);
 		const categories =@json($categories);
 		const sub_categories=@json($sub_categories);
+		let Context = {};
+		Context.apiToken = "{{$api_token}}";
+		Context.csrf = `@csrf`;
+		Context.rootDir = "{{asset('')}}";
 
 		let small_screen;
         let toggle_open = false;
@@ -280,7 +286,7 @@
 					if (index != -1) topic_ids.splice(index, 1);
 				}
 
-				$('#course_container').html(setCourse(filtering()));
+				setCourse(filtering());
 			});
 
 			durationBoxes.on('change',function(){
@@ -293,7 +299,7 @@
 					if (index != -1) durations.splice(index, 1);
 				}
 
-				$('#course_container').html(setCourse(filtering()));
+				setCourse(filtering());
 			});
 
 			ratingBoxes.on('change',function(){
@@ -304,10 +310,11 @@
 					if (index != -1) ratings.splice(index, 1);
 				}
 			 
-				$('#course_container').html(setCourse(filtering()));
+				setCourse(filtering());
 			});
 
-			$('#course_container').html(setCourse(courses));
+			 
+			setCourse(courses);
 
 			$('#btn-drawer-toggle').click(()=>{
                 $('#drawer').css({'display':'block'});
@@ -365,10 +372,15 @@
 			durationCourses.map(course=>{
 				if(ratings.length>0){
 					ratings.map(rating=>{
-						if(course.rating>=rating && course.rating<(rating+0.5)){
+						//console.log(course.rating, rating);
+						if(course.rating>=rating && course.rating<=(rating+0.5)){
+							console.log(course.rating, rating, 'true');
 							ratingCourses.push(course);
+						}else{
+							console.log(course.rating, rating, 'false');
 						}
 					})
+					
 				}else{
 					ratingCourses.push(course);
 				}
@@ -379,100 +391,19 @@
 
 		function setCourse(courses){
 
-			let result = "";
+			$('#course_container').html("");
 			courses.map(course=>{
-				result += `
+				let courseComponent = new CourseComponent(Context,course);
+				$('#course_container').append(`
 					<div class="col-lg-6 col-md-6">
-						<div class="fcrse_1 mt-30">
-							<a href="/courses/${course.id}" class="fcrse_img">
-								<img src="images/courses/img-2.jpg" alt="">
-								<div class="course-overlay">
-									<div class="badge_seller">Bestseller</div>
-									<div class="crse_reviews">
-										<i class="uil uil-star"></i>${course.rating}
-									</div>
-									<span class="play_btn1"><i class="uil uil-play"></i></span>
-									<div class="crse_timer">
-										${calculateDuration(course.duration)}
-									</div>
-								</div>
-							</a>
-							<div class="fcrse_content">
-								<div class="eps_dots more_dropdown">
-									<a href="#"><i class="uil uil-ellipsis-v"></i></a>
-									<div class="dropdown-content">
-										<span onclick="copyCourseUrl('/courses/${course.id}','${course.id}')" ><i class='uil uil-share-alt'></i>Share</span>
-										<span onclick="addToCart('${course.id}')"> <i class="uil uil-shopping-cart-alt"></i>Add to cart</span>
-										<form id="cart_form_${course.id}" action="/cart" method="POST">
-											<input type="hidden" value="${course.id}" name="course_id">
-											@csrf
-										</form>
-										<span><i class="uil uil-windsock"></i>Report</span>
-									</div>																									
-								</div>
-								<div class="vdtodt">
-									<span class="vdt14">${formatCounting(course.preview_count,'view')}</span>
-									<span class="vdt14">${formatDateTime(new Date(course.created_at))} </span>
-								</div>
-								<a href="course_detail_view.html" class="crse14s">${course.title}</a>
-								
-								${searchCategory(categories,course.category_id).title} <i class="uil uil-arrow-right"></i>  ${searchCategory(sub_categories,course.sub_category_id).title}
-								
-								<div class="auth1lnkprce">
-									<p class="cr1fot">By <a href="/instructors/${course.instructor_id}">${course.instructor.user.name}</a></p>
-									<div class="prce142">${course.fee} <span>MMK</span></div>
-									<button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
-								</div>
-							</div>
-						</div>
+						${courseComponent.view}
 					</div>
-				`
+				`);
+				courseComponent.initializeCallback();
+
 			})
-
-			return result;
 		}
-
-		function addToCart(courseId){
-			document.getElementById('cart_form_'+courseId).submit();
-		}	
-
-		function copyCourseUrl(url,id){
-			
-			// Create a temporary input element to hold the URL
-			const tempInput = document.createElement('input');
-			tempInput.value =url;
-			document.body.appendChild(tempInput);
-
-			// Select the input element's value
-			tempInput.select();
-			tempInput.setSelectionRange(0, 99999); // For mobile devices
-
-			// Copy the text inside the input element
-			document.execCommand('copy');
-
-			// Remove the temporary input element
-			document.body.removeChild(tempInput);
-
-			// Optionally, alert the user that the URL has been copied
-
-			alert('URL copied to clipboard: ' +url);
-
-			$.ajax({
-				url: '{{asset("")}}api/courses/share/'+id, // Replace with your API endpoint
-				type: 'POST', // or 'GET' depending on your request
-				headers: {
-					'Authorization': 'Bearer '+apiToken // Example for Authorization header
-				},
-				success: function(response) {
-					console.log('Success:', response);
-				},
-				error: function(xhr, status, error) {
-					console.error('Error:', status, error);
-				}
-			});
-
-		}
-
+ 
 		function setLoading(){
 			return `
 			<div class="col-md-12">
@@ -486,64 +417,6 @@
 				</div>
 			</div>
 			`;
-		}
-
-		function calculateDuration(min){
-			let result = Math.floor(min/60);
-
-			if(result>1){
-				return result + " hours";
-			}else{
-				return result + " hour";
-			}
-		}
-
-		function formatCounting(count,unit){
-			if(count<=1){
-				return count+' '+unit;
-			}else if(count>1 && count<1000){
-				return Math.floor(count/1000)+' '+unit+'s';
-			}else if(count>=1000 && count<1000000){
-				return Math.floor(count/1000)+'k '+unit+'s';
-			}else {
-				return Math.floor(count/1000000)+'M '+unit+'s';
-			}
-		}
-
-		function formatDateTime(cmtTime){
-			var currentTime = Date.now();
-			var min=60;
-			var h=min*60;
-			var day=h*24;
-
-			var diff =currentTime-cmtTime
-			diff=diff/1000;
-			
-			if(diff<day*3){
-				if(diff<min){
-					return "a few second ago";
-				}else if(diff>=min&&diff<h){
-					return Math.floor(diff/min)+'min ago';
-				}else if(diff>=h&&diff<day){
-					return Math.floor(diff/h)+'h ago';
-				}else{
-					return Math.floor(diff/day)+'d ago';
-				}
-			}else{
-				var date = new Date(Number(cmtTime));
-				return date.toLocaleDateString("en-GB");
-			}
-		}
-
-		function searchCategory(categories,id){
-			let result;
-			categories.map(category=>{
-				if(category.id==id){
-					result = category;
-				}
-			})
-
-			return result;
 		}
 
 		function adjustLayout(){

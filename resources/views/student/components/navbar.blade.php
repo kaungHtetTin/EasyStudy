@@ -9,7 +9,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="explore.html" class="menu--link" title="Explore">
+                    <a href="{{route('explore')}}" class="menu--link {{$page_title=='Explore'?'active':''}}" title="Explore">
                         <i class='uil uil-search menu--icon'></i>
                         <span class="menu--label">Explore</span>
                     </a>
@@ -65,7 +65,7 @@
                     <div class="alrt_dot"></div>
                 </li>
                 <li class="menu--item">
-                    <a href="{{route('instructors')}}" class="menu--link" title="Browse Instructors">
+                    <a href="{{route('instructors')}}" class="menu--link {{$page_title=='Instructors'?'active':''}}" title="Instructors">
                         <i class='uil uil-plus-circle menu--icon'></i>
                         <span class="menu--label">Browse Instructors</span>
                     </a>

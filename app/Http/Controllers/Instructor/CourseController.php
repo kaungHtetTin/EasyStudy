@@ -25,6 +25,7 @@ use App\Models\LearningHistory;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class CourseController extends Controller
 {
@@ -104,6 +105,9 @@ class CourseController extends Controller
 
         $course = Course::find($id);
         if(!$course) return redirect(route('instructor.error'));
+        if(Gate::denies('my-course',$course)){
+            return back()->with('error','Unauthorize');
+        }
 
         $categories = Category::all();
         $topics = Topic::all();
@@ -111,11 +115,6 @@ class CourseController extends Controller
         $levels = Level::all();
         $languages = Language::all();
         $user = Auth::user();
-        $instructor = $course->instructor;
-
-        if($user->id != $instructor->user->id){
-            return redirect(route('instructor.error'));
-        }
 
         return view('instructor.course-edit',[
             'user'=>$user,
@@ -279,5 +278,18 @@ class CourseController extends Controller
         $result['month']=$month;
 
         return $result;
+    }
+
+    public function editCoverPhoto($id){
+        $course = Course::find($id);
+        if(!$course) return redirect(route('instructor.error'));
+        if(Gate::denies('my-course',$course)){
+            return back()->with('error','Unauthorize');
+        }
+
+        return view('Instructor.course-edit-cover-photo',[
+            'page_title'=>'Edit Course',
+            'course'=>$course,
+        ]);
     }
 }

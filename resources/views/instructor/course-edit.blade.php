@@ -483,7 +483,10 @@
 				$('#subcategory_selector_error').hide();
 			})
 
-			$('#btn_cover_edit').click(()=>{ $('#input_cover').click(); });
+			$('#btn_cover_edit').click(()=>{ 
+				//$('#input_cover').click(); 
+				window.location.href = "{{route('instructor.courses.edit-cover-photo',$course->id)}}";
+			});
 
 			$('#input_cover').change(()=>{
 				var files=$('#input_cover').prop('files');

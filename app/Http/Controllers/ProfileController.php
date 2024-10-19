@@ -94,9 +94,9 @@ class ProfileController extends Controller
             $path = $image->store('images/profiles', 'public');
             $user->image_url = $path;
             $user->save();
-            return Redirect::route('profile.edit')->with('status', 'Upload your image successfull.');
+            return back()->with('status', 'Upload your image successfull.');
         }
-        return Redirect::route('profile.edit')->with('status', 'Image upload fail');
+        return back()->with('status', 'Image upload fail');
 
     }
 
@@ -113,7 +113,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'Your profile information is uploaded successfully.');
+        return back()->with('status', 'Your profile information is uploaded successfully.');
     }
 
     /**

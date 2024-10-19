@@ -302,6 +302,8 @@ if (!function_exists('calculatePercent')) {
     </head>
 
 <body onresize="">
+    @csrf
+    @method('DELETE')
     <!-- Reply Dialog Section Start -->
 	<div class="modal fade" id="reply_dialog" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
@@ -984,18 +986,22 @@ if (!function_exists('calculatePercent')) {
 		let anouncementArr = [];
 			
 
-        let fetch_review_url = `/api/courses/${course.id}/reviews`
-        let fetch_question_url = `/api/courses/${course.id}/questions`;
-        let fetch_answer_url = `/api/courses/${course.id}/questions/`; // dynamically concatenate 
-        let fetch_anouncement_url = `/api/courses/${course.id}/announcements`;
+        let fetch_review_url = `{{asset('')}}api/courses/${course.id}/reviews`
+        let fetch_question_url = `{{asset('')}}api/courses/${course.id}/questions`;
+        let fetch_answer_url = `{{asset('')}}api/courses/${course.id}/questions/`; // dynamically concatenate 
+        let fetch_anouncement_url = `{{asset('')}}api/courses/${course.id}/announcements`;
 
         let is_answer_is_fetching = false;
         let answer_mode = false;
 
         let selectedQuestionTypeId = null;
 
+        let csrf_input = document.querySelector("[name=_token]");
+        
+
         $(document).ready(()=>{
             adjustLayout();
+          
          
             $('#nav-overview-tab').click(()=>{
               
@@ -1112,7 +1118,7 @@ if (!function_exists('calculatePercent')) {
                 $('#ask_input').show();
                 $('#question_container').hide();
                 $('#reply_editor_container').html("");
-                new MyTextEditor("question_editor_container");
+                new MyTextEditor("question_editor_container","{{asset('')}}");
             })
 
             $('#btn_back_ask').click(()=>{
@@ -1348,7 +1354,7 @@ if (!function_exists('calculatePercent')) {
             $('#search_input').hide();
             $('#question_loading').show();
 
-            fetch_answer_url= `/api/courses/${course.id}/questions/${question_id}/answers`;
+            fetch_answer_url= `{{asset('')}}api/courses/${course.id}/questions/${question_id}/answers`;
             fetchAnswer();
 
         }
@@ -1439,7 +1445,7 @@ if (!function_exists('calculatePercent')) {
 			formData.body = body;
 			formData.user_id = user.id;
 			formData.question_id = reply_question_id;
-			 
+	 
 			console.log(formData);
 			$.ajax({
 				url: `{{asset("")}}api/answers`,
@@ -1666,16 +1672,20 @@ if (!function_exists('calculatePercent')) {
         function deleteQA(){
             let api_url;
             if(isQuestionDelete){
-                api_url = `/api/questions/${deleteQAContentId}`;
+                api_url = `{{asset('')}}api/questions/${deleteQAContentId}`;
                 $('#question_component_'+deleteQAContentId).html("");
             }else{
-                api_url = `/api/answers/${deleteQAContentId}`;
+                api_url = `{{asset('')}}api/answers/${deleteQAContentId}`;
                 $('#answer_component_'+deleteQAContentId).html("");
             }
             
              $.ajax({
 				url: api_url, // Replace with your API endpoint
 				type: 'DELETE', // or 'GET' depending on your request
+                data: {
+                    "_method":"DELETE",
+                    '_token':csrf_input.value,
+                },
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header
 				},
@@ -1684,9 +1694,42 @@ if (!function_exists('calculatePercent')) {
                     console.log(response);
 				},
 				error: function(xhr, status, error) {
-					console.error('Error:', status, error);
+                    
+					console.error('Error:', status, error, xhr);
 				}
 			});
+        }
+
+        function uploadPhoto(file){
+            var image_id = Date.now();
+            let imageView = `<br><img style="width:200px;border-radius:5px;height:auto" id="${image_id}" src = "${imageShimmer}" /><br> `;
+            $('#editor').append(imageView);
+
+            let formData = new FormData();
+            formData.append('image_file', file);
+          //  formData.append('_token',csrf_input.value);
+            console.log('upload url', `{{asset("")}}api/questions/upload-photo`);
+            
+            $.ajax({
+                url: `{{asset("")}}api/questions/upload-photo`,
+                type: 'POST',
+                data: formData,
+                contentType: false, // Important
+                processData: false, // Important
+                headers: {
+                    'Authorization': 'Bearer ' + apiToken,
+                    'Accept': 'application/json'
+                },
+                success: function(response) {
+                    console.log(response);
+                    $('#'+image_id).attr('src',`{{asset("")}}storage/${response}`);
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', xhr.status, error);
+                        
+                }
+            });
+            
         }
 
     </script>

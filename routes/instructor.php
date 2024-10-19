@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
             'update' => 'instructor.courses.change',
             'destroy' => 'instructor.courses.remove', 
         ]);
+         Route::get('courses/{id}/edit-cover-photo',[CourseController::class,'editCoverPhoto'])->name('instructor.courses.edit-cover-photo');
         Route::get('courses/{id}/overview',[CourseController::class,'overview'])->name('instructor.courses.overview');
         Route::get('courses/{id}/students',[CourseController::class,'studentEnroll'])->name('instructor.courses.students.lists');
         Route::get('courses/{id}/students/{sid}/approve',[CourseController::class,'approveStudent'])->name('instructor.courses.student.approved');

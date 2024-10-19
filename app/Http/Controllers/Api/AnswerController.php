@@ -52,7 +52,11 @@ class AnswerController extends Controller
     }
 
     public function destroy(Request  $req, $id){
+        
+      
         $user = $req->user();
+      
+
         $answer = Answer::find($id);
         if($answer==null){
             return response()->json("Bad Request",400);

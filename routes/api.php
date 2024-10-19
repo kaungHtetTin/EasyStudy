@@ -45,7 +45,7 @@ Route::post('/sanctum/token', function (Request $request) {
 |
 */
 
-Route::middleware('auth:sanctum')->group(function(){
+ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', function(Request $req){return $req->user();});
     Route::get('/courses',[CourseController::class,'index']);
     Route::post('/courses/react/{id}',[CourseController::class,'react']);
@@ -55,11 +55,18 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::apiResource('answers', AnswerController::class);
     Route::apiResource('questions', QuestionController::class);
+  
     Route::apiResource('announcements', AnnouncementController::class);
     Route::apiResource('notifications', NotificationController::class);
     Route::post('/mark-as-read-all-notifications',[NotificationController::class,'markAsReadAll']);
+ 
 });
 
+
+
+
+Route::get('/courses',[CourseController::class,'index']);
+Route::get('/courses/search',[CourseController::class,'search']);
 Route::post('/courses/pre-view/{id}',[CourseController::class,'playPreView']);
 Route::post('/courses/share/{id}',[CourseController::class,'share']);
 Route::get('/courses/{id}/reviews',[CourseController::class,'reviews']);
@@ -69,6 +76,7 @@ Route::get('/courses/{id}/announcements',[CourseController::class,'announcements
 Route::get('/courses/{id}/questions/{qid}/answers',[CourseController::class,'answers']);
 
 Route::get('/instructors',[InstructorController::class,'index']);
+Route::get('/instructors/search',[InstructorController::class,'search']);
 Route::get('/instructors/{id}/blogs',[InstructorController::class,'blogs']);
 
 Route::post('/questions/upload-photo',[QuestionController::class,'uploadPhoto']);

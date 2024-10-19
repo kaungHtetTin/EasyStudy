@@ -22,8 +22,13 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
-        $courses = Course::all();
+        // make some logic for fetching course
+        $courses = Course::with('instructor.user')
+        ->with('category:id,title')
+        ->with('sub_category:id,title')
+        ->with('topic:id,title')
+        ->where('disable',0)->paginate(10);
+       
         return $courses;
     }
 
@@ -206,6 +211,36 @@ class CourseController extends Controller
         $res['course'] = $course;
 
         return $res;
+    }
+
+    public function search(Request $req){
+        $req->validate([
+            'q'=>'required',
+        ]);
+
+        $search_str = $req->q;
+
+         $courses = Course::selectRaw(
+            'courses.*,
+            categories.title as category_title,
+            sub_categories.title as sub_category_title,
+            topics.title as topic_title'
+            )
+        ->with('instructor.user')
+        ->with('category:id,title')
+        ->with('sub_category:id,title')
+        ->with('topic:id,title')
+        ->join('categories','categories.id','=','courses.category_id')
+        ->join('sub_categories','sub_categories.id','=','courses.sub_category_id')
+        ->join('topics','topics.id','=','courses.topic_id')
+        ->orWhere('courses.title','like','%'.$search_str.'%')
+        ->orWhere('categories.title','like','%'.$search_str.'%')
+        ->orWhere('sub_categories.title','like','%'.$search_str.'%')
+        ->orWhere('topics.title','like','%'.$search_str.'%')
+        ->where('disable',0)
+        ->paginate(10);
+
+        return $courses;
     }
 
 

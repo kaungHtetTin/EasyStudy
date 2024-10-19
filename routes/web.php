@@ -27,7 +27,6 @@ use App\Http\Controllers\ReportController;
 
 // main pages
 Route::get('/',[LayoutController::class,'index'])->name('index');
-Route::get('/explore',[LayoutController::class,'explore'])->name('explore');
 
 // secondary pages
 Route::get('/about-us',[LayoutController::class,'aboutPage'])->name('about-us');
@@ -40,13 +39,12 @@ Route::get('/terms',[LayoutController::class,'termPage'])->name('terms');
 Route::get('/teach-on',[LayoutController::class,'teachOnPage'])->name('teach-on');
 Route::get('/sitemap',[LayoutController::class,'siteMapPage'])->name('sitemap');
 Route::get('/error',function(){  return view('student.error',['page_title'=>'Error']); })->name('error');
-
+Route::get('/explore',function(){  return view('student.explore',['page_title'=>'Explore']); })->name('explore');
+Route::get('/subscriptions',[LayoutController::class,'subscription'])->name('subscriptions');
 
 // main courses
 Route::get('/courses',[CourseController::class,'index'])->name('courses');
 Route::get('/courses/{id}',[CourseController::class,'detail'])->name('course_detail');
-
-
 
 //instructors
 Route::get('/instructors',[InstructorController::class,'index'])->name('instructors');

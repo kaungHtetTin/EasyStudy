@@ -42,7 +42,11 @@ class CourseController extends Controller
 
         $topics = Topic::where('sub_category_id',$sub_category_id)->get();
 
-        $courses = Course::with('instructor.user')->where('sub_category_id',$sub_category_id)->where('disable',0)->get();
+        $courses = Course::with('instructor.user')
+        ->with('category:id,title')
+        ->with('sub_category:id,title')
+        ->with('topic:id,title')
+        ->where('sub_category_id',$sub_category_id)->where('disable',0)->get();
 
         return view('student.courses',[
             'page_title'=>'Courses',

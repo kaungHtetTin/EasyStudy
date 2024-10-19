@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Instructor;
 use App\Models\Category;
 use App\Models\Review;
+use App\Models\SocialMedia;
 
 class LayoutController extends Controller
 {
@@ -87,6 +88,14 @@ class LayoutController extends Controller
     public function termPage(){
         return view('pages.terms',[
             'page_title'=>'Terms',
+        ]);
+    }
+
+    public function subscription(){
+        $social_media = SocialMedia::all();
+        return view('student.subscriptions',[
+            'page_title'=>'Subscriptions',
+            'social_media'=>$social_media,
         ]);
     }
 }

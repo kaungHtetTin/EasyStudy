@@ -76,6 +76,25 @@
 			margin-inline-start: 20px;
 		}
 
+		#canvas {
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        #crop-area {
+            border: 2px dashed #000;
+            position: absolute;
+            cursor: move;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 100%;
+        }
+        #cropped-canvas{
+            width: 100px;
+        }
+
 	</style>
 	
 	<!-- Body Start -->
@@ -237,41 +256,26 @@
 											</div>
 											<div class="thumbnail-into">
 												<div class="row">
-													<div class="col-lg-5 col-md-6">
+													<div class="col-12">
 														<label class="label25 text-left">Course thumbnail*</label>
 														<div class="thumb-item">
-															<img src="" alt="">
+															<div id="canvas-container" style="display: none">
+																<canvas id="canvas"></canvas>
+																<div id="crop-area" style="display:none"></div>
+															</div>
+															<canvas id="cropped-canvas" style="display: none"></canvas>
+															<img id="img_course_placeholder" src="{{asset('images/thumbnail-demo.jpg')}}" alt="">
 															<span class="input_error" id="input_course_thumbnail"> <br> Please select course thumbnail </span>
 															<div class="thumb-dt">													
 																<div class="upload-btn">													
 																	<input class="uploadBtn-main-input" type="file" id="ThumbFile__input--source" accept="image/*">
 																	<label for="ThumbFile__input--source" title="Zip">Choose Thumbnail</label>
 																</div>
-																<span class="uploadBtn-main-file">Supports: jpg,jpeg, or png</span>
+																<span class="uploadBtn-main-file">Supports: jpg,jpeg, or png ( 530 x 300 Recommended )</span>
 															</div>
+															
 														</div>
 													</div>
-													<div class="col-lg-7 col-md-6">
-														<div class="fcrse_1 mt-30">
-															<a href="#" class="fcrse_img">
-																<img id="image_preview" src="{{asset('images/thumbnail-demo.jpg')}}" alt="">
-															</a>
-															<div class="fcrse_content">
-																<div class="eps_dots more_dropdown">
-																	<a href="#"><i class="uil uil-ellipsis-v"></i></a>															
-																</div>
-																<div class="vdtodt">
-																	109k views . 15 days ago
-																</div>
-																<a href="#" class="crse14s" id="photo_preview_title">Preview </a>
-																<a href="#" class="crse-cate" id="photo_preview_category">This is course thumbnail preview. </a>
-																<div class="auth1lnkprce">
-																	<p class="cr1fot">By <a href="#">{{Auth::user()->name}}</a></p>
-																</div>
-															</div>
-														</div>	
-													</div>
-
 												</div>
 											</div>
 										</div>
@@ -425,6 +429,8 @@
 		let topics = @json($topics);
 		let step = 1;
 		let form_data = new FormData();
+		let cover_photo_file = null;
+		const canva_container = document.getElementById('canvas-container');
 
 		$(document).ready(()=>{
 			$('#category_selector').change(()=>{
@@ -460,23 +466,6 @@
 				}
 			})
 	
-
-			$('#ThumbFile__input--source').change(()=>{
-				var files=$('#ThumbFile__input--source').prop('files');
-				var file=files[0];
-					
-				var reader = new FileReader();
-				reader.onload = function (e) {
-					imageSrc=e.target.result;
-					$('#image_preview').attr('src', imageSrc);
-
-					form_data.append('thumbnail_src',imageSrc);
-					form_data.append('thumbnail_file',file);
-				};
-
-				reader.readAsDataURL(file);
-				$('#input_course_thumbnail').hide(); // error message
-			})
 
 			$('#checkbox_free').change(()=>{
 				if($('#checkbox_free').prop('checked')){
@@ -616,14 +605,11 @@
 
 			// ================ Step 2 =================
 
-			var files=$('#ThumbFile__input--source').prop('files');
-			if(files.length==0){
+			if(cover_photo_file==null){
 				$('#input_course_thumbnail').show();
 				$('#step-2').click();
 				return false;
-			}else{
-
-			}
+			} 
 
 			// ================ Step 3 =================
 
@@ -715,6 +701,167 @@
 		}
 
 
+		document.getElementById('ThumbFile__input--source').addEventListener('change', function (e) {
+			const file = e.target.files[0];
+			const reader = new FileReader();
+			
+			$('#canvas-container').show();
+			document.getElementById('crop-area').setAttribute('style','display:block');
+
+			reader.onload = function (event) {
+				const img = new Image();
+				img.onload = function () {
+
+					$('#img_course_placeholder').hide();
+
+					const canvas = document.getElementById('canvas');
+					const ctx = canvas.getContext('2d');
+					const maxWidth = canva_container.clientWidth;
+					console.log('maxWitdh', maxWidth);
+					const scale = maxWidth / img.width;
+
+					const displayWidth = maxWidth;
+					const displayHeight = img.height * scale;
+
+					// Set the display size
+					canvas.style.width = displayWidth + 'px';
+					canvas.style.height = displayHeight + 'px';
+
+					// Set the actual canvas size to the original image size
+					canvas.width = img.width;
+					canvas.height = img.height;
+			
+					ctx.drawImage(img, 0, 0, img.width, img.height);
+
+					initCropArea(displayWidth, displayHeight);
+				}
+				img.src = event.target.result;
+			}
+
+			reader.readAsDataURL(file);
+		});
+
+		function initCropArea(displayWidth, displayHeight) {
+			const cropArea = document.getElementById('crop-area');
+			const canvasContainer = document.getElementById('canvas-container');
+			const canvas = document.getElementById('canvas');
+
+			cropArea.style.width = canva_container.clientWidth+'px';
+			cropArea.style.height = (canva_container.clientWidth * 0.5084) + 'Px'; // 590 x 300
+
+			
+			cropArea.style.left = '85px';
+			cropArea.style.top = '10px';
+
+			cropArea.onmousedown = function (e) {
+				e.preventDefault();
+
+				let shiftX = e.clientX - cropArea.getBoundingClientRect().left;
+				let shiftY = e.clientY - cropArea.getBoundingClientRect().top;
+
+				document.onmousemove = function (e) {
+					let newLeft = e.clientX - shiftX - canvasContainer.getBoundingClientRect().left;
+					let newTop = e.clientY - shiftY - canvasContainer.getBoundingClientRect().top;
+
+					newLeft = Math.max(0, Math.min(newLeft, displayWidth - cropArea.clientWidth));
+					newTop = Math.max(0, Math.min(newTop, displayHeight - cropArea.clientHeight));
+
+					cropArea.style.left = newLeft + 'px';
+					cropArea.style.top = newTop + 'px';
+				}
+
+				document.onmouseup = function () {
+					document.onmousemove = null;
+					document.onmouseup = null;
+
+					cropImageAndPutToInput(()=>{
+						 console.log('image was cropped');
+					});
+				}
+			}
+
+			cropArea.ontouchstart = function (e){
+				e.preventDefault();
+				let shiftX = e.targetTouches[0].clientX - cropArea.getBoundingClientRect().left;
+				let shiftY = e.targetTouches[0].clientY - cropArea.getBoundingClientRect().top;
+
+				document.ontouchmove = function (e) {
+			
+					let newLeft = e.targetTouches[0].clientX - shiftX  - canvasContainer.getBoundingClientRect().left;
+				
+					let newTop = e.targetTouches[0].clientY - shiftY  - canvasContainer.getBoundingClientRect().top;
+				
+
+					newLeft = Math.max(0, Math.min(newLeft, displayWidth - cropArea.clientWidth));
+					newTop = Math.max(0, Math.min(newTop, displayHeight - cropArea.clientHeight));
+
+					cropArea.style.left = newLeft + 'px';
+					cropArea.style.top = newTop + 'px';
+				}
+
+				document.ontouchend = function () {
+					document.ontouchmove = null;
+					document.ontouchend = null;
+
+					cropImageAndPutToInput(()=>{
+						 console.log('image was cropped');
+					});
+				}
+
+			}
+		
+			cropArea.ondragstart = function (e) {
+				console.log('ondrag');
+			}
+		}
+
+		function cropImageAndPutToInput(onComplete){
+			const cropArea = document.getElementById('crop-area');
+			const canvas = document.getElementById('canvas');
+			const ctx = canvas.getContext('2d');
+
+			const cropCanvas = document.getElementById('cropped-canvas');
+			const cropCtx = cropCanvas.getContext('2d');
+
+			const displayWidth = parseInt(canvas.style.width);
+			const displayHeight = parseInt(canvas.style.height);
+			const actualWidth = canvas.width;
+			const actualHeight = canvas.height;
+
+			const scaleX = actualWidth / displayWidth;
+			const scaleY = actualHeight / displayHeight;
+
+			const cropX = parseInt(cropArea.style.left) * scaleX;
+			const cropY = parseInt(cropArea.style.top) * scaleY;
+			const cropWidth = cropArea.clientWidth * scaleX;
+			const cropHeight = cropArea.clientHeight * scaleY;
+
+			cropCanvas.width = cropWidth;
+			cropCanvas.height = cropHeight;
+
+			const imageData = ctx.getImageData(cropX, cropY, cropWidth, cropHeight);
+			cropCtx.putImageData(imageData, 0, 0);
+
+			// Convert the cropped canvas to a data URL and create a new File object
+			cropCanvas.toBlob(function(blob) {
+				const file = new File([blob], "cropped-image.png", { type: "image/png" });
+	
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					imageSrc=e.target.result;
+					form_data.append('thumbnail_src',imageSrc);
+					form_data.append('thumbnail_file',file);
+				};
+
+				cover_photo_file = file;
+				reader.readAsDataURL(file);
+				onComplete();
+
+			});
+		}
+
 	</script>
+
+ 
 
     @endsection

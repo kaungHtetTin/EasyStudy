@@ -97,7 +97,7 @@
             </li>
             <li class="ui dropdown">
                 @if ($unseen_notification_count>0)
-                    <a id="btn_nav_notification" href="#" class="option_links" title="Notifications">
+                    <a id="btn_nav_notification" class="option_links" title="Notifications">
                         <i class='uil uil-bell'></i>
                         <span class="noti_count">{{$unseen_notification_count}}</span>
                     </a>
@@ -171,7 +171,7 @@
         </ul>
     </div>
     @else
-    <div class="header_right">
+    <div class="header_right_guest">
         <ul>
             <li>
                 <a href="{{route('cart',['user_id'=>0000])}}" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i></a>
@@ -197,6 +197,7 @@
 
             $(document).ready(()=>{
                 $('#btn_nav_notification').click(()=>{
+                    
                     if(unseen_notification_count>0){
                         navfetchNotification();
                     }else{
@@ -204,8 +205,19 @@
                     }
                     
                 })
+
+                $('#btn_nav_notification').on('touchstart',()=>{
+                   
+                    if(unseen_notification_count>0){
+                        
+                        navfetchNotification();
+                    }else{
+                        location.href = "{{route('notifications.list')}}";
+                    }
+                });
             });
 
+         
             function navfetchNotification(){
                 $.ajax({
                     url: "{{asset('')}}api/notifications?page=1&&seen=0",
@@ -226,8 +238,10 @@
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', status, error);
+                        alert(error);
                     }
                 });
+              
             }
 
             function setNavNotifications(notifications){

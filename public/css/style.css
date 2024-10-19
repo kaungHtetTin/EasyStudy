@@ -499,6 +499,17 @@ i.icon1 {
 	vertical-align: middle;
 }
 
+.header_right_guest {
+    margin-left: auto;
+    float: right;
+    padding-right: 15px;
+}
+
+.header_right_guest ul li {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .option_links {
     padding: 18px 8px;
     font-size: 20px;

@@ -73,8 +73,34 @@ function initCropArea(displayWidth, displayHeight) {
         }
     }
 
-    cropArea.ondragstart = function () {
-        return false;
+    cropArea.ontouchstart = function (e){
+        e.preventDefault();
+        let shiftX = e.targetTouches[0].clientX - cropArea.getBoundingClientRect().left;
+        let shiftY = e.targetTouches[0].clientY - cropArea.getBoundingClientRect().top;
+
+        document.ontouchmove = function (e) {
+       
+            let newLeft = e.targetTouches[0].clientX - shiftX  - canvasContainer.getBoundingClientRect().left;
+        
+            let newTop = e.targetTouches[0].clientY - shiftY  - canvasContainer.getBoundingClientRect().top;
+        
+
+            newLeft = Math.max(0, Math.min(newLeft, displayWidth - cropArea.clientWidth));
+            newTop = Math.max(0, Math.min(newTop, displayHeight - cropArea.clientHeight));
+
+            cropArea.style.left = newLeft + 'px';
+            cropArea.style.top = newTop + 'px';
+        }
+
+        document.ontouchend = function () {
+            document.ontouchmove = null;
+            document.ontouchend = null;
+        }
+
+    }
+
+    cropArea.ondragstart = function (e) {
+       console.log('ondrag');
     }
 }
 
