@@ -162,9 +162,9 @@
                     @endif
                     
                     <a href="{{route('mycourses')}}" class="item channel_item">My Courses</a>
-                    <a href="setting.html" class="item channel_item">Setting</a>
+                    <a href="{{route('setting')}}" class="item channel_item">Setting</a>
                     <a href="help.html" class="item channel_item">Help</a>
-                    <a href="feedback.html" class="item channel_item">Send Feedback</a>
+                    <a href="{{route('feedback.create')}}" class="item channel_item">Send Feedback</a>
                     <a href="{{route('logout')}}" class="item channel_item">Sign Out</a>
                 </div>
             </li>

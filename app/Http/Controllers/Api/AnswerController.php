@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Course;
+use Illuminate\Support\Facades\Storage;
 
 class AnswerController extends Controller
 {
@@ -53,34 +54,40 @@ class AnswerController extends Controller
 
     public function destroy(Request  $req, $id){
         
-      
         $user = $req->user();
-      
+        $answer = Answer::find($id);  
 
-        $answer = Answer::find($id);
         if($answer==null){
             return response()->json("Bad Request",400);
         }
+
         $question = Question::find($answer->question_id);
+        $course = Course::find($question->course_id);
 
-        if($answer->user_id == $user->id){
-            $question->answer_count = $question->answer_count - 1;
-            $question->save();
+        $permission_granted = false;
 
-            $answer->delete();
-            return response()->json("success",200);
-        }else{
-            $course = Course::find($question->course_id);
-            if($course->instructor->user->id == $user->id){
-                
-                $question->answer_count = $question->answer_count - 1;
-                $question->save();
+        $permission_granted = $user->id === $answer->user_id;
 
-                $answer->delete();
-                return response()->json("success",200);
-            }else{
-                return response()->json('Forbidden', 403);
+        if(!$permission_granted) $permission_granted = $user->id === $course->instructor->user->id;
+
+        if(!$permission_granted)  return response()->json("Forbidden",403);
+ 
+        $htmlString = $answer->body;
+        preg_match_all('/<img[^>]+src="([^">]+)"/i', $htmlString, $matches);
+        foreach ($matches[1] as $src) {
+            $old_path = strchr($src,"images/");
+            if ($old_path) {
+                $images = "image found";
+                Storage::disk('public')->delete($old_path); // Delete old image
             }
         }
+
+        $question->answer_count = $question->answer_count - 1;
+        $question->save();
+
+        $answer->delete();
+        
+        return response()->json("success",200);
+
     }
 }

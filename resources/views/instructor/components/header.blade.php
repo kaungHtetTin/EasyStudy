@@ -174,9 +174,9 @@
                     </div>
                     <a href="/" class="item channel_item">Student Dashboard</a>						
                     <a href="membership.html" class="item channel_item">Paid Memberships</a>
-                    <a href="setting.html" class="item channel_item">Setting</a>
+                    <a href="{{route('setting')}}" class="item channel_item">Setting</a>
                     <a href="help.html" class="item channel_item">Help</a>
-                    <a href="feedback.html" class="item channel_item">Send Feedback</a>
+                    <a href="{{route('feedback.create')}}" class="item channel_item">Send Feedback</a>
                     <a href="{{route('logout')}}" class="item channel_item">Sign Out</a>
                 </div>
             </li>
@@ -187,13 +187,25 @@
         {
             const apiToken = "{{$api_token}}";
             const user = @json($user);
-        
+            const unseen_notification_count = "{{$unseen_notification_count}}";
+            
 
             $(document).ready(()=>{
                 $('#btn_nav_notification').click(()=>{
-                    console.log('fetch notification');
-                    navfetchNotification();
+                   if(unseen_notification_count>0){
+                        navfetchNotification();
+                    }else{
+                        location.href = "{{route('instructor.notifications.list')}}";
+                    }
                 })
+
+                $('#btn_nav_notification').on('touchstart',()=>{
+                    if(unseen_notification_count>0){
+                        navfetchNotification();
+                    }else{
+                        location.href = "{{route('instructor.notifications.list')}}";
+                    }
+                });
             });
 
             function navfetchNotification(){

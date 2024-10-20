@@ -1376,7 +1376,7 @@ if (!function_exists('calculatePercent')) {
                     let question = res.question;
 
                     $('#question_layout').html(`
-                        <img src="" alt="">
+                        <img src="{{asset('storage')}}/${question.user.image_url}" alt="">
                         <div class="rv1458" style="width:100%">
                             <div>
                                 <h5 class="">${question.title}</h5>

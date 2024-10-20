@@ -33,5 +33,9 @@ class AuthServiceProvider extends ServiceProvider
             return $user->id === $blog->user_id;
         });
 
+        Gate::define('my-answer', function($user,$answer){
+            return $user->id === $answer->user_id;
+        });
+
     }
 }

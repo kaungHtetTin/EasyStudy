@@ -9,7 +9,7 @@ document.getElementById('upload-image').addEventListener('change', function (e) 
         img.onload = function () {
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
-            const maxWidth = 320;
+            const maxWidth = 300;
             const scale = maxWidth / img.width;
 
             const displayWidth = maxWidth;
@@ -74,6 +74,7 @@ function initCropArea(displayWidth, displayHeight) {
     }
 
     cropArea.ontouchstart = function (e){
+        console.log('ontouch start');
         e.preventDefault();
         let shiftX = e.targetTouches[0].clientX - cropArea.getBoundingClientRect().left;
         let shiftY = e.targetTouches[0].clientY - cropArea.getBoundingClientRect().top;

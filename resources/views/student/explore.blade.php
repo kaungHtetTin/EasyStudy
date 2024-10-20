@@ -110,11 +110,9 @@
 						is_fetching=false;
 						if(res){
 							fetch_url = res.next_page_url;
+							if(fetch_url !=null) fetch_url+= "&q="+$('#input_search').val();
 							let courses = res.data;
-							if(search){
-								$('#course_container').html("");
-								fetch_url+= "&q="+$('#input_search').val();
-							} 
+							if(search) $('#course_container').html("");
 							setCourses(courses);
 							
 						}

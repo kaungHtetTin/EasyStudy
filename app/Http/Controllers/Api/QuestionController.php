@@ -36,16 +36,30 @@ class QuestionController extends Controller
             return response()->json("Bad Request",400);
         }
 
-        if($question->user_id == $user->id){
-            $question->delete();
-            return response()->json("success",200);
-        }else{
-            $course = Course::find($question->course_id);
-            if($course->instructor->user->id == $user->id){
-                 $question->delete();
-                return response()->json("success",200);
-            }else{
-                return response()->json('Forbidden', 403);
+        $course = Course::find($question->course_id);
+
+        $permission_granted = $question->user_id == $user->id;
+        if(!$permission_granted) $permission_granted = $course->instructor->user->id == $user->id;
+
+        if(!$permission_granted) return response()->json('Forbidden', 403);
+
+        $this->deleteImageInHtmlString($question->body);
+        foreach($question->answers as $answer){
+            $this->deleteImageInHtmlString($answer->body);
+        }
+        
+        $question->delete();
+
+        return response()->json("success",200);
+    }
+
+    public function deleteImageInHtmlString($htmlString){
+        preg_match_all('/<img[^>]+src="([^">]+)"/i', $htmlString, $matches);
+        foreach ($matches[1] as $src) {
+            $old_path = strchr($src,"images/");
+            if ($old_path) {
+                $images = "image found";
+                Storage::disk('public')->delete($old_path); // Delete old image
             }
         }
     }

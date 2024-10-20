@@ -850,7 +850,7 @@ if (!function_exists('calculatePercent')) {
         let is_review_tab = false;
         let reviewArr = [];
 
-        let fetch_review_url = `/api/courses/${course.id}/reviews`
+        let fetch_review_url = `{{asset('')}}api/courses/${course.id}/reviews`
 
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.my_star');

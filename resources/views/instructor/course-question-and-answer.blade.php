@@ -295,7 +295,7 @@
 
 		let is_question_fetching = false;
 		let question_mode = true;
-		let fetch_question_url = `/api/courses/${course.id}/questions`;
+		let fetch_question_url = `{{asset("")}}api/courses/${course.id}/questions`;
 		let questionArr = [];
 
 		let is_answer_is_fetching = false;
@@ -426,7 +426,7 @@
             $('#question_container').hide();
             $('#answer_container').show();
 
-            fetch_answer_url= `/api/courses/${course.id}/questions/${question.id}/answers`;
+            fetch_answer_url= `{{asset("")}}api/courses/${course.id}/questions/${question.id}/answers`;
             fetchAnswer();
 
         }
@@ -439,12 +439,15 @@
                 return;
             }
 
+			console.log(fetch_answer_url);
+
             $.get(fetch_answer_url,function(res,status){
                 is_answer_is_fetching=false;
                 $('#answer_loading').hide();
                 if(res){
-                    fetch_answer_url = res.next_page_url;
-                    let answers = res.data;
+					let ans = res.answer;
+                    fetch_answer_url = ans.next_page_url;
+                    let answers = ans.data;
 					console.log(answers);
 					setAnswer(answers);
                      
@@ -594,10 +597,10 @@
         function deleteQA(){
             let api_url;
             if(isQuestionDelete){
-                api_url = `/api/questions/${deleteQAContentId}`;
+                api_url = `{{asset("")}}api/questions/${deleteQAContentId}`;
                 $('#question_component_'+deleteQAContentId).html("");
             }else{
-                api_url = `/api/answers/${deleteQAContentId}`;
+                api_url = `{{asset("")}}api/answers/${deleteQAContentId}`;
                 $('#answer_component_'+deleteQAContentId).html("");
             }
             
@@ -609,7 +612,7 @@
 				},
                 
 				success: function(response) {
-
+					console.log('del res', response);
 				},
 				error: function(xhr, status, error) {
 					console.error('Error:', status, error);

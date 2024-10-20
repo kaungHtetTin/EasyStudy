@@ -42,7 +42,7 @@ if (!function_exists('formatCounting')) {
 						@auth
 							<div class="section3125">
 								<h4 class="item_title">Recommended Courses</h4>
-								<a href="" class="see150">See all</a>
+								<a href="{{route('explore')}}" class="see150">See all</a>
 								<div class="la5lo1">
 									<div class="owl-carousel featured_courses owl-theme">
 										@foreach ($featureCourses as $course)
@@ -54,7 +54,7 @@ if (!function_exists('formatCounting')) {
 						@endauth
 						<div class="section3125">
 							<h4 class="item_title">Featured Courses</h4>
-							<a href="" class="see150">See all</a>
+							<a href="{{route('explore')}}" class="see150">See all</a>
 							<div class="la5lo1">
 								<div class="owl-carousel featured_courses owl-theme">
 									@foreach ($featureCourses as $course)
@@ -65,7 +65,7 @@ if (!function_exists('formatCounting')) {
 						</div>
 						<div class="section3125 mt-30">
 							<h4 class="item_title">Newest Courses</h4>
-							<a href="#" class="see150">See all</a>
+							<a href="{{route('explore')}}" class="see150">See all</a>
 							<div class="la5lo1">
 								<div class="owl-carousel featured_courses owl-theme">
 									@foreach ($newestCourses as $course)

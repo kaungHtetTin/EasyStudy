@@ -281,8 +281,8 @@
                                 </script>
                             </div>
 
-                            <div class="edit-container" id="form-photo" style="margin:0 auto;">
-                                <div style="margin: auto;width:360px;">
+                            <div class="edit-container" id="form-photo" style="margin:0 auto;padding-left:20px; padding-right:20px;">
+                                <div style="margin: auto;width:300px;">
                                     <h5>Image Preview</h5>
                                     
                                     <div id="canvas-container">

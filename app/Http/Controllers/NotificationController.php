@@ -15,7 +15,7 @@ class NotificationController extends Controller
 
     static function store($data){
 
-        if($data['user_id']==$data['passive_user_type']) return;
+        if($data['user_id']==$data['passive_user_type']);
 
         $notification = new Notification();
         $notification->notification_type_id = $data['notification_type_id']; //21

@@ -130,6 +130,7 @@ if (!function_exists('formatCounting')) {
 					isFetching=false;
 					if(res){
 						url = res.next_page_url;
+						if(url != null) url+= "&q="+$('#input_search').val();
 						let instructors = res.data;
 						if(search) $('#instructor_container').html("");
 						setInstructors(instructors);
