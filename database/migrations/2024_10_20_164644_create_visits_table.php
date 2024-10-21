@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
+        Schema::create('visits', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->text('description')->nullable();
-            $table->string('screenshot_url')->nullable();
+            $table->unsignedBigInteger('course_id');
             $table->timestamps();
 
             $table->index('user_id');
+            $table->index('course_id');
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 
@@ -32,10 +34,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('feedback',function(Blueprint $table){
+        Schema::table('visits',function(Blueprint $table){
             $table->dropIndex(['user_id']);
-            $table->dropForeign(['user_id']);
+            $table->dropForeign(['course_id']);
         });
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('visits');
     }
 };

@@ -13,6 +13,7 @@ use App\Models\PaymentMethod;
 use App\Models\Course;
 use App\Models\PaymentHistory;
 use App\Models\SocialMedia;
+use App\Models\Visit;
 
 
 class LayoutController extends Controller
@@ -60,4 +61,6 @@ class LayoutController extends Controller
             'page_title'=>"Error",
         ]);
     }
+
+    
 }

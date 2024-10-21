@@ -341,7 +341,7 @@ if (!function_exists('calculatePercent')) {
                             <div class="col-xl-4 col-lg-5 col-md-6">						
                                 <div class="preview_video">						
                                     <a onclick="playPreview('{{$course->id}}')" href="#" class="fcrse_img" data-toggle="modal" data-target="#videoModal">
-                                        <img src="{{asset('images/courses/img-2.jpg')}}" alt="">
+                                        <img src="{{asset('storage/'.$course->cover_url)}}" alt="">
                                         <div class="course-overlay">
                                             <div class="badge_seller">Bestseller</div>
                                             <span class="play_btn1"><i class="uil uil-play"></i></span>

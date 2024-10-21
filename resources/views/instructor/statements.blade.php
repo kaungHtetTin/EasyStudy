@@ -301,7 +301,7 @@
 				month = new Date().getMonth();
 			}
 
-			let url = `{{asset("")}}instructor/statements?verified=${verified}&year=${year}&month=${month}`;
+			let url = `{{asset("")}}instructor-dashboard/statements?verified=${verified}&year=${year}&month=${month}`;
 			window.location.href=url;
 		}
 

@@ -43,7 +43,7 @@
 		<div class="sa4d25">
 			<div class="container-fluid">			
 				<div class="row">
-					<div class="col-6">	
+					<div class="col-12">	
 						<h2 class="st_title"><i class="uil uil-blogger-alt"></i> {{$blog->title}}</h2>
 					</div>	
 				</div>		

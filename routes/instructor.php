@@ -15,10 +15,11 @@ use App\Http\Controllers\Instructor\AnnouncementController;
 use App\Http\Controllers\Instructor\ProfileController;
 use App\Http\Controllers\Instructor\NotificationController;
 use App\Http\Controllers\Instructor\BlogController;
+use App\Http\Controllers\Instructor\VisitController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
-        Route::get('/',[LayoutController::class,'index'])->name('instructor.home');
+        Route::get('/',[LayoutController::class,'index'])->name('instructor.home'); 
 
         Route::get('/profile',[ProfileController::class,'edit'])->name('instructor.profile.edit'); 
         Route::put('/profile',[ProfileController::class,'update'])->name('instructor.profile.update'); 
@@ -93,6 +94,9 @@ Route::middleware('auth')->group(function () {
 
         
         Route::get('/notifications',[NotificationController::class,'index'])->name('instructor.notifications.list');
+
+        Route::get('/visits',[VisitController::class,'index'])->name('instructor.visits.list');
+        Route::get('/visits/{id}',[VisitController::class,'show'])->name('instructor.visits.view');
 
         Route::get('/error',[LayoutController::class,'error'])->name('instructor.error');
     });

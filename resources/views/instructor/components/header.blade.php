@@ -172,7 +172,7 @@
                             </span>
                         </a>
                     </div>
-                    <a href="/" class="item channel_item">Student Dashboard</a>						
+                    <a href="{{route('index')}}" class="item channel_item">Student Dashboard</a>						
                     <a href="membership.html" class="item channel_item">Paid Memberships</a>
                     <a href="{{route('setting')}}" class="item channel_item">Setting</a>
                     <a href="help.html" class="item channel_item">Help</a>
@@ -210,7 +210,7 @@
 
             function navfetchNotification(){
                 $.ajax({
-                    url: "{{asset('')}}instructor/api/notifications?page=1&seen=0",
+                    url: "{{asset('')}}instructor-dashboard/api/notifications?page=1&seen=0",
                     type: 'GET', // or 'GET' depending on your request
                     headers: {
                         'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -262,7 +262,7 @@
 
             function navNotificationSeen(notification_id){
 				$.ajax({
-					url: `{{asset("")}}instructor/api/notifications/${notification_id}`, // Replace with your API endpoint
+					url: `{{asset("")}}instructor-dashboard/api/notifications/${notification_id}`, // Replace with your API endpoint
 					type: 'PUT', // or 'GET' depending on your request
 					headers: {
 						'Authorization': 'Bearer '+apiToken // Example for Authorization header

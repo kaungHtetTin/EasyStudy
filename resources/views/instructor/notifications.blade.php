@@ -75,7 +75,7 @@
 
 			let is_fetching = false;
 			let arr = [];
-			let fetch_url = `{{asset("")}}instructor/api/notifications?page=1`
+			let fetch_url = `{{asset("")}}instructor-dashboard/api/notifications?page=1`
 
 			$(document).ready(()=>{
 	
@@ -175,7 +175,7 @@
 
 			function seen(notification_id,loadPage){
 				$.ajax({
-					url: `{{asset("")}}instructor/api/notifications/${notification_id}`, // Replace with your API endpoint
+					url: `{{asset("")}}instructor-dashboard/api/notifications/${notification_id}`, // Replace with your API endpoint
 					type: 'PUT', // or 'GET' depending on your request
 					headers: {
 						'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -196,7 +196,7 @@
 				})
 
 				$.ajax({
-					url: `{{asset("")}}instructor/api/mark-as-read-all-notifications`, // Replace with your API endpoint
+					url: `{{asset("")}}instructor-dashboard/api/mark-as-read-all-notifications`, // Replace with your API endpoint
 					type: 'POST', // or 'GET' depending on your request
 					headers: {
 						'Authorization': 'Bearer '+apiToken // Example for Authorization header

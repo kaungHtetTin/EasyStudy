@@ -120,7 +120,7 @@
 			});
 
 			$('#btn_delete').click(()=>{
-				$('#form_delete').attr('action',`{{asset("")}}instructor/blogs/${delete_blog_id}`);
+				$('#form_delete').attr('action',`{{asset("")}}instructor-dashboard/blogs/${delete_blog_id}`);
 				$('#form_delete').submit();
 			});
 		})
@@ -178,7 +178,7 @@
 			return `
 				<div class="row mt-50" style="margin:10px;">
 					<div class="col-lg-4 col-md-5">
-						<a href="blog_single_view.html" class="hf_img">
+						<a href="{{asset('')}}instructor-dashboard/blogs/${blog.id}" class="hf_img">
 							<img src="{{asset('storage')}}/${blog.image_url}" alt="" style="width:100%">
 						</a>
 					</div>
@@ -188,9 +188,9 @@
 								<span class="vdt14">${formatCounting(blog.view_count,'view')}</span>
 								<span class="vdt14">${formatDateTime(new Date(blog.created_at))}</span>
 							</div>
-							<a href="blog_single_view.html" class="crse14s title900">${blog.title}</a>
+							<a href="{{asset('')}}instructor-dashboard/blogs/${blog.id}" class="crse14s title900">${blog.title}</a>
 							<p class="blog_des">${blog.summary}</p>
-							<a href="{{asset('')}}instructor/blogs/${blog.id}" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
+							<a href="{{asset('')}}instructor-dashboard/blogs/${blog.id}" class="view-blog-link">Read More<i class="uil uil-arrow-right"></i></a>
 							<span onclick = "defineDeleteId(${blog.id})" style="float:right" class="btn_span" data-toggle="modal" data-target="#delete-section">Delete <i class="uil uil-trash"></i> </span>
 							<span onclick="edit(${blog.id})" style="float:right" class="btn_span">Edit <i class="uil uil-edit-alt"></i> </span>
 						</div>
@@ -201,7 +201,7 @@
 		}
 
 		function edit(id){
-			window.location.href = `{{asset("")}}instructor/blogs/${id}/edit`;
+			window.location.href = `{{asset("")}}instructor-dashboard/blogs/${id}/edit`;
 		}
 
 		

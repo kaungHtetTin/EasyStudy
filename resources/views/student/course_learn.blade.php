@@ -519,7 +519,7 @@ if (!function_exists('calculatePercent')) {
                                                      <h5 id="btn_ask" style="cursor: pointer;margin-bottom:30px;">Ask a question</h5>
                                                 </div>
                                                 <div class="col-lg-8 col-md-6 col-8">
-                                                    <input style="margin-right:0;margin-left:0;" class="rv_srch" type="text" placeholder="Search questions...">
+                                                    <input id="input_search_question" style="margin-right:0;margin-left:0;" class="rv_srch" type="text" placeholder="Search questions...">
                                                     <button class="rvsrch_btn"><i class='uil uil-search'></i></button>
                                                 
                                                 </div>
@@ -563,21 +563,7 @@ if (!function_exists('calculatePercent')) {
                                                                     <div class="course_des_textarea mt-30 lbel25">
                                                                         <label for="question_details"><h4>Detail (Optional)</h4></label>
                                                                         <div id="question_editor_container">
-                                                                            {{-- <input id="dialog_input_file" type="file" accept="image/*" style="display: none">
-                                                                            <div class="course_des_bg">
-                                                                                <div id="toolbar">
-                                                                                    <button data-command="bold" id="boldBtn"><i class="fas fa-bold"></i></button>
-                                                                                    <button data-command="italic" id="italicBtn"><i class="fas fa-italic"></i></button>
-                                                                                    <button data-command="insertUnorderedList" id="listBtn"><i class="fas fa-list-ul"></i></button>
-                                                                                    <button id="codeBtn"><i class="fas fa-code"></i></button>
-                                                                                    <button id="imageBtn"><i class="fas fa-image"></i></button>
-                                                                                </div>
-                                                                                <div class="ui form swdh30">
-                                                                                    <div class="field">
-                                                                                        <div id="editor" contenteditable="true"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div> --}}
+                                                                             
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1204,6 +1190,19 @@ if (!function_exists('calculatePercent')) {
                 reply();
             })
 
+            $('#input_search_question').on('keyup',(x)=>{
+                const search_str = $('#input_search_question').val();
+                if(x.key === "Enter" || x.key === " " || search_str==="" ){
+                    fetch_question_url = `{{asset('')}}api/courses/${course.id}/questions/search?q=${search_str}`
+                    if(search_str==""){
+						fetch_question_url = `{{asset('')}}api/courses/${course.id}/questions`
+					}
+
+                    console.log('start searching');
+                    fetchQuestion(true);
+                }
+            })
+
         });
 
         function fetchAnnouncements(){
@@ -1296,7 +1295,7 @@ if (!function_exists('calculatePercent')) {
             if(validated)  $('#question_form').submit();
         }
 
-        function fetchQuestion(){
+        function fetchQuestion(search = false){
             is_question_fetching = true;
             $('#question_loading').show();
             if(fetch_question_url==null){
@@ -1309,7 +1308,9 @@ if (!function_exists('calculatePercent')) {
                 $('#question_loading').hide();
                 if(res){
                     fetch_question_url = res.next_page_url;
+                    if(fetch_question_url!=null) fetch_question_url += "&q="+$('#input_search_question').val();
                     let questions = res.data;
+                    if(search) $('#question_container').html("");
                     setQuestions(questions);
                      
                 }
@@ -1331,10 +1332,16 @@ if (!function_exists('calculatePercent')) {
             return `
                 <div class="review_item ${seen}" id="question_component_${question.id}">
                     <div class="review_usr_dt">
-                        <img src="{{asset('')}}storage/${question.user.image_url}" alt="">
+                        <a href="{{asset('')}}users/${question.user.id}">
+                            <img src="{{asset('')}}storage/${question.user.image_url}" alt="">
+                        </a>
                         <div class="rv1458" style="width:100%">
                             <h5 class="">${question.title}</h5>
-                            <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
+                            <span style="display: inline" class="time_145">By 
+                                <a href = "{{asset('')}}users/${question.user.id}" >
+                                    ${question.user.name}
+                                </a>
+                            </span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
                             <span class="btn_span" style="float:right" onclick="seeAnswer(${question.id})"> See answers <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
                             ${delBtn}
                         </div>
@@ -1376,7 +1383,9 @@ if (!function_exists('calculatePercent')) {
                     let question = res.question;
 
                     $('#question_layout').html(`
-                        <img src="{{asset('storage')}}/${question.user.image_url}" alt="">
+                        <a href="{{asset('')}}users/${question.user.id}">
+                            <img src="{{asset('storage')}}/${question.user.image_url}" alt="">
+                        </a>
                         <div class="rv1458" style="width:100%">
                             <div>
                                 <h5 class="">${question.title}</h5>
@@ -1384,7 +1393,7 @@ if (!function_exists('calculatePercent')) {
                                 <br>
                             </div>
                             
-                            <span style="display: inline" class="time_145">By ${question.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
+                            <span style="display: inline" class="time_145">By <a href="{{asset('')}}users/${question.user.id}"> ${question.user.name} </a></span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
                             <span style="float:right;">Total <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
                         </div>
                     `);
@@ -1410,13 +1419,15 @@ if (!function_exists('calculatePercent')) {
 			return `
 				<div class="review_item" id="answer_component_${answer.id}">
 					<div class="review_usr_dt">
-						<img src="{{asset('')}}storage/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
+                        <a href="{{asset('')}}users/${answer.user.id}">
+                            <img src="{{asset('storage')}}/${answer.user.image_url}" alt="" style="width:30px; height:30px;">
+                        </a>
 						<div class="rv1458"  style="width:100%">
 							<div>
 								<div class="content_body">${answer.body}</div>
 							</div>
                             <br>
-							<span style="display: inline" class="time_145">By ${answer.user.name}</span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(answer.created_at))}</span>
+							<span style="display: inline" class="time_145">By <a href = "{{asset('')}}users/${answer.user.id}" >${answer.user.name} </a></span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(answer.created_at))}</span>
 							. <span class="btn_span" onclick="defineReply(${answer.question_id})" data-toggle="modal" data-target="#reply_dialog" >Answer<i class='uil uil-comments-alt'></i>  </span>
                             ${delBtn}
 						</div>
@@ -1613,9 +1624,13 @@ if (!function_exists('calculatePercent')) {
             return `
                 <div class="review_item">
                     <div class="review_usr_dt">
-                        <img src="{{asset('')}}storage/${review.user.image_url}" alt="">
+                        <a href = "{{asset('')}}users/${review.user.id}" >
+                            <img src="{{asset('')}}storage/${review.user.image_url}" alt="">
+                        </a>
                         <div class="rv1458">
-                            <h4 class="tutor_name1">${review.user.name}</h4>
+                            <a href = "{{asset('')}}users/${review.user.id}" >
+                                <h4 class="tutor_name1">${review.user.name}</h4>
+                            </a>
                             <span class="time_145">${formatDateTime(new Date(review.created_at))}</span>
                         </div>
                     </div>

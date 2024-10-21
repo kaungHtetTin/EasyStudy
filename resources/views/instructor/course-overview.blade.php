@@ -9,6 +9,16 @@
 			}
 		}
 
+		if (!function_exists('calculateStorage')) {
+			function calculateStorage($mb){
+				if($mb < 1024){
+					return $mb . ' MB';
+				}else{
+					return floor($mb/1024).' GB';
+				}
+			}
+		}
+
 		$downloadable_count = 0;
 		$article_count = 0;
 		$assignment_count = 0;
@@ -136,6 +146,12 @@
 														<div>{{$course->language()->type}}</div>
 													</div>
 												</div>
+												<div class="col-6 _215b08">
+													<div class="_215b05" style="display: flex">										
+														<span><i class='uil uil-database'></i></span>
+														<div>{{calculateStorage($storage_used)}} storage used</div>
+													</div>
+												</div>
 												@if ($course->certificate)
 													<div class="col-6 _215b08">
 														<div class="_215b05" style="display: flex">										
@@ -261,7 +277,7 @@
 					month = new Date().getMonth();
 				}
 
-				let url = `{{asset("")}}instructor/courses/${course.id}/overview?year=${year}&month=${month}`;
+				let url = `{{asset("")}}instructor-dashboard/courses/${course.id}/overview?year=${year}&month=${month}`;
 				window.location.href=url;
 			}
 
@@ -475,17 +491,7 @@
 					data: {
 						labels: dayLabels,
 						datasets: [
-						{
-							label: "Old",
-							pointRadius: 4,
-							pointBackgroundColor: "rgba(255,255,255,1)",
-							pointBorderWidth: 2,
-							fill: false,
-							backgroundColor: "transparent",
-							borderWidth: 2,
-							borderColor: "#ed2a26",
-							data: data
-						},
+						
 						{
 							label: "New",
 							fill: false,

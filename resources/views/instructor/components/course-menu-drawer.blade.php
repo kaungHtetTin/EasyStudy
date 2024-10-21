@@ -44,8 +44,7 @@
             <div class="crse14s" style="margin-top:10px; margin-left:15px;">
                     {{$course->title}}
             </div>
-                    
-                <nav>
+            <nav>
                 <div id="js-menu">
                     <ul>
                         <li class="menu--item">

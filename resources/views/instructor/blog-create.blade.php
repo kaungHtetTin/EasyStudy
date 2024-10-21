@@ -74,7 +74,7 @@
 					</div>
 				@endif	
 				<div class="row">
-					<div class="col-6">	
+					<div class="col-12">	
 						<h2 class="st_title"><i class="uil uil-plus-circle"></i> Create New Blog</h2>
 					</div>	
 				</div>			

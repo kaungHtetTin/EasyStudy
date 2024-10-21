@@ -137,7 +137,14 @@ class BlogController extends Controller
             Storage::disk('public')->delete($image_url); // Delete old image
         }
 
-        // delete image in body
+        $htmlString = $blog->body;
+        preg_match_all('/<img[^>]+src="([^">]+)"/i', $htmlString, $matches);
+        foreach ($matches[1] as $src) {
+            $old_path = strchr($src,"images/");
+            if ($old_path) {
+                Storage::disk('public')->delete($old_path); // Delete old image
+            }
+        }
 
         $blog->delete();
 

@@ -183,6 +183,7 @@ class CourseController extends Controller
         ->where('course_id',$id)
         ->orderBy('id','DESC')
         ->paginate(10);
+
         return $questions;
     }
 
@@ -241,6 +242,23 @@ class CourseController extends Controller
         ->paginate(10);
 
         return $courses;
+    }
+
+    public function searchQuestion(Request $req,$id){
+        $req->validate([
+            'q'=>'required',
+        ]);
+
+        $search_str = $req->q;
+
+        $questions = Question::with('user:id,name,email,fcm_token,image_url')
+        ->orWhere('title','like','%'.$search_str.'%')
+        ->orWhere('body','like','%'.$search_str.'%')
+        ->where('course_id',$id)
+        ->orderBy('id','DESC')
+        ->paginate(10);
+
+        return $questions;
     }
 
 

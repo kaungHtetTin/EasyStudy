@@ -39,6 +39,12 @@
                     </a>
                 </li>
                 <li class="menu--item">
+                    <a href="{{route('instructor.visits.list')}}" class="menu--link {{$page_title=='Recent Visits'?'active':''}}" title="Notifications">
+                        <i class='uil uil-eye menu--icon'></i>
+                        <span class="menu--label">Recent Visits</span>
+                    </a>
+                </li>
+                <li class="menu--item">
                     <a href="instructor_my_certificates.html" class="menu--link" title="My Certificates">
                         <i class='uil uil-award menu--icon'></i>
                         <span class="menu--label">My Certificates</span>

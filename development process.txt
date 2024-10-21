@@ -12,18 +12,20 @@
 
 => sharing link ကို click ရင်  android app ကို ပွင့်အောင်လုပ်မယ်
 
-=> video တွေရဲ့ storage file size ကို record လုပ်ထားမယ်
-
 => lesson တွေကို instructor က sorting လုပ်လို့ရမယ်
 
 => course နဲ့ lesson တွေမှာ reported feature ထည့်ရမယ်။ platform owner ရဲ့ dashboard မှာ ပြမယ်။ 
     action ယူပြီး ဆောင်ရွက်ရမယ်။
 
-=> course အလိုက်က တင်ထားတဲ့ video တွေရဲ့ total storage size ကို instructor dashboard မှာ ပြသပေးမယ်။
-
 => သတ်မှတ်ကာလ တစ်ခုအတွင်; instructor ပေးဆောင်ရမယ့် fee ကို ပြပေးမယ်။
 
 => instructor table က last billing date ကို  ကြည့်ပြီးတော့ bill ဆောင် မဆောင်စစ်ဆေးမယ်။ 
+
+
+
+====================== Admin dashboard ===============================
+=> Notification အဟောင်းတေွကို စီမံမယ်
+=> Visit Data အဟောင်းတေွကို စီမံမယ် 
 
 
 

@@ -107,7 +107,7 @@
 
 			let is_fetching = false;
 			let arr = [];
-			let fetch_url = `{{asset("")}}instructor/api/courses/${course.id}/students`
+			let fetch_url = `{{asset("")}}instructor-dashboard/api/courses/${course.id}/students`
 
 			$(document).ready(()=>{
 	
@@ -168,7 +168,7 @@
 				}
 				return `
 					<div class="fcrse_1">
-						<a href="{{asset('')}}instructor/courses/${course.id}/students/${student.user.id}">
+						<a href="{{asset('')}}instructor-dashboard/courses/${course.id}/students/${student.user.id}">
 							<div class="review_usr_dt">
 								<img src="{{asset('')}}storage/${student.user.image_url}" alt="">
 								<div class="rv1458">
@@ -188,7 +188,7 @@
 			}
 
 			function approve(student_id){
-				let url = `{{asset("")}}instructor/courses/${course.id}/students/${student_id}/approve`;
+				let url = `{{asset("")}}instructor-dashboard/courses/${course.id}/students/${student_id}/approve`;
 				window.location.href=url;
 			}
 	</script>

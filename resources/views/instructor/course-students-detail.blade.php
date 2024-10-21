@@ -44,6 +44,13 @@
             margin-top:5px;
         }
 
+        .btn500 {
+            height: 30px !important;
+            padding: 0 15px !important;
+            margin-top: 10px;
+        }
+
+
     </style>
 
 	<div class="wrapper">
@@ -86,7 +93,7 @@
                         <div class="fcrse_1">
                             <br>
                             <div class="row">
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-lg-7 col-md-7">
                                     <div class="review_usr_dt">
                                         <img src="{{asset('storage/'.$student->image_url)}}" alt="">
                                         <div class="rv1458">
@@ -94,10 +101,12 @@
                                             <span class="time_145">Joined . {{$joined->diffForHumans()}}</span> 
                                             <span class="time_145">Last Active . {{$student->last_active}}</span>
                                             
+                                            <button class="main-btn btn500"><i class="uil uil-message"></i> Message</button>
+                                            <button class="main-btn btn500"><i class="uil uil-phone"></i> Call  </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-lg-5 col-md-5">
                                     <div align="center">
                                         <canvas class="my-spinner"  id="spinner" width="300" height="300"></canvas>
                                         <span class="time_145">Learning Progress</span>

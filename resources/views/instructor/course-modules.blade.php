@@ -591,7 +591,7 @@
                 $('#module_form_container').hide();
                 $('#module_loading').show();
                 $.ajax({
-                    url: '{{asset("")}}instructor/api/modules', // Replace with your API endpoint
+                    url: '{{asset("")}}instructor-dashboard/api/modules', // Replace with your API endpoint
                     type: 'POST', // or 'GET' depending on your request
                     headers: {
                         'Authorization': 'Bearer '+apiToken, // Example for Authorization header
@@ -684,7 +684,7 @@
 						
 					}
 				};
-				ajax.open("post",`{{asset("")}}instructor/api/lessons`,true);
+				ajax.open("post",`{{asset("")}}instructor-dashboard/api/lessons`,true);
 				ajax.setRequestHeader('Authorization','Bearer '+apiToken);
 				ajax.setRequestHeader('Accept','application/json');
 				ajax.send(formData);

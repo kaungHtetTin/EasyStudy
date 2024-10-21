@@ -17,6 +17,8 @@ use App\Models\QuestionType;
 use App\Models\Cart;
 use App\Models\Instructor;
 use App\Models\Notification;
+use App\Models\Visit;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -95,6 +97,12 @@ class CourseController extends Controller
                 $subscribed=false;
             }
 
+            if($user->id != $course->instructor->user->id){
+                $visit = new Visit();
+                $visit->user_id = $user->id;
+                $visit->course_id = $course->id;
+                $visit->save();
+            }
         }
 
         $course->visit = ($course->visit)+1;

@@ -181,6 +181,34 @@ if (!function_exists('formatCounting')) {
 					<div class="col-xl-3 col-lg-4">
 						<div class="right_side">
 							@auth
+								 @if (!$is_current_user_instructor)
+									<div class="strttech120">
+										<h4>Become an Instructor</h4>
+										<p>Top instructors from around the world teach millions of students on Cursus. We provide the tools and skills to teach what you love.</p>
+										<button class="Get_btn" onclick="window.location.href = '{{route('teach-on')}}';">Start Teaching</button>
+									</div>
+								@endif
+							@endauth
+							@guest
+								<div class="strttech120">
+									<h4>Become an Instructor</h4>
+									<p>Top instructors from around the world teach millions of students on Cursus. We provide the tools and skills to teach what you love.</p>
+									<button class="Get_btn" onclick="window.location.href = '{{route('teach-on')}}';">Start Teaching</button>
+								</div>
+							@endguest
+							<div class="fcrse_3">
+								<div class="cater_ttle">
+									<h4>Top Categories</h4>
+								</div>
+								<ul class="allcate15">
+									@foreach ($top_categories as $category)
+										<li><a href="{{route('courses')}}?category_id={{$category->id}}" class="ct_item"><?= $category->web_icon ?> {{$category->title}}</a></li>
+									@endforeach
+								  
+								</ul>
+							</div> 
+
+							@auth
 							<div class="fcrse_2 mb-30">
 								<div class="tutor_img">
 									<a href="{{route('instructor_detail',['id'=>1])}}"><img src="images/left-imgs/img-10.jpg" alt=""></a>												
@@ -213,22 +241,7 @@ if (!function_exists('formatCounting')) {
 								<button class="Get_btn" onclick="window.location.href = '#';">Get Started</button>
 							</div>
 							@endauth
-							<div class="fcrse_3">
-								<div class="cater_ttle">
-									<h4>Top Categories</h4>
-								</div>
-								<ul class="allcate15">
-									@foreach ($top_categories as $category)
-										<li><a href="{{route('courses')}}?category_id={{$category->id}}" class="ct_item"><?= $category->web_icon ?> {{$category->title}}</a></li>
-									@endforeach
-								  
-								</ul>
-							</div>
-							<div class="strttech120">
-								<h4>Become an Instructor</h4>
-								<p>Top instructors from around the world teach millions of students on Cursus. We provide the tools and skills to teach what you love.</p>
-								<button class="Get_btn" onclick="window.location.href = '{{route('teach-on')}}';">Start Teaching</button>
-							</div>
+							
 						</div>
 					</div>
 				

@@ -478,16 +478,18 @@ if (!function_exists('formatCount')) {
 		}
 
 		function blogComponent(blog){
+			let url = `{{asset("")}}instructors/${instructor.id}/blogs/${blog.id}`;
+
 			let cover_photo = "";
 			if(blog.image_url != ""){
 				cover_photo = `
-					<a href="blog_single_view.html" class="hf_img">
+					<a href="${url}" class="hf_img">
 						<img src="{{asset('storage')}}/${blog.image_url}" alt="">
 						<div class="course-overlay"></div>
 					</a>
 				`;
 			}
-			let url = `{{asset("")}}instructors/${instructor.id}/blogs/${blog.id}`;
+			
 			return `
 				
 				<div class="blogbg_1 mt-30">

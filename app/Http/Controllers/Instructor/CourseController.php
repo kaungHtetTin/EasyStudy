@@ -150,6 +150,11 @@ class CourseController extends Controller
     public function overview(Request $req, $id){
         $user = Auth::user();
         $course = Course::find($id);
+        if(Gate::denies('my-course',$course)){
+            return back()->with('error','Unauthorize');
+        }
+
+        if($course == null)  return redirect(route('instructor.error'));
  
         if(isset($req->year)) $year = $req->year;
         else $year = date('Y');
@@ -181,27 +186,22 @@ class CourseController extends Controller
                         ->where('course_id',$course->id)
                         ->groupBy("day")
                         ->get();
-   
-        if($course){
-            if($course->instructor->user->id ==$user->id ){
-                return view('instructor.course-overview',[
-                    'page_title'=>'Course Overview',
-                    'course'=>$course,
-                    'request'=>[
-                        'year'=>$year,
-                        'month'=>$month
-                    ],
-                    'saleOfYears'=>$saleOfYears,
-                    'saleofPreviousMonth'=>$saleofPreviousMonth,
-                    'saleofMonth'=>$saleofMonth,
 
-                ]);
-            }else{
-                return redirect(route('instructor.error'));
-            }
-        }else{
-            return redirect(route('instructor.error'));
-        }
+        $storage_used =  Lesson::where('course_id',$id)->sum('size');
+     
+        return view('instructor.course-overview',[
+            'page_title'=>'Course Overview',
+            'course'=>$course,
+            'request'=>[
+                'year'=>$year,
+                'month'=>$month
+            ],
+            'saleOfYears'=>$saleOfYears,
+            'saleofPreviousMonth'=>$saleofPreviousMonth,
+            'saleofMonth'=>$saleofMonth,
+            'storage_used'=>$storage_used,
+
+        ]);
     }
 
     public function studentEnroll($id){

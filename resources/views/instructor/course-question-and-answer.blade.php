@@ -388,12 +388,12 @@
 				<div id="question_component_${question.id}">
 					<div class="fcrse_1" style="margin-bottom:5px;">
 						<div class="review_usr_dt">
-							<a href="{{asset('')}}instructor/courses/${course.id}/students/${question.user.id}">
+							<a href="{{asset('')}}instructor-dashboard/courses/${course.id}/students/${question.user.id}">
 								<img src="{{asset('')}}storage/${question.user.image_url}" alt="">
 							</a>
 							<div class="rv1458" style="width:100%">
 								<h5 class="">${question.title}</h5>
-								<span style="display: inline" class="time_145">By <a href="{{asset('')}}instructor/courses/${course.id}/students/${question.user.id}">${question.user.name} </a> </span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
+								<span style="display: inline" class="time_145">By <a href="{{asset('')}}instructor-dashboard/courses/${course.id}/students/${question.user.id}">${question.user.name} </a> </span> . <span style="display: inline"  class="time_145">${formatDateTime(new Date(question.created_at))}</span>
 								<span class="btn_span" style="float:right;" onclick="replyNow(${question.id})">Reply Now <i class='uil uil-comments-alt'></i> ${question.answer_count} </span>
 								<span class="btn_span" style="float:right;" onclick="defineDeleteQA(${question.id},true)"  data-toggle="modal" data-target="#delete_dialog">Delete<i class='uil uil-trash'></i> </span>
 							</div>
@@ -492,7 +492,7 @@
 			$('#question_type_form_container').hide();
 			$('#question_type_loading').show();
 			$.ajax({
-				url: '{{asset("")}}instructor/api/question-types', // Replace with your API endpoint
+				url: '{{asset("")}}instructor-dashboard/api/question-types', // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken, // Example for Authorization header

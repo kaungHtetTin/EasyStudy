@@ -156,7 +156,7 @@
 			$('#cover_spinner').show();
 			
 			$.ajax({
-				url: `{{asset("")}}instructor/api/courses/{{$course->id}}/update-cover-image`,
+				url: `{{asset("")}}instructor-dashboard/api/courses/{{$course->id}}/update-cover-image`,
 				type: 'POST',
 				data: formData,
 				contentType: false, // Important

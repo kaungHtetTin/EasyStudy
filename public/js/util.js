@@ -29,13 +29,13 @@ function createNotificationToUrl(notification, domain){
 
     // instructor dashboard
     if(type==21){ // Course Purchased
-        url=`${domain}instructor/statements`;
+        url=`${domain}instructor-dashboard/statements`;
     }else if(type==24){ // Course Question
         let course_id = JSON.parse(notification.payload).course_id;
-        url = `${domain}instructor/questions?course_id=`+course_id;
+        url = `${domain}instructor-dashboard/questions?course_id=`+course_id;
     }else if(type == 26) {// Course Review
         let course_id = JSON.parse(notification.payload).course_id;
-        url = `${domain}instructor/reviews?course_id=`+course_id;
+        url = `${domain}instructor-dashboard/reviews?course_id=`+course_id;
     }else if(type == 41){ // Subscribed
         
     }
