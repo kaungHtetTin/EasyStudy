@@ -176,6 +176,7 @@ class CourseController extends Controller
                         ->where('course_id',$course->id)
                         ->groupBy("day")
                         ->get();
+ 
 
         $lastPeriod = $this->getLastMonth($year,$month);
 

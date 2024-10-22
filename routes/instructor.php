@@ -20,6 +20,7 @@ use App\Http\Controllers\Instructor\VisitController;
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
         Route::get('/',[LayoutController::class,'index'])->name('instructor.home'); 
+        Route::get('/analyics',[LayoutController::class,'analyics'])->name('instructor.analyics'); 
 
         Route::get('/profile',[ProfileController::class,'edit'])->name('instructor.profile.edit'); 
         Route::put('/profile',[ProfileController::class,'update'])->name('instructor.profile.update'); 

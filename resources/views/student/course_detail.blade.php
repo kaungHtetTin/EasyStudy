@@ -159,7 +159,7 @@ if (!function_exists('calculatePercent')) {
     <div style="" class="modal vd_mdl fade" id="payModal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-                @if (count($payment_methods)>1)
+                @if (count($payment_methods)>0)
                     <div class="modal-body">
                         <div style="text-align: right">
                             <button class="btn_payment_cancel" style="width:35px;height:35px;float:right;margin-top:0" type="button" class="close" data-dismiss="modal" aria-label="Close">

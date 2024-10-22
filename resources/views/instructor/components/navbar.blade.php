@@ -21,7 +21,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_analyics.html" class="menu--link" title="Analyics">
+                    <a href="{{route('instructor.analyics')}}" class="menu--link {{$page_title=='Analyics'?'active':''}}" title="Analyics">
                         <i class='uil uil-analysis menu--icon'></i>
                         <span class="menu--label">Analyics</span>
                     </a>

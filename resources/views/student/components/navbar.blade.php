@@ -81,7 +81,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="help.html" class="menu--link" title="Help">
+                    <a href="{{route('help')}}" class="menu--link {{$page_title=='Help'?'active':''}}" title="Help">
                         <i class='uil uil-question-circle menu--icon'></i>
                         <span class="menu--label">Help</span>
                     </a>

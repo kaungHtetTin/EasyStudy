@@ -27,8 +27,8 @@
 						<div class="card_dash">
 							<div class="card_dash_left">
 								<h5>Total Sales</h5>
-								<h2>{{$total_sale}} MMK</h2>
-								<span class="crdbg_1">New $50</span>
+								<h2>{{$total_sale}} <div style="font-size: 14px;display:inline">MMK</div></h2>
+								<span class="crdbg_1">New {{$new_sale}} mmk</span>
 							</div>
 							<div class="card_dash_right">
 								<img src="images/dashboard/achievement.svg" alt="">
@@ -40,7 +40,7 @@
 							<div class="card_dash_left">
 								<h5>Total Enroll</h5>
 								<h2>{{$total_student}}</h2>
-								<span class="crdbg_2">New 125</span>
+								<span class="crdbg_2">New {{$new_enroll}}</span>
 							</div>
 							<div class="card_dash_right">
 								<img src="images/dashboard/graduation-cap.svg" alt="">
@@ -52,7 +52,7 @@
 							<div class="card_dash_left">
 								<h5>Total Courses</h5>
 								<h2>{{$total_course}}</h2>
-								<span class="crdbg_3">New 5</span>
+								<span class="crdbg_3">New {{$new_course}}</span>
 							</div>
 							<div class="card_dash_right">
 								<img src="images/dashboard/online-course.svg" alt="">
@@ -62,9 +62,9 @@
 					<div class="col-xl-3 col-lg-6 col-md-6">
 						<div class="card_dash">
 							<div class="card_dash_left">
-								<h5>Total Students</h5>
-								<h2>2650</h2>
-								<span class="crdbg_4">New 245</span>
+								<h5>Subscribers</h5>
+								<h2>{{$instructor->subscriber}}</h2>
+								<span class="crdbg_4">New {{$new_subscriber}}</span>
 							</div>
 							<div class="card_dash_right">
 								<img src="images/dashboard/knowledge.svg" alt="">

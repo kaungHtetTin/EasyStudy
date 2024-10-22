@@ -11,6 +11,7 @@ use App\Models\Visit;
 use App\Models\Instructor;
 
 
+
 class VisitController extends Controller
 {
     public function index(){
