@@ -78,19 +78,19 @@
 											<td class="statement-summary__earnings">
 												<p class="js-earnings__earnings-wrapper">
 													<span class="tt__earning">+</span>
-													<span class="js-earnings__earnings t-currency">{{$earning_request_month}} MMK</span>
+													<span class="js-earnings__earnings t-currency">{{$earning_request_month}} <span style="font-size: 12px;">MMK</span></span>
 												</p>
 											</td>
 											<td class="statement-summary__fees">
 												<p class="js-earnings__fees-wrapper">
 													<span class="tt__earning">-</span>
-													<span class="js-earnings__fees t-currency">$154.86</span>
+													<span class="js-earnings__fees t-currency">{{$billed_amount}} <span style="font-size: 12px;">MMK</span> </span>
 												</p>
 											</td>
 											<td class="statement-summary__funds">
 												<p class="js-earnings__instructor-funds-wrapper">
 													<span class=""></span>
-													<span class="js-earnngs__instructor-funds t-currency">$289.64</span>
+													<span class="js-earnngs__instructor-funds t-currency">{{$earning_request_month - $billed_amount}} <span style="font-size: 12px;">MMK</span> </span>
 												</p>
 											</td>
 										</tr>

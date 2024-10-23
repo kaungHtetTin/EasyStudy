@@ -18,6 +18,7 @@ use App\Models\Review;
 use App\Models\SocialMedia;
 use App\Models\PaymentMethodType;
 use App\Models\Language;
+use App\Models\Setting;
 
 use Illuminate\Support\Str;
 
@@ -30,6 +31,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Setting::create(['setting'=>'payout_percent','value'=>'5']);
+        Setting::create(['setting'=>'payout_method','value'=>'[{"method":"09682537158","account_name":"Kaung Htet Tin","type":"Kbz Pay","icon_url":"images/payment-kbz-pay.jpg"},{"method":"09682537158","account_name":"Kaung Htet Tin","type":"Wave Pay","icon_url":"images/payment-wave-pay.jpg"},{"method":"09682537158","account_name":"Kaung Htet Tin","type":"AYA pay","icon_url":"images/payment-aya-pay.png"},{"method":"09682537158","account_name":"Kaung Htet Tin","type":"CB pay","icon_url":"images/payment-cb-pay.png"}]']);
         LessonType::create([
             "type"=>"Video"
         ]);

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Instructor;
 use App\Models\Blog;
+use App\Models\Bill;
 
 class InstructorController extends Controller
 {

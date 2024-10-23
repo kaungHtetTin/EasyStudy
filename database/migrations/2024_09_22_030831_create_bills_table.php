@@ -17,8 +17,10 @@ return new class extends Migration
             
             $table->id();
             $table->unsignedBigInteger('instructor_id');
-            $table->integer('amount')->default(0)->nullable();
-            $table->string('screenshot_url')->nullable();
+            $table->integer('amount')->nullable();
+            $table->string('screenshot_url')->nullable();  
+            $table->unsignedBigInteger('history_from')->nullable();
+            $table->unsignedBigInteger('history_to')->nullable();
             $table->boolean('verified')->default(false)->nullable();
             
             $table->timestamps();

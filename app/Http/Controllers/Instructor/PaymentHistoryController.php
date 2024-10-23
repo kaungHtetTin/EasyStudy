@@ -13,6 +13,7 @@ use App\Models\Instructor;
 use App\Models\PaymentHistory;
 use App\Models\SavedCourse;
 use App\Models\Course;
+use App\Models\Setting;
  
 
 class PaymentHistoryController extends Controller
@@ -68,6 +69,10 @@ class PaymentHistoryController extends Controller
         ->where('created_at','<=',"$current_year-$cuurent_month-31")
         ->sum('amount');
 
+        $payout_percent = Setting::where('setting','payout_percent')->first();
+        $payout_percent = $payout_percent->value;
+        $billed_amount = $earning_request_month * ($payout_percent/100);
+
         return view('instructor.statements',[
             'page_title'=>'Statements',
             'payment_histories'=>$payment_histories,
@@ -82,6 +87,7 @@ class PaymentHistoryController extends Controller
             'earning_current_year'=>$earning_current_year,
             'earning_all_time'=>$earning_all_time,
             'earning_request_month'=>$earning_request_month,
+            'billed_amount'=>$billed_amount,
         ]);
     }
 

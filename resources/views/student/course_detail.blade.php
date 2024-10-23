@@ -165,20 +165,7 @@ if (!function_exists('calculatePercent')) {
                             <button class="btn_payment_cancel" style="width:35px;height:35px;float:right;margin-top:0" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                        </div>
-
-                        <div id="loading" style="display: none">
-                            <div class="col-md-12">
-                                <br><br><br><br><br>
-                                <div class="main-loader mt-50" style="margin-bottom:150px;">													
-                                    <div class="spinner">
-                                        <div class="bounce1"></div>
-                                        <div class="bounce2"></div>
-                                        <div class="bounce3"></div>
-                                    </div>																										
-                                </div>
-                            </div>
-                        </div>
+                        </div> 
 
                         <div class="membership_chk_bg rght1528">
                             <div class="coupon_code">
@@ -206,7 +193,6 @@ if (!function_exists('calculatePercent')) {
                                                 <div>{{$method->method}}</div>
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 @endforeach
                                 

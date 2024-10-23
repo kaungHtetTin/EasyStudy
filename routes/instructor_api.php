@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Instructor\ModuleController;
 use App\Http\Controllers\Api\Instructor\LessonController;
 use App\Http\Controllers\Api\Instructor\QuestionTypeController;
 use App\Http\Controllers\Api\Instructor\NotificationController;
+use App\Http\Controllers\Api\Instructor\BillController;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -55,8 +56,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('modules', ModuleController::class);
     Route::apiResource('lessons', LessonController::class);
     Route::apiResource('question-types', QuestionTypeController::class);
+    Route::apiResource('bills', BillController::class);
 
     Route::apiResource('notifications', NotificationController::class);
     Route::post('/mark-as-read-all-notifications',[NotificationController::class,'markAsReadAll']);
+
  
 });

@@ -79,7 +79,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_payout.html" class="menu--link" title="Payout">
+                    <a href="{{route('instructor.bills.list')}}" class="menu--link {{$page_title=='Payout'?'active':''}}" title="Payout">
                         <i class='uil uil-wallet menu--icon'></i>
                         <span class="menu--label">Payout</span>
                     </a>
@@ -95,7 +95,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="feedback.html" class="menu--link" title="Send Feedback">
+                    <a href="{{route('feedback.create')}}" class="menu--link" title="Send Feedback">
                         <i class='uil uil-comment-alt-exclamation menu--icon'></i>
                         <span class="menu--label">Send Feedback</span>
                     </a>

@@ -16,6 +16,7 @@ use App\Models\PaymentHistory;
 use App\Models\SocialMedia;
 use App\Models\Visit;
 use App\Models\Subscriber;
+use App\Models\Setting;
 
 
 class LayoutController extends Controller
@@ -205,5 +206,32 @@ class LayoutController extends Controller
         $result['year']=$year;
         $result['month']=$month;
         return $result;
+    }
+ 
+
+    public function payout(){
+        $payout_percent = Setting::where('setting','payout_percent')->first();
+        $payout_percent = $payout_percent->value;
+
+        $user = Auth::user();
+        $instructor = Instructor::where('user_id',$user->id)->first();
+        $income_amount = PaymentHistory::where('instructor_id',$instructor->id)
+        ->where('billed',0)
+        ->sum('amount');
+
+        $billed_amount = $income_amount * ($payout_percent/100);
+
+        $next_month = $this->getNextMonth( date('Y'), date('m'));
+
+        $payout_method = Setting::where('setting','payout_method')->first();
+        $payout_methodJSON = $payout_method->value; 
+        $payout_methods = json_decode($payout_methodJSON,true); // this is array , not model 
+
+        return view('instructor.payout',[
+            'page_title' => 'Payout',
+            'billed_amount'=>$billed_amount,
+            'next_month' => $next_month,
+            'payout_methods' => $payout_methods,
+        ]);
     }
 }

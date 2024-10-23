@@ -16,11 +16,13 @@ use App\Http\Controllers\Instructor\ProfileController;
 use App\Http\Controllers\Instructor\NotificationController;
 use App\Http\Controllers\Instructor\BlogController;
 use App\Http\Controllers\Instructor\VisitController;
+use App\Http\Controllers\Instructor\BillController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
         Route::get('/',[LayoutController::class,'index'])->name('instructor.home'); 
         Route::get('/analyics',[LayoutController::class,'analyics'])->name('instructor.analyics'); 
+       
 
         Route::get('/profile',[ProfileController::class,'edit'])->name('instructor.profile.edit'); 
         Route::put('/profile',[ProfileController::class,'update'])->name('instructor.profile.update'); 
@@ -40,7 +42,7 @@ Route::middleware('auth')->group(function () {
             'update' => 'instructor.courses.change',
             'destroy' => 'instructor.courses.remove', 
         ]);
-         Route::get('courses/{id}/edit-cover-photo',[CourseController::class,'editCoverPhoto'])->name('instructor.courses.edit-cover-photo');
+        Route::get('courses/{id}/edit-cover-photo',[CourseController::class,'editCoverPhoto'])->name('instructor.courses.edit-cover-photo');
         Route::get('courses/{id}/overview',[CourseController::class,'overview'])->name('instructor.courses.overview');
         Route::get('courses/{id}/students',[CourseController::class,'studentEnroll'])->name('instructor.courses.students.lists');
         Route::get('courses/{id}/students/{sid}/approve',[CourseController::class,'approveStudent'])->name('instructor.courses.student.approved');
@@ -98,6 +100,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/visits',[VisitController::class,'index'])->name('instructor.visits.list');
         Route::get('/visits/{id}',[VisitController::class,'show'])->name('instructor.visits.view');
+
+        Route::get('/bills',[BillController::class,'index'])->name('instructor.bills.list');
+        Route::post('/bills',[BillController::class,'store'])->name('instructor.bills.create');
 
         Route::get('/error',[LayoutController::class,'error'])->name('instructor.error');
     });
