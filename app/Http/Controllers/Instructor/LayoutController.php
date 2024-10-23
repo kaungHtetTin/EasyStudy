@@ -208,30 +208,38 @@ class LayoutController extends Controller
         return $result;
     }
  
-
-    public function payout(){
-        $payout_percent = Setting::where('setting','payout_percent')->first();
-        $payout_percent = $payout_percent->value;
-
+    public function earning(){
         $user = Auth::user();
         $instructor = Instructor::where('user_id',$user->id)->first();
-        $income_amount = PaymentHistory::where('instructor_id',$instructor->id)
-        ->where('billed',0)
-        ->sum('amount');
+        $year = date('Y');
+        $month = date('m');
 
-        $billed_amount = $income_amount * ($payout_percent/100);
+        $this_month_earnings = PaymentHistory::selectRaw(DB::raw("sum(amount) as amount, course_id"))
+        ->where(DB::raw("YEAR(created_at)"),$year)
+        ->where(DB::raw("MONTH(created_at)"),$month)
+        ->where('instructor_id',$instructor->id)
+        ->groupBy("course_id")
+        ->get();
 
-        $next_month = $this->getNextMonth( date('Y'), date('m'));
+        $this_year_earnings = PaymentHistory::selectRaw(DB::raw("sum(amount) as amount, course_id"))
+        ->where(DB::raw("YEAR(created_at)"),$year)
+        ->where('instructor_id',$instructor->id)
+        ->groupBy("course_id")
+        ->get();
 
-        $payout_method = Setting::where('setting','payout_method')->first();
-        $payout_methodJSON = $payout_method->value; 
-        $payout_methods = json_decode($payout_methodJSON,true); // this is array , not model 
+        $all_time_earnings = PaymentHistory::selectRaw(DB::raw("sum(amount) as amount, course_id, count(*) as sale"))
+        ->where(DB::raw("YEAR(created_at)"),$year)
+        ->where('instructor_id',$instructor->id)
+        ->groupBy("course_id")
+        ->get();
 
-        return view('instructor.payout',[
-            'page_title' => 'Payout',
-            'billed_amount'=>$billed_amount,
-            'next_month' => $next_month,
-            'payout_methods' => $payout_methods,
+
+        return view('instructor.earning',[
+            'page_title'=>'Earning',
+            'this_month_earnings'=>$this_month_earnings,
+            'this_year_earnings'=>$this_year_earnings,
+            'all_time_earnings'=>$all_time_earnings,
         ]);
     }
+   
 }

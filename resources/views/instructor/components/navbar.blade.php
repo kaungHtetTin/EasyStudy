@@ -73,7 +73,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_earning.html" class="menu--link" title="Earning">
+                    <a href="{{route('instructor.earning')}}" class="menu--link {{$page_title=='Earning'?'active':''}}" title="Earning">
                         <i class='uil uil-dollar-sign menu--icon'></i>
                         <span class="menu--label">Earning</span>
                     </a>

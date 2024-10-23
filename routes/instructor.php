@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
         Route::get('/',[LayoutController::class,'index'])->name('instructor.home'); 
         Route::get('/analyics',[LayoutController::class,'analyics'])->name('instructor.analyics'); 
+        Route::get('/earning',[LayoutController::class,'earning'])->name('instructor.earning'); 
        
 
         Route::get('/profile',[ProfileController::class,'edit'])->name('instructor.profile.edit'); 

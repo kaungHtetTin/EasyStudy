@@ -21,7 +21,7 @@
     		background-color: #555;
 		}
 
-
+	 
 	</style>
 	<div class="wrapper">
 		<div class="sa4d25">
@@ -39,11 +39,12 @@
 				</div>		
 				<br>		
 				<div class="row">
-					<div class="col-12">
-						
-						<div class="" id="notification_container">
+					<div class="col-12"> 
+
+						<div class="" id = "notification_container">
 							
 						</div>
+						 
 
 						<div class="row" id="shimmer">				
 							<div class="col-md-12">
@@ -144,21 +145,18 @@
 			}
 
 			function notificationComponent(notification){
-				let seen = notification.seen==1?"":"bg-unseen";
+				let active = notification.seen==0?"active":"";
 				return `
-					<div id="noti_${notification.id}" onclick=notificationClick(${notification.id}) class="channel_my item all__noti5 item-notification ${seen}">
-						<div class="profile_link">
-							<div>
-								<img src="{{asset('')}}storage/${notification.user.image_url}" alt=""/>
+					<div  id="noti_${notification.id}" onclick=notificationClick(${notification.id}) class="chat__message__dt ${active}">
+						<div class="user-status">											
+							<div class="user-avatar">
+								<img src="{{asset('')}}storage/${notification.user.image_url}" alt="">
 								${notification.notification_type.web_icon}
 							</div>
-							<div class="pd_content">
-								<h6>${notification.user.name}</h6>
-								<p class="noti__text5">${notification.notification_type.description} <strong>${notification.body}</strong>.</p>
-								<span class="nm_time">${formatDateTime(new Date(notification.created_at))}</span>
-							</div>	
-												
-						</div>							
+							<p class="user-status-title"><span class="bold">${notification.user.name}</span></p>
+							<p class="user-status-text">${notification.notification_type.description} <strong>${notification.body}</strong>.</p>
+							<p class="user-status-time floaty">${formatDateTime(new Date(notification.created_at))}</p>
+						</div>
 					</div>
 				`;
 			}

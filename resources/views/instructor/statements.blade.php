@@ -57,7 +57,7 @@
 							<div class="top_countries_title">
 								<h2>Earnings</h2>
 							</div>
-							<div class="statement_content" style="height:150px;">
+							<div class="statement_content" style="height:165px;">
 								<p class="tt-body" id="statement_title">Loading.. .. </p>
 								<table class="statement-summary__table">
 									<thead>
@@ -105,26 +105,48 @@
 							<div class="top_countries_title">
 								<h2>Total</h2>
 							</div>
-							<div class="statement_content" style="height:150px;">
-								<table class="table-summery">
-									<tr>
-										<td>Today</td>
-										<td>  {{$earning_today}} mmk </td>
-									</tr>
-									<tr>
-										<td>Current Month</td>
-										<td> {{$earning_current_month}} mmk </td>
-									</tr>
-									<tr>
-										<td>Current Year</td>
-										<td> {{$earning_current_year}} mmk </td>
-									</tr>
-									<tr>
-										<td>All Time</td>
-										<td> {{$earning_all_time}} mmk </td>
-									</tr>
-								</table>
-							</div>
+							<ul class="country_list" style="height:165px;">
+								<li>
+									<div class="country_item">
+										<div class="country_item_left">
+											<span>Today</span>
+										</div>
+										<div class="country_item_right">
+											<span>{{$earning_today}} mmk</span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="country_item">
+										<div class="country_item_left">
+											<span>Current Month</span>
+										</div>
+										<div class="country_item_right">
+											<span>{{$earning_current_month}} mmk </span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="country_item">
+										<div class="country_item_left">
+											<span>Current Year</span>
+										</div>
+										<div class="country_item_right">
+											<span>{{$earning_current_year}} mmk </span>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="country_item">
+										<div class="country_item_left">
+											<span>All Time</span>
+										</div>
+										<div class="country_item_right">
+											<span> {{$earning_all_time}} mmk </span>
+										</div>
+									</div>
+								</li>
+							</ul>
 						</div>
 					</div>
 

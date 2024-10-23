@@ -243,22 +243,23 @@
             }
 
             function navNotificationComponent(notification){
-                return `
-                    <a href="${createNotificationToUrl(notification,"{{asset('')}}")}" class="channel_my item bg-unseen" onclick="navNotificationSeen(${notification.id})">
-                        <div class="profile_link" style="padding:5px 10px 5px 10px;">
-                            <div>
-								<img src="{{asset('')}}storage/${notification.user.image_url}" alt=""/>
+				let active = notification.seen==0?"active":"";
+				return `
+                
+					<div  id="noti_${notification.id}" onclick=notificationClick(${notification.id}) class="channel_my item chat__message__dt ${active}">
+						<div class="user-status">											
+							<div class="user-avatar">
+								<img src="{{asset('')}}storage/${notification.user.image_url}" alt="">
 								${notification.notification_type.web_icon}
 							</div>
-                            <div class="pd_content">
-                                <h6>${notification.user.name}</h6>
-                                <p>${notification.notification_type.description}<strong> ${notification.body}</strong>.</p>
-                                <span class="nm_time">${formatDateTime(new Date(notification.created_at))}</span>
-                            </div>							
-                        </div>							
-                    </a>
-                `;
-            }
+							<p class="user-status-title"><span class="bold">${notification.user.name}</span></p>
+							<p class="user-status-text">${notification.notification_type.description} <strong>${notification.body}</strong>.</p>
+							<p class="user-status-time floaty">${formatDateTime(new Date(notification.created_at))}</p>
+						</div>
+					</div>
+                
+				`;
+			}
 
             function navNotificationSeen(notification_id){
 				$.ajax({
