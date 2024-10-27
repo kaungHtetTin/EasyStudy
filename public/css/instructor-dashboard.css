@@ -3496,10 +3496,6 @@ i.icon8 {
 	padding-right: 20px;
 }
 
-.main-message-box.ta-right .message-dt > span {
-	float: right;
-	width: auto;
-}
 
 .message-inner-dt {
 	float: left;
@@ -3534,7 +3530,7 @@ i.icon8 {
 
 .message-inner-dt > p {
 	float: right;
-	width: 60%;
+	width: 100%;
 	background-color: #475692;
 	font-size: 14px;
 	font-family: 'Roboto', sans-serif;

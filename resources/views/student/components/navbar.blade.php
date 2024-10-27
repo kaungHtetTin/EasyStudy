@@ -28,6 +28,12 @@
                     </ul>
                 </li>
                 <li class="menu--item">
+                    <a href="{{route('chatrooms.lists')}}" class="menu--link {{$page_title=='Messages'?'active':''}}" title="Messages">
+                        <i class='uil uil-comments menu--icon'></i>
+                        <span class="menu--label">Messages</span>
+                    </a>
+                </li>
+                <li class="menu--item">
                     <a href="{{route('notifications.list')}}" class="menu--link {{$page_title=='Notifications'?'active':''}}" title="Notifications">
                         <i class='uil uil-bell menu--icon'></i>
                         <span class="menu--label">Notifications</span>

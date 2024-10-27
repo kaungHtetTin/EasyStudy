@@ -17,6 +17,7 @@ use App\Models\SocialMedia;
 use App\Models\Visit;
 use App\Models\Subscriber;
 use App\Models\Setting;
+use App\Models\User;
 
 
 class LayoutController extends Controller
@@ -241,5 +242,5 @@ class LayoutController extends Controller
             'all_time_earnings'=>$all_time_earnings,
         ]);
     }
-   
+    
 }

@@ -100,9 +100,14 @@ if (!function_exists('formatCount')) {
 											<a href="#" class="_216b12">										
 												<span><i class="uil uil-windsock"></i></span>Report
 											</a>
+											<div class="rgt-145">
+												<ul class="tutor_social_links">
+													<button onclick="window.location.href='{{route('users.message',$user->id)}}'" class="subscribe-btn btn500">Message</button>
+												</ul>
+											</div>
 										@endif
 									@endauth
-									 
+									
 								</div>		
                                 
                                 <div class="col-lg-6 col-md-6">

@@ -13,6 +13,8 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +100,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/feedback',[FeedbackController::class,'store'])->name('feedback.save');
 
     Route::get('/reports',[ReportController::class,'index'])->name('reports.list');
+
+    Route::get('/chatrooms',[ConversationController::class,'index'])->name('chatrooms.lists');
+    Route::get('/chatrooms/{id}',[ConversationController::class,'show'])->name('chatrooms.view');
+    Route::delete('/chatrooms',[ConversationController::class,'destroy'])->name('chatrooms.remove');
+
+    Route::get('users/{id}/message',[UserController::class,'message'])->name('users.message');
+    Route::post('users/{id}/block',[UserController::class,'block'])->name('users.block');
+    Route::post('users/{id}/unblock',[UserController::class,'unblock'])->name('users.unblock');
     
 });
 

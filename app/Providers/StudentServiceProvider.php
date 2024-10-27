@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Instructor;
 use App\Models\Notification;
+use App\Models\Conversation;
+
 use Illuminate\Support\Str;
 
 class StudentServiceProvider extends ServiceProvider
@@ -50,18 +52,23 @@ class StudentServiceProvider extends ServiceProvider
             if($user==null){
                 $instructor = false;
                 $unseen_notification_count =0;
+                $unseen_message_count = 0;
             }else{
                 $instructor = Instructor::where('user_id',$user->id)->first();
                 $unseen_notification_count = Notification::where('passive_user_id',$user->id)
                 ->where('seen',0)
                 ->where('passive_user_type',3)
                 ->count();
+                $unseen_message_count = Conversation::where('my_id',$user->id)->where('seen',0)->count();
+                $user->refresh_count = $user->refresh_count + 1;
+                $user->save();
             }
 
             $view->with([
                 'categories'=>$categories,
                 'is_current_user_instructor'=>$instructor,
                 'unseen_notification_count'=>$unseen_notification_count,
+                'unseen_message_count'=>$unseen_message_count,
             ]);
 
             

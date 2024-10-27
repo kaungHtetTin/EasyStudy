@@ -17,6 +17,8 @@ use App\Http\Controllers\Instructor\NotificationController;
 use App\Http\Controllers\Instructor\BlogController;
 use App\Http\Controllers\Instructor\VisitController;
 use App\Http\Controllers\Instructor\BillController;
+use App\Http\Controllers\Instructor\ConversationController;
+use App\Http\Controllers\Instructor\UserController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('instructor')->group(function (){
@@ -96,6 +98,11 @@ Route::middleware('auth')->group(function () {
             'show'=>'instructor.statements.view',
         ]);
 
+        Route::get('/chatrooms',[ConversationController::class,'index'])->name('instructor.chatrooms.lists');
+        Route::get('/chatrooms/{id}',[ConversationController::class,'show'])->name('instructor.chatrooms.view');
+        Route::delete('/chatrooms',[ConversationController::class,'destroy'])->name('instructor.chatrooms.remove');
+
+        Route::get('users/{id}/message',[UserController::class,'message'])->name('instructor.users.message');
         
         Route::get('/notifications',[NotificationController::class,'index'])->name('instructor.notifications.list');
 

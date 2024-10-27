@@ -53,7 +53,7 @@
                                     </span> 
                                     <span class="time_145">For <strong>{{$count}}</strong> {{$count>1 ? ' times':' time'}}</span>
                                     
-                                    <button class="main-btn btn500"><i class="uil uil-message"></i> Message</button>
+                                    <button onclick="window.location.href='{{route('instructor.users.message',$visit->user->id)}}'" class="main-btn btn500"><i class="uil uil-message"></i> Message</button>
                                     <button class="main-btn btn500"><i class="uil uil-phone"></i> Call  </button>
                                 </div>
                             </div>

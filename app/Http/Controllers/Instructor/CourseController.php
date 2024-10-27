@@ -210,11 +210,10 @@ class CourseController extends Controller
         $course = Course::find($id);
  
         if($course){
-            if($course->instructor->user->id ==$user->id ){
+            if(Gate::allows('my-course',$course)){
                 return view('instructor.course-students',[
                     'page_title'=>'Students Enrolled',
-                    'course'=>$course,
-
+                    'course'=>$course, 
                 ]);
             }else{
                 return redirect(route('instructor.error'));
@@ -223,9 +222,10 @@ class CourseController extends Controller
             return redirect(route('instructor.error'));
         }
     }
+ 
 
     public function studentDetail($id,$sid){
-        $user = Auth::user();
+       
         $course = Course::find($id);
         $student = User::find($sid);
  
@@ -233,7 +233,7 @@ class CourseController extends Controller
             return redirect(route('instructor.error'));
         }
 
-        if($course->instructor->user->id !=$user->id ){
+        if(Gate::denies('my-course',$course)){
             return redirect(route('instructor.error'));
         }
 
@@ -259,6 +259,7 @@ class CourseController extends Controller
         ]);
     }
 
+    
     public function approveStudent($id, $student_id){
         $paymentHistory = PaymentHistory::where('user_id',$student_id)->where('course_id',$id)->first();
         if($paymentHistory==null){

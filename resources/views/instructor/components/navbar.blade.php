@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_messages.html" class="menu--link" title="Messages">
+                    <a href="{{route('instructor.chatrooms.lists')}}" class="menu--link {{$page_title=='Messages'?'active':''}}" title="Messages">
                         <i class='uil uil-comments menu--icon'></i>
                         <span class="menu--label">Messages</span>
                     </a>

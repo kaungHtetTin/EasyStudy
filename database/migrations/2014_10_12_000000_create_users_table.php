@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->timestamp('birth_date')->nullable();
             $table->integer('login_time')->default(1);
-            $table->timestamp('last_active')->nullable();
+            $table->integer('refresh_count')->nullable()->default(1);
             $table->string('fcm_token')->nullable();
             $table->string('image_url')->nullable();
             $table->string('bio')->nullable();

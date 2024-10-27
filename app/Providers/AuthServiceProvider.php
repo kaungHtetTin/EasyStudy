@@ -37,5 +37,9 @@ class AuthServiceProvider extends ServiceProvider
             return $user->id === $answer->user_id;
         });
 
+        Gate::define('my-conversation',function($user,$conversation){
+            return $user->id === $conversation->my_id;
+        });
+
     }
 }

@@ -147,9 +147,9 @@ if (!function_exists('formatCount')) {
 												</li>								
 												<li>
 													@if ($subscribed)
-														<button class="msg125 btn500" style="border-radius:15px;background:#333">Message</button>
+														<button onclick="window.location.href='{{route('users.message',$instructor->user->id)}}'" class="msg125 btn500" style="border-radius:15px;background:#333">Message</button>
 													@else
-														<button class="msg125 btn500">Message</button>
+														<button onclick="window.location.href='{{route('users.message',$instructor->user->id)}}'" class="msg125 btn500">Message</button>
 													@endif
 												</li>								
 											</ul>

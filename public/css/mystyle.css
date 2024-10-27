@@ -257,3 +257,8 @@
     margin-bottom: 0;
     color: #afafaf;
 }
+
+.offline-status{
+    color: #999;
+    font-family: 'Roboto', sans-serif;
+}

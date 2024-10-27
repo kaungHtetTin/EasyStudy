@@ -101,7 +101,7 @@
                                             <span class="time_145">Joined . {{$joined->diffForHumans()}}</span> 
                                             <span class="time_145">Last Active . {{$student->last_active}}</span>
                                             
-                                            <button class="main-btn btn500"><i class="uil uil-message"></i> Message</button>
+                                            <button onclick="window.location.href='{{route('instructor.users.message',$student->id)}}'" class="main-btn btn500"><i class="uil uil-message"></i> Message</button>
                                             <button class="main-btn btn500"><i class="uil uil-phone"></i> Call  </button>
                                         </div>
                                     </div>

@@ -24,6 +24,7 @@ class InstructorController extends Controller
 
     public function detail($id){
         $instructor = Instructor::find($id);
+        if(!$instructor) return redirect(route('error'));
         $subscribed = false;
 
         if (Auth::check()) {

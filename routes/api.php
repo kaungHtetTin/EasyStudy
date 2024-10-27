@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\AnswerController;
 use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\BlogController;
+use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\ConversationController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -57,6 +59,9 @@ Route::post('/sanctum/token', function (Request $request) {
     Route::apiResource('questions', QuestionController::class);
   
     Route::apiResource('announcements', AnnouncementController::class);
+    Route::get('messages/refresh',[MessageController::class,'refresh']);
+    Route::apiResource('messages', MessageController::class);
+    Route::apiResource('chatrooms', ConversationController::class);
     Route::apiResource('notifications', NotificationController::class);
     Route::post('/mark-as-read-all-notifications',[NotificationController::class,'markAsReadAll']);
  

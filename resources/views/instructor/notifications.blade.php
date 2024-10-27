@@ -93,6 +93,7 @@
 				$('#btn_readAll').click(()=>{
 					readAll();
 				})
+				
 
 			})
 

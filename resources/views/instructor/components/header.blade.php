@@ -57,60 +57,31 @@
                
             </li>
             <li class="ui dropdown">
-                <a href="#" class="option_links" title="Messages"><i class='uil uil-envelope-alt'></i><span class="noti_count">3</span></a>
-                <div class="menu dropdown_ms">
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="images/left-imgs/img-6.jpg" alt="">
-                            <div class="pd_content">
-                                <h6>Zoena Singh</h6>
-                                <p>Hi! Sir, How are you. I ask you one thing please explain it this video price.</p>
-                                <span class="nm_time">2 min ago</span>
-                            </div>							
-                        </div>							
-                    </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="images/left-imgs/img-5.jpg" alt="">
-                            <div class="pd_content">
-                                <h6>Joy Dua</h6>
-                                <p>Hello, I paid you video tutorial but did not play error 404.</p>
-                                <span class="nm_time">10 min ago</span>
-                            </div>							
-                        </div>							
-                    </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="images/left-imgs/img-8.jpg" alt="">
-                            <div class="pd_content">
-                                <h6>Jass</h6>
-                                <p>Thanks Sir, Such a nice video.</p>
-                                <span class="nm_time">25 min ago</span>
-                            </div>							
-                        </div>							
-                    </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="images/left-imgs/img-5.jpg" alt="">
-                            <div class="pd_content">
-                                <h6>Joy Dua</h6>
-                                <p>Hello, I paid you video tutorial but did not play error 404.</p>
-                                <span class="nm_time">10 min ago</span>
-                            </div>							
-                        </div>							
-                    </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="images/left-imgs/img-8.jpg" alt="">
-                            <div class="pd_content">
-                                <h6>Jass</h6>
-                                <p>Thanks Sir, Such a nice video.</p>
-                                <span class="nm_time">25 min ago</span>
-                            </div>							
-                        </div>							
-                    </a>
-                    
-                    <a class="vbm_btn" href="instructor_messages.html">View All <i class='uil uil-arrow-right'></i></a>
+                <a id="btn_nav_message" href="#" class="option_links" title="Messages"><i class='uil uil-envelope-alt'></i>
+                    @if ($unseen_message_count>0)
+                        <span class="noti_count">{{$unseen_message_count}}</span>
+                    @endif
+                </a>
+                
+                <div class="menu dropdown_ms" id="nav_message_container">
+                    <a href="#" class="channel_my item" id="nav_message_shimmer">
+                        <div class="row">				
+                            <div class="col-md-12">
+                                <br><br><br>
+                                <div class="main-loader mt-50">													
+                                    <div class="spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                    </div>																										
+                                </div>
+                                <br><br><br>
+                            </div>
+                            <div class="col-md-12">
+                                <br><br><br>
+                            </div>
+                        </div>		
+                    </a> 
                 </div>
             </li>
             <li class="ui dropdown">
@@ -188,7 +159,6 @@
             const apiToken = "{{$api_token}}";
             const user = @json($user);
             const unseen_notification_count = "{{$unseen_notification_count}}";
-            
 
             $(document).ready(()=>{
                 $('#btn_nav_notification').click(()=>{
@@ -219,11 +189,8 @@
                     success: function(res) {
                         $('#nav_notification_shimmer').hide();
                         if(res){
-                            
-                            console.log('nav bar noti res', res);
                             let notifications = res.data;
                             setNavNotifications(notifications);
-                            
                         }
                     },
                     error: function(xhr, status, error) {
@@ -277,6 +244,88 @@
 				});
 			}
         }
+    </script>
+    <script>
+    {
+        const apiToken = "{{$api_token}}";
+        const user = @json($user);
+        const unseen_message_count = "{{$unseen_message_count}}";
+
+        $(document).ready(()=>{
+            $('#btn_nav_message').click(()=>{
+                if(unseen_message_count>0){
+                    navfetctMessage();
+                }else{
+                    location.href = "{{route('instructor.chatrooms.lists')}}";
+                }
+            })
+
+            $('#btn_nav_message').on('touchstart',()=>{
+                if(unseen_message_count>0){
+                    navfetctMessage();
+                }else{
+                    location.href = "{{route('instructor.chatrooms.lists')}}";
+                }
+            });
+        });
+
+        function navfetctMessage(){
+            $.ajax({
+                url: "{{asset('')}}api/chatrooms?page=1&seen=0",
+                type: 'GET', // or 'GET' depending on your request
+                headers: {
+                    'Authorization': 'Bearer '+apiToken // Example for Authorization header
+                },
+                
+                success: function(res) {
+                    $('#nav_message_shimmer').hide();
+                    if(res){
+                        console.log('nav bar message res', res);
+                        let messages = res.data;
+                        setNavMessages(messages);
+                        
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', status, error);
+                }
+            });
+        }
+
+        function setNavMessages(messages){
+            let messageHTML = ""
+            messages.map((message,index)=>{
+                if(index<3) messageHTML += navMessageComponent(message);
+            })
+
+            $('#nav_message_container').html(messageHTML);
+            $('#nav_message_container').append(`<a class="vbm_btn" href="{{route('instructor.chatrooms.lists')}}">View All <i class='uil uil-arrow-right'></i></a>`);
+        }
+
+        function navMessageComponent(message){
+            let active = message.seen==0?"active":"";
+            return `
+            
+                <div  id="noti_${message.id}" onclick=messageClick(${message.id}) class="channel_my item chat__message__dt ${active}">
+                    <div class="user-status">											
+                        <div class="user-avatar">
+                            <img src="{{asset('')}}storage/${message.user.image_url}" alt="">
+                            <span class='noti-icon-course'> ${message.new_message_count}   </span>
+                        </div>
+                        <p class="user-status-title"><span class="bold">${message.user.name}</span></p>
+                        <p class="user-status-text"><strong>${message.message}</strong>.</p>
+                        <p class="user-status-time floaty">${formatDateTime(new Date(message.updated_at))}</p>
+                    </div>
+                </div>
+            
+            `;
+        }
+ 
+
+        function messageClick(id){
+            window.location.href = `{{route('instructor.chatrooms.lists')}}/${id}`;
+        }
+    }
     </script>
     <script src="{{asset('js/util.js')}}"></script>
 </header>
