@@ -28,7 +28,7 @@
 									<div class="msg_search">
 										<div class="ui search focus">
 											<div class="ui left icon input swdh11 swdh15">
-												<input class="prompt srch_explore" type="text" placeholder="Search Messages...">
+												<input id="input_search" class="prompt srch_explore" type="text" placeholder="Search Messages...">
 												<i class="uil uil-search-alt icon icon8"></i>
 											</div>
 										</div>

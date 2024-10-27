@@ -124,7 +124,11 @@
 													<div class="dropdown-content">
 														<span onclick="window.location.href='{{route('profile',$other->id)}}'"><i class="uil uil-eye"></i>Profile</span>	
 														<span data-toggle="modal" data-target="#delete-section"><i class="uil uil-trash-alt"></i>Delete</span>
-														<span data-toggle="modal" data-target="#block-section"><i class="uil uil-ban"></i>Block</span>
+														@if ($block)
+															<span data-toggle="modal" data-target="#unblock-section"><i class="uil uil-ban"></i>Unblock</span>
+														@else
+															<span data-toggle="modal" data-target="#block-section"><i class="uil uil-ban"></i>Block</span>
+														@endif
 														<span><i class="uil uil-windsock"></i>Report</span>															
 														{{-- <span><i class="uil uil-volume-mute"></i>Mute</span> --}}
 													 </div>																										
@@ -170,12 +174,19 @@
 											</div>
 										@else
 											<div class="message-send-area">
+												<div id="img_box" style="display: none">
+													 <img id="img_display" src="" alt="" style="height:100px;border-radius:3px;">
+													 <span id="img_cancel" style="font-size:20px; color:red;cursor: pointer;"><i class="uil uil-times-circle"></i></span>
+												</div>
+												<input id="input_image" type="file" style="display: none" accept="image/*">
+												
 												<div class="mf-field" style="display: flex">
 													<div class="ui search focus input__msg">
 														<div class="ui left icon input swdh19" style="width:100%">
 															<input class="prompt srch_explore" type="text" id="input_message_text" name="chat_widget_message_text_2" placeholder="Write a message...">
 														</div>
 													</div>
+													<span id="btn_select_image" class="send-image"><i class="uil uil-image-upload"></i></span>
 													<button id="btn_sent_message" class="add_msg" type="submit"><i class="uil uil-message"></i></button>
 												</div>
 											</div>

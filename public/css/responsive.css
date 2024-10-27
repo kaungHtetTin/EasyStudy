@@ -1,3 +1,5 @@
+
+
 /* Extra small devices (portrait phones, less than 576px) */
  @media (max-width: 575.98px) {
 .main_logo {
@@ -10,7 +12,15 @@
     margin-left: 0 !important;
 }
 
+.input_msg_box{
+    width: 100%;
+}
 
+@media (max-width: 450px) {
+    .input_msg_box {
+        width: 180px;
+    }
+}
 
 .upload_btn {
 	display: none;
@@ -332,12 +342,25 @@
     width: 100vw;
     height: 55vw;
 }
+.input__msg {
+    width: 65.5%;
+    float: left;
+}
+
+.message-send-area {
+    border-bottom-left-radius: 15px;
+}
+
 }
  
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767.98px) {
 .main_logo {
     margin-left: 10px !important;
+}
+
+.input_msg_box {
+    width: 100%;
 }
 
 .search120 {
@@ -546,10 +569,22 @@
 	width: 100vw;
     height: 40vw;
 }
+.input__msg {
+    width: 83%;
+    float: left;
+}
+
+.message-send-area {
+    border-bottom-left-radius: 15px;
+}
+
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
+.input_msg_box {
+        width: 100%;
+    }
 .hide_on_large_screen {
         display: none;
         margin-left: 0 !important;
@@ -694,12 +729,23 @@
 	width: 100vw;
     height: 55vw;
 }
+.input__msg {
+    width: 88%;
+    float: left;
+}
+.message-send-area {
+    border-bottom-left-radius: 15px;
+}
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
 body {
     overflow-y: scroll;
+  }
+
+  .input_msg_box {
+      width: 100%;
   }
 
 .hide_on_large_screen {
@@ -776,6 +822,10 @@ body {
     max-width: 1200px !important;
 }
 
+.input_msg_box {
+    width: 100%;
+}
+
 .hide_on_large_screen {
     display: none;
     margin-left: 0 !important;
@@ -792,5 +842,9 @@ body {
 .container-fluid {
     padding-right: 30px !important;
     padding-left: 30px !important;
+}
+.input__msg {
+    width: 82%;
+    float: left;
 }
 }

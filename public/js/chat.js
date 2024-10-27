@@ -2,7 +2,7 @@ let message_arr = [];
 let is_fetching = false;
 let no_more_message = false;
 let fetch_url = `${root_dir}api/messages?other_id=${other.id}`
-
+let selectedImageFile = null;
 
 $(document).ready(()=>{
         
@@ -17,9 +17,9 @@ $(document).ready(()=>{
 
     $('#scroll_warpper').scroll(()=>{
         let offset = $('#scroll_warpper').scrollTop();
-        if(offset<200){
+        if(offset<200 && $('#scroll_warpper').height()>200){
             if(!is_fetching && !no_more_message){
-                fetchMessage();
+                 fetchMessage(true);
             }
         }
         
@@ -41,6 +41,29 @@ $(document).ready(()=>{
     }else{
         $('#user_status').html(`<span class="offline-status">${offline}</span>`);
     }
+
+    $('#btn_select_image').click(()=>{
+        $('#input_image').click();
+    });
+
+    $('#input_image').change(()=>{
+        let files =  $('#input_image').prop('files');
+        let file = files[0];
+        selectedImageFile = file;
+        let reader = new FileReader();
+        reader.onload = (e)=>{
+            let imgSrc = e.target.result;
+            $('#img_display').attr('src', imgSrc);
+           
+            $('#img_box').show();
+        }
+        reader.readAsDataURL(file)
+    })
+
+    $('#img_cancel').click(()=>{
+        selectedImageFile = null;
+         $('#img_box').hide();
+    });
 
     autoRefresh();
 });
@@ -103,6 +126,7 @@ function setMessage(messages,previousLoading){
 function sendMessage(formData){
     $('#msg_profile').hide();
     var msg_id = Date.now();
+    $('#img_cancel').click();
     $('#message_container').append(sendingMessage(formData,msg_id));
     scrollToBottom();
     var ajax=new XMLHttpRequest();
@@ -127,14 +151,18 @@ function sendMessage(formData){
 }
 
 function validateMessageInput(){
-    let validate = true;
+    let validate = false;
     const message = $('#input_message_text').val();
     let formData = new FormData();
     formData.append('other_id',other.id);
-    if(message==""){
-        validate = false;
-    }else{
+    if(message!=""){
+        validate = true;
         formData.append('message',message);
+    }
+
+    if(selectedImageFile != null){
+        validate = true;
+        formData.append('image',selectedImageFile);
     }
 
     if(validate) return formData;
@@ -155,19 +183,36 @@ function sendingMessage(formData,msg_id){
 }
 
 function myMessage(message){
+    let image = ``;
+    if(message.image_url){
+        image = `<span><img class="message-image" src="${root_dir}storage/${message.image_url}"/></span>`;
+    }
+    let message_section = `<div class="message-inner-dt" style="float:right;"><p>${message.message}</p></div>`;
+    if(!message.message) message_section ="";
     return `
-        <div id="msg_${message.id}" class="main-message-box ta-right">
+        <div id="msg_${message.id}" class="main-message-box" style="padding-right:20px;">
             <div class="message-dt" style="width:100%;">
-                <div class="message-inner-dt" style="float:right;">
-                    <p>${message.message}</p>
-                </div><!--message-inner-dt end-->
-                <span style="text-align:right;">${formatDateTime(new Date(message.created_at))} ${message.seen == 1?' . seen':''}</span>
+                ${message_section}
+                ${image}
+                <span style="text-align:right;">
+                    ${formatDateTime(new Date(message.created_at))} ${message.seen == 1?' . seen':''}
+                </span>
+               
             </div><!--message-dt end-->
+           
+             
         </div><!--main-message-box end-->
+       
     `;
 }
 
 function otherMessage(message){
+    let image = ``;
+    if(message.image_url){
+        image = `<img src="${root_dir}storage/${message.image_url}" class="message-image" style="float:left;display:block" />`;
+    }
+    let message_section = `<div class="message-inner-dt"><p>${message.message}</p></div><br>`;
+    if(!message.message) message_section ="";
     return `
         <div class="main-message-box st3">
             <div style="display: flex"> 
@@ -177,9 +222,8 @@ function otherMessage(message){
                     </a>
                 </div>
                 <div class="message-dt st3" style="padding-left:0px;margin-right:20px;">
-                    <div class="message-inner-dt">
-                        <p>${message.message}</p>
-                    </div><!--message-inner-dt end-->
+                    ${message_section}
+                    ${image}
                     <span>${formatDateTime(new Date(message.created_at))}</span>
                 </div>
             </div><!--message-dt end-->
@@ -188,7 +232,7 @@ function otherMessage(message){
 }
 
 function scrollToBottom() {
-    let element = document.getElementById('message_container');
+    let element = document.getElementById('scroll_warpper');
     $('#scroll_warpper').scrollTop(element.scrollHeight);
     //console.log($('#scroll_warpper').scrollTop(),' Vs ',$('#message_container').height() );
 

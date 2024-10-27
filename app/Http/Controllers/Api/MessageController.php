@@ -68,7 +68,7 @@ class MessageController extends Controller
 
         if($req->hasFile('image')){
             $content_exist = true;
-            $image = $request->file('image');
+            $image = $req->file('image');
             $image_url = $image->store('images/messages', 'public');
         }else{
             $image_url = "";
@@ -93,6 +93,15 @@ class MessageController extends Controller
         $message2->save();
 
         $my_conservation = Conversation::where('user_id',$other_id)->where('my_id',$user->id)->first();
+
+        if(strlen($msg)>200){
+            $msg = substr($msg,0,200);
+        }
+
+        if($msg == ""){
+            $msg = "Sent you an image...";
+        }
+
         if($my_conservation==null){
             $conversation = new Conversation();
             $conversation->user_id = $other_id;

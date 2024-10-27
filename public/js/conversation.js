@@ -14,9 +14,22 @@ $(document).ready(()=>{
             }
         }
     });
+
+    $('#input_search').on('keyup',(x)=>{
+        const search_str = $('#input_search').val();
+        if(x.key === "Enter" || x.key === " " || search_str==="" ){
+            fetch_url = `${root_dir}api/chatrooms/search?q=${search_str}`
+            if(search_str==""){
+                fetch_url = `${root_dir}api/chatrooms?page=1`
+            }
+            arr = [];
+            $('#shimmer').show();
+            fetchConversation(true);
+        }
+    });
 })
 
-function fetchConversation(){
+function fetchConversation(search = false){
     is_fetching = true;
     $('#shimmer').show();
     if(fetch_url==null){
@@ -34,7 +47,9 @@ function fetchConversation(){
             is_fetching=false;
             if(res){
                 fetch_url = res.next_page_url;
+                if(fetch_url !=null) fetch_url+= "&q="+$('#input_search').val();
                 let conversations = res.data;
+                if(search) $('#conversation_container').html("");
                 setConversation(conversations);
                 
             }
@@ -65,7 +80,13 @@ function setConversation(conversations){
 }
 
 function conversationComponent(conversation){
-    let active = conversation.seen==0?"active":"";
+    let message = conversation.message
+    let active = "";
+    if(conversation.seen==0){
+        active = "active";
+        message = `<strong>${message}</strong>`;
+    }
+    
     let new_message = conversation.new_message_count==0?'':`<div class="msg__badge">${conversation.new_message_count}</div>`;
     return `
         <a href="${target_dir}chatrooms/${conversation.id}">
@@ -76,7 +97,7 @@ function conversationComponent(conversation){
                         ${new_message}
                     </div>
                     <p class="user-status-title"><span class="bold">${conversation.user.name}</span></p>
-                    <p class="user-status-text">${conversation.message}</p>
+                    <p class="user-status-text">${message}</p>
                     <p class="user-status-time floaty">${formatDateTime(new Date(conversation.updated_at))}</p>
                 </div>
             </div>

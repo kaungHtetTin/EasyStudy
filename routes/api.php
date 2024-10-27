@@ -61,6 +61,7 @@ Route::post('/sanctum/token', function (Request $request) {
     Route::apiResource('announcements', AnnouncementController::class);
     Route::get('messages/refresh',[MessageController::class,'refresh']);
     Route::apiResource('messages', MessageController::class);
+    Route::get('chatrooms/search',[ConversationController::class,'search']);
     Route::apiResource('chatrooms', ConversationController::class);
     Route::apiResource('notifications', NotificationController::class);
     Route::post('/mark-as-read-all-notifications',[NotificationController::class,'markAsReadAll']);
