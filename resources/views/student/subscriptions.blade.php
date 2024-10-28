@@ -12,6 +12,8 @@ if (!function_exists('formatCounting')) {
 			return floor($count/1000000).'M'.' '.$unit.'s';;
 		}
 	}
+	$api_token = Cookie::get('api_auth_token');
+    $user = Auth::user();
 }
 @endphp
 
@@ -38,14 +40,20 @@ if (!function_exists('formatCounting')) {
 	<div style="padding-top:80px;">
 	@endauth
 		<div class="sa4d25">
-			<div class="container-fluid">			
+			<div class="container-fluid">	
+				<div class="row">
+					<div class="col-12">	
+						<h2 class="st_title"><i class="uil uil-bell"></i> Subscriptions</h2>
+					</div>
+				</div>
+				<br><br>
 				<div class="row">
 					<div class="col-xl-12 col-lg-8">
 						<div class="section3125">
 							<div class="explore_search">
 								<div class="ui search focus">
 									<div class="ui left icon input swdh11">
-										<input class="prompt srch_explore" type="text" placeholder="Search Tutors...">
+										<input id="input_search" class="prompt srch_explore" type="text" placeholder="Search Tutors...">
 										<i class="uil uil-search-alt icon icon2"></i>
 									</div>
 								</div>
@@ -81,12 +89,15 @@ if (!function_exists('formatCounting')) {
 		
 		<script src="{{asset('js/util.js')}}"></script>
 		<script>
+
+			const apiToken = "{{$api_token}}";
+        	const user = @json($user);
 	
 			let isFetching=false;
-			let url = '/api/instructors';
+			let url = '/api/subscriptions';
 			var instructorArr=[];
 			const social_media = @json($social_media);
-			console.log('social ',social_media);
+			 
 
 			$(document).ready(()=>{
 
@@ -99,9 +110,26 @@ if (!function_exists('formatCounting')) {
 						}
 					}
 				});
+
+				$('#input_search').on('keyup',(x)=>{
+					const search_str = $('#input_search').val();
+
+					if(x.key === "Enter" || x.key === " " || search_str==="" ){
+						 
+						url = "{{asset("")}}api/subscriptions/search?q="+search_str;
+						if(search_str==""){
+							url = '{{asset("")}}api/subscriptions';
+						}
+						
+						instructorArr = [];
+						$('#shimmer').show();
+						fetchInstructor(true);
+					}
+					
+				})
 			});
 
-			function fetchInstructor(){
+			function fetchInstructor(search = false){
 				isFetching=true;
 				$('#shimmer').show();
 				if(url==null){
@@ -109,16 +137,30 @@ if (!function_exists('formatCounting')) {
 					return;
 				}
 
-				$.get(url,function(res,status){
-					isFetching=false;
-					if(res){
-						url = res.next_page_url;
-						let instructors = res.data;
-						setInstructors(instructors);
-						console.log(instructors);
-					}
+				$.ajax({
+					url: url,
+					type: 'GET', // or 'GET' depending on your request
+					headers: {
+						'Authorization': 'Bearer '+apiToken // Example for Authorization header
+					},
 					
-				})
+					success: function(res) {
+						is_fetching=false;
+						if(res){
+							url = res.next_page_url;
+							if(url != null) url+= "&q="+$('#input_search').val();
+							let instructors = res.data;
+							if(search) $('#instructor_container').html("");
+							setInstructors(instructors);
+							
+						}
+					},
+					error: function(xhr, status, error) {
+						if(xhr.status==401){
+							location.href="{{asset('')}}logout";
+						}
+					}
+				}); 
 			}
 
 			 function setInstructors(instructors){

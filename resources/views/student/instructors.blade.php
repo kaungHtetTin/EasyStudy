@@ -86,7 +86,6 @@ if (!function_exists('formatCounting')) {
 			let url = '{{asset("")}}api/instructors';
 			var instructorArr=[];
 			const social_media = @json($social_media);
-			console.log('social ',social_media);
 
 			$(document).ready(()=>{
 

@@ -15,6 +15,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,7 @@ Route::get('/',[LayoutController::class,'index'])->name('index');
 
 // secondary pages
 Route::get('/about-us',[LayoutController::class,'aboutPage'])->name('about-us');
-//Route::get('/blog',[LayoutController::class,'aboutPage'])->name('about-us');
+Route::get('/press',[LayoutController::class,'pressPage'])->name('press');
 Route::get('/contact-us',[LayoutController::class,'contactPage'])->name('contact-us');
 Route::get('/get-mobile-app',[LayoutController::class,'getAppPage'])->name('get-mobile-app');
 Route::get('/help',[LayoutController::class,'helpPage'])->name('help');
@@ -42,7 +43,8 @@ Route::get('/teach-on',[LayoutController::class,'teachOnPage'])->name('teach-on'
 Route::get('/sitemap',[LayoutController::class,'siteMapPage'])->name('sitemap');
 Route::get('/error',function(){  return view('student.error',['page_title'=>'Error']); })->name('error');
 Route::get('/explore',function(){  return view('student.explore',['page_title'=>'Explore']); })->name('explore');
-Route::get('/subscriptions',[LayoutController::class,'subscription'])->name('subscriptions');
+
+Route::get('/blogs',[BlogController::class,'index'])->name('blogs.lists');
 
 // main courses
 Route::get('/courses',[CourseController::class,'index'])->name('courses');
@@ -109,6 +111,7 @@ Route::middleware('auth')->group(function () {
     Route::post('users/{id}/block',[UserController::class,'block'])->name('users.block');
     Route::post('users/{id}/unblock',[UserController::class,'unblock'])->name('users.unblock');
     
+    Route::get('/subscriptions',[LayoutController::class,'subscription'])->name('subscriptions');
 });
 
 

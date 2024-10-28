@@ -4,7 +4,7 @@
             <div class="col-lg-3 col-md-3 col-sm-6">
                 <div class="item_f1">
                     <a href="{{route('about-us')}}">About us</a>
-                    <a href="our_blog.html">Blog</a>
+                    <a href="{{route('blogs.lists')}}">Blog</a>
                     <a href="{{route('contact-us')}}">Contact us</a>
                  
                 </div>

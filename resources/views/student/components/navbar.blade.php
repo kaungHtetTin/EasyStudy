@@ -54,22 +54,22 @@
             </ul>
         </div>
         <div class="left_section">
-            <h6 class="left_title">SUBSCRIPTIONS</h6>
+            @if ($subscriptions)
+                 <h6 class="left_title">SUBSCRIPTIONS <a href="{{route('subscriptions')}}" style="float:right">See all</a></h6>
+            @endif
+           
             <ul>
-                <li class="menu--item">
-                    <a href="instructor_profile_view.html" class="menu--link user_img">
-                        <img src="images/left-imgs/img-1.jpg" alt="">
-                        Rock Smith
-                        <div class="alrt_dot"></div>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="instructor_profile_view.html" class="menu--link user_img">
-                        <img src="images/left-imgs/img-2.jpg" alt="">
-                        Jassica William
-                    </a>
-                    <div class="alrt_dot"></div>
-                </li>
+                @if ($subscriptions)
+                    @foreach ($subscriptions as $subscription)
+                        <li class="menu--item">
+                            <a href="{{route('instructor_detail',$subscription->instructor->id)}}" class="menu--link user_img">
+                                <img src="{{asset('storage/'.$subscription->instructor->user->image_url)}}" alt="">
+                                {{$subscription->instructor->user->name}}
+                                <div class="alrt_dot"></div>
+                            </a>
+                        </li>
+                    @endforeach
+                @endif
                 <li class="menu--item">
                     <a href="{{route('instructors')}}" class="menu--link {{$page_title=='Instructors'?'active':''}}" title="Instructors">
                         <i class='uil uil-plus-circle menu--icon'></i>
@@ -109,7 +109,8 @@
         <div class="left_footer">
             <ul>
                 <li><a href="{{route('about-us')}}">About</a></li>
-                <li><a href="press.html">Blog</a></li>
+                <li><a href="{{route('press')}}">Press</a></li>
+                <li><a href="{{route('blogs.lists')}}">Blog</a></li>
                 <li><a href="{{route('contact-us')}}">Contact Us</a></li>
                 <li><a href="{{route('teach-on')}}">Teach On</a></li>
                 <li><a href="{{route('help')}}">Help</a></li>

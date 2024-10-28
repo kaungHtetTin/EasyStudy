@@ -143,10 +143,10 @@
                             </span>
                         </a>
                     </div>
-                    <a href="{{route('index')}}" class="item channel_item">Student Dashboard</a>						
+                    <a href="{{route('index')}}" class="item channel_item">Home</a>						
                     <a href="membership.html" class="item channel_item">Paid Memberships</a>
                     <a href="{{route('setting')}}" class="item channel_item">Setting</a>
-                    <a href="help.html" class="item channel_item">Help</a>
+                    <a href="{{route('help')}}" class="item channel_item">Help</a>
                     <a href="{{route('feedback.create')}}" class="item channel_item">Send Feedback</a>
                     <a href="{{route('logout')}}" class="item channel_item">Sign Out</a>
                 </div>

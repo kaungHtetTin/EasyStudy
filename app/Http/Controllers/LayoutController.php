@@ -49,6 +49,12 @@ class LayoutController extends Controller
         ]);
     }
 
+    public function pressPage(){
+        return view ('pages.press',[
+            'page_title'=>'Press'
+        ]);
+    }
+
     public function contactPage(){
         return view('pages.contact',[
             'page_title'=>'Contact',

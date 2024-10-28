@@ -11,6 +11,7 @@ use App\Models\PaymentHistory;
 use App\Models\Notification;
 use App\Models\Conversation;
 
+
 class InstructorServiceProvider extends ServiceProvider
 {
     /**
@@ -59,7 +60,7 @@ class InstructorServiceProvider extends ServiceProvider
             $user->refresh_count = $user->refresh_count + 1;
             $user->save();
             $unseen_message_count = Conversation::where('my_id',$user->id)->where('seen',0)->count();
-
+            
             $view->with([
                 'unapproved_payment_count'=>$unapproved_payment_count,
                 'unseen_notification_count'=>$unseen_notification_count,

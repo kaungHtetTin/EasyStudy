@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Instructor;
 use App\Models\Notification;
 use App\Models\Conversation;
+use App\Models\Subscriber;
 
 use Illuminate\Support\Str;
 
@@ -53,6 +54,7 @@ class StudentServiceProvider extends ServiceProvider
                 $instructor = false;
                 $unseen_notification_count =0;
                 $unseen_message_count = 0;
+                $subscriptions = false;
             }else{
                 $instructor = Instructor::where('user_id',$user->id)->first();
                 $unseen_notification_count = Notification::where('passive_user_id',$user->id)
@@ -62,6 +64,7 @@ class StudentServiceProvider extends ServiceProvider
                 $unseen_message_count = Conversation::where('my_id',$user->id)->where('seen',0)->count();
                 $user->refresh_count = $user->refresh_count + 1;
                 $user->save();
+                $subscriptions = Subscriber::where('user_id',$user->id)->orderBy('updated_at','desc')->limit(5)->get();
             }
 
             $view->with([
@@ -69,6 +72,7 @@ class StudentServiceProvider extends ServiceProvider
                 'is_current_user_instructor'=>$instructor,
                 'unseen_notification_count'=>$unseen_notification_count,
                 'unseen_message_count'=>$unseen_message_count,
+                'subscriptions'=>$subscriptions,
             ]);
 
             

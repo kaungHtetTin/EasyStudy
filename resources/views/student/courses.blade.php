@@ -105,12 +105,12 @@
 				</span>		
 				<div class="row">
 					<div class="col-10">
-						<div class="scroll-container">
+						<div class="mCustomScrollbar">
 							@guest
 								<br>
 							@endguest
 							@foreach ($sub_categories as $key=>$sub_category)
-								<span onclick="sub_category_click({{$sub_category->id}})" class="{{$sub_category_id==$sub_category->id ? 'sub_category_active':'sub_category'}}"> {{$sub_category->title}} </span>
+								<span style="margin-top:7px;" onclick="sub_category_click({{$sub_category->id}})" class="{{$sub_category_id==$sub_category->id ? 'sub_category_active':'sub_category'}}"> {{$sub_category->title}} </span>
 							@endforeach
 						</div>
 					</div>			
