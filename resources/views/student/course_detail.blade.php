@@ -51,45 +51,47 @@ if (!function_exists('calculatePercent')) {
             $assignment_count++;
         }
     }
+ 
 
-    $reviews = $course->reviews;
-
-    $total_star_count = $reviews->count();
+    $total_review_count = 0;
     $total_one_star = 0;
     $total_two_star = 0;
     $total_three_star = 0;
     $total_four_star = 0;
-    $total_five_star = 0;
+    $total_five_star = 0; 
 
-    foreach ($reviews as $key => $review) {
-        switch ($review->star) {
+    foreach ($review_stars as $review_star) {
+       switch ($review_star->star) {
             case 1:
-                $total_one_star++;
+                $total_one_star = $review_star->star_count;
                 break;
 
             case 2:
-                $total_two_star++;
+                $total_two_star = $review_star->star_count;
                 break;
             
             case 3:
-                $total_three_star++;
+                $total_three_star = $review_star->star_count;
                 break;
 
             case 4:
-                $total_four_star++;
+                $total_four_star = $review_star->star_count;
                 break;
 
             case 5:
-                $total_five_star++;
+                $total_five_star = $review_star->star_count;
                 break;
         }
+
+        $total_review_count += $review_star->star_count;
     }
 
-    $one_star_percent = calculatePercent($total_one_star,$total_star_count);
-    $two_star_percent = calculatePercent($total_two_star,$total_star_count);
-    $three_star_percent = calculatePercent($total_three_star,$total_star_count);
-    $four_star_percent = calculatePercent($total_four_star,$total_star_count);
-    $five_star_percent = calculatePercent($total_five_star,$total_star_count);
+
+    $one_star_percent = calculatePercent($total_one_star,$total_review_count);
+    $two_star_percent = calculatePercent($total_two_star,$total_review_count);
+    $three_star_percent = calculatePercent($total_three_star,$total_review_count);
+    $four_star_percent = calculatePercent($total_four_star,$total_review_count);
+    $five_star_percent = calculatePercent($total_five_star,$total_review_count);
 
     $api_token = Cookie::get('api_auth_token');
 
@@ -574,8 +576,16 @@ if (!function_exists('calculatePercent')) {
                                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
                                                 
                                                 @foreach ($module->lessons as $lesson)
-                                                    
+                                                    @php 
+                                                        // only for development process
+                                                        $lesson->course_id = $course->id;
+                                                        $lesson->save();
+                                                    @endphp
+                                                    @if ($lesson->lesson_type_id==1 && $lesson->free_preview == 1)
+                                                    <div class="lecture-container" style="cursor: pointer" onclick="playLesson('{{$lesson->download_url}}')" data-toggle="modal" data-target="#videoModal">
+                                                    @else
                                                     <div class="lecture-container">
+                                                    @endif
                                                         <div class="left-content">
                                                             @if ($lesson->lesson_type_id==1)
                                                                 <i class='uil uil-play-circle icon_142'></i> 
@@ -587,11 +597,13 @@ if (!function_exists('calculatePercent')) {
                                                                 <div class="title">{{$lesson->title}}</div>
                                                             </div>
                                                         </div>
-                                                        <div class="details">
-                                                             @if ($lesson->lesson_type_id==1)
+                                                        <div class="details"> 
+                                                            @if ($lesson->lesson_type_id==1)
+                                                                @if ($lesson->free_preview == 1)
+                                                                    <span class="content-summary">Free Preview</span>
+                                                                @endif
                                                                 <span class="content-summary">{{convertMinutes($lesson->duration)}}</span>
                                                             @endif
-                                                           
                                                         </div>
                                                     </div>
 
@@ -599,7 +611,6 @@ if (!function_exists('calculatePercent')) {
                                             </div>
                                         </div>
                                      @endforeach
-                                    <a class="btn1458" href="#">20 More Sections</a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
@@ -823,20 +834,21 @@ if (!function_exists('calculatePercent')) {
     </div>
 
     <script>
+        var nightMode = localStorage.getItem('gmtNightMode');
+
         const apiToken = "{{$api_token}}";
-        console.log('api token',apiToken);
         
         let like = "{{$like}}";
         let dislike = "{{$dislike}}";
-        let course = @json($course);
-        let like_count = parseInt(course.like_count);
-        let dislike_count = parseInt(course.dislike_count);
+        const course_id = "{{$course->id}}"
+        let like_count = parseInt("{{$course->like_count}}");
+        let dislike_count = parseInt("{{$course->dislike_count}}");
         
         let is_review_fetching = false;
         let is_review_tab = false;
         let reviewArr = [];
 
-        let fetch_review_url = `{{asset('')}}api/courses/${course.id}/reviews`
+        let fetch_review_url = `{{asset('')}}api/courses/${course_id}/reviews`
 
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.my_star');
@@ -889,6 +901,30 @@ if (!function_exists('calculatePercent')) {
 
         });
 
+        function fetchLesson(){
+            $.ajax({
+				url: '{{asset("")}}api/courses/'+course_id+'/lessons', // Replace with your API endpoint
+				type: 'GET', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+				success: function(response) {
+                    lessonReady = true;
+                    lessons = response.lessons;
+                    modules = response.modules;
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
+        }
+
+        function playLesson(link){
+            $('#videoSrc').attr('src',link);
+            $('#myVideo').get(0).load();
+            $('#myVideo').get(0).play();
+        }
+
         function fetchReviews(id){
             is_review_fetching = true;
             $('#shimmer').show();
@@ -928,10 +964,17 @@ if (!function_exists('calculatePercent')) {
                 }
             }
 
+            let review_body = "";
+            if(review.body){
+                review_body = `<p class="rvds10">${review.body}</p>`;
+            }
+
             return `
                 <div class="review_item">
                     <div class="review_usr_dt">
-                        <img src="images/left-imgs/img-1.jpg" alt="">
+                        <a href = "{{asset('')}}users/${review.user.id}" >
+                            <img src="{{asset('')}}storage/${review.user.image_url}" alt="">
+                        </a>
                         <div class="rv1458">
                             <h4 class="tutor_name1">${review.user.name}</h4>
                             <span class="time_145">${formatDateTime(new Date(review.created_at))}</span>
@@ -940,7 +983,7 @@ if (!function_exists('calculatePercent')) {
                     <div class="rating-box mt-20">
                         ${star}
                     </div>
-                    <p class="rvds10">${review.body}</p>
+                    ${review_body}
                     <div class="rpt100">
                         <span>Was this review helpful?</span>
                         <div class="radio--group-inline-container">
@@ -1062,7 +1105,7 @@ if (!function_exists('calculatePercent')) {
             $('#tv_dislike_count').html(dislike_count);
 
             $.ajax({
-				url: '{{asset("")}}api/courses/react/'+course.id, // Replace with your API endpoint
+				url: '{{asset("")}}api/courses/react/'+course_id, // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header

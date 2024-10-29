@@ -348,6 +348,59 @@
 
                             </div>
 
+                            <div class="edit-container" id="form-password-reset" style="padding-left:30px; padding-right: 30px;">
+                                <form id="password_reset_form" method="POST" action="{{route('password.update')}}">
+                                    @csrf 
+                                    @method('PUT')
+                                    <h5>Enter Current password</h5>
+                                    <div class="ui search focus mt-15">
+                                        <div class="ui input swdh95">
+                                            <input class="prompt srch_explore" type="password" name="current_password" value="" id="reset_current_password_input" required="" maxlength="64" placeholder="Current password">															
+                                        </div>
+                                    </div> 
+                                     @if ($errors->updatePassword->isNotEmpty()) 
+                                        @php
+                                            $click_index = 4;
+                                        @endphp
+                                         <p style="text-align:left;font-size:12px;color:red"> {{$errors->updatePassword->first('current_password')}} </p>	
+                                    @endif
+                                    <p id="reset_current_password_input_error" style="margin-top:15px; color:red;display:none">Please enter your current password</p>
+                                    <h5>Enter New password</h5>
+                                    <div class="ui search focus mt-15">
+                                        <div class="ui input swdh95">
+                                            <input class="prompt srch_explore" type="password" name="password" value="" id="reset_new_password_input" required="" maxlength="64" placeholder="New password">															
+                                        </div>
+                                    </div> 
+                                    @if ($errors->updatePassword->isNotEmpty()) 
+                                        @php
+                                            $click_index = 4;
+                                        @endphp
+                                        <p style="text-align:left;font-size:12px;color:red"> {{$errors->updatePassword->first('password')}} </p>	
+                                    @endif
+                                    <p id="reset_new_password_input_error" style="margin-top:15px; color:red;display:none">Please enter your new password</p>
+                                </form>
+                                <button id="btn_reset_password" class="login-btn" type="submit">Reset Password</button>
+                                <script>
+                                    $(document).ready(()=>{
+                                        $('#btn_reset_password').click(()=>{
+                                            let validate = true;
+                                            $('#reset_current_password_input_error').hide();
+                                            if($('#reset_current_password_input').val()==""){
+                                                validate = false;
+                                                $('#reset_current_password_input_error').show();
+                                            }
+
+                                            if($('#reset_new_password_input').val()==""){
+                                                validate = false;
+                                                $('#reset_new_password_input_error').show();
+                                            }
+
+                                            if(validate) $('#password_reset_form').submit();
+                                        });
+                                    });
+                                </script>
+                            </div>
+
                             <div class="edit-container" id="form-close-account" style="padding-left:30px; padding-right: 30px;">
                                 <b style="color: red">Warning: </b>By deleting account, you will lose access to all data associated with this account forever and you will be unsubscribed from all of your courses even if 
                                 you create the new account using the same email address in future.
@@ -364,14 +417,14 @@
                                     </div>
                                     @if ($errors->userDeletion->isNotEmpty()) 
                                         @php
-                                            $click_index = 4;
+                                            $click_index = 5;
                                         @endphp
                                          <p style="text-align:left;font-size:12px;color:red"> {{$errors->userDeletion->first('password')}} </p>	
                                     @endif
-                                     <p id="del_account_error" style="margin-top:15px; color:red;"></p>
+                                    <p id="del_account_error" style="margin-top:15px; color:red;"></p>
                                    
                                 </form>
-                                 <button id="btn_del_account" class="login-btn" type="submit">Delete Account</button>
+                                <button id="btn_del_account" class="login-btn" type="submit">Delete Account</button>
                                 <script>
                                     $(document).ready(()=>{
                                         $('#btn_del_account').click(()=>{
@@ -424,6 +477,12 @@
                                         <span class="menu--label">Notification</span>
                                     </a>
                                 </li>
+                                 <li  class="menu--item">
+                                    <a href="#" class="edit-menu menu--link">
+                                        <i class='uil uil-lock menu--icon'></i>
+                                        <span class="menu--label">Password Reset</span>
+                                    </a>
+                                </li>
                                 <li  class="menu--item">
                                     <a href="#" class="edit-menu menu--link">
                                         <i class='uil uil-trash menu--icon'></i>
@@ -449,6 +508,7 @@
             {title:"Photo",description:"Add your profile photo"},
             {title:"Privay",description:"Constomize your profile visibility"},
             {title:"Notification",description:"Customize your notification setting"},
+            {title:"Password Reset",description:"Reset your password"},
             {title:"Close Account",description:"Close your account pernamently"},
         ];
 
@@ -462,7 +522,7 @@
                         
                     })
 
-                     $(menu).attr('class','edit-menu menu--link active');
+                    $(menu).attr('class','edit-menu menu--link active');
 
                     $('.edit-container').each((container_index,conatiner)=>{
                         if(container_index==menu_index){
@@ -477,11 +537,11 @@
                    $('#form-title').html(info.title);
                    $('#form-description').html(info.description);
 
-                   if(small_screen){
+                    if(small_screen){
                         $('#drawer').attr('class','profile_nav_menu_closed');
                         $('#btn-drawer-toggle').html(`<i class='uil  uil-angle-down'></i>`);
                         toggle_open=false;
-                   }
+                    }
                     
                 });
             });

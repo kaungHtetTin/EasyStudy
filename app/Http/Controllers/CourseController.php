@@ -63,7 +63,7 @@ class CourseController extends Controller
     public function detail($id){
 
         $course = Course::find($id);
-        
+
         if($course==null){
             return redirect()->route('error');
         }
@@ -76,7 +76,7 @@ class CourseController extends Controller
         if (Auth::check()) {
 
             $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
-            if($access){
+            if($access || $course->fee == 0){
                 return redirect()->route('course.learn',['id'=>$id]);
             }
 
@@ -108,6 +108,10 @@ class CourseController extends Controller
         $course->visit = ($course->visit)+1;
         $course->save();
 
+        $review_stars = Review::selectRaw("count(*) star_count, star")
+        ->groupBy('star')
+        ->where('course_id',$id)
+        ->get();
 
         return view('student.course_detail',[
             'page_title'=>'Detail',
@@ -115,6 +119,7 @@ class CourseController extends Controller
             'myReview'=>$myReview,
             'reaction'=>$reaction,
             'subscribed'=>$subscribed,
+            'review_stars'=> $review_stars,
         ]);
     }
 
@@ -202,8 +207,8 @@ class CourseController extends Controller
         else $announcement_id = 0; 
      
         $access = SavedCourse::where('user_id',$user->id)->where('course_id',$course->id)->first();
-        if($access==null){
-            return redirect()->route('course_detail',['id'=>$id]);
+        if(!$access){
+            if($course->fee > 0)  return redirect()->route('course_detail',['id'=>$id]);
         }
 
         if (Auth::check()) {
@@ -228,6 +233,10 @@ class CourseController extends Controller
             $reaction = false;
         }
 
+        $review_stars = Review::selectRaw("count(*) star_count, star")
+        ->groupBy('star')
+        ->where('course_id',$id)
+        ->get();
 
         return view('student.course_learn',[
             'page_title'=>'Learning',
@@ -239,6 +248,7 @@ class CourseController extends Controller
             'reaction'=>$reaction,
             'question_id'=>$question_id,
             'announcement_id'=>$announcement_id,
+            'review_stars'=> $review_stars,
         ]);
     }
 

@@ -35,7 +35,12 @@
             </a>
             <div class="auth1lnkprce">
                 <p class="cr1fot">By <a href="{{route('instructor_detail',['id'=>$course->instructor->id])}}">{{$course->instructor->user->name}}</a></p>
-                <div class="prce142">{{$course->fee}} <span>MMK</span></div>
+                @if ($course->fee > 0)
+                    <div class="prce142">{{$course->fee}} <span>MMK</span></div>
+                @else
+                    <div class="prce142">Free</div>
+                @endif
+                
                 <form action="{{route('cart')}}" method="POST">
                     <input type="hidden" value="{{$course->id}}" name="course_id">
                     @csrf

@@ -103,20 +103,20 @@
 				<span class="btn-menu" id="btn-drawer-toggle">
 					<i class='uil  uil-angle-down'></i>
 				</span>		
-				<div class="row">
-					<div class="col-10">
-						<div class="mCustomScrollbar">
-							@guest
-								<br>
-							@endguest
-							@foreach ($sub_categories as $key=>$sub_category)
-								<span style="margin-top:7px;" onclick="sub_category_click({{$sub_category->id}})" class="{{$sub_category_id==$sub_category->id ? 'sub_category_active':'sub_category'}}"> {{$sub_category->title}} </span>
-							@endforeach
-						</div>
-					</div>			
-				</div>
 				<div style="position: relative;display:flex">
 					<div style="flex:1">
+						<div class="row">
+							<div class="col-10">
+								<div class="mCustomScrollbar">
+									@guest
+										<br>
+									@endguest
+									@foreach ($sub_categories as $key=>$sub_category)
+										<span style="margin-top:7px;" onclick="sub_category_click({{$sub_category->id}})" class="{{$sub_category_id==$sub_category->id ? 'sub_category_active':'sub_category'}}"> {{$sub_category->title}} </span>
+									@endforeach
+								</div>
+							</div>			
+						</div>
 						<div class="_14d25">
 							<div class="row" id="course_container">
 								<div class="col-md-12">
@@ -134,7 +134,7 @@
 					</div>	
 			 
 					<div class="right_drawer" id="drawer" style="display: none">
-						<div style="padding-left:15px;padding-top:20px;position:relative">
+						<div style="padding-left:15px;position:relative">
 							<div class="fcrse_1 mt-10">
 								<div class="crse14s">
 									Popular Topics
@@ -218,7 +218,7 @@
 										<label>Paid</label>
 									</div><br>
 									<div class="ui checkbox mncheck">
-										<input class="duration_inputs" type="checkbox" tabindex="0" class="hidden" value="0">
+										<input class="price_inputs" type="checkbox" tabindex="0" class="hidden" value="0">
 										<label>Free</label>
 									</div>
 
@@ -228,8 +228,6 @@
 							</div>
 						</div>
 					</div>
-						
-			  
 				</div>
 			</div>
 		</div>
@@ -258,12 +256,9 @@
 		];
 		let durations = [];
 		let ratings = [];
-
-
-		console.log(courses);
+		let prices = []; 
 
 		const current_link = "{{ route('courses') }}" + "?category_id={{request()->category_id}}";
-		console.log(current_link);
 
 		function sub_category_click(id) {
 			window.location.href = current_link + "&sub_category_id=" + id;
@@ -274,6 +269,7 @@
 			const checkboxes = $('.topic_inputs');
 			const durationBoxes = $('.duration_inputs');
 			const ratingBoxes = $('.rating_inputs');
+			const priceBoxes = $('.price_inputs');
 
 			checkboxes.on('change', function() {
 				
@@ -312,6 +308,17 @@
 			 
 				setCourse(filtering());
 			});
+
+			priceBoxes.on('change',function (){
+				if ($(this).prop('checked')) {
+					prices.push(parseFloat($(this).val()));
+				} else {
+					const index = prices.indexOf(parseInt($(this).val()));
+					if (index != -1) prices.splice(index, 1);
+				}
+			 
+				setCourse(filtering());
+			})
 
 			 
 			setCourse(courses);
@@ -372,7 +379,6 @@
 			durationCourses.map(course=>{
 				if(ratings.length>0){
 					ratings.map(rating=>{
-						//console.log(course.rating, rating);
 						if(course.rating>=rating && course.rating<=(rating+0.5)){
 							console.log(course.rating, rating, 'true');
 							ratingCourses.push(course);
@@ -386,7 +392,24 @@
 				}
 			})
 
-			return ratingCourses;
+			let priceCourses = [];
+			ratingCourses.map(course=>{
+				if(prices.length>0){
+					prices.map((price)=>{
+						if(course.fee == price){
+							priceCourses.push(course);
+						}
+
+						if(price == 1 && course.fee >0){
+							priceCourses.push(course);
+						}
+					})
+				}else{
+					priceCourses.push(course);
+				}
+			})
+
+			return priceCourses;
 		}
 
 		function setCourse(courses){

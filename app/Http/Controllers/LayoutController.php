@@ -23,7 +23,11 @@ class LayoutController extends Controller
         ->orderBy('student_enroll','desc')
         ->limit(10)->get();
 
-        $reviews = Review::limit(10)->get();
+        $reviews = Review::where('star',5)
+        ->where('body','!=',"")
+        ->orderBy('id','desc')
+        ->limit(20)
+        ->get();
         
         $top_categories = Category::orderBY('course_count','DESC')->limit(6)->get();
 

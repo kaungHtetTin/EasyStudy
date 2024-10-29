@@ -22,7 +22,8 @@ class CourseComponent{
     }
 
     createView(){
-        
+        let price = `<div class="prce142">${this.course.fee} <span>MMK</span></div>`;
+        if(this.course.fee == 0) price = `<div class="prce142">Free</div>`;
         return `
             <div class="fcrse_1 mt-30">
                 <a href="${this.Context.rootDir}courses/${this.course.id}" class="fcrse_img">
@@ -63,7 +64,7 @@ class CourseComponent{
                     
                     <div class="auth1lnkprce">
                         <p class="cr1fot">By <a href="/instructors/${this.course.instructor_id}">${this.course.instructor.user.name}</a></p>
-                        <div class="prce142">${this.course.fee} <span>MMK</span></div>
+                        ${price}
                         <button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
                     </div>
                 </div>

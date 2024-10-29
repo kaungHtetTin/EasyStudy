@@ -51,44 +51,45 @@ if (!function_exists('calculatePercent')) {
     }
 }
 
-    $reviews = $course->reviews;
-
-    $total_star_count = $reviews->count();
+    
+    $total_review_count = 0;
     $total_one_star = 0;
     $total_two_star = 0;
     $total_three_star = 0;
     $total_four_star = 0;
-    $total_five_star = 0;
+    $total_five_star = 0; 
 
-    foreach ($reviews as $key => $review) {
-        switch ($review->star) {
+    foreach ($review_stars as $review_star) {
+       switch ($review_star->star) {
             case 1:
-                $total_one_star++;
+                $total_one_star = $review_star->star_count;
                 break;
 
             case 2:
-                $total_two_star++;
+                $total_two_star = $review_star->star_count;
                 break;
             
             case 3:
-                $total_three_star++;
+                $total_three_star = $review_star->star_count;
                 break;
 
             case 4:
-                $total_four_star++;
+                $total_four_star = $review_star->star_count;
                 break;
 
             case 5:
-                $total_five_star++;
+                $total_five_star = $review_star->star_count;
                 break;
         }
+
+        $total_review_count += $review_star->star_count;
     }
 
-    $one_star_percent = calculatePercent($total_one_star,$total_star_count);
-    $two_star_percent = calculatePercent($total_two_star,$total_star_count);
-    $three_star_percent = calculatePercent($total_three_star,$total_star_count);
-    $four_star_percent = calculatePercent($total_four_star,$total_star_count);
-    $five_star_percent = calculatePercent($total_five_star,$total_star_count);
+    $one_star_percent = calculatePercent($total_one_star,$total_review_count);
+    $two_star_percent = calculatePercent($total_two_star,$total_review_count);
+    $three_star_percent = calculatePercent($total_three_star,$total_review_count);
+    $four_star_percent = calculatePercent($total_four_star,$total_review_count);
+    $five_star_percent = calculatePercent($total_five_star,$total_review_count);
 
     $like = false; $dislike = false;
     if($reaction){
@@ -233,6 +234,14 @@ if (!function_exists('calculatePercent')) {
                 gap: 10px;
             }
 
+            .lecture-container:hover{
+                background:#efeeff
+            }
+
+            .night-mode .lecture-container:hover{
+                background:#3a3a3a
+            }
+
 
             #toolbar button:hover {
                 color: #475692;
@@ -296,7 +305,16 @@ if (!function_exists('calculatePercent')) {
                 border-color: #2196F3;
             }
 
-            
+            .my-spinner {
+                width: 100px;
+                height:100px;
+                border:0px solid green;
+               
+            }
+
+            .learning-progress{
+                 background: linear-gradient(45deg,#000,#ffffff56);
+            }
              
         </style>
     </head>
@@ -356,22 +374,32 @@ if (!function_exists('calculatePercent')) {
     <div class="fixedLessonContainer">
         <div class="row" style="padding-right:0px;">
             <div class="col-lg-8 col-md-6" style="padding-right:0px;" id="player-section">
-                <div style="padding:10px;background:#333;color:white">
-                    <a href="" target="_blank" rel="noopener noreferrer" style="color:white;">
-                        <i class='uil uil-arrow-left'></i>
-                        <span>{{$course->title}}</span>
-                    </a> 
-                    
+                
+                <div id="cover_area" style="position: relative; min-height: 150px;">
+                    <img src="{{asset('storage/'.$course->cover_url)}}" alt="" srcset="" style="width: 100%">
+                    <div class="learning-progress" style="position: absolute; bottom:0;z-index:3;height:100%;padding:10px;width:100%">
+                        <div style="position: absolute;bottom:0;z-index:4">
+                            <canvas style="display: inline" class="my-spinner"  id="spinner" width="300" height="300"></canvas>
+                            <span style="color: white" class="time_145">Learning Progress</span>
+                            <br>
+                        </div>
+                    </div>
                 </div>
-                <div id="video_player">
+                <div id="video_player" style="display: none">
+                    <div style="padding:10px;background:#333;color:white">
+                        <a href="" target="_blank" rel="noopener noreferrer" style="color:white;">
+                            <i class='uil uil-arrow-left'></i>
+                            <span>{{$course->title}}</span>
+                        </a> 
+                        
+                    </div>
                     <video id="myVideo" style="width:100%" controls controlsList="nodownload">
                         <source id="videoSrc" src="" type="video/mp4">
                     </video>
+                    <div style="float:right;padding:3px;">
+                        <span class="download-lecture" onclick="downloadVideo()" style="cursor: pointer"><b><i class='uil uil-download-alt'></i> Download lecture</b></span>
+                    </div>
                 </div>
-                <div style="float:right;padding:3px;">
-                    <span class="download-lecture" onclick="downloadVideo()" style="cursor: pointer"><b><i class='uil uil-download-alt'></i> Download lecture</b></span>
-                </div>
-
                 <div class="course_tabs">
                     <nav>
                         <div class="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
@@ -400,10 +428,7 @@ if (!function_exists('calculatePercent')) {
                                                     </ul>
                                                 </div>
 
-                                                @foreach ($course->modules as $module)
-                                                    @php
-                                                        $module_index = $loop->index;
-                                                    @endphp
+                                                @foreach ($course->modules as $module) 
                                                     <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
                                                         <a href="javascript:void(0)" class="accordion-header ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all" style="margin-top:0px;padding-right:10px;">												
                                                             <div class="section-header-left" style="flex-basis: 100%">
@@ -419,10 +444,12 @@ if (!function_exists('calculatePercent')) {
                                                         <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
                                                             
                                                             @foreach ($module->mLessons($user->id) as $lesson)
-                                                                @php
-                                                                    $lesson_index = $loop->index;
+                                                                @php 
+                                                                    // only for development process
+                                                                    $lesson->course_id = $course->id;
+                                                                    $lesson->save();
                                                                 @endphp
-                                                                <div class="lecture-container lecture-list-1" onclick="playLesson({{$module_index}},{{$lesson_index}})" style="padding-right:15px;cursor: pointer;">
+                                                                <div class="lecture-container lecture-list-1" onclick="playLesson({{$module->id}},{{$lesson->id}})" style="padding-right:15px;cursor: pointer;">
                                                                     <div class="left-content">
                                                                         @if ($lesson->lesson_type_id==1)
                                                                             <i class='uil uil-play-circle icon_142'></i> 
@@ -486,7 +513,7 @@ if (!function_exists('calculatePercent')) {
                                                             @endif
                                                             
                                                         </form>
-                                                    </div>
+                                                    </div> 
                                                 </div>
                                                 <br>
                                              
@@ -505,6 +532,7 @@ if (!function_exists('calculatePercent')) {
                                                     </div>
                                                 </div>
                                                 <br>
+                                                
                                                 <i class='uil uil-clock-two'></i> Last updated {{$course->updated_at->diffForHumans()}}
                                             </div>
                                             <hr>
@@ -862,8 +890,7 @@ if (!function_exists('calculatePercent')) {
             </div>
 
             <div class="col-lg-4 col-md-6 scrollLessonContent fixContainer" id="lesson-section" style="padding-left:10px; padding-right:10px;">
-
-                <div class="crse_content" style="margin-top:15px;">
+                <div class="crse_content mCustomScrollbar" style="margin-top:15px;">
                     <div class="_112456">
                         <ul class="accordion-expand-holder">
                             <li><span class="accordion-expand-all _d1452">Expand all</span></li>
@@ -872,12 +899,7 @@ if (!function_exists('calculatePercent')) {
                         </ul>
                     </div>
 
-                    @foreach ($course->modules as $module)
-
-                        @php
-                            $module_index = $loop->index;
-                        @endphp
-
+                    @foreach ($course->modules as $module)  
                         <div id="accordion" class="ui-accordion ui-widget ui-helper-reset" style="margin-top:0px;">
                             <a href="javascript:void(0)" class="accordion-header ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all" style="margin-top:0px;padding-right:10px;">												
                                 <div class="section-header-left" style="flex-basis: 100%">
@@ -898,7 +920,7 @@ if (!function_exists('calculatePercent')) {
                                         $lesson_index = $loop->index;
                                     @endphp
 
-                                    <div class="lecture-container lecture-list-1" onclick="playLesson({{$module_index}},{{$lesson_index}})" style="padding-right:15px;cursor: pointer;">
+                                    <div class="lecture-container lecture-list-1" onclick="playLesson({{$module->id}},{{$lesson->id}})" style="padding-right:15px;cursor: pointer;">
                                         <div class="left-content">
                                             @if ($lesson->lesson_type_id==1)
                                                 <i class='uil uil-play-circle icon_142'></i> 
@@ -908,7 +930,7 @@ if (!function_exists('calculatePercent')) {
                                             
                                             <div class="top">
                                                 <div class="title">{{$lesson->title}} 
-                                                     @if ($lesson->learned==1)
+                                                        @if ($lesson->learned==1)
                                                         <i style="color:#475692" class='uil uil-check-circle'></i>
                                                     @endif
                                                 </div>
@@ -926,10 +948,9 @@ if (!function_exists('calculatePercent')) {
                                 @endforeach
                             </div>
                         </div>
-                        @endforeach
-                     
+                    @endforeach
+                    
                 </div>
-                
             </div>
         </div>
     </div>
@@ -938,7 +959,7 @@ if (!function_exists('calculatePercent')) {
     <script>
 
         const apiToken = "{{$api_token}}";
-        const course = @json($course);
+        const course_id = "{{$course->id}}"
         const user = @json($user);
         const access = @json($access);
         const question_types = @json($question_types);
@@ -950,13 +971,7 @@ if (!function_exists('calculatePercent')) {
 
         let lessons, modules;
         let currentLesson = null;
-        let reply_question_id = 0;
-
-
-
-        console.log('api token',apiToken);
-        
-        modules = course.modules;
+        let reply_question_id = 0; 
 
         let is_review_fetching = false;
         let is_review_tab = false;
@@ -972,10 +987,10 @@ if (!function_exists('calculatePercent')) {
 		let anouncementArr = [];
 			
 
-        let fetch_review_url = `{{asset('')}}api/courses/${course.id}/reviews`
-        let fetch_question_url = `{{asset('')}}api/courses/${course.id}/questions`;
-        let fetch_answer_url = `{{asset('')}}api/courses/${course.id}/questions/`; // dynamically concatenate 
-        let fetch_anouncement_url = `{{asset('')}}api/courses/${course.id}/announcements`;
+        let fetch_review_url = `{{asset('')}}api/courses/${course_id}/reviews`
+        let fetch_question_url = `{{asset('')}}api/courses/${course_id}/questions`;
+        let fetch_answer_url = `{{asset('')}}api/courses/${course_id}/questions/`; // dynamically concatenate 
+        let fetch_anouncement_url = `{{asset('')}}api/courses/${course_id}/announcements`;
 
         let is_answer_is_fetching = false;
         let answer_mode = false;
@@ -984,11 +999,12 @@ if (!function_exists('calculatePercent')) {
 
         let csrf_input = document.querySelector("[name=_token]");
         
-
+        var nightMode = localStorage.getItem('gmtNightMode');
+     
         $(document).ready(()=>{
             adjustLayout();
-          
-         
+            fetchLesson();
+            drawProgressBar();
             $('#nav-overview-tab').click(()=>{
               
             });
@@ -1013,8 +1029,8 @@ if (!function_exists('calculatePercent')) {
                     $('.lecture-list-1').each((j,lessonItem)=>{
                         $(lessonItem).css({"background":""});
                     });
-                    $('.lecture-list-2').eq(i).css({"background":"#efeeff"});
-                    $(item).css({"background":"#efeeff"});
+                    $('.lecture-list-2').eq(i).css({"background":nightMode?"#3a3a3a":"efeeff"});
+                    $(item).css({"background":nightMode?"#3a3a3a":"efeeff"});
                 });
             });
 
@@ -1023,8 +1039,8 @@ if (!function_exists('calculatePercent')) {
                     $('.lecture-list-2').each((j,lessonItem)=>{
                         $(lessonItem).css({"background":""});
                     });
-                     $('.lecture-list-1').eq(i).css({"background":"#efeeff"});
-                    $(item).css({"background":"#efeeff"});
+                     $('.lecture-list-2').eq(i).css({"background":nightMode?"#3a3a3a":"efeeff"});
+                    $(item).css({"background":nightMode?"#3a3a3a":"efeeff"});
                 });
             })
 
@@ -1193,9 +1209,9 @@ if (!function_exists('calculatePercent')) {
             $('#input_search_question').on('keyup',(x)=>{
                 const search_str = $('#input_search_question').val();
                 if(x.key === "Enter" || x.key === " " || search_str==="" ){
-                    fetch_question_url = `{{asset('')}}api/courses/${course.id}/questions/search?q=${search_str}`
+                    fetch_question_url = `{{asset('')}}api/courses/${course_id}/questions/search?q=${search_str}`
                     if(search_str==""){
-						fetch_question_url = `{{asset('')}}api/courses/${course.id}/questions`
+						fetch_question_url = `{{asset('')}}api/courses/${course_id}/questions`
 					}
 
                     console.log('start searching');
@@ -1361,7 +1377,7 @@ if (!function_exists('calculatePercent')) {
             $('#search_input').hide();
             $('#question_loading').show();
 
-            fetch_answer_url= `{{asset('')}}api/courses/${course.id}/questions/${question_id}/answers`;
+            fetch_answer_url= `{{asset('')}}api/courses/${course_id}/questions/${question_id}/answers`;
             fetchAnswer();
 
         }
@@ -1504,9 +1520,9 @@ if (!function_exists('calculatePercent')) {
             }
         }
 
-        function playLesson(module_index, lesson_index){
-           
-            let lesson = modules[module_index].lessons[lesson_index];
+        function playLesson(module_id, lesson_id){
+        
+            let lesson =lessons.find((lesson)=> lesson.id == lesson_id);
             currentLesson = lesson;
 
             if(lesson.lesson_type_id==1){
@@ -1525,7 +1541,7 @@ if (!function_exists('calculatePercent')) {
                 $video.on('timeupdate', function() {
                     if(videoDuration>0){
                         const videoProgress = $video[0].currentTime.toFixed(2);
-                        if(videoProgress>videoDuration-10){
+                        if(videoProgress>videoDuration-30){
                             if(!updatedLearningRecord){
                                 updateLearnHistory(lesson);
                                 updatedLearningRecord=true;
@@ -1533,6 +1549,9 @@ if (!function_exists('calculatePercent')) {
                         }
                     }
                 });
+
+                $('#cover_area').hide();
+                $('#video_player').show();
                     
             }else{
                 $('#myVideo').get(0).pause();
@@ -1565,7 +1584,7 @@ if (!function_exists('calculatePercent')) {
 
         function fetchLesson(){
             $.ajax({
-				url: '{{asset("")}}api/courses/'+course.id+'/lessons', // Replace with your API endpoint
+				url: '{{asset("")}}api/courses/'+course_id+'/lessons', // Replace with your API endpoint
 				type: 'GET', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header
@@ -1579,8 +1598,7 @@ if (!function_exists('calculatePercent')) {
 					console.error('Error:', status, error);
 				}
 			});
-        }
-
+        } 
         
         function fetchReviews(){
             is_review_fetching = true;
@@ -1621,6 +1639,11 @@ if (!function_exists('calculatePercent')) {
                 }
             }
 
+            let review_body = "";
+            if(review.body){
+                review_body = `<p class="rvds10">${review.body}</p>`;
+            }
+
             return `
                 <div class="review_item">
                     <div class="review_usr_dt">
@@ -1637,7 +1660,7 @@ if (!function_exists('calculatePercent')) {
                     <div class="rating-box mt-20">
                         ${star}
                     </div>
-                    <p class="rvds10">${review.body}</p>
+                    ${review_body}
                     <div class="rpt100">
                         <span>Was this review helpful?</span>
                         <div class="radio--group-inline-container">
@@ -1745,6 +1768,40 @@ if (!function_exists('calculatePercent')) {
                 }
             });
             
+        }
+
+        function drawProgressBar() {
+            let degrees=0;
+           // if(total_lecture!=0) degrees=(learned_lesson_count/total_lecture)*360;
+            let spinner = document.getElementById("spinner");
+            let ctx = spinner.getContext("2d");
+            let width = spinner.width;
+            let height = spinner.height;
+            let color = "#0f0";
+            let bgcolor = "#ccc";
+            let text;
+            
+            let animation_loop, redraw_loop;
+
+            ctx.clearRect(0, 0, width, height);
+        
+            ctx.beginPath();
+            ctx.strokeStyle = bgcolor;
+            ctx.lineWidth = 30;
+            ctx.arc(width/2, width/2, 100, 0, Math.PI*2, false);
+            ctx.stroke();
+            let radians = degrees * Math.PI / 180;
+        
+            ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 30;
+                ctx.arc(width/2, height/2, 100, 0 - 90*Math.PI/180, radians - 90*Math.PI/180, false); 
+                ctx.stroke();
+                ctx.fillStyle = color;
+                    ctx.font = "50px arial";
+                    text = Math.floor(degrees/360*100) + "%";
+                    text_width = ctx.measureText(text).width;
+                ctx.fillText(text, width/2 - text_width/2, height/2 + 15);
         }
 
     </script>
