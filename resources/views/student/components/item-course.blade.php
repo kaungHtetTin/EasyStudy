@@ -22,7 +22,7 @@
                         <input type="hidden" value="{{$course->id}}" name="course_id">
                         @csrf
                     </form>
-                    <span><i class="uil uil-windsock"></i>Report</span>
+                    <span onclick="reportCourse({{$course->id}})"><i class="uil uil-windsock"></i>Report</span>
                 </div>																											
             </div>
             <div class="vdtodt">
@@ -49,4 +49,9 @@
             </div>
         </div>
     </div>
+    <script>
+        function reportCourse(id){
+            window.location.href = "{{route('reports.create')}}?id="+id+"&type=1";
+        }
+    </script>
 </div>

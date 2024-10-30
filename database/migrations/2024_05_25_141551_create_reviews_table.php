@@ -19,6 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('course_id');
             $table->text('body')->nullable();
             $table->integer('star')->default(5);
+            $table->integer('like_count')->default(5)->nullable();
+            $table->integer('dislike_count')->default(5)->nullable();
             $table->timestamps();
 
             $table->index('user_id');

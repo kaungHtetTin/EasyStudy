@@ -90,14 +90,13 @@ function fetchMessage(previousLoading = false){
                 }else{
                     no_more_message = true;
                 }
-                console.log(fetch_url);
                 let messages = res.data;
                 setMessage(messages,previousLoading);
                 
             }
         },
         error: function(xhr, status, error) {
-            console.error('Error:', status, error);
+          //  console.error('Error:', status, error);
         }
     });
 }
@@ -137,10 +136,8 @@ function sendMessage(formData){
             $(`#id_${msg_id}`).remove();
             $('#message_container').append(myMessage(response));
             message_arr.push(response);
-            
-        
         }else{
-            console.log(ajax.responseText);
+          //  console.log(ajax.responseText);
             
         }
     };

@@ -286,7 +286,7 @@ if (!function_exists('formatCounting')) {
 		
 	<script>
 
-		console.log(navigator.userAgent);
+		//console.log(navigator.userAgent);
 
 		const apiToken = "{{$api_token}}";
 

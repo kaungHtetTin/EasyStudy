@@ -338,7 +338,7 @@ if (!function_exists('calculatePercent')) {
                                     </a>
                                 </div>
                                 <div class="_215b10">
-                                    <a href="#" class="_215b12">										
+                                    <a href="{{route('reports.create')."?id=$course->id&type=1"}}" class="_215b12">										
                                         <span><i class="uil uil-windsock"></i></span>Report abuse
                                     </a>
                                 </div>
@@ -558,7 +558,7 @@ if (!function_exists('calculatePercent')) {
                                             <li><span class="_fgr123">{{convertMinutes($course->duration)}}</span></li>
                                         </ul>
                                     </div>
-
+                                    
                                     @foreach ($course->modules as $module)
                                         <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
                                             <a href="javascript:void(0)" class="accordion-header ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all">												
@@ -837,6 +837,7 @@ if (!function_exists('calculatePercent')) {
         var nightMode = localStorage.getItem('gmtNightMode');
 
         const apiToken = "{{$api_token}}";
+        const user = @json($user);
         
         let like = "{{$like}}";
         let dislike = "{{$dislike}}";
@@ -933,16 +934,29 @@ if (!function_exists('calculatePercent')) {
                 return;
             }
 
-            $.get(fetch_review_url,function(res,status){
-                is_review_fetching=false;
-                if(res){
-                    fetch_review_url = res.next_page_url;
-                    let reviews = res.data;
-                    setReviews(reviews);
-                    console.log(reviews);
-                }
-                
-            })
+            $.ajax({
+				url: fetch_review_url, // Replace with your API endpoint
+				type: 'GET', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+                data:{
+                   'user_id':user? user.id : 0,
+                },
+				success: function(res) {
+                     console.log(res);
+                    is_review_fetching=false;
+                    if(res){
+                        fetch_review_url = res.next_page_url;
+                        let reviews = res.data;
+                        setReviews(reviews);
+                       
+                    }
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
         }
 
         function setReviews(reviews){
@@ -969,6 +983,10 @@ if (!function_exists('calculatePercent')) {
                 review_body = `<p class="rvds10">${review.body}</p>`;
             }
 
+            let yes = "";
+            if(review.liked==1)yes ="checked";
+            let no = "";
+            if(review.disliked) no = "checked";
             return `
                 <div class="review_item">
                     <div class="review_usr_dt">
@@ -986,20 +1004,46 @@ if (!function_exists('calculatePercent')) {
                     ${review_body}
                     <div class="rpt100">
                         <span>Was this review helpful?</span>
-                        <div class="radio--group-inline-container">
-                            <div class="radio-item">
-                                <input id="radio-1" name="radio" type="radio">
-                                <label for="radio-1" class="radio-label">Yes</label>
+                        <form>
+                            <div class="radio--group-inline-container">
+                                <div class="radio-item">
+                                    <input onclick="reactReview(${review.id},1)" id="radio-yes-${review.id}" name="radio" type="radio" ${yes}>
+                                    <label for="radio-yes-${review.id}" class="radio-label">Yes</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input onclick="reactReview(${review.id},2)" id="radio-no-${review.id}" name="radio" type="radio" ${no}>
+                                    <label  for="radio-no-${review.id}" class="radio-label">No</label>
+                                </div>
                             </div>
-                            <div class="radio-item">
-                                <input id="radio-2" name="radio" type="radio">
-                                <label  for="radio-2" class="radio-label">No</label>
-                            </div>
-                        </div>
-                        <a href="#" class="report145">Report</a>
+                        </form>
+                        <a href="{{route('reports.create')}}?id=${review.id}&type=2" class="report145">Report</a>
                     </div>
                 </div> 
             `;
+        }
+
+        function reactReview(id, react_type){
+            if(!user){
+                window.location.href ="{{asset("")}}login";
+                return;
+            }
+            $.ajax({
+				url: '{{asset("")}}api/reviews/react/'+id, // Replace with your API endpoint
+				type: 'POST', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+				success: function(response) {
+					console.log('Success:', response);
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				},
+                data:{
+                    'user_id':user.id,
+                    'react':react_type,
+                }
+			});
         }
         
         function formatDateTime(cmtTime){
@@ -1117,7 +1161,7 @@ if (!function_exists('calculatePercent')) {
 					console.error('Error:', status, error);
 				},
                 data:{
-                    'user_id':user_id,
+                    'user_id':user.id,
                     'react':react_type,
                 }
 			});

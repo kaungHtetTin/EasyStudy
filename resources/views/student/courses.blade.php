@@ -200,7 +200,7 @@
 									Level
 								</div> 
 										<div class="ui checkbox mncheck">
-											<input id="all_level" type="checkbox" tabindex="0" class="hidden" value="all">
+											<input class="level_inputs" type="checkbox" tabindex="0" class="hidden" value="0">
 											<label>All levels</label>
 										</div><br>
 									@foreach ($levels as $level)
@@ -257,6 +257,7 @@
 		let durations = [];
 		let ratings = [];
 		let prices = []; 
+		let levels = [];
 
 		const current_link = "{{ route('courses') }}" + "?category_id={{request()->category_id}}";
 
@@ -270,6 +271,7 @@
 			const durationBoxes = $('.duration_inputs');
 			const ratingBoxes = $('.rating_inputs');
 			const priceBoxes = $('.price_inputs');
+			const levelBoxes = $('.level_inputs');
 
 			checkboxes.on('change', function() {
 				
@@ -311,10 +313,21 @@
 
 			priceBoxes.on('change',function (){
 				if ($(this).prop('checked')) {
-					prices.push(parseFloat($(this).val()));
+					prices.push(parseInt($(this).val()));
 				} else {
 					const index = prices.indexOf(parseInt($(this).val()));
 					if (index != -1) prices.splice(index, 1);
+				}
+			 
+				setCourse(filtering());
+			})
+
+			levelBoxes.on('change',function (){
+				if ($(this).prop('checked')) {
+					levels.push(parseInt($(this).val()));
+				} else {
+					const index = levels.indexOf(parseInt($(this).val()));
+					if (index != -1) levels.splice(index, 1);
 				}
 			 
 				setCourse(filtering());
@@ -398,9 +411,7 @@
 					prices.map((price)=>{
 						if(course.fee == price){
 							priceCourses.push(course);
-						}
-
-						if(price == 1 && course.fee >0){
+						}else if(price == 1 && course.fee >0){
 							priceCourses.push(course);
 						}
 					})
@@ -409,7 +420,23 @@
 				}
 			})
 
-			return priceCourses;
+			let levelCourses = [];
+			priceCourses.map((course)=>{
+				if(levels.length>0){
+					levels.map((level)=>{
+						if(level == 0){
+							levelCourses.push(course)
+						}else if(level == course.level_id){
+							levelCourses.push(course)
+						}
+					})
+					 
+				}else{
+					levelCourses.push(course);
+				}
+			})
+
+			return levelCourses;
 		}
 
 		function setCourse(courses){

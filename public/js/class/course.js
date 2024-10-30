@@ -19,6 +19,11 @@ class CourseComponent{
         $(`#btn_add_to_cart_${this.course.id}`).click(()=>{
             document.getElementById('cart_form_'+this.course.id).submit();
         });
+
+        $(`#btn_report_${this.course.id}`).click(()=>{
+            window.location.href = this.Context.rootDir+`reports/create?id=${this.course.id}&type=1`
+        });
+
     }
 
     createView(){
@@ -49,7 +54,7 @@ class CourseComponent{
                                 <input type="hidden" value="${this.course.id}" name="course_id">
                                 ${this.Context.csrf}
                             </form>
-                            <span><i class="uil uil-windsock"></i>Report</span>
+                            <span id="btn_report_${this.course.id}" ><i class="uil uil-windsock"></i>Report</span>
                         </div>																									
                     </div>
                     <div class="vdtodt">

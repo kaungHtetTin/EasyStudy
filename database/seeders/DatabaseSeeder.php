@@ -19,6 +19,8 @@ use App\Models\SocialMedia;
 use App\Models\PaymentMethodType;
 use App\Models\Language;
 use App\Models\Setting;
+use App\Models\ContentType;
+use App\Models\ReportType;
 
 use Illuminate\Support\Str;
 
@@ -68,7 +70,17 @@ class DatabaseSeeder extends Seeder
             "type"=>"English",
         ]);
 
+        ContentType::create(['type'=>'Course']);
+        ContentType::create(['type'=>'Review']);
+        ContentType::create(['type'=>'User']);
+        ContentType::create(['type'=>'Instructor']);
+        ContentType::create(['type'=>'Report Reply']);
 
+        ReportType::create(['type'=>'Inappropriate Course Content']);
+        ReportType::create(['type'=>'Inappropriate Behavior']);
+        ReportType::create(['type'=>'Easy Study Policy Violation']);
+        ReportType::create(['type'=>'Spammy Content']);
+        ReportType::create(['type'=>'Other']);
 
         Level::create(['level'=>'Beginner']);
         Level::create(['level'=>'Intermediate']);

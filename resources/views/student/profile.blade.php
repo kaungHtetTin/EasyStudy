@@ -72,7 +72,7 @@ if (!function_exists('formatCount')) {
 												<span><i class="uil uil-cog"></i></span>Setting
 											</a>
 										@else
-											<a href="#" class="_216b22">										
+											<a href="{{route('reports.create')."?id=$user->id&type=3"}}" class="_216b22">										
 												<span><i class="uil uil-windsock"></i></span>Report
 											</a>
 										@endif
@@ -97,7 +97,7 @@ if (!function_exists('formatCount')) {
 												<span><i class="uil uil-cog"></i></span>Setting
 											</a>
 										@else
-											<a href="#" class="_216b12">										
+											<a href="{{route('reports.create')."?id=$user->id&type=3"}}" class="_216b12">										
 												<span><i class="uil uil-windsock"></i></span>Report
 											</a>
 											<div class="rgt-145">

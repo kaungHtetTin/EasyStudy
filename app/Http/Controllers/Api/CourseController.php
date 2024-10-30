@@ -106,7 +106,7 @@ class CourseController extends Controller
     }
 
     public function react(Request $req, $id) {
-        $content_type = 1;
+        $content_type = 1; // 1 for course
         $this->validate($req, [
             'react' => 'required|integer|in:1,2',
             'user_id' => 'required|integer'
@@ -172,9 +172,27 @@ class CourseController extends Controller
     }
 
 
-    public function reviews($id){
-
-        $reviews = Review::with('user:id,name,email,fcm_token,image_url')->where('course_id',$id)->paginate(10);
+    public function reviews(Request $req,$id){
+         
+        $user_id = $req->user_id;
+       
+        $reviews = Review::selectRaw("
+        reviews.*,
+        CASE
+        WHEN  EXISTS (SELECT react FROM reactions r 
+        WHERE r.user_id ='$user_id'and r.content_id =reviews.id and r.content_type = 2 and r.react=1) THEN 1
+        ELSE 0
+        END as liked,
+        CASE
+        WHEN  EXISTS (SELECT react FROM reactions r 
+        WHERE r.user_id ='$user_id'and r.content_id =reviews.id and r.content_type = 2 and r.react=2) THEN 1
+        ELSE 0
+        END as disliked
+        ")
+        ->with('user:id,name,email,fcm_token,image_url')
+        ->where('course_id',$id)
+        ->orderBy('id','desc')
+        ->paginate(10);
         return $reviews;
     }
 

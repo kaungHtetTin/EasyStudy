@@ -130,7 +130,7 @@
 														@else
 															<span data-toggle="modal" data-target="#block-section"><i class="uil uil-ban"></i>Block</span>
 														@endif
-														<span><i class="uil uil-windsock"></i>Report</span>															
+														<span onclick="report()"><i class="uil uil-windsock"></i>Report</span>															
 														{{-- <span><i class="uil uil-volume-mute"></i>Mute</span> --}}
 													 </div>																										
 												</div>													
@@ -198,6 +198,12 @@
 		const user = @json($user);
 		const other = @json($other);
 		let root_dir = `{{asset("")}}`;
+
+		function report(){
+			window.location.href = `${root_dir}reports/create?id=${other.id}&type=3`;
+		}
+
 	</script>
 	<script src="{{asset('js/chat.js')}}"></script>
+
 @endsection

@@ -94,7 +94,7 @@ if (!function_exists('formatCounting')) {
         	const user = @json($user);
 	
 			let isFetching=false;
-			let url = '/api/subscriptions';
+			let url = '{{asset('')}}api/subscriptions';
 			var instructorArr=[];
 			const social_media = @json($social_media);
 			 
@@ -178,11 +178,11 @@ if (!function_exists('formatCounting')) {
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="fcrse_1 mt-30">
 							<div class="tutor_img">
-								<a href="/instructors/${instructor.id}"><img src="{{asset('')}}storage/${instructor.user.image_url}" alt=""></a>												
+								<a href="{{asset("")}}instructors/${instructor.id}"><img src="{{asset('')}}storage/${instructor.user.image_url}" alt=""></a>												
 							</div>
 							<div class="tutor_content_dt">
 								<div class="tutor150">
-									<a href="/instructors/${instructor.id}" class="tutor_name">${instructor.user.name}</a>
+									<a href="{{asset("")}}instructors/${instructor.id}" class="tutor_name">${instructor.user.name}</a>
 									<div class="mef78" title="Verify">
 										<i class="uil uil-check-circle"></i>
 									</div>

@@ -102,6 +102,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/feedback',[FeedbackController::class,'store'])->name('feedback.save');
 
     Route::get('/reports',[ReportController::class,'index'])->name('reports.list');
+    Route::get('/reports/create',[ReportController::class,'create'])->name('reports.create');
+    Route::post('/reports/create',[ReportController::class,'store'])->name('reports.store');
 
     Route::get('/chatrooms',[ConversationController::class,'index'])->name('chatrooms.lists');
     Route::get('/chatrooms/{id}',[ConversationController::class,'show'])->name('chatrooms.view');

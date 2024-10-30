@@ -387,7 +387,7 @@ if (!function_exists('calculatePercent')) {
                 </div>
                 <div id="video_player" style="display: none">
                     <div style="padding:10px;background:#333;color:white">
-                        <a href="" target="_blank" rel="noopener noreferrer" style="color:white;">
+                        <a onclick="history.back()" style="cursor: pointer" target="_blank" rel="noopener noreferrer" style="color:white;">
                             <i class='uil uil-arrow-left'></i>
                             <span>{{$course->title}}</span>
                         </a> 
@@ -427,7 +427,9 @@ if (!function_exists('calculatePercent')) {
                                                         <li><span class="_fgr123">{{calculateModuleDuration($course->duration)}}</span></li>
                                                     </ul>
                                                 </div>
-
+                                                @php
+                                                    $learned_lesson_count = 0;
+                                                @endphp
                                                 @foreach ($course->modules as $module) 
                                                     <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
                                                         <a href="javascript:void(0)" class="accordion-header ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all" style="margin-top:0px;padding-right:10px;">												
@@ -459,8 +461,11 @@ if (!function_exists('calculatePercent')) {
                                                                         
                                                                         <div class="top">
                                                                             <div class="title">{{$lesson->title}} 
-                                                                               @if ($lesson->learned==1)
+                                                                                @if ($lesson->learned==1)
                                                                                     <i class='uil uil-check-circle'></i> 
+                                                                                    @php
+                                                                                        $learned_lesson_count++;
+                                                                                    @endphp
                                                                                 @endif
                                                                             </div>
                                                                         </div>
@@ -478,7 +483,7 @@ if (!function_exists('calculatePercent')) {
                                                             @endforeach
                                                         </div>
                                                     </div>
-                                                    @endforeach
+                                                @endforeach
                                                 
                                             </div>
                                         </div>
@@ -965,6 +970,8 @@ if (!function_exists('calculatePercent')) {
         const question_types = @json($question_types);
         const instructor = @json($instructor); // user model
         const imageShimmer = "{{asset('images/courses/img-1.jpg')}}";
+        const learned_lesson_count = "{{$learned_lesson_count}}";
+        const total_lecture = "{{$course->total_lecture}}";
 
         const question_id = "{{$question_id}}";
         const announcement_id = "{{$announcement_id}}";
@@ -1608,16 +1615,29 @@ if (!function_exists('calculatePercent')) {
                 return;
             }
 
-            $.get(fetch_review_url,function(res,status){
-                is_review_fetching=false;
-                if(res){
-                    fetch_review_url = res.next_page_url;
-                    let reviews = res.data;
-                    setReviews(reviews);
-                    console.log(reviews);
-                }
-                
-            })
+            $.ajax({
+				url: fetch_review_url, // Replace with your API endpoint
+				type: 'GET', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+                data:{
+                   'user_id':user? user.id : 0,
+                },
+				success: function(res) {
+                     console.log(res);
+                    is_review_fetching=false;
+                    if(res){
+                        fetch_review_url = res.next_page_url;
+                        let reviews = res.data;
+                        setReviews(reviews);
+                       
+                    }
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				}
+			});
         }
 
         function setReviews(reviews){
@@ -1644,6 +1664,11 @@ if (!function_exists('calculatePercent')) {
                 review_body = `<p class="rvds10">${review.body}</p>`;
             }
 
+            let yes = "";
+            if(review.liked==1)yes ="checked";
+            let no = "";
+            if(review.disliked) no = "checked";
+
             return `
                 <div class="review_item">
                     <div class="review_usr_dt">
@@ -1663,20 +1688,42 @@ if (!function_exists('calculatePercent')) {
                     ${review_body}
                     <div class="rpt100">
                         <span>Was this review helpful?</span>
-                        <div class="radio--group-inline-container">
-                            <div class="radio-item">
-                                <input id="radio-1" name="radio" type="radio">
-                                <label for="radio-1" class="radio-label">Yes</label>
+                        <form>
+                            <div class="radio--group-inline-container">
+                                <div class="radio-item">
+                                    <input onclick="reactReview(${review.id},1)"  id="radio-yes-${review.id}" name="radio" type="radio" ${yes}>
+                                    <label for="radio-yes-${review.id}" class="radio-label">Yes</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input onclick="reactReview(${review.id},2)"  id="radio-no-${review.id}" name="radio" type="radio" ${no}>
+                                    <label  for="radio-no-${review.id}" class="radio-label">No</label>
+                                </div>
                             </div>
-                            <div class="radio-item">
-                                <input id="radio-2" name="radio" type="radio">
-                                <label  for="radio-2" class="radio-label">No</label>
-                            </div>
-                        </div>
-                        <a href="#" class="report145">Report</a>
+                        </form>
+                        <a href="{{route('reports.create')}}?id=${review.id}&type=2" class="report145">Report</a>
                     </div>
                 </div> 
             `;
+        }
+
+        function reactReview(id, react_type){
+            $.ajax({
+				url: '{{asset("")}}api/reviews/react/'+id, // Replace with your API endpoint
+				type: 'POST', // or 'GET' depending on your request
+				headers: {
+					'Authorization': 'Bearer '+apiToken // Example for Authorization header
+				},
+				success: function(response) {
+					console.log('Success:', response);
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', status, error);
+				},
+                data:{
+                    'user_id':user.id,
+                    'react':react_type,
+                }
+			});
         }
 
         function updateLearnHistory(lesson){
@@ -1772,7 +1819,7 @@ if (!function_exists('calculatePercent')) {
 
         function drawProgressBar() {
             let degrees=0;
-           // if(total_lecture!=0) degrees=(learned_lesson_count/total_lecture)*360;
+            if(total_lecture!=0) degrees=(learned_lesson_count/total_lecture)*360;
             let spinner = document.getElementById("spinner");
             let ctx = spinner.getContext("2d");
             let width = spinner.width;

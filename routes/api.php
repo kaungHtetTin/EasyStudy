@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\SubscriberController;
+use App\Http\Controllers\Api\ReviewControler;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -69,6 +70,8 @@ Route::post('/sanctum/token', function (Request $request) {
 
     Route::get('/subscriptions',[SubscriberController::class,'subscriptions']);
     Route::get('/subscriptions/search',[SubscriberController::class,'search']);
+
+    Route::post('/reviews/react/{id}',[ReviewControler::class,'react']);
  
 });
 
@@ -90,8 +93,8 @@ Route::get('/instructors',[InstructorController::class,'index']);
 Route::get('/instructors/search',[InstructorController::class,'search']);
 Route::get('/instructors/{id}/blogs',[InstructorController::class,'blogs']);
 
-Route::post('/questions/upload-photo',[QuestionController::class,'uploadPhoto']);
+Route::post('/questions/upload-photo',[QuestionController::class,'uploadPhoto']); // for code editor upload
 
-Route::post('/blogs/upload-photo',[BlogController::class,'uploadPhoto']);
+Route::post('/blogs/upload-photo',[BlogController::class,'uploadPhoto']);  // for code editor upload
 
 Route::get('/answers',[AnswerController::class,'index']);
