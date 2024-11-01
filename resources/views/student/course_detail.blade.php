@@ -834,16 +834,16 @@ if (!function_exists('calculatePercent')) {
     </div>
 
     <script>
-        var nightMode = localStorage.getItem('gmtNightMode');
-
-        const apiToken = "{{$api_token}}";
-        const user = @json($user);
         
+        const user = @json($user);
         let like = "{{$like}}";
         let dislike = "{{$dislike}}";
         const course_id = "{{$course->id}}"
         let like_count = parseInt("{{$course->like_count}}");
         let dislike_count = parseInt("{{$course->dislike_count}}");
+        
+        var nightMode = localStorage.getItem('gmtNightMode');
+        
         
         let is_review_fetching = false;
         let is_review_tab = false;

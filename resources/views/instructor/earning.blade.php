@@ -1,5 +1,4 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
 
 		if (!function_exists('search_course')) {

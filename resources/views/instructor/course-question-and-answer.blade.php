@@ -1,8 +1,5 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
-
-	
     @endphp
     @extends('instructor.master')
 
@@ -285,8 +282,6 @@
 	<script src="{{asset('js/util.js')}}"></script>
 	<script src="{{asset('js/editor.js')}}"></script>
 	<script>
-
- 		const apiToken = "{{$api_token}}";
         const course = @json($course);
 		const imageShimmer = "{{asset('images/courses/img-1.jpg')}}";
 		const user = @json($user);

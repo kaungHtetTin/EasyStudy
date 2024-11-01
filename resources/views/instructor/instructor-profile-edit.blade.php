@@ -37,8 +37,6 @@
 			}
 		}
 
-		$api_token = Cookie::get('api_auth_token');
-
 		
 		$student_enrolled =0;
 		$review_count = 0;

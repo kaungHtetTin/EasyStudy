@@ -1,5 +1,4 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
     @endphp
 
@@ -174,7 +173,6 @@
     <script>
 
         const imageShimmer = "{{asset('images/courses/img-1.jpg')}}";
-        const apiToken = "{{$api_token}}";
         const user = @json($user);
 
         $(document).ready(()=>{

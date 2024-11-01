@@ -33,7 +33,17 @@
 									<span>You haven't submitted any reports.</span>
 								</div>
 							</div>
-						</div>						
+						</div>		
+						
+						<div style="margin-bottom:20px;">
+							<h6>Report to User</h6>
+							<div style="color:#999">Kaung Htet Tin <span style="color:green;margin-left:10px;"> Action taken <i class="uil uil-check-circle"></i> </span> </div>
+						</div>
+
+						<div style="margin-bottom:20px;">
+							<h6>Report to User</h6>
+							<div style="color:#999">Kaung Htet Tin <span style="color:green;margin-left:10px;"> Action taken <i class="uil uil-check-circle"></i> </span> </div>
+						</div>
 					</div>						
 				</div>
 			</div>

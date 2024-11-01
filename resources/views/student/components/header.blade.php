@@ -157,7 +157,14 @@
                     <a href="{{route('setting')}}" class="item channel_item">Setting</a>
                     <a href="help.html" class="item channel_item">Help</a>
                     <a href="{{route('feedback.create')}}" class="item channel_item">Send Feedback</a>
-                    <a href="{{route('logout')}}" class="item channel_item">Sign Out</a>
+                    <a id="btn_logout" href="{{route('logout')}}" class="item channel_item">Sign Out</a>
+                    <script>
+                        $(document).ready(()=>{
+                            $('#btn_logout').click(()=>{
+                                localStorage.removeItem('api_token');
+                            })
+                        })
+                    </script>
                 </div>
             </li>
         </ul>

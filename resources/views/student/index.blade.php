@@ -283,12 +283,14 @@ if (!function_exists('formatCounting')) {
 				</div>
 			</div>
 		</div>
-		
 	<script>
 
 		//console.log(navigator.userAgent);
-
-		const apiToken = "{{$api_token}}";
+ 
+		if(!apiToken){
+			apiToken = "{{$api_token}}";
+			window.localStorage.setItem('api_token', apiToken);
+		}
 
 		function addToCart(courseId){
 			document.getElementById('cart_form_'+courseId).submit();
@@ -316,7 +318,7 @@ if (!function_exists('formatCounting')) {
 			alert('URL copied to clipboard: ' +url);
 
 			$.ajax({
-				url: '{{asset("")}}api/courses/share/'+id, // Replace with your API endpoint
+				url: `${window.location.origin}/api/courses/share/`+id, // Replace with your API endpoint
 				type: 'POST', // or 'GET' depending on your request
 				headers: {
 					'Authorization': 'Bearer '+apiToken // Example for Authorization header

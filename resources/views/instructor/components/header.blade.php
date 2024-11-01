@@ -148,7 +148,7 @@
                     <a href="{{route('setting')}}" class="item channel_item">Setting</a>
                     <a href="{{route('help')}}" class="item channel_item">Help</a>
                     <a href="{{route('feedback.create')}}" class="item channel_item">Send Feedback</a>
-                    <a href="{{route('logout')}}" class="item channel_item">Sign Out</a>
+                    <a id="btn_logout" href="{{route('logout')}}" class="item channel_item">Sign Out</a>
                 </div>
             </li>
         </ul>
@@ -156,7 +156,6 @@
 
     <script>
         {
-            const apiToken = "{{$api_token}}";
             const user = @json($user);
             const unseen_notification_count = "{{$unseen_notification_count}}";
 
@@ -176,6 +175,10 @@
                         location.href = "{{route('instructor.notifications.list')}}";
                     }
                 });
+
+                $('#btn_logout').click(()=>{
+                    localStorage.removeItem('api_token');
+                })
             });
 
             function navfetchNotification(){
@@ -247,7 +250,6 @@
     </script>
     <script>
     {
-        const apiToken = "{{$api_token}}";
         const user = @json($user);
         const unseen_message_count = "{{$unseen_message_count}}";
 

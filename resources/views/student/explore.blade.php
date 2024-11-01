@@ -55,7 +55,7 @@
 
 	<script>
 		let Context = {};
-		Context.apiToken = "{{$api_token}}";
+		Context.apiToken = apiToken;
 		Context.csrf = `@csrf`;
 		Context.rootDir = "{{asset('')}}";
 

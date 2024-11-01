@@ -1,5 +1,4 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
 
 		$reviews = $course->reviews;
@@ -237,8 +236,6 @@
 		@include('instructor.components.footer')
 
 		<script>
-
-			const apiToken = "{{$api_token}}";
 			const course = @json($course);
         	const user = @json($user);
 

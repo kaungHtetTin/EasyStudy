@@ -1,5 +1,5 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
+
 		$user = Auth::user();
     @endphp
 
@@ -99,7 +99,6 @@
 	 
 	<script src="{{asset('js/util.js')}}"></script>
 	<script>
-		const apiToken = "{{$api_token}}";
 		const user = @json($user);
 		const instructor = @json($instructor);
 

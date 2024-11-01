@@ -239,7 +239,7 @@
 		const categories =@json($categories);
 		const sub_categories=@json($sub_categories);
 		let Context = {};
-		Context.apiToken = "{{$api_token}}";
+	
 		Context.csrf = `@csrf`;
 		Context.rootDir = "{{asset('')}}";
 

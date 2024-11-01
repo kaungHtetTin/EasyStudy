@@ -14,9 +14,6 @@ use App\Models\Category;
 
 class ProfileController extends Controller
 {
-    public function index(){
-
-    }
 
     public function edit(){
         $user = Auth::user();

@@ -37,7 +37,7 @@ function createNotificationToUrl(notification, domain){
         let course_id = JSON.parse(notification.payload).course_id;
         url = `${domain}instructor-dashboard/reviews?course_id=`+course_id;
     }else if(type == 41){ // Subscribed
-        
+        url = `${domain}users/${notification.user_id}`;
     }
 
     // user application

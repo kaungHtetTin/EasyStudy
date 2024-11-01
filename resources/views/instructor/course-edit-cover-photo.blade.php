@@ -1,5 +1,4 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
     @endphp
 
@@ -91,7 +90,6 @@
 	</div>
  
     <script>
-        const apiToken = "{{$api_token}}";
         const canva_container = document.getElementById('canvas-container');
 
         $(document).ready(()=>{

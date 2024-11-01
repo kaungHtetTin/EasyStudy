@@ -252,7 +252,6 @@ function autoRefresh(){
 }
 
 function refreshMessage(last_message_id){
-    console.log('last id', last_message_id);
     
     let refresh_url = `${root_dir}api/messages/refresh?other_id=${other.id}&last_message_id=${last_message_id}`;
     $.ajax({

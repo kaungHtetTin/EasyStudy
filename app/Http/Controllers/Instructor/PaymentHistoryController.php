@@ -39,6 +39,7 @@ class PaymentHistoryController extends Controller
             $payment_histories = PaymentHistory::where('instructor_id',$instructor->id)
             ->where('created_at','>=',"$year-$month-01")
             ->where('created_at','<=',"$year-$month-31")
+            ->orWhere('verified',0)
             ->orderBy('verified')
             ->get();
         }else{

@@ -1,5 +1,4 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
     @endphp
 
@@ -68,7 +67,6 @@
 	
 	<script src="{{asset('js/util.js')}}"></script>
 	<script>
-		const apiToken = "{{$api_token}}";
 		const user = @json($user);
 		const root_dir = `{{asset("")}}`;
 		const target_dir = `{{asset('')}}instructor-dashboard/`;

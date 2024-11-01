@@ -1,10 +1,5 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
-
-	 
-
-
     @endphp
     @extends('instructor.master')
 
@@ -152,7 +147,6 @@
 
 		<script>
 
-			const apiToken = "{{$api_token}}";
 			const course = @json($course);
         	const user = @json($user);
 

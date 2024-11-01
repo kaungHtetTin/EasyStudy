@@ -1,7 +1,3 @@
-@php
-	$api_token = Cookie::get('api_auth_token');
-@endphp
-
 @extends('instructor.master')
 
     @section('content')
@@ -421,8 +417,6 @@
 	</script>
 
 	<script>
-		const apiToken = "{{$api_token}}";
-
 		let categories = @json($categories);
 		let sub_categories = @json($sub_categories);
 		let filtered_sub_categories;

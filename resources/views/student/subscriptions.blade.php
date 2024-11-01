@@ -90,7 +90,6 @@ if (!function_exists('formatCounting')) {
 		<script src="{{asset('js/util.js')}}"></script>
 		<script>
 
-			const apiToken = "{{$api_token}}";
         	const user = @json($user);
 	
 			let isFetching=false;
@@ -171,6 +170,19 @@ if (!function_exists('formatCounting')) {
 						$('#instructor_container').append(instructorComponent(instructor));
 					}
 				})
+
+				if(instructorArr.length==0){
+					$('#instructor_container').html(`
+						<div class="col-12"> 
+							<div style="text-align: center;color:#888">
+								<br><br><br><br><br>
+								<i style="font-size:80px;" class="uil uil-bell"></i><br><br>
+									<span style="font-size: 20px;">No subscription</span>
+								<br><br><br><br><br>
+							</div>
+						</div>
+					`)
+				}
 			}
 
 			function instructorComponent(instructor){

@@ -10,13 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class LessonController extends Controller
 {
-    public function index(){
-
-    }
-
-    public function store(Request $req){
-        return $req;
-    }
 
     public function destroy($id){
         $lesson = Lesson::find($id);

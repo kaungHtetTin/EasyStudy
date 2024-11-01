@@ -1,5 +1,4 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
     @endphp
 
@@ -71,7 +70,6 @@
 	<!-- Body End -->
 	<script>
 		{
-			const apiToken = "{{$api_token}}";
         	const user = @json($user);
 
 			let is_fetching = false;

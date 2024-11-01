@@ -7,7 +7,6 @@ $(document).ready(()=>{
     fetchConversation();
 
     $(window).scroll(()=>{
-        console.log('window scroll', $(window).scrollTop());
         if($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
             if(!is_fetching){
                 fetchConversation();

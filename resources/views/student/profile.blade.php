@@ -182,8 +182,7 @@ if (!function_exists('formatCount')) {
 		</div>
 
 	<script>
-		const apiToken = "{{$api_token}}";
-
+	
 		function addToCart(courseId){
 			document.getElementById('cart_form_'+courseId).submit();
 		}	

@@ -354,7 +354,6 @@
 	<!-- Body End -->
 
 	<script>
-		const apiToken = "{{$api_token}}";
         const user = @json($user);
 
 		let is_fetching = false;

@@ -1,6 +1,5 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
-
+    
 		if (!function_exists('calculateHour')) {
 			function calculateHour($min){
 				$hr = $min/60;
@@ -478,8 +477,7 @@
 		@include('instructor.components.footer')
 
 		<script>
-
-			const apiToken = "{{$api_token}}";
+			
 			let course = @json($course);
 			let modules = @json($course->modules);
 			let lessons = @json($course->lessons);

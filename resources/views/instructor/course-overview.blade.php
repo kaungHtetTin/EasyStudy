@@ -1,5 +1,4 @@
 	@php
-    	$api_token = Cookie::get('api_auth_token');
 		$user = Auth::user();
 		if (!function_exists('calculateHour')) {
 			function calculateHour($min){
@@ -228,8 +227,6 @@
 		@include('instructor.components.footer')
 
 		<script>
-
-			const apiToken = "{{$api_token}}";
 			const course = @json($course);
         	const user = @json($user);
 			const request = @json($request);

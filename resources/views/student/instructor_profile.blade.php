@@ -363,7 +363,7 @@ if (!function_exists('formatCount')) {
 
 	<script src="{{asset('js/util.js')}}"></script>
 	<script>
-		const apiToken = "{{$api_token}}";
+		
 		const instructor = @json($instructor);
 
 		let is_fetching = false;

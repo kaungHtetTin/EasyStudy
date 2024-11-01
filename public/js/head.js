@@ -1,0 +1,1 @@
+let apiToken = window.localStorage.getItem('api_token');

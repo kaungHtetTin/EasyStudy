@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function show(){
-
-    }
 
     public function message($id){
         $user = User::find($id);
@@ -24,9 +21,5 @@ class UserController extends Controller
             'other' => $user,
             'block' => $block,
         ]);
-    }
-
-    public function report(){
-
     }
 }

@@ -963,7 +963,6 @@ if (!function_exists('calculatePercent')) {
 
     <script>
 
-        const apiToken = "{{$api_token}}";
         const course_id = "{{$course->id}}"
         const user = @json($user);
         const access = @json($access);

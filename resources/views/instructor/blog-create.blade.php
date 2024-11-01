@@ -173,7 +173,6 @@
     <script>
 
         const imageShimmer = "{{asset('images/courses/img-1.jpg')}}";
-        const apiToken = "{{$api_token}}";
         const user = @json($user);
 
         $(document).ready(()=>{
